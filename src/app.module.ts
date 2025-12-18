@@ -1,9 +1,52 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { TenantsModule } from './tenants/tenants.module';
+import { EmailModule } from './email/email.module';
+import { StudentsModule } from './students/students.module';
+import { ParentsModule } from './parents/parents.module';
+import { TeachersModule } from './teachers/teachers.module';
+import { GradesModule } from './grades/grades.module';
+import { SectionsModule } from './sections/sections.module';
+import { SubjectsModule } from './subjects/subjects.module';
+import { AttendanceModule } from './attendance/attendance.module';
+import { LibraryModule } from './library/library.module';
+import { TransportModule } from './transport/transport.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { ConductModule } from './conduct/conduct.module';
+import { CommunicationsModule } from './communications/communications.module';
+import { InventoryModule } from './inventory/inventory.module';
+import { EventsModule } from './events/events.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // Makes env vars available everywhere
+    }),
+    PrismaModule,
+    EmailModule,
+    AuthModule,
+    UsersModule,
+    TenantsModule,
+    StudentsModule,
+    ParentsModule,
+    TeachersModule,
+    GradesModule,
+    SectionsModule,
+    SubjectsModule,
+    AttendanceModule,
+    LibraryModule,
+    TransportModule,
+    PermissionsModule,
+    ConductModule,
+    CommunicationsModule,
+    InventoryModule,
+    EventsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
