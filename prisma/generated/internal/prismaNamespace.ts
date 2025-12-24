@@ -394,6 +394,7 @@ export const ModelName = {
   StudentParent: 'StudentParent',
   Teacher: 'Teacher',
   Grade: 'Grade',
+  Combination: 'Combination',
   Section: 'Section',
   Subject: 'Subject',
   ClassTeacher: 'ClassTeacher',
@@ -412,6 +413,9 @@ export const ModelName = {
   NotificationRecipient: 'NotificationRecipient',
   InventoryItem: 'InventoryItem',
   InventoryTransaction: 'InventoryTransaction',
+  Card: 'Card',
+  CardLog: 'CardLog',
+  CardPermission: 'CardPermission',
   Event: 'Event'
 } as const
 
@@ -428,7 +432,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "session" | "refreshToken" | "registrationToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "attendance" | "book" | "bookTransaction" | "bus" | "busRoute" | "transportAssignment" | "permission" | "conductRecord" | "message" | "announcement" | "notification" | "notificationRecipient" | "inventoryItem" | "inventoryTransaction" | "event"
+    modelProps: "tenant" | "user" | "session" | "refreshToken" | "registrationToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "attendance" | "book" | "bookTransaction" | "bus" | "busRoute" | "transportAssignment" | "permission" | "conductRecord" | "message" | "announcement" | "notification" | "notificationRecipient" | "inventoryItem" | "inventoryTransaction" | "card" | "cardLog" | "cardPermission" | "event"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1169,6 +1173,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.GradeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.GradeCountAggregateOutputType> | number
+        }
+      }
+    }
+    Combination: {
+      payload: Prisma.$CombinationPayload<ExtArgs>
+      fields: Prisma.CombinationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CombinationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CombinationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>
+        }
+        findFirst: {
+          args: Prisma.CombinationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CombinationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>
+        }
+        findMany: {
+          args: Prisma.CombinationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>[]
+        }
+        create: {
+          args: Prisma.CombinationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>
+        }
+        createMany: {
+          args: Prisma.CombinationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CombinationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>[]
+        }
+        delete: {
+          args: Prisma.CombinationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>
+        }
+        update: {
+          args: Prisma.CombinationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>
+        }
+        deleteMany: {
+          args: Prisma.CombinationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CombinationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CombinationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>[]
+        }
+        upsert: {
+          args: Prisma.CombinationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CombinationPayload>
+        }
+        aggregate: {
+          args: Prisma.CombinationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCombination>
+        }
+        groupBy: {
+          args: Prisma.CombinationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CombinationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CombinationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CombinationCountAggregateOutputType> | number
         }
       }
     }
@@ -2504,6 +2582,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Card: {
+      payload: Prisma.$CardPayload<ExtArgs>
+      fields: Prisma.CardFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CardFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CardFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        findFirst: {
+          args: Prisma.CardFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CardFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        findMany: {
+          args: Prisma.CardFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>[]
+        }
+        create: {
+          args: Prisma.CardCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        createMany: {
+          args: Prisma.CardCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CardCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>[]
+        }
+        delete: {
+          args: Prisma.CardDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        update: {
+          args: Prisma.CardUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        deleteMany: {
+          args: Prisma.CardDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CardUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CardUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>[]
+        }
+        upsert: {
+          args: Prisma.CardUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPayload>
+        }
+        aggregate: {
+          args: Prisma.CardAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCard>
+        }
+        groupBy: {
+          args: Prisma.CardGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CardCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardCountAggregateOutputType> | number
+        }
+      }
+    }
+    CardLog: {
+      payload: Prisma.$CardLogPayload<ExtArgs>
+      fields: Prisma.CardLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CardLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CardLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>
+        }
+        findFirst: {
+          args: Prisma.CardLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CardLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>
+        }
+        findMany: {
+          args: Prisma.CardLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>[]
+        }
+        create: {
+          args: Prisma.CardLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>
+        }
+        createMany: {
+          args: Prisma.CardLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CardLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>[]
+        }
+        delete: {
+          args: Prisma.CardLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>
+        }
+        update: {
+          args: Prisma.CardLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.CardLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CardLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CardLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.CardLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardLogPayload>
+        }
+        aggregate: {
+          args: Prisma.CardLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCardLog>
+        }
+        groupBy: {
+          args: Prisma.CardLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CardLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    CardPermission: {
+      payload: Prisma.$CardPermissionPayload<ExtArgs>
+      fields: Prisma.CardPermissionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CardPermissionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CardPermissionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>
+        }
+        findFirst: {
+          args: Prisma.CardPermissionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CardPermissionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>
+        }
+        findMany: {
+          args: Prisma.CardPermissionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>[]
+        }
+        create: {
+          args: Prisma.CardPermissionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>
+        }
+        createMany: {
+          args: Prisma.CardPermissionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CardPermissionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>[]
+        }
+        delete: {
+          args: Prisma.CardPermissionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>
+        }
+        update: {
+          args: Prisma.CardPermissionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>
+        }
+        deleteMany: {
+          args: Prisma.CardPermissionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CardPermissionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CardPermissionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>[]
+        }
+        upsert: {
+          args: Prisma.CardPermissionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardPermissionPayload>
+        }
+        aggregate: {
+          args: Prisma.CardPermissionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCardPermission>
+        }
+        groupBy: {
+          args: Prisma.CardPermissionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardPermissionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CardPermissionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardPermissionCountAggregateOutputType> | number
+        }
+      }
+    }
     Event: {
       payload: Prisma.$EventPayload<ExtArgs>
       fields: Prisma.EventFieldRefs
@@ -2713,6 +3013,8 @@ export const StudentScalarFieldEnum = {
   studentId: 'studentId',
   firstName: 'firstName',
   lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
   dateOfBirth: 'dateOfBirth',
   gender: 'gender',
   bloodGroup: 'bloodGroup',
@@ -2767,6 +3069,7 @@ export const TeacherScalarFieldEnum = {
   gender: 'gender',
   qualification: 'qualification',
   specialization: 'specialization',
+  department: 'department',
   joiningDate: 'joiningDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2779,7 +3082,10 @@ export const GradeScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   name: 'name',
+  code: 'code',
   level: 'level',
+  schoolLevel: 'schoolLevel',
+  educationLevel: 'educationLevel',
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -2788,12 +3094,30 @@ export const GradeScalarFieldEnum = {
 export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof GradeScalarFieldEnum]
 
 
+export const CombinationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  subjectIds: 'subjectIds',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CombinationScalarFieldEnum = (typeof CombinationScalarFieldEnum)[keyof typeof CombinationScalarFieldEnum]
+
+
 export const SectionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   name: 'name',
   gradeId: 'gradeId',
+  combinationId: 'combinationId',
+  division: 'division',
   capacity: 'capacity',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -3061,6 +3385,54 @@ export const InventoryTransactionScalarFieldEnum = {
 export type InventoryTransactionScalarFieldEnum = (typeof InventoryTransactionScalarFieldEnum)[keyof typeof InventoryTransactionScalarFieldEnum]
 
 
+export const CardScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  cardNumber: 'cardNumber',
+  cardType: 'cardType',
+  status: 'status',
+  issuedDate: 'issuedDate',
+  expiryDate: 'expiryDate',
+  lastUsedAt: 'lastUsedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  studentId: 'studentId',
+  teacherId: 'teacherId'
+} as const
+
+export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
+
+
+export const CardLogScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  cardId: 'cardId',
+  action: 'action',
+  location: 'location',
+  description: 'description',
+  performedBy: 'performedBy',
+  createdAt: 'createdAt'
+} as const
+
+export type CardLogScalarFieldEnum = (typeof CardLogScalarFieldEnum)[keyof typeof CardLogScalarFieldEnum]
+
+
+export const CardPermissionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  cardId: 'cardId',
+  permission: 'permission',
+  isGranted: 'isGranted',
+  validFrom: 'validFrom',
+  validUntil: 'validUntil',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CardPermissionScalarFieldEnum = (typeof CardPermissionScalarFieldEnum)[keyof typeof CardPermissionScalarFieldEnum]
+
+
 export const EventScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -3278,6 +3650,34 @@ export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
 
 
 /**
+ * Reference to a field of type 'SchoolLevel'
+ */
+export type EnumSchoolLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SchoolLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'SchoolLevel[]'
+ */
+export type ListEnumSchoolLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SchoolLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EducationLevel'
+ */
+export type EnumEducationLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EducationLevel'>
+    
+
+
+/**
+ * Reference to a field of type 'EducationLevel[]'
+ */
+export type ListEnumEducationLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EducationLevel[]'>
+    
+
+
+/**
  * Reference to a field of type 'AttendanceStatus'
  */
 export type EnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus'>
@@ -3358,6 +3758,34 @@ export type EnumConductTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'ConductType[]'
  */
 export type ListEnumConductTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConductType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CardType'
+ */
+export type EnumCardTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CardType'>
+    
+
+
+/**
+ * Reference to a field of type 'CardType[]'
+ */
+export type ListEnumCardTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CardType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CardStatus'
+ */
+export type EnumCardStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CardStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'CardStatus[]'
+ */
+export type ListEnumCardStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CardStatus[]'>
     
 
 /**
@@ -3465,6 +3893,7 @@ export type GlobalOmitConfig = {
   studentParent?: Prisma.StudentParentOmit
   teacher?: Prisma.TeacherOmit
   grade?: Prisma.GradeOmit
+  combination?: Prisma.CombinationOmit
   section?: Prisma.SectionOmit
   subject?: Prisma.SubjectOmit
   classTeacher?: Prisma.ClassTeacherOmit
@@ -3483,6 +3912,9 @@ export type GlobalOmitConfig = {
   notificationRecipient?: Prisma.NotificationRecipientOmit
   inventoryItem?: Prisma.InventoryItemOmit
   inventoryTransaction?: Prisma.InventoryTransactionOmit
+  card?: Prisma.CardOmit
+  cardLog?: Prisma.CardLogOmit
+  cardPermission?: Prisma.CardPermissionOmit
   event?: Prisma.EventOmit
 }
 

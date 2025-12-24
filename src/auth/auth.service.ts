@@ -73,6 +73,7 @@ export class AuthService {
       sub: createdUser.id,
       username: createdUser.username,
       role: createdUser.role,
+      tenantId: createdUser.tenantId,
     };
     const accessToken = this.jwtService.sign(payload);
     const refreshToken = this.jwtService.sign(payload, {
@@ -150,7 +151,7 @@ export class AuthService {
    * @returns Authentication response with tokens and user info
    */
   async login(user: any): Promise<AuthResponseDto> {
-    const payload = { sub: user.id, username: user.username, role: user.role };
+    const payload = { sub: user.id, username: user.username, role: user.role, tenantId: user.tenantId };
     const accessToken = this.jwtService.sign(payload);
     const refreshToken = this.jwtService.sign(payload, {
       expiresIn: jwtConstants.refreshTokenExpiry,
@@ -225,6 +226,7 @@ export class AuthService {
         sub: storedToken.user.id,
         username: storedToken.user.username,
         role: storedToken.user.role,
+        tenantId: storedToken.user.tenantId,
       };
       const newAccessToken = this.jwtService.sign(newPayload);
       const newRefreshToken = this.jwtService.sign(newPayload, {

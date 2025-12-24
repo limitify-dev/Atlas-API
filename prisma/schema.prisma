@@ -85,6 +85,16 @@ enum ConductType {
   DETENTION
 }
 
+enum SchoolLevel {
+  PRIMARY // P
+  SENIOR // S (High School)
+}
+
+enum EducationLevel {
+  ORDINARY // O-Level (S1-S3)
+  ADVANCED // A-Level (S4-S6)
+}
+
 // ============================================
 // MULTI-TENANT & SUBSCRIPTION MODELS
 // ============================================
@@ -120,6 +130,7 @@ model Tenant {
   parents               Parent[]
   grades                Grade[]
   sections              Section[]
+  combinations          Combination[]
   subjects              Subject[]
   attendances           Attendance[]
   books                 Book[]
@@ -136,6 +147,9 @@ model Tenant {
   inventoryTransactions InventoryTransaction[]
   events                Event[]
   registrationTokens    RegistrationToken[]
+  cards                 Card[]
+  cardLogs              CardLog[]
+  cardPermissions       CardPermission[]
 
   @@index([slug])
   @@index([status])
@@ -219,15 +233,15 @@ model RefreshToken {
 }
 
 model RegistrationToken {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  token     String   @unique
+  id        String    @id @default(uuid())
+  email     String    @unique
+  token     String    @unique
   tenantId  String?
-  role      Role     @default(USER)
+  role      Role      @default(USER)
   expiresAt DateTime
   usedAt    DateTime?
   createdBy String // SUPER_ADMIN who created the token
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
   tenant Tenant? @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
@@ -245,10 +259,12 @@ model RegistrationToken {
 model Student {
   id            String   @id @default(uuid())
   tenantId      String
-  userId        String   @unique
+  userId        String?  @unique // Optional - students don't need login accounts
   studentId     String
   firstName     String
   lastName      String
+  email         String? // Student's own email (optional, for communication)
+  phone         String? // Student's own phone (optional, for communication)
   dateOfBirth   DateTime
   gender        Gender
   bloodGroup    String?
@@ -264,7 +280,7 @@ model Student {
 
   // Relations
   tenant              Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
   grade               Grade                @relation(fields: [gradeId], references: [id])
   section             Section              @relation(fields: [sectionId], references: [id])
   parents             StudentParent[]
@@ -273,6 +289,7 @@ model Student {
   transportAssignment TransportAssignment?
   conductRecords      ConductRecord[]
   permissions         Permission[]
+  card                Card?
 
   @@unique([tenantId, studentId])
   @@index([tenantId])
@@ -334,6 +351,7 @@ model Teacher {
   gender         Gender?
   qualification  String?
   specialization String?
+  department     String?
   joiningDate    DateTime
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
@@ -343,6 +361,7 @@ model Teacher {
   classes        ClassTeacher[]
   subjects       SubjectTeacher[]
   conductRecords ConductRecord[]
+  card           Card?
 
   @@unique([tenantId, teacherId])
   @@index([tenantId])
@@ -355,43 +374,80 @@ model Teacher {
 // ACADEMIC MODELS
 // ============================================
 
+// Represents academic year levels (e.g., S1, S2, S3 for Senior 1-3, or P1, P2 for Primary)
 model Grade {
-  id          String   @id @default(uuid())
-  tenantId    String
-  name        String
-  level       Int
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String         @id @default(uuid())
+  tenantId       String
+  name           String // Display name: "Senior 1", "Senior 2", etc.
+  code           String // Short code: "S1", "S2", "P1", "P2"
+  level          Int // Numeric level: 1, 2, 3, etc.
+  schoolLevel    SchoolLevel // PRIMARY or SENIOR
+  educationLevel EducationLevel // ORDINARY or ADVANCED
+  description    String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
 
   tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   sections Section[]
   students Student[]
   subjects Subject[]
 
-  @@unique([tenantId, name])
+  @@unique([tenantId, code])
   @@index([tenantId])
-  @@index([name])
+  @@index([code])
+  @@index([schoolLevel])
+  @@index([educationLevel])
   @@map("grades")
 }
 
-model Section {
-  id        String   @id @default(uuid())
-  tenantId  String
-  name      String
-  gradeId   String
-  capacity  Int      @default(40)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// Represents subject combinations for Advanced Level (S4-S6)
+// Examples: MPGE (Math, Physics, Geography, Economics), PCB (Physics, Chemistry, Biology)
+// Combinations are tenant-level and shared across all Advanced Level grades
+model Combination {
+  id          String   @id @default(uuid())
+  tenantId    String
+  name        String // Display name: "Mathematics-Physics-Geography-Economics"
+  code        String // Short code: "MPGE", "PCB", "MEG", etc.
+  description String?
+  subjectIds  Json // Array of subject IDs that make up this combination
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  tenant   Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  grade    Grade          @relation(fields: [gradeId], references: [id], onDelete: Cascade)
-  students Student[]
-  classes  ClassTeacher[]
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sections Section[]
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([code])
+  @@map("combinations")
+}
+
+// Represents a classroom/section within a grade
+// For Ordinary Level (S1-S3): Sections are letter-based (A, B, C, etc.) - e.g., "S1A", "S2B"
+// For Advanced Level (S4-S6): Sections are combination-based (MPGE, PCB, etc.) - e.g., "S4 MPGE", "S5 PCB"
+model Section {
+  id            String   @id @default(uuid())
+  tenantId      String
+  name          String // Full name: "S1A", "S2B" for O-Level or "S4 MPGE", "S5 PCB" for A-Level
+  gradeId       String
+  combinationId String? // Only for Advanced Level sections
+  division      String? // Letter division for Ordinary Level (A, B, C, etc.) or null for A-Level
+  capacity      Int      @default(40)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant      Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  grade       Grade          @relation(fields: [gradeId], references: [id], onDelete: Cascade)
+  combination Combination?   @relation(fields: [combinationId], references: [id])
+  students    Student[]
+  classes     ClassTeacher[]
 
   @@unique([tenantId, gradeId, name])
   @@index([tenantId])
   @@index([gradeId])
+  @@index([combinationId])
   @@map("sections")
 }
 
@@ -782,6 +838,101 @@ model InventoryTransaction {
   @@index([type])
   @@index([createdAt])
   @@map("inventory_transactions")
+}
+
+// ============================================
+// CARD MANAGEMENT MODELS
+// ============================================
+
+enum CardStatus {
+  ACTIVE
+  INACTIVE
+  RESTRICTED
+  BANNED
+  LOST
+  DAMAGED
+}
+
+enum CardType {
+  STUDENT
+  TEACHER
+  STAFF
+  VISITOR
+}
+
+model Card {
+  id         String     @id @default(uuid())
+  tenantId   String
+  cardNumber String // Card number/UID
+  cardType   CardType
+  status     CardStatus @default(INACTIVE)
+  issuedDate DateTime   @default(now())
+  expiryDate DateTime?
+  lastUsedAt DateTime?
+  notes      String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  // Relations
+  studentId String? @unique
+  teacherId String? @unique
+
+  tenant  Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  student Student? @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  teacher Teacher? @relation(fields: [teacherId], references: [id], onDelete: SetNull)
+
+  logs        CardLog[]
+  permissions CardPermission[]
+
+  @@unique([tenantId, cardNumber])
+  @@index([tenantId])
+  @@index([cardNumber])
+  @@index([studentId])
+  @@index([teacherId])
+  @@index([status])
+  @@index([cardType])
+  @@map("cards")
+}
+
+model CardLog {
+  id          String   @id @default(uuid())
+  tenantId    String
+  cardId      String
+  action      String // ASSIGNED, ACTIVATED, DEACTIVATED, RESTRICTED, BANNED, SCANNED, etc.
+  location    String? // Where the card was scanned
+  description String?
+  performedBy String? // User ID who performed the action
+  createdAt   DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([cardId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("card_logs")
+}
+
+model CardPermission {
+  id         String    @id @default(uuid())
+  tenantId   String
+  cardId     String
+  permission String // e.g., LIBRARY_ACCESS, LAB_ACCESS, GATE_ENTRY, etc.
+  isGranted  Boolean   @default(true)
+  validFrom  DateTime  @default(now())
+  validUntil DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([cardId])
+  @@index([permission])
+  @@index([isGranted])
+  @@map("card_permissions")
 }
 
 // ============================================

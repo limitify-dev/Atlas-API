@@ -114,3 +114,41 @@ export const ConductType = {
 } as const
 
 export type ConductType = (typeof ConductType)[keyof typeof ConductType]
+
+
+export const SchoolLevel = {
+  PRIMARY: 'PRIMARY',
+  SENIOR: 'SENIOR'
+} as const
+
+export type SchoolLevel = (typeof SchoolLevel)[keyof typeof SchoolLevel]
+
+
+export const EducationLevel = {
+  ORDINARY: 'ORDINARY',
+  ADVANCED: 'ADVANCED'
+} as const
+
+export type EducationLevel = (typeof EducationLevel)[keyof typeof EducationLevel]
+
+
+export const CardStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  RESTRICTED: 'RESTRICTED',
+  BANNED: 'BANNED',
+  LOST: 'LOST',
+  DAMAGED: 'DAMAGED'
+} as const
+
+export type CardStatus = (typeof CardStatus)[keyof typeof CardStatus]
+
+
+export const CardType = {
+  STUDENT: 'STUDENT',
+  TEACHER: 'TEACHER',
+  STAFF: 'STAFF',
+  VISITOR: 'VISITOR'
+} as const
+
+export type CardType = (typeof CardType)[keyof typeof CardType]

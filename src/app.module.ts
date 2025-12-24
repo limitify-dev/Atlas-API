@@ -11,6 +11,7 @@ import { ParentsModule } from './parents/parents.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { GradesModule } from './grades/grades.module';
 import { SectionsModule } from './sections/sections.module';
+import { CombinationsModule } from './combinations/combinations.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { LibraryModule } from './library/library.module';
@@ -20,6 +21,8 @@ import { ConductModule } from './conduct/conduct.module';
 import { CommunicationsModule } from './communications/communications.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { EventsModule } from './events/events.module';
+import { CardsModule } from './cards/cards.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -37,6 +40,7 @@ import { ConfigModule } from '@nestjs/config';
     TeachersModule,
     GradesModule,
     SectionsModule,
+    CombinationsModule,
     SubjectsModule,
     AttendanceModule,
     LibraryModule,
@@ -46,6 +50,8 @@ import { ConfigModule } from '@nestjs/config';
     CommunicationsModule,
     InventoryModule,
     EventsModule,
+    CardsModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],

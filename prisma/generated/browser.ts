@@ -68,6 +68,11 @@ export type Teacher = Prisma.TeacherModel
  */
 export type Grade = Prisma.GradeModel
 /**
+ * Model Combination
+ * 
+ */
+export type Combination = Prisma.CombinationModel
+/**
  * Model Section
  * 
  */
@@ -157,6 +162,21 @@ export type InventoryItem = Prisma.InventoryItemModel
  * 
  */
 export type InventoryTransaction = Prisma.InventoryTransactionModel
+/**
+ * Model Card
+ * 
+ */
+export type Card = Prisma.CardModel
+/**
+ * Model CardLog
+ * 
+ */
+export type CardLog = Prisma.CardLogModel
+/**
+ * Model CardPermission
+ * 
+ */
+export type CardPermission = Prisma.CardPermissionModel
 /**
  * Model Event
  * 

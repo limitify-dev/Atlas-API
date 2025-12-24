@@ -1,9 +1,647 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import {
+  CreateStudentDto,
+  UpdateStudentDto,
+  QueryStudentsDto,
+  StudentResponseDto,
+} from './dto';
+import * as bcrypt from 'bcrypt';
+import {
+  Prisma,
+  UserType,
+  Role,
+  Status,
+  Gender,
+} from '../../prisma/generated/client';
+import * as XLSX from 'xlsx';
 
 @Injectable()
 export class StudentsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  // TODO: Implement student logic
+  async create(
+    createStudentDto: CreateStudentDto,
+    tenantId: string,
+  ): Promise<StudentResponseDto> {
+    // Generate student ID
+    const studentCount = await this.prisma.student.count({
+      where: { tenantId },
+    });
+    const studentId = `ST${String(studentCount + 1).padStart(3, '0')}`;
+
+    try {
+      // Create student, parent, and link them in a transaction
+      const result = await this.prisma.$transaction(async (tx) => {
+        // Create student (no user account needed)
+        const student = await tx.student.create({
+          data: {
+            tenantId,
+            studentId,
+            firstName: createStudentDto.firstName,
+            lastName: createStudentDto.lastName,
+            email: createStudentDto.email || null,
+            phone: createStudentDto.phone || null,
+            dateOfBirth: new Date(createStudentDto.dateOfBirth),
+            gender: createStudentDto.gender,
+            nationality: createStudentDto.nationality || null,
+            address: createStudentDto.address || null,
+            bloodGroup: createStudentDto.bloodGroup || null,
+            rollNumber: createStudentDto.rollNumber || null,
+            gradeId: createStudentDto.gradeId,
+            sectionId: createStudentDto.sectionId,
+            admissionDate: new Date(createStudentDto.admissionDate),
+            photoUrl: createStudentDto.photoUrl || null,
+          },
+          include: {
+            grade: true,
+            section: true,
+          },
+        });
+
+        // Check if parent exists
+        let parent = await tx.user.findUnique({
+          where: { email: createStudentDto.parentEmail },
+          include: { parent: true },
+        });
+
+        if (!parent) {
+          // Create parent user
+          const parentUsername =
+            createStudentDto.parentEmail.split('@')[0] +
+            Math.random().toString(36).substring(2, 6);
+          const parentPassword = 'Parent@123';
+          const hashedParentPassword = await bcrypt.hash(parentPassword, 10);
+
+          parent = await tx.user.create({
+            data: {
+              tenantId,
+              email: createStudentDto.parentEmail,
+              name: createStudentDto.parentName,
+              username: parentUsername,
+              password: hashedParentPassword,
+              phone: createStudentDto.parentPhone,
+              role: Role.USER,
+              userType: UserType.PARENT,
+              status: Status.ACTIVE,
+            },
+            include: { parent: true },
+          });
+
+          // Create parent record
+          const parentFirstName = createStudentDto.parentName.split(' ')[0];
+          const parentLastName =
+            createStudentDto.parentName.split(' ').slice(1).join(' ') ||
+            parentFirstName;
+
+          await tx.parent.create({
+            data: {
+              tenantId,
+              userId: parent.id,
+              firstName: parentFirstName,
+              lastName: parentLastName,
+              relationship: createStudentDto.relationship || null,
+              occupation: createStudentDto.occupation || null,
+            },
+          });
+
+          // Refresh parent with the newly created parent record
+          parent = await tx.user.findUnique({
+            where: { id: parent.id },
+            include: { parent: true },
+          });
+        }
+
+        // Link student to parent
+        await tx.studentParent.create({
+          data: {
+            studentId: student.id,
+            parentId: parent!.parent!.id,
+            isPrimary: true,
+          },
+        });
+
+        return student;
+      });
+
+      // Fetch complete student data with all relations
+      return this.findOne(result.id, tenantId);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException('Student with this email already exists');
+        }
+        if (error.code === 'P2003') {
+          throw new BadRequestException('Invalid grade or section ID');
+        }
+      }
+      throw error;
+    }
+  }
+
+  async processBulkUpload(
+    file: Express.Multer.File,
+    tenantId: string,
+  ): Promise<{ success: number; failed: number; errors: any[] }> {
+    if (!file) {
+      throw new BadRequestException('No file uploaded');
+    }
+
+    const workbook = XLSX.read(file.buffer, {
+      type: 'buffer',
+      cellDates: true,
+    });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const data = XLSX.utils.sheet_to_json(sheet);
+
+    const results: { success: number; failed: number; errors: any[] } = {
+      success: 0,
+      failed: 0,
+      errors: [],
+    };
+
+    // Pre-fetch grades and sections for lookup
+    const grades = await this.prisma.grade.findMany({
+      where: { tenantId },
+    });
+    const sections = await this.prisma.section.findMany({
+      where: { tenantId },
+    });
+
+    for (const [index, row] of data.entries()) {
+      try {
+        const rowData = row as any;
+
+        // Helper to get value case-insensitively
+        const getVal = (key: string) => {
+          const foundKey = Object.keys(rowData).find(
+            (k) =>
+              k.toLowerCase().replace(/\s/g, '') ===
+              key.toLowerCase().replace(/\s/g, ''),
+          );
+          return foundKey ? rowData[foundKey] : undefined;
+        };
+
+        const gradeName = getVal('Grade');
+        const sectionName = getVal('Section'); // Or 'Class'
+
+        const grade = grades.find((g) => g.name === gradeName);
+        if (!grade) {
+          throw new Error(`Grade not found: ${gradeName}`);
+        }
+
+        const section = sections.find((s) => s.name === sectionName);
+        if (!section) {
+          throw new Error(`Section not found: ${sectionName}`);
+        }
+
+        const dto = new CreateStudentDto();
+        dto.firstName = String(getVal('FirstName') || '');
+        dto.lastName = String(getVal('LastName') || '');
+        dto.email = String(getVal('Email') || '');
+        dto.phone = getVal('Phone') ? String(getVal('Phone')) : undefined;
+
+        const dob = getVal('DateofBirth');
+        dto.dateOfBirth =
+          dob instanceof Date ? dob.toISOString() : String(dob || '');
+
+        dto.gender = getVal('Gender') as Gender;
+        dto.nationality = getVal('Nationality')
+          ? String(getVal('Nationality'))
+          : undefined;
+        dto.address = getVal('Address') ? String(getVal('Address')) : undefined;
+        dto.bloodGroup = getVal('BloodGroup')
+          ? String(getVal('BloodGroup'))
+          : undefined;
+        dto.gradeId = grade.id;
+        dto.sectionId = section.id;
+
+        const admDate = getVal('AdmissionDate');
+        dto.admissionDate =
+          admDate instanceof Date
+            ? admDate.toISOString()
+            : String(admDate || new Date().toISOString());
+
+        // Parent info
+        dto.parentName = String(getVal('ParentName') || '');
+        dto.parentEmail = String(getVal('ParentEmail') || '');
+        dto.parentPhone = String(getVal('ParentPhone') || '');
+        dto.relationship = getVal('Relationship')
+          ? String(getVal('Relationship'))
+          : undefined;
+        dto.occupation = getVal('Occupation')
+          ? String(getVal('Occupation'))
+          : undefined;
+
+        // Basic validation before calling create to save DB calls if obviously wrong
+        if (
+          !dto.firstName ||
+          !dto.lastName ||
+          !dto.email ||
+          !dto.parentEmail ||
+          !dto.parentPhone
+        ) {
+          throw new Error(
+            'Missing required fields (First Name, Last Name, Email, Parent Email, Parent Phone)',
+          );
+        }
+
+        await this.create(dto, tenantId);
+        results.success++;
+      } catch (error) {
+        results.failed++;
+        results.errors.push({
+          row: index + 2,
+          error: error.message,
+          data: row,
+        });
+      }
+    }
+
+    return results;
+  }
+
+  async getBulkUploadTemplate(): Promise<Buffer> {
+    const columns = [
+      'First Name',
+      'Last Name',
+      'Email',
+      'Phone',
+      'Date of Birth',
+      'Gender',
+      'Nationality',
+      'Address',
+      'Blood Group',
+      'Grade',
+      'Section',
+      'Admission Date',
+      'Parent Name',
+      'Parent Email',
+      'Parent Phone',
+      'Relationship',
+      'Occupation',
+    ];
+
+    const data = [
+      {
+        'First Name': 'John',
+        'Last Name': 'Doe',
+        Email: 'john.doe@example.com',
+        Phone: '1234567890',
+        'Date of Birth': '2010-01-01',
+        Gender: 'MALE',
+        Nationality: 'American',
+        Address: '123 Main St',
+        'Blood Group': 'O+',
+        Grade: 'Senior 1',
+        Section: 'S1A',
+        'Admission Date': '2024-01-01',
+        'Parent Name': 'Jane Doe',
+        'Parent Email': 'jane.doe@example.com',
+        'Parent Phone': '0987654321',
+        Relationship: 'Mother',
+        Occupation: 'Engineer',
+      },
+      {
+        'First Name': 'Alice',
+        'Last Name': 'Smith',
+        Email: 'alice.smith@example.com',
+        Phone: '2345678901',
+        'Date of Birth': '2007-05-15',
+        Gender: 'FEMALE',
+        Nationality: 'British',
+        Address: '456 Oak Ave',
+        'Blood Group': 'A+',
+        Grade: 'Senior 4',
+        Section: 'S4MPGE',
+        'Admission Date': '2024-01-01',
+        'Parent Name': 'Bob Smith',
+        'Parent Email': 'bob.smith@example.com',
+        'Parent Phone': '3456789012',
+        Relationship: 'Father',
+        Occupation: 'Doctor',
+      },
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(data, { header: columns });
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Students');
+
+    return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  }
+
+  async findAll(
+    queryDto: QueryStudentsDto,
+    tenantId: string,
+  ): Promise<{
+    data: StudentResponseDto[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
+    const {
+      search,
+      gradeId,
+      sectionId,
+      gender,
+      page = 1,
+      limit = 10,
+    } = queryDto;
+
+    const where: Prisma.StudentWhereInput = {
+      tenantId,
+      ...(gradeId && { gradeId }),
+      ...(sectionId && { sectionId }),
+      ...(gender && { gender }),
+      ...(search && {
+        OR: [
+          { firstName: { contains: search, mode: 'insensitive' } },
+          { lastName: { contains: search, mode: 'insensitive' } },
+          { studentId: { contains: search, mode: 'insensitive' } },
+          { email: { contains: search, mode: 'insensitive' } },
+        ],
+      }),
+    };
+
+    const [students, total] = await Promise.all([
+      this.prisma.student.findMany({
+        where,
+        include: {
+          grade: true,
+          section: true,
+          parents: {
+            include: {
+              parent: {
+                include: {
+                  user: true,
+                },
+              },
+            },
+          },
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.student.count({ where }),
+    ]);
+
+    const data = students.map((student) => this.transformToResponse(student));
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+    };
+  }
+
+  async findOne(id: string, tenantId: string): Promise<StudentResponseDto> {
+    const student = await this.prisma.student.findFirst({
+      where: { id, tenantId },
+      include: {
+        grade: true,
+        section: true,
+        parents: {
+          include: {
+            parent: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!student) {
+      throw new NotFoundException('Student not found');
+    }
+
+    return this.transformToResponse(student);
+  }
+
+  async findByStudentId(
+    studentId: string,
+    tenantId: string,
+  ): Promise<StudentResponseDto> {
+    const student = await this.prisma.student.findUnique({
+      where: {
+        tenantId_studentId: {
+          tenantId,
+          studentId,
+        },
+      },
+      include: {
+        grade: true,
+        section: true,
+        parents: {
+          include: {
+            parent: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!student) {
+      throw new NotFoundException('Student not found');
+    }
+
+    return this.transformToResponse(student);
+  }
+
+  async update(
+    id: string,
+    updateStudentDto: UpdateStudentDto,
+    tenantId: string,
+  ): Promise<StudentResponseDto> {
+    // Check if student exists
+    const existingStudent = await this.prisma.student.findFirst({
+      where: { id, tenantId },
+    });
+
+    if (!existingStudent) {
+      throw new NotFoundException('Student not found');
+    }
+
+    try {
+      // Update student information directly
+      const studentUpdateData: Prisma.StudentUpdateInput = {};
+      if (updateStudentDto.firstName)
+        studentUpdateData.firstName = updateStudentDto.firstName;
+      if (updateStudentDto.lastName)
+        studentUpdateData.lastName = updateStudentDto.lastName;
+      if (updateStudentDto.email !== undefined)
+        studentUpdateData.email = updateStudentDto.email;
+      if (updateStudentDto.phone !== undefined)
+        studentUpdateData.phone = updateStudentDto.phone;
+      if (updateStudentDto.dateOfBirth)
+        studentUpdateData.dateOfBirth = new Date(updateStudentDto.dateOfBirth);
+      if (updateStudentDto.gender)
+        studentUpdateData.gender = updateStudentDto.gender;
+      if (updateStudentDto.nationality !== undefined)
+        studentUpdateData.nationality = updateStudentDto.nationality;
+      if (updateStudentDto.address !== undefined)
+        studentUpdateData.address = updateStudentDto.address;
+      if (updateStudentDto.bloodGroup !== undefined)
+        studentUpdateData.bloodGroup = updateStudentDto.bloodGroup;
+      if (updateStudentDto.rollNumber !== undefined)
+        studentUpdateData.rollNumber = updateStudentDto.rollNumber;
+      if (updateStudentDto.gradeId) {
+        studentUpdateData.grade = { connect: { id: updateStudentDto.gradeId } };
+      }
+      if (updateStudentDto.sectionId) {
+        studentUpdateData.section = {
+          connect: { id: updateStudentDto.sectionId },
+        };
+      }
+      if (updateStudentDto.admissionDate)
+        studentUpdateData.admissionDate = new Date(
+          updateStudentDto.admissionDate,
+        );
+      if (updateStudentDto.photoUrl !== undefined)
+        studentUpdateData.photoUrl = updateStudentDto.photoUrl;
+
+      if (Object.keys(studentUpdateData).length > 0) {
+        await this.prisma.student.update({
+          where: { id },
+          data: studentUpdateData,
+        });
+      }
+
+      return this.findOne(id, tenantId);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new ConflictException('Email already exists');
+        }
+        if (error.code === 'P2003') {
+          throw new BadRequestException('Invalid grade or section ID');
+        }
+      }
+      throw error;
+    }
+  }
+
+  async remove(id: string, tenantId: string): Promise<{ message: string }> {
+    const student = await this.prisma.student.findFirst({
+      where: { id, tenantId },
+    });
+
+    if (!student) {
+      throw new NotFoundException('Student not found');
+    }
+
+    // Delete student
+    await this.prisma.student.delete({
+      where: { id },
+    });
+
+    return { message: 'Student deleted successfully' };
+  }
+
+  private transformToResponse(student: any): StudentResponseDto {
+    return {
+      id: student.id,
+      studentId: student.studentId,
+      firstName: student.firstName,
+      lastName: student.lastName,
+      fullName: `${student.firstName} ${student.lastName}`,
+      email: student.email,
+      phone: student.phone,
+      dateOfBirth: student.dateOfBirth,
+      gender: student.gender,
+      nationality: student.nationality,
+      address: student.address,
+      bloodGroup: student.bloodGroup,
+      rollNumber: student.rollNumber,
+      admissionDate: student.admissionDate,
+      photoUrl: student.photoUrl,
+      status: Status.ACTIVE, // Students don't have user accounts, so always active
+      grade: {
+        id: student.grade.id,
+        name: student.grade.name,
+        level: student.grade.level,
+        educationLevel: student.grade.educationLevel,
+      },
+      section: {
+        id: student.section.id,
+        name: student.section.name,
+      },
+      parents:
+        student.parents?.map((sp: any) => ({
+          id: sp.parent.id,
+          firstName: sp.parent.firstName,
+          lastName: sp.parent.lastName,
+          fullName: `${sp.parent.firstName} ${sp.parent.lastName}`,
+          email: sp.parent.user.email,
+          phone: sp.parent.user.phone,
+          relationship: sp.parent.relationship,
+          occupation: sp.parent.occupation,
+          isPrimary: sp.isPrimary,
+        })) || [],
+      createdAt: student.createdAt,
+      updatedAt: student.updatedAt,
+    };
+  }
+
+  async getStatistics(tenantId: string) {
+    const now = new Date();
+    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    // Calculate date 7 days ago for week-over-week comparison
+    // Set to start of day 7 days ago to include all students from that day onwards
+    const sevenDaysAgo = new Date(now);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
+
+    const [totalEnrolled, newAdmissionsThisMonth, studentsAddedThisWeek] = await Promise.all([
+      // Total enrolled students
+      this.prisma.student.count({
+        where: { tenantId },
+      }),
+      // New admissions this month (by admission date)
+      this.prisma.student.count({
+        where: {
+          tenantId,
+          admissionDate: {
+            gte: firstDayOfMonth,
+          },
+        },
+      }),
+      // Students created/added in the last 7 days (by createdAt timestamp)
+      // This is more accurate as it shows when students were actually added to the system
+      this.prisma.student.count({
+        where: {
+          tenantId,
+          createdAt: {
+            gte: sevenDaysAgo,
+          },
+        },
+      }),
+    ]);
+
+    // Since students don't have status field in the database, all enrolled students are considered active
+    // Use studentsAddedThisWeek (based on createdAt) for the weekly count
+    // This shows students actually added to the system this week, regardless of their admission date
+    return {
+      totalEnrolled,
+      activeStudents: totalEnrolled, // All students are active
+      newAdmissionsThisMonth,
+      pendingReviews: 0, // No pending reviews since students are auto-approved
+      inactiveStudents: 0,
+      suspendedStudents: 0,
+      newAdmissionsThisWeek: studentsAddedThisWeek, // Use createdAt for accurate weekly count
+    };
+  }
 }

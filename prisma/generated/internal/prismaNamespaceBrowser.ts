@@ -61,6 +61,7 @@ export const ModelName = {
   StudentParent: 'StudentParent',
   Teacher: 'Teacher',
   Grade: 'Grade',
+  Combination: 'Combination',
   Section: 'Section',
   Subject: 'Subject',
   ClassTeacher: 'ClassTeacher',
@@ -79,6 +80,9 @@ export const ModelName = {
   NotificationRecipient: 'NotificationRecipient',
   InventoryItem: 'InventoryItem',
   InventoryTransaction: 'InventoryTransaction',
+  Card: 'Card',
+  CardLog: 'CardLog',
+  CardPermission: 'CardPermission',
   Event: 'Event'
 } as const
 
@@ -194,6 +198,8 @@ export const StudentScalarFieldEnum = {
   studentId: 'studentId',
   firstName: 'firstName',
   lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
   dateOfBirth: 'dateOfBirth',
   gender: 'gender',
   bloodGroup: 'bloodGroup',
@@ -248,6 +254,7 @@ export const TeacherScalarFieldEnum = {
   gender: 'gender',
   qualification: 'qualification',
   specialization: 'specialization',
+  department: 'department',
   joiningDate: 'joiningDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -260,7 +267,10 @@ export const GradeScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   name: 'name',
+  code: 'code',
   level: 'level',
+  schoolLevel: 'schoolLevel',
+  educationLevel: 'educationLevel',
   description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -269,12 +279,30 @@ export const GradeScalarFieldEnum = {
 export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof GradeScalarFieldEnum]
 
 
+export const CombinationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  subjectIds: 'subjectIds',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CombinationScalarFieldEnum = (typeof CombinationScalarFieldEnum)[keyof typeof CombinationScalarFieldEnum]
+
+
 export const SectionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   name: 'name',
   gradeId: 'gradeId',
+  combinationId: 'combinationId',
+  division: 'division',
   capacity: 'capacity',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -540,6 +568,54 @@ export const InventoryTransactionScalarFieldEnum = {
 } as const
 
 export type InventoryTransactionScalarFieldEnum = (typeof InventoryTransactionScalarFieldEnum)[keyof typeof InventoryTransactionScalarFieldEnum]
+
+
+export const CardScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  cardNumber: 'cardNumber',
+  cardType: 'cardType',
+  status: 'status',
+  issuedDate: 'issuedDate',
+  expiryDate: 'expiryDate',
+  lastUsedAt: 'lastUsedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  studentId: 'studentId',
+  teacherId: 'teacherId'
+} as const
+
+export type CardScalarFieldEnum = (typeof CardScalarFieldEnum)[keyof typeof CardScalarFieldEnum]
+
+
+export const CardLogScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  cardId: 'cardId',
+  action: 'action',
+  location: 'location',
+  description: 'description',
+  performedBy: 'performedBy',
+  createdAt: 'createdAt'
+} as const
+
+export type CardLogScalarFieldEnum = (typeof CardLogScalarFieldEnum)[keyof typeof CardLogScalarFieldEnum]
+
+
+export const CardPermissionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  cardId: 'cardId',
+  permission: 'permission',
+  isGranted: 'isGranted',
+  validFrom: 'validFrom',
+  validUntil: 'validUntil',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CardPermissionScalarFieldEnum = (typeof CardPermissionScalarFieldEnum)[keyof typeof CardPermissionScalarFieldEnum]
 
 
 export const EventScalarFieldEnum = {
