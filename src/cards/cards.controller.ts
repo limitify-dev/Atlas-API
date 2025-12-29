@@ -54,8 +54,12 @@ export class CardsController {
   findAll(
     @Request() req,
     @Query('search') search?: string,
+    @Query('unassigned') unassigned?: string,
   ) {
-    return this.cardsService.findAll(req.user.tenantId, { search });
+    return this.cardsService.findAll(req.user.tenantId, { 
+      search,
+      unassigned: unassigned === 'true',
+    });
   }
 
   @Get(':id')
@@ -74,5 +78,11 @@ export class CardsController {
   @ApiOperation({ summary: 'Delete a card' })
   remove(@Request() req, @Param('id') id: string) {
     return this.cardsService.remove(req.user.tenantId, id);
+  }
+
+  @Post('bulk-activate')
+  @ApiOperation({ summary: 'Bulk activate assigned cards' })
+  bulkActivate(@Request() req, @Body() body: { cardIds: string[] }) {
+    return this.cardsService.bulkActivate(req.user.tenantId, body.cardIds);
   }
 }

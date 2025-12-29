@@ -238,7 +238,7 @@ export class TeachersService {
     const [teachers, total] = await Promise.all([
       this.prisma.teacher.findMany({
         where,
-        include: { user: true },
+        include: { user: true, card: true },
         skip: (page - 1) * limit,
         take: limit,
         orderBy: { createdAt: 'desc' },
@@ -259,7 +259,7 @@ export class TeachersService {
   async findOne(id: string, tenantId: string): Promise<TeacherResponseDto> {
     const teacher = await this.prisma.teacher.findFirst({
       where: { id, tenantId },
-      include: { user: true },
+      include: { user: true, card: true },
     });
 
     if (!teacher) {
@@ -417,6 +417,11 @@ export class TeachersService {
       qualification: teacher.qualification,
       specialization: teacher.specialization,
       status: teacher.user.status,
+      card: teacher.card ? {
+        id: teacher.card.id,
+        cardNumber: teacher.card.cardNumber,
+        status: teacher.card.status,
+      } : null,
       createdAt: teacher.createdAt,
       updatedAt: teacher.updatedAt,
     };

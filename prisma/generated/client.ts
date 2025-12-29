@@ -202,3 +202,18 @@ export type CardPermission = Prisma.CardPermissionModel
  * 
  */
 export type Event = Prisma.EventModel
+/**
+ * Model Device
+ * 
+ */
+export type Device = Prisma.DeviceModel
+/**
+ * Model DeviceLog
+ * 
+ */
+export type DeviceLog = Prisma.DeviceLogModel
+/**
+ * Model SystemLog
+ * 
+ */
+export type SystemLog = Prisma.SystemLogModel

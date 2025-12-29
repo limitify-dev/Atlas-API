@@ -23,6 +23,8 @@ import { InventoryModule } from './inventory/inventory.module';
 import { EventsModule } from './events/events.module';
 import { CardsModule } from './cards/cards.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { DeviceModule } from './device/device.module';
+import { SystemLogsModule } from './system-logs/system-logs.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -52,6 +54,8 @@ import { ConfigModule } from '@nestjs/config';
     EventsModule,
     CardsModule,
     DashboardModule,
+    DeviceModule,
+    SystemLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

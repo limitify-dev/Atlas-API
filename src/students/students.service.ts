@@ -375,6 +375,7 @@ export class StudentsService {
         include: {
           grade: true,
           section: true,
+          card: true,
           parents: {
             include: {
               parent: {
@@ -408,6 +409,7 @@ export class StudentsService {
       include: {
         grade: true,
         section: true,
+        card: true,
         parents: {
           include: {
             parent: {
@@ -441,6 +443,7 @@ export class StudentsService {
       include: {
         grade: true,
         section: true,
+        card: true,
         parents: {
           include: {
             parent: {
@@ -590,6 +593,11 @@ export class StudentsService {
           occupation: sp.parent.occupation,
           isPrimary: sp.isPrimary,
         })) || [],
+      card: student.card ? {
+        id: student.card.id,
+        cardNumber: student.card.cardNumber,
+        status: student.card.status,
+      } : null,
       createdAt: student.createdAt,
       updatedAt: student.updatedAt,
     };

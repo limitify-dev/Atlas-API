@@ -152,3 +152,34 @@ export const CardType = {
 } as const
 
 export type CardType = (typeof CardType)[keyof typeof CardType]
+
+
+export const DeviceStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED',
+  OFFLINE: 'OFFLINE'
+} as const
+
+export type DeviceStatus = (typeof DeviceStatus)[keyof typeof DeviceStatus]
+
+
+export const DeviceType = {
+  EDGE_DEVICE: 'EDGE_DEVICE',
+  BIOMETRIC_SCANNER: 'BIOMETRIC_SCANNER',
+  CAMERA: 'CAMERA',
+  OTHER: 'OTHER'
+} as const
+
+export type DeviceType = (typeof DeviceType)[keyof typeof DeviceType]
+
+
+export const LogLevel = {
+  DEBUG: 'DEBUG',
+  INFO: 'INFO',
+  WARN: 'WARN',
+  ERROR: 'ERROR',
+  CRITICAL: 'CRITICAL'
+} as const
+
+export type LogLevel = (typeof LogLevel)[keyof typeof LogLevel]

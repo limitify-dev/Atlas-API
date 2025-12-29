@@ -83,7 +83,10 @@ export const ModelName = {
   Card: 'Card',
   CardLog: 'CardLog',
   CardPermission: 'CardPermission',
-  Event: 'Event'
+  Event: 'Event',
+  Device: 'Device',
+  DeviceLog: 'DeviceLog',
+  SystemLog: 'SystemLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -631,6 +634,60 @@ export const EventScalarFieldEnum = {
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const DeviceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  deviceType: 'deviceType',
+  location: 'location',
+  description: 'description',
+  apiKey: 'apiKey',
+  apiKeyHash: 'apiKeyHash',
+  status: 'status',
+  lastSeenAt: 'lastSeenAt',
+  ipAddress: 'ipAddress',
+  metadata: 'metadata',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
+
+
+export const DeviceLogScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  deviceId: 'deviceId',
+  action: 'action',
+  description: 'description',
+  ipAddress: 'ipAddress',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+} as const
+
+export type DeviceLogScalarFieldEnum = (typeof DeviceLogScalarFieldEnum)[keyof typeof DeviceLogScalarFieldEnum]
+
+
+export const SystemLogScalarFieldEnum = {
+  id: 'id',
+  level: 'level',
+  message: 'message',
+  metadata: 'metadata',
+  userId: 'userId',
+  tenantId: 'tenantId',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  endpoint: 'endpoint',
+  method: 'method',
+  statusCode: 'statusCode',
+  duration: 'duration',
+  createdAt: 'createdAt'
+} as const
+
+export type SystemLogScalarFieldEnum = (typeof SystemLogScalarFieldEnum)[keyof typeof SystemLogScalarFieldEnum]
 
 
 export const SortOrder = {

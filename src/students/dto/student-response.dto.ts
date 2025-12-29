@@ -140,6 +140,17 @@ export class StudentResponseDto {
   }>;
 
   @ApiProperty({
+    description: 'Assigned card information',
+    nullable: true,
+    required: false,
+  })
+  card?: {
+    id: string;
+    cardNumber: string;
+    status: string;
+  } | null;
+
+  @ApiProperty({
     description: 'Created at timestamp',
     example: '2024-01-15T00:00:00.000Z',
   })

@@ -43,4 +43,11 @@ export class TeacherResponseDto {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty({ required: false, nullable: true })
+  card?: {
+    id: string;
+    cardNumber: string;
+    status: string;
+  } | null;
 }

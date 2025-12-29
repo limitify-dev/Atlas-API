@@ -150,6 +150,8 @@ model Tenant {
   cards                 Card[]
   cardLogs              CardLog[]
   cardPermissions       CardPermission[]
+  devices               Device[]
+  deviceLogs            DeviceLog[]
 
   @@index([slug])
   @@index([status])
@@ -955,4 +957,105 @@ model Event {
   @@index([tenantId])
   @@index([eventDate])
   @@map("events")
+}
+
+// ============================================
+// DEVICE API KEY MODELS (for Atlas Edge devices)
+// ============================================
+
+enum DeviceStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  OFFLINE
+}
+
+enum DeviceType {
+  EDGE_DEVICE // Atlas Edge Device (attendance tracking, access control)
+  BIOMETRIC_SCANNER
+  CAMERA
+  OTHER
+}
+
+model Device {
+  id          String       @id @default(uuid())
+  tenantId    String
+  name        String // Friendly name: "Main Entrance Atlas Edge"
+  deviceType  DeviceType
+  location    String? // Physical location: "Main Gate", "Building A Entrance"
+  description String?
+  apiKey      String       @unique // Hashed API key for authentication
+  apiKeyHash  String // Additional hash for verification
+  status      DeviceStatus @default(INACTIVE)
+  lastSeenAt  DateTime? // Last time device checked in
+  ipAddress   String? // Last known IP address
+  metadata    Json? // Additional device info (firmware version, model, etc.)
+  createdBy   String // User ID who registered the device
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  tenant Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  logs   DeviceLog[]
+
+  @@index([tenantId])
+  @@index([apiKey])
+  @@index([status])
+  @@index([deviceType])
+  @@index([lastSeenAt])
+  @@map("devices")
+}
+
+model DeviceLog {
+  id          String   @id @default(uuid())
+  tenantId    String
+  deviceId    String
+  action      String // CONNECTED, DISCONNECTED, SCAN, ERROR, CONFIG_UPDATED
+  description String?
+  ipAddress   String?
+  metadata    Json? // Additional log data
+  createdAt   DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([deviceId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("device_logs")
+}
+
+// ============================================
+// SYSTEM LOGS MODELS (for platform monitoring and Sentry integration)
+// ============================================
+
+enum LogLevel {
+  DEBUG
+  INFO
+  WARN
+  ERROR
+  CRITICAL
+}
+
+model SystemLog {
+  id         String    @id @default(uuid())
+  level      LogLevel
+  message    String
+  metadata   Json? // Additional context, stack traces, etc.
+  userId     String? // User who triggered the action
+  tenantId   String? // Tenant context if applicable
+  ipAddress  String?
+  userAgent  String?
+  endpoint   String? // API endpoint called
+  method     String? // HTTP method
+  statusCode Int? // HTTP status code
+  duration   Int? // Request duration in ms
+  createdAt  DateTime  @default(now())
+
+  @@index([level])
+  @@index([tenantId])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([endpoint])
+  @@map("system_logs")
 }

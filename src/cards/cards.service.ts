@@ -33,7 +33,7 @@ export class CardsService {
     });
   }
 
-  async findAll(tenantId: string, query?: { search?: string }) {
+  async findAll(tenantId: string, query?: { search?: string; unassigned?: boolean }) {
     const where: Prisma.CardWhereInput = {
       tenantId,
       ...(query?.search && {
@@ -41,6 +41,10 @@ export class CardsService {
           { cardNumber: { contains: query.search, mode: 'insensitive' } },
           { notes: { contains: query.search, mode: 'insensitive' } },
         ],
+      }),
+      ...(query?.unassigned && {
+        studentId: null,
+        teacherId: null,
       }),
     };
 
@@ -80,7 +84,7 @@ export class CardsService {
 
   async update(tenantId: string, id: string, updateCardDto: UpdateCardDto) {
     // Verify existence
-    await this.findOne(tenantId, id);
+    const card = await this.findOne(tenantId, id);
 
     // Handle Assignment Logic
     if (updateCardDto.studentId !== undefined) {
@@ -92,6 +96,12 @@ export class CardsService {
              if (!student || student.tenantId !== tenantId) {
                  throw new BadRequestException('Student not found');
              }
+
+             // Validate card type matches the assignment
+             if (card.cardType !== CardType.STUDENT) {
+                 throw new BadRequestException(`Cannot assign a ${card.cardType} card to a student. This card can only be assigned to a ${card.cardType.toLowerCase()}.`);
+             }
+
              const existingCard = await this.prisma.card.findUnique({
                  where: { studentId: updateCardDto.studentId }
              });
@@ -109,6 +119,12 @@ export class CardsService {
               if (!teacher || teacher.tenantId !== tenantId) {
                   throw new BadRequestException('Teacher not found');
               }
+
+              // Validate card type matches the assignment
+              if (card.cardType !== CardType.TEACHER) {
+                  throw new BadRequestException(`Cannot assign a ${card.cardType} card to a teacher. This card can only be assigned to a ${card.cardType.toLowerCase()}.`);
+              }
+
                const existingCard = await this.prisma.card.findUnique({
                  where: { teacherId: updateCardDto.teacherId }
              });
@@ -269,5 +285,35 @@ export class CardsService {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Cards');
 
     return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  }
+
+  async bulkActivate(tenantId: string, cardIds: string[]): Promise<{ updated: number }> {
+    // Filter to only assigned cards
+    const cards = await this.prisma.card.findMany({
+      where: {
+        tenantId,
+        id: { in: cardIds },
+        OR: [
+          { studentId: { not: null } },
+          { teacherId: { not: null } },
+        ],
+      },
+    });
+
+    if (cards.length === 0) {
+      throw new BadRequestException('No assigned cards found in selection');
+    }
+
+    // Update all to ACTIVE status
+    const result = await this.prisma.card.updateMany({
+      where: {
+        id: { in: cards.map(c => c.id) },
+      },
+      data: {
+        status: 'ACTIVE',
+      },
+    });
+
+    return { updated: result.count };
   }
 }
