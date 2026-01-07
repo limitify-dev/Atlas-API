@@ -32,6 +32,20 @@ export class DeviceService {
     description?: string;
     createdBy: string;
   }) {
+    // Check if device with same name already exists for this tenant
+    const existingDevice = await this.prisma.device.findFirst({
+      where: {
+        tenantId: data.tenantId,
+        name: data.name,
+      },
+    });
+
+    if (existingDevice) {
+      throw new BadRequestException(
+        `A device with the name "${data.name}" already exists for this tenant. Please use a different name or regenerate the API key for the existing device.`,
+      );
+    }
+
     // Generate API key
     const apiKey = this.generateApiKey();
     const apiKeyHash = this.hashApiKey(apiKey);
@@ -184,6 +198,23 @@ export class DeviceService {
 
     if (!device) {
       throw new NotFoundException('Device not found');
+    }
+
+    // If updating name, check for duplicates
+    if (data.name && data.name !== device.name) {
+      const existingDevice = await this.prisma.device.findFirst({
+        where: {
+          tenantId,
+          name: data.name,
+          id: { not: deviceId }, // Exclude current device
+        },
+      });
+
+      if (existingDevice) {
+        throw new BadRequestException(
+          `A device with the name "${data.name}" already exists for this tenant. Please use a different name.`,
+        );
+      }
     }
 
     const updatedDevice = await this.prisma.device.update({

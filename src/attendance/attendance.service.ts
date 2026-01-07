@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AttendanceStatus } from '@prisma/client';
 
@@ -10,7 +14,6 @@ export class AttendanceService {
     tenantId: string,
     sectionId?: string,
     gradeId?: string,
-    date?: string,
   ) {
     const where: any = { tenantId };
 
@@ -28,19 +31,10 @@ export class AttendanceService {
             grade: true,
           },
         },
-        attendances: date
-          ? {
-              where: {
-                date: new Date(date),
-              },
-            }
-          : undefined,
+        attendances: true,
         card: true,
       },
-      orderBy: [
-        { lastName: 'asc' },
-        { firstName: 'asc' },
-      ],
+      orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
     });
 
     // Group students by section/classroom
@@ -67,10 +61,10 @@ export class AttendanceService {
   async markAttendance(data: {
     tenantId: string;
     studentId: string;
-    date: string;
     status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
     isManual: boolean;
     checkInTime?: string;
+    checkInDateTime?: Date;
     remarks?: string;
   }) {
     const student = await this.prisma.student.findUnique({
@@ -81,29 +75,26 @@ export class AttendanceService {
       throw new NotFoundException('Student not found');
     }
 
-    const attendanceDate = new Date(data.date);
-    attendanceDate.setHours(0, 0, 0, 0);
-
     const attendance = await this.prisma.attendance.upsert({
       where: {
-        tenantId_studentId_date: {
+        tenantId_studentId: {
           tenantId: data.tenantId,
           studentId: data.studentId,
-          date: attendanceDate,
         },
       },
       update: {
         status: data.status as AttendanceStatus,
+        checkInTime: data.checkInDateTime || null,
         remarks: data.remarks || null,
       },
       create: {
         tenantId: data.tenantId,
         studentId: data.studentId,
-        date: attendanceDate,
         status: data.status as AttendanceStatus,
+        checkInTime: data.checkInDateTime || null,
         remarks: data.isManual
           ? `Manual entry${data.remarks ? `: ${data.remarks}` : ''}`
-          : `Auto check-in at ${data.checkInTime || new Date().toLocaleTimeString()}`,
+          : data.remarks || 'Auto check-in',
       },
       include: {
         student: {
@@ -147,18 +138,15 @@ export class AttendanceService {
       throw new NotFoundException('Card not found or inactive');
     }
 
-    const now = new Date();
-    const checkInTime = now.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    // Parse the current datetime
+    const checkInDateTime = new Date();
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // Format check-in time for display (HH:mm) - use UTC to avoid timezone conversion
+    const hour = checkInDateTime.getUTCHours();
+    const minute = checkInDateTime.getUTCMinutes();
+    const checkInTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 
-    // Determine if late (after 8:00 AM)
-    const hour = now.getHours();
-    const minute = now.getMinutes();
+    // Determine if late (after 8:00 AM) - use UTC hours
     const isLate = hour > 8 || (hour === 8 && minute > 0);
 
     const status: AttendanceStatus = isLate ? 'LATE' : 'PRESENT';
@@ -168,10 +156,10 @@ export class AttendanceService {
       const attendance = await this.markAttendance({
         tenantId: data.tenantId,
         studentId: card.studentId!,
-        date: today.toISOString(),
         status,
         isManual: false,
         checkInTime,
+        checkInDateTime: checkInDateTime,
         remarks: `Auto check-in at ${data.location || 'entrance'}`,
       });
 
@@ -189,14 +177,13 @@ export class AttendanceService {
       // Update card last used
       await this.prisma.card.update({
         where: { id: card.id },
-        data: { lastUsedAt: now },
+        data: { lastUsedAt: checkInDateTime },
       });
 
       return {
         success: true,
         type: 'student',
         attendance,
-        student: card.student,
         checkInTime,
         status,
       };
@@ -214,7 +201,7 @@ export class AttendanceService {
 
       await this.prisma.card.update({
         where: { id: card.id },
-        data: { lastUsedAt: now },
+        data: { lastUsedAt: checkInDateTime },
       });
 
       return {
@@ -226,21 +213,18 @@ export class AttendanceService {
       };
     }
 
-    throw new BadRequestException('Card is not associated with a student or teacher');
+    throw new BadRequestException(
+      'Card is not associated with a student or teacher',
+    );
   }
 
   async getAttendanceReport(
     tenantId: string,
-    date: string,
     sectionId?: string,
     gradeId?: string,
   ) {
-    const attendanceDate = new Date(date);
-    attendanceDate.setHours(0, 0, 0, 0);
-
     const where: any = {
       tenantId,
-      date: attendanceDate,
     };
 
     if (sectionId) {
@@ -272,15 +256,11 @@ export class AttendanceService {
     return attendances;
   }
 
-  async getAttendanceStats(tenantId: string, date?: string) {
-    const attendanceDate = date ? new Date(date) : new Date();
-    attendanceDate.setHours(0, 0, 0, 0);
-
+  async getAttendanceStats(tenantId: string) {
     const stats = await this.prisma.attendance.groupBy({
       by: ['status'],
       where: {
         tenantId,
-        date: attendanceDate,
       },
       _count: {
         status: true,
@@ -296,17 +276,18 @@ export class AttendanceService {
       return acc;
     }, {});
 
-    const markedCount = stats.reduce((sum, stat) => sum + stat._count.status, 0);
-    const pendingCount = totalStudents - markedCount;
+    const markedCount = stats.reduce(
+      (sum, stat) => sum + stat._count.status,
+      0,
+    );
 
     return {
       present: statsMap.present || 0,
       absent: statsMap.absent || 0,
       late: statsMap.late || 0,
       excused: statsMap.excused || 0,
-      pending: pendingCount,
       total: totalStudents,
-      date: attendanceDate,
+      markedCount: markedCount,
     };
   }
 }

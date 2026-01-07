@@ -75,6 +75,13 @@ export class CreateTenantDto {
   website?: string;
 
   @ApiPropertyOptional({
+    description: 'Tenant timezone (IANA timezone)',
+    example: 'Africa/Kampala',
+    default: 'UTC',
+  })
+  timezone?: string;
+
+  @ApiPropertyOptional({
     description: 'Tenant status',
     enum: TenantStatus,
     default: TenantStatus.TRIAL,

@@ -15,26 +15,27 @@ export class DashboardService {
     // Calculate today's attendance percentage
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     const [presentCount, totalAttendanceCount] = await Promise.all([
       this.prisma.attendance.count({
         where: {
           tenantId,
-          date: { gte: today },
+          createdAt: { gte: today },
           status: 'PRESENT',
         },
       }),
       this.prisma.attendance.count({
         where: {
           tenantId,
-          date: { gte: today },
+          createdAt: { gte: today },
         },
       }),
     ]);
 
-    const attendanceRate = totalAttendanceCount > 0 
-      ? (presentCount / totalAttendanceCount) * 100 
-      : 0;
+    const attendanceRate =
+      totalAttendanceCount > 0
+        ? (presentCount / totalAttendanceCount) * 100
+        : 0;
 
     return {
       totalStudents,
@@ -42,7 +43,7 @@ export class DashboardService {
       attendanceRate: attendanceRate.toFixed(1) + '%',
       systemUsage: totalUsers > 0 ? 'Active' : 'N/A', // Placeholder for usage metric
       // We can add changes (+/- %) if we had historical data, but for now fixed
-      studentChange: '+0%', 
+      studentChange: '+0%',
       classChange: '+0%',
       attendanceChange: '+0%',
       usageChange: '+0%',

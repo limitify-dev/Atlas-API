@@ -50,6 +50,7 @@ export type TenantMinAggregateOutputType = {
   phone: string | null
   email: string | null
   website: string | null
+  timezone: string | null
   status: $Enums.TenantStatus | null
   subscriptionPlan: $Enums.SubscriptionPlan | null
   subscriptionStartDate: Date | null
@@ -74,6 +75,7 @@ export type TenantMaxAggregateOutputType = {
   phone: string | null
   email: string | null
   website: string | null
+  timezone: string | null
   status: $Enums.TenantStatus | null
   subscriptionPlan: $Enums.SubscriptionPlan | null
   subscriptionStartDate: Date | null
@@ -98,6 +100,7 @@ export type TenantCountAggregateOutputType = {
   phone: number
   email: number
   website: number
+  timezone: number
   status: number
   subscriptionPlan: number
   subscriptionStartDate: number
@@ -135,6 +138,7 @@ export type TenantMinAggregateInputType = {
   phone?: true
   email?: true
   website?: true
+  timezone?: true
   status?: true
   subscriptionPlan?: true
   subscriptionStartDate?: true
@@ -159,6 +163,7 @@ export type TenantMaxAggregateInputType = {
   phone?: true
   email?: true
   website?: true
+  timezone?: true
   status?: true
   subscriptionPlan?: true
   subscriptionStartDate?: true
@@ -183,6 +188,7 @@ export type TenantCountAggregateInputType = {
   phone?: true
   email?: true
   website?: true
+  timezone?: true
   status?: true
   subscriptionPlan?: true
   subscriptionStartDate?: true
@@ -295,6 +301,7 @@ export type TenantGroupByOutputType = {
   phone: string | null
   email: string | null
   website: string | null
+  timezone: string
   status: $Enums.TenantStatus
   subscriptionPlan: $Enums.SubscriptionPlan
   subscriptionStartDate: Date | null
@@ -343,6 +350,7 @@ export type TenantWhereInput = {
   phone?: Prisma.StringNullableFilter<"Tenant"> | string | null
   email?: Prisma.StringNullableFilter<"Tenant"> | string | null
   website?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  timezone?: Prisma.StringFilter<"Tenant"> | string
   status?: Prisma.EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
@@ -396,6 +404,7 @@ export type TenantOrderByWithRelationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   website?: Prisma.SortOrderInput | Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -452,6 +461,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringNullableFilter<"Tenant"> | string | null
   email?: Prisma.StringNullableFilter<"Tenant"> | string | null
   website?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  timezone?: Prisma.StringFilter<"Tenant"> | string
   status?: Prisma.EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
@@ -505,6 +515,7 @@ export type TenantOrderByWithAggregationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   website?: Prisma.SortOrderInput | Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -538,6 +549,7 @@ export type TenantScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   website?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  timezone?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   status?: Prisma.EnumTenantStatusWithAggregatesFilter<"Tenant"> | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanWithAggregatesFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
@@ -563,6 +575,7 @@ export type TenantCreateInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -616,6 +629,7 @@ export type TenantUncheckedCreateInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -669,6 +683,7 @@ export type TenantUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -722,6 +737,7 @@ export type TenantUncheckedUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -775,6 +791,7 @@ export type TenantCreateManyInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -800,6 +817,7 @@ export type TenantUpdateManyMutationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -825,6 +843,7 @@ export type TenantUncheckedUpdateManyInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -850,6 +869,7 @@ export type TenantCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   website?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
@@ -880,6 +900,7 @@ export type TenantMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   website?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
@@ -904,6 +925,7 @@ export type TenantMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   website?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
@@ -1371,6 +1393,7 @@ export type TenantCreateWithoutUsersInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1423,6 +1446,7 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1491,6 +1515,7 @@ export type TenantUpdateWithoutUsersInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1543,6 +1568,7 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1595,6 +1621,7 @@ export type TenantCreateWithoutRegistrationTokensInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1647,6 +1674,7 @@ export type TenantUncheckedCreateWithoutRegistrationTokensInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1715,6 +1743,7 @@ export type TenantUpdateWithoutRegistrationTokensInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1767,6 +1796,7 @@ export type TenantUncheckedUpdateWithoutRegistrationTokensInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1819,6 +1849,7 @@ export type TenantCreateWithoutStudentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1871,6 +1902,7 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1939,6 +1971,7 @@ export type TenantUpdateWithoutStudentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1991,6 +2024,7 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2043,6 +2077,7 @@ export type TenantCreateWithoutParentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2095,6 +2130,7 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2163,6 +2199,7 @@ export type TenantUpdateWithoutParentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2215,6 +2252,7 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2267,6 +2305,7 @@ export type TenantCreateWithoutTeachersInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2319,6 +2358,7 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2387,6 +2427,7 @@ export type TenantUpdateWithoutTeachersInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2439,6 +2480,7 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2491,6 +2533,7 @@ export type TenantCreateWithoutGradesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2543,6 +2586,7 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2611,6 +2655,7 @@ export type TenantUpdateWithoutGradesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2663,6 +2708,7 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2715,6 +2761,7 @@ export type TenantCreateWithoutCombinationsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2767,6 +2814,7 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2835,6 +2883,7 @@ export type TenantUpdateWithoutCombinationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2887,6 +2936,7 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2939,6 +2989,7 @@ export type TenantCreateWithoutSectionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2991,6 +3042,7 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3059,6 +3111,7 @@ export type TenantUpdateWithoutSectionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3111,6 +3164,7 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3163,6 +3217,7 @@ export type TenantCreateWithoutSubjectsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3215,6 +3270,7 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3283,6 +3339,7 @@ export type TenantUpdateWithoutSubjectsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3335,6 +3392,7 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3387,6 +3445,7 @@ export type TenantCreateWithoutAttendancesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3439,6 +3498,7 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3507,6 +3567,7 @@ export type TenantUpdateWithoutAttendancesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3559,6 +3620,7 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3611,6 +3673,7 @@ export type TenantCreateWithoutBooksInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3663,6 +3726,7 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3731,6 +3795,7 @@ export type TenantUpdateWithoutBooksInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3783,6 +3848,7 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3835,6 +3901,7 @@ export type TenantCreateWithoutBookTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3887,6 +3954,7 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3955,6 +4023,7 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4007,6 +4076,7 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4059,6 +4129,7 @@ export type TenantCreateWithoutBusesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4111,6 +4182,7 @@ export type TenantUncheckedCreateWithoutBusesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4179,6 +4251,7 @@ export type TenantUpdateWithoutBusesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4231,6 +4304,7 @@ export type TenantUncheckedUpdateWithoutBusesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4283,6 +4357,7 @@ export type TenantCreateWithoutBusRoutesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4335,6 +4410,7 @@ export type TenantUncheckedCreateWithoutBusRoutesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4403,6 +4479,7 @@ export type TenantUpdateWithoutBusRoutesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4455,6 +4532,7 @@ export type TenantUncheckedUpdateWithoutBusRoutesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4507,6 +4585,7 @@ export type TenantCreateWithoutTransportAssignmentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4559,6 +4638,7 @@ export type TenantUncheckedCreateWithoutTransportAssignmentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4627,6 +4707,7 @@ export type TenantUpdateWithoutTransportAssignmentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4679,6 +4760,7 @@ export type TenantUncheckedUpdateWithoutTransportAssignmentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4731,6 +4813,7 @@ export type TenantCreateWithoutPermissionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4783,6 +4866,7 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4851,6 +4935,7 @@ export type TenantUpdateWithoutPermissionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4903,6 +4988,7 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4955,6 +5041,7 @@ export type TenantCreateWithoutConductRecordsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5007,6 +5094,7 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5075,6 +5163,7 @@ export type TenantUpdateWithoutConductRecordsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5127,6 +5216,7 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5179,6 +5269,7 @@ export type TenantCreateWithoutMessagesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5231,6 +5322,7 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5299,6 +5391,7 @@ export type TenantUpdateWithoutMessagesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5351,6 +5444,7 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5403,6 +5497,7 @@ export type TenantCreateWithoutAnnouncementsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5455,6 +5550,7 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5523,6 +5619,7 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5575,6 +5672,7 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5627,6 +5725,7 @@ export type TenantCreateWithoutNotificationsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5679,6 +5778,7 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5747,6 +5847,7 @@ export type TenantUpdateWithoutNotificationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5799,6 +5900,7 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5851,6 +5953,7 @@ export type TenantCreateWithoutInventoryItemsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5903,6 +6006,7 @@ export type TenantUncheckedCreateWithoutInventoryItemsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5971,6 +6075,7 @@ export type TenantUpdateWithoutInventoryItemsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6023,6 +6128,7 @@ export type TenantUncheckedUpdateWithoutInventoryItemsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6075,6 +6181,7 @@ export type TenantCreateWithoutInventoryTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6127,6 +6234,7 @@ export type TenantUncheckedCreateWithoutInventoryTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6195,6 +6303,7 @@ export type TenantUpdateWithoutInventoryTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6247,6 +6356,7 @@ export type TenantUncheckedUpdateWithoutInventoryTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6299,6 +6409,7 @@ export type TenantCreateWithoutCardsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6351,6 +6462,7 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6419,6 +6531,7 @@ export type TenantUpdateWithoutCardsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6471,6 +6584,7 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6523,6 +6637,7 @@ export type TenantCreateWithoutCardLogsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6575,6 +6690,7 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6643,6 +6759,7 @@ export type TenantUpdateWithoutCardLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6695,6 +6812,7 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6747,6 +6865,7 @@ export type TenantCreateWithoutCardPermissionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6799,6 +6918,7 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6867,6 +6987,7 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6919,6 +7040,7 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6971,6 +7093,7 @@ export type TenantCreateWithoutEventsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7023,6 +7146,7 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7091,6 +7215,7 @@ export type TenantUpdateWithoutEventsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7143,6 +7268,7 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7195,6 +7321,7 @@ export type TenantCreateWithoutDevicesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7247,6 +7374,7 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7315,6 +7443,7 @@ export type TenantUpdateWithoutDevicesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7367,6 +7496,7 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7419,6 +7549,7 @@ export type TenantCreateWithoutDeviceLogsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7471,6 +7602,7 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
+  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7539,6 +7671,7 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7591,6 +7724,7 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7917,6 +8051,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   phone?: boolean
   email?: boolean
   website?: boolean
+  timezone?: boolean
   status?: boolean
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
@@ -7971,6 +8106,7 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   phone?: boolean
   email?: boolean
   website?: boolean
+  timezone?: boolean
   status?: boolean
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
@@ -7996,6 +8132,7 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   phone?: boolean
   email?: boolean
   website?: boolean
+  timezone?: boolean
   status?: boolean
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
@@ -8021,6 +8158,7 @@ export type TenantSelectScalar = {
   phone?: boolean
   email?: boolean
   website?: boolean
+  timezone?: boolean
   status?: boolean
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
@@ -8032,7 +8170,7 @@ export type TenantSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "address" | "city" | "state" | "country" | "zipCode" | "phone" | "email" | "website" | "status" | "subscriptionPlan" | "subscriptionStartDate" | "subscriptionEndDate" | "maxStudents" | "maxTeachers" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "address" | "city" | "state" | "country" | "zipCode" | "phone" | "email" | "website" | "timezone" | "status" | "subscriptionPlan" | "subscriptionStartDate" | "subscriptionEndDate" | "maxStudents" | "maxTeachers" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
   students?: boolean | Prisma.Tenant$studentsArgs<ExtArgs>
@@ -8113,6 +8251,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     phone: string | null
     email: string | null
     website: string | null
+    timezone: string
     status: $Enums.TenantStatus
     subscriptionPlan: $Enums.SubscriptionPlan
     subscriptionStartDate: Date | null
@@ -8586,6 +8725,7 @@ export interface TenantFieldRefs {
   readonly phone: Prisma.FieldRef<"Tenant", 'String'>
   readonly email: Prisma.FieldRef<"Tenant", 'String'>
   readonly website: Prisma.FieldRef<"Tenant", 'String'>
+  readonly timezone: Prisma.FieldRef<"Tenant", 'String'>
   readonly status: Prisma.FieldRef<"Tenant", 'TenantStatus'>
   readonly subscriptionPlan: Prisma.FieldRef<"Tenant", 'SubscriptionPlan'>
   readonly subscriptionStartDate: Prisma.FieldRef<"Tenant", 'DateTime'>

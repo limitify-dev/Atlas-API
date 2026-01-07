@@ -285,6 +285,7 @@ export type DeviceOrderByWithRelationInput = {
 export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   apiKey?: string
+  tenantId_name?: Prisma.DeviceTenantIdNameCompoundUniqueInput
   AND?: Prisma.DeviceWhereInput | Prisma.DeviceWhereInput[]
   OR?: Prisma.DeviceWhereInput[]
   NOT?: Prisma.DeviceWhereInput | Prisma.DeviceWhereInput[]
@@ -303,7 +304,7 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   logs?: Prisma.DeviceLogListRelationFilter
-}, "id" | "apiKey">
+}, "id" | "apiKey" | "tenantId_name">
 
 export type DeviceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -484,6 +485,11 @@ export type DeviceListRelationFilter = {
 
 export type DeviceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type DeviceTenantIdNameCompoundUniqueInput = {
+  tenantId: string
+  name: string
 }
 
 export type DeviceCountOrderByAggregateInput = {

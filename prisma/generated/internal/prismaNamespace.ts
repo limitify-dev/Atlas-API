@@ -3156,6 +3156,7 @@ export const TenantScalarFieldEnum = {
   phone: 'phone',
   email: 'email',
   website: 'website',
+  timezone: 'timezone',
   status: 'status',
   subscriptionPlan: 'subscriptionPlan',
   subscriptionStartDate: 'subscriptionStartDate',
@@ -3389,8 +3390,8 @@ export const AttendanceScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   studentId: 'studentId',
-  date: 'date',
   status: 'status',
+  checkInTime: 'checkInTime',
   remarks: 'remarks',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

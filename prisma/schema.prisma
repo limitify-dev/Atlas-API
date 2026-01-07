@@ -113,6 +113,7 @@ model Tenant {
   phone                 String?
   email                 String?
   website               String?
+  timezone              String           @default("UTC") // Tenant timezone for attendance and timestamps
   status                TenantStatus     @default(TRIAL)
   subscriptionPlan      SubscriptionPlan @default(FREE)
   subscriptionStartDate DateTime?
@@ -510,22 +511,21 @@ model SubjectTeacher {
 // ============================================
 
 model Attendance {
-  id        String           @id @default(uuid())
-  tenantId  String
-  studentId String
-  date      DateTime
-  status    AttendanceStatus
-  remarks   String?
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
+  id          String           @id @default(uuid())
+  tenantId    String
+  studentId   String
+  status      AttendanceStatus
+  checkInTime DateTime? // Actual check-in time from device scan
+  remarks     String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 
   tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
-  @@unique([tenantId, studentId, date])
+  @@unique([tenantId, studentId])
   @@index([tenantId])
   @@index([studentId])
-  @@index([date])
   @@index([status])
   @@map("attendances")
 }
@@ -971,7 +971,7 @@ enum DeviceStatus {
 }
 
 enum DeviceType {
-  EDGE_DEVICE // Atlas Edge Device (attendance tracking, access control)
+  EDGE_DEVICE
   BIOMETRIC_SCANNER
   CAMERA
   OTHER
@@ -997,6 +997,7 @@ model Device {
   tenant Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   logs   DeviceLog[]
 
+  @@unique([tenantId, name])
   @@index([tenantId])
   @@index([apiKey])
   @@index([status])
@@ -1038,7 +1039,7 @@ enum LogLevel {
 }
 
 model SystemLog {
-  id         String    @id @default(uuid())
+  id         String   @id @default(uuid())
   level      LogLevel
   message    String
   metadata   Json? // Additional context, stack traces, etc.
@@ -1050,7 +1051,7 @@ model SystemLog {
   method     String? // HTTP method
   statusCode Int? // HTTP status code
   duration   Int? // Request duration in ms
-  createdAt  DateTime  @default(now())
+  createdAt  DateTime @default(now())
 
   @@index([level])
   @@index([tenantId])

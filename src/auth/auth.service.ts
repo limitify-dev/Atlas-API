@@ -151,7 +151,14 @@ export class AuthService {
    * @returns Authentication response with tokens and user info
    */
   async login(user: any): Promise<AuthResponseDto> {
-    const payload = { sub: user.id, username: user.username, role: user.role, tenantId: user.tenantId };
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      role: user.role,
+      tenantId: user.tenantId,
+      timezone: user.timezone,
+      schoolName: user.schoolName,
+    };
     const accessToken = this.jwtService.sign(payload);
     const refreshToken = this.jwtService.sign(payload, {
       expiresIn: jwtConstants.refreshTokenExpiry,
@@ -221,12 +228,28 @@ export class AuthService {
         throw new UnauthorizedException('Invalid or expired refresh token');
       }
 
+      // Fetch tenant data for timezone and schoolName
+      const userWithTenant = await this.prisma.user.findUnique({
+        where: { id: storedToken.user.id },
+        include: {
+          tenant: {
+            select: {
+              id: true,
+              name: true,
+              timezone: true,
+            },
+          },
+        },
+      });
+
       // Generate new tokens
       const newPayload = {
         sub: storedToken.user.id,
         username: storedToken.user.username,
         role: storedToken.user.role,
         tenantId: storedToken.user.tenantId,
+        timezone: userWithTenant?.tenant?.timezone || 'UTC',
+        schoolName: userWithTenant?.tenant?.name,
       };
       const newAccessToken = this.jwtService.sign(newPayload);
       const newRefreshToken = this.jwtService.sign(newPayload, {
@@ -260,13 +283,17 @@ export class AuthService {
         },
       });
 
-      // Remove password from user object
-      const { password, ...userWithoutPassword } = storedToken.user;
+      // Remove password and flatten tenant data
+      const { password, tenant, ...userWithoutPassword } = userWithTenant!;
 
       return {
         accessToken: newAccessToken,
         refreshToken: newRefreshToken,
-        user: userWithoutPassword as any,
+        user: {
+          ...userWithoutPassword,
+          timezone: tenant?.timezone || 'UTC',
+          schoolName: tenant?.name,
+        } as any,
       };
     } catch (error) {
       throw new UnauthorizedException('Invalid or expired refresh token');
@@ -284,6 +311,15 @@ export class AuthService {
       where: {
         OR: [{ username: identifier }, { email: identifier }],
       },
+      include: {
+        tenant: {
+          select: {
+            id: true,
+            name: true,
+            timezone: true,
+          },
+        },
+      },
     });
 
     if (!user) {
@@ -295,9 +331,13 @@ export class AuthService {
       return null;
     }
 
-    // Remove password before returning
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    // Remove password before returning and flatten tenant data
+    const { password, tenant, ...userWithoutPassword } = user;
+    return {
+      ...userWithoutPassword,
+      schoolName: tenant?.name,
+      timezone: tenant?.timezone || 'UTC',
+    };
   }
   /**
    * Logout user and invalidate tokens
