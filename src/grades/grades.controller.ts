@@ -48,7 +48,7 @@ export class GradesController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.DOS)
   @ApiOperation({ summary: 'Get all grades' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -59,7 +59,7 @@ export class GradesController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.DOS)
   @ApiOperation({ summary: 'Get a grade by ID' })
   @ApiParam({
     name: 'id',

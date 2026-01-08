@@ -14,6 +14,7 @@ export class AttendanceService {
     tenantId: string,
     sectionId?: string,
     gradeId?: string,
+    date?: string,
   ) {
     const where: any = { tenantId };
 
@@ -21,6 +22,18 @@ export class AttendanceService {
       where.sectionId = sectionId;
     } else if (gradeId) {
       where.gradeId = gradeId;
+    }
+
+    // Parse date and create date range for filtering (start of day to end of day)
+    let startOfDay: Date | undefined;
+    let endOfDay: Date | undefined;
+
+    if (date) {
+      const targetDate = new Date(date);
+      startOfDay = new Date(targetDate);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+      endOfDay = new Date(targetDate);
+      endOfDay.setUTCHours(23, 59, 59, 999);
     }
 
     const students = await this.prisma.student.findMany({
@@ -31,7 +44,23 @@ export class AttendanceService {
             grade: true,
           },
         },
-        attendances: true,
+        attendances: startOfDay && endOfDay ? {
+          where: {
+            createdAt: {
+              gte: startOfDay,
+              lte: endOfDay,
+            },
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        } : {
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        },
         card: true,
       },
       orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
@@ -75,35 +104,66 @@ export class AttendanceService {
       throw new NotFoundException('Student not found');
     }
 
-    const attendance = await this.prisma.attendance.upsert({
+    // Check if attendance already exists for today
+    const today = new Date();
+    const startOfDay = new Date(today);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    const endOfDay = new Date(today);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+
+    const existingAttendance = await this.prisma.attendance.findFirst({
       where: {
-        tenantId_studentId: {
-          tenantId: data.tenantId,
-          studentId: data.studentId,
-        },
-      },
-      update: {
-        status: data.status as AttendanceStatus,
-        checkInTime: data.checkInDateTime || null,
-        remarks: data.remarks || null,
-      },
-      create: {
         tenantId: data.tenantId,
         studentId: data.studentId,
-        status: data.status as AttendanceStatus,
-        checkInTime: data.checkInDateTime || null,
-        remarks: data.isManual
-          ? `Manual entry${data.remarks ? `: ${data.remarks}` : ''}`
-          : data.remarks || 'Auto check-in',
-      },
-      include: {
-        student: {
-          include: {
-            section: true,
-          },
+        createdAt: {
+          gte: startOfDay,
+          lte: endOfDay,
         },
       },
     });
+
+    let attendance;
+
+    if (existingAttendance) {
+      // Update existing attendance for today
+      attendance = await this.prisma.attendance.update({
+        where: {
+          id: existingAttendance.id,
+        },
+        data: {
+          status: data.status as AttendanceStatus,
+          checkInTime: data.checkInDateTime || null,
+          remarks: data.remarks || null,
+        },
+        include: {
+          student: {
+            include: {
+              section: true,
+            },
+          },
+        },
+      });
+    } else {
+      // Create new attendance record
+      attendance = await this.prisma.attendance.create({
+        data: {
+          tenantId: data.tenantId,
+          studentId: data.studentId,
+          status: data.status as AttendanceStatus,
+          checkInTime: data.checkInDateTime || null,
+          remarks: data.isManual
+            ? `Manual entry${data.remarks ? `: ${data.remarks}` : ''}`
+            : data.remarks || 'Auto check-in',
+        },
+        include: {
+          student: {
+            include: {
+              section: true,
+            },
+          },
+        },
+      });
+    }
 
     return {
       ...attendance,
@@ -189,13 +249,64 @@ export class AttendanceService {
       };
     } else if (card.teacher) {
       // Teacher check-in (auto only)
+      const today = new Date();
+      const startOfDay = new Date(today);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+      const endOfDay = new Date(today);
+      endOfDay.setUTCHours(23, 59, 59, 999);
+
+      // Check if teacher already checked in today
+      const existingAttendance =
+        await this.prisma.teacherAttendance.findFirst({
+          where: {
+            tenantId: data.tenantId,
+            teacherId: card.teacherId!,
+            createdAt: {
+              gte: startOfDay,
+              lte: endOfDay,
+            },
+          },
+        });
+
+      let teacherAttendance;
+
+      if (existingAttendance) {
+        // Update existing attendance (check-out)
+        teacherAttendance = await this.prisma.teacherAttendance.update({
+          where: {
+            id: existingAttendance.id,
+          },
+          data: {
+            checkOutTime: checkInDateTime,
+            remarks: `Check-out at ${data.location || 'entrance'}`,
+          },
+          include: {
+            teacher: true,
+          },
+        });
+      } else {
+        // Create new attendance record (check-in)
+        teacherAttendance = await this.prisma.teacherAttendance.create({
+          data: {
+            tenantId: data.tenantId,
+            teacherId: card.teacherId!,
+            status,
+            checkInTime: checkInDateTime,
+            remarks: `Check-in at ${data.location || 'entrance'}`,
+          },
+          include: {
+            teacher: true,
+          },
+        });
+      }
+
       await this.prisma.cardLog.create({
         data: {
           tenantId: data.tenantId,
           cardId: card.id,
           action: 'SCANNED',
           location: data.location || 'entrance',
-          description: `Teacher check-in at ${checkInTime} - ${status}`,
+          description: `Teacher ${existingAttendance ? 'check-out' : 'check-in'} at ${checkInTime} - ${status}`,
         },
       });
 
@@ -207,9 +318,11 @@ export class AttendanceService {
       return {
         success: true,
         type: 'teacher',
+        attendance: teacherAttendance,
         teacher: card.teacher,
         checkInTime,
         status,
+        action: existingAttendance ? 'checkout' : 'checkin',
       };
     }
 
@@ -222,6 +335,7 @@ export class AttendanceService {
     tenantId: string,
     sectionId?: string,
     gradeId?: string,
+    date?: string,
   ) {
     const where: any = {
       tenantId,
@@ -231,6 +345,20 @@ export class AttendanceService {
       where.student = { sectionId };
     } else if (gradeId) {
       where.student = { gradeId };
+    }
+
+    // Add date filtering if provided
+    if (date) {
+      const targetDate = new Date(date);
+      const startOfDay = new Date(targetDate);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+      const endOfDay = new Date(targetDate);
+      endOfDay.setUTCHours(23, 59, 59, 999);
+
+      where.createdAt = {
+        gte: startOfDay,
+        lte: endOfDay,
+      };
     }
 
     const attendances = await this.prisma.attendance.findMany({
@@ -256,11 +384,22 @@ export class AttendanceService {
     return attendances;
   }
 
-  async getAttendanceStats(tenantId: string) {
+  async getAttendanceStats(tenantId: string, date?: string) {
+    // Parse date and create date range for filtering (start of day to end of day)
+    const targetDate = date ? new Date(date) : new Date();
+    const startOfDay = new Date(targetDate);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    const endOfDay = new Date(targetDate);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+
     const stats = await this.prisma.attendance.groupBy({
       by: ['status'],
       where: {
         tenantId,
+        createdAt: {
+          gte: startOfDay,
+          lte: endOfDay,
+        },
       },
       _count: {
         status: true,
@@ -289,5 +428,123 @@ export class AttendanceService {
       total: totalStudents,
       markedCount: markedCount,
     };
+  }
+
+  // Teacher Attendance Methods
+  async getTeacherAttendanceReport(tenantId: string, date?: string) {
+    const targetDate = date ? new Date(date) : new Date();
+    const startOfDay = new Date(targetDate);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    const endOfDay = new Date(targetDate);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+
+    const attendances = await this.prisma.teacherAttendance.findMany({
+      where: {
+        tenantId,
+        createdAt: {
+          gte: startOfDay,
+          lte: endOfDay,
+        },
+      },
+      include: {
+        teacher: true,
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+
+    return attendances;
+  }
+
+  async getTeacherAttendanceStats(tenantId: string, date?: string) {
+    const targetDate = date ? new Date(date) : new Date();
+    const startOfDay = new Date(targetDate);
+    startOfDay.setUTCHours(0, 0, 0, 0);
+    const endOfDay = new Date(targetDate);
+    endOfDay.setUTCHours(23, 59, 59, 999);
+
+    const stats = await this.prisma.teacherAttendance.groupBy({
+      by: ['status'],
+      where: {
+        tenantId,
+        createdAt: {
+          gte: startOfDay,
+          lte: endOfDay,
+        },
+      },
+      _count: {
+        status: true,
+      },
+    });
+
+    const totalTeachers = await this.prisma.teacher.count({
+      where: { tenantId },
+    });
+
+    const statsMap = stats.reduce((acc: any, stat) => {
+      acc[stat.status.toLowerCase()] = stat._count.status;
+      return acc;
+    }, {});
+
+    const markedCount = stats.reduce(
+      (sum, stat) => sum + stat._count.status,
+      0,
+    );
+
+    return {
+      present: statsMap.present || 0,
+      absent: statsMap.absent || 0,
+      late: statsMap.late || 0,
+      excused: statsMap.excused || 0,
+      total: totalTeachers,
+      markedCount: markedCount,
+    };
+  }
+
+  async getAllTeachers(tenantId: string, date?: string) {
+    let startOfDay: Date | undefined;
+    let endOfDay: Date | undefined;
+
+    if (date) {
+      const targetDate = new Date(date);
+      startOfDay = new Date(targetDate);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+      endOfDay = new Date(targetDate);
+      endOfDay.setUTCHours(23, 59, 59, 999);
+    }
+
+    const teachers = await this.prisma.teacher.findMany({
+      where: { tenantId },
+      include: {
+        attendances:
+          startOfDay && endOfDay
+            ? {
+                where: {
+                  createdAt: {
+                    gte: startOfDay,
+                    lte: endOfDay,
+                  },
+                },
+                orderBy: {
+                  createdAt: 'desc',
+                },
+                take: 1,
+              }
+            : {
+                orderBy: {
+                  createdAt: 'desc',
+                },
+                take: 1,
+              },
+        card: true,
+      },
+      orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
+    });
+
+    return teachers.map((teacher) => ({
+      ...teacher,
+      attendance: teacher.attendances[0] || null,
+    }));
   }
 }

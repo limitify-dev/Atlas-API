@@ -114,16 +114,4 @@ export class CreateTenantDto {
     example: { theme: 'light', language: 'en' },
   })
   settings?: Record<string, any>;
-
-  @ApiProperty({
-    description: 'Admin email for initial tenant admin account',
-    example: 'admin@springfield.edu',
-  })
-  adminEmail: string;
-
-  @ApiProperty({
-    description: 'Admin name',
-    example: 'John Doe',
-  })
-  adminName: string;
 }

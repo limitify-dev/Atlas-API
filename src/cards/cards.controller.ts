@@ -1,4 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, UseInterceptors, UploadedFile, Res, StreamableFile, HttpStatus, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+  UseInterceptors,
+  UploadedFile,
+  Res,
+  StreamableFile,
+  HttpStatus,
+  Query,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CardsService } from './cards.service';
@@ -23,10 +39,7 @@ export class CardsController {
   @Post('bulk-upload')
   @ApiOperation({ summary: 'Bulk upload cards from Excel/CSV' })
   @UseInterceptors(FileInterceptor('file'))
-  async bulkUpload(
-    @UploadedFile() file: Express.Multer.File,
-    @Request() req,
-  ) {
+  async bulkUpload(@UploadedFile() file: Express.Multer.File, @Request() req) {
     return this.cardsService.processBulkUpload(file, req.user.tenantId);
   }
 
@@ -36,7 +49,8 @@ export class CardsController {
     const buffer = await this.cardsService.getBulkUploadTemplate();
 
     res.set({
-      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'Content-Disposition': 'attachment; filename="card_import_template.xlsx"',
     });
 
@@ -56,7 +70,7 @@ export class CardsController {
     @Query('search') search?: string,
     @Query('unassigned') unassigned?: string,
   ) {
-    return this.cardsService.findAll(req.user.tenantId, { 
+    return this.cardsService.findAll(req.user.tenantId, {
       search,
       unassigned: unassigned === 'true',
     });
@@ -70,7 +84,11 @@ export class CardsController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a card' })
-  update(@Request() req, @Param('id') id: string, @Body() updateCardDto: UpdateCardDto) {
+  update(
+    @Request() req,
+    @Param('id') id: string,
+    @Body() updateCardDto: UpdateCardDto,
+  ) {
     return this.cardsService.update(req.user.tenantId, id, updateCardDto);
   }
 

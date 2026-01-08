@@ -27,6 +27,9 @@ export class UsersService {
       }
     }
     // Hash password before saving
+    if (!createUserDto.password) {
+      throw new Error('Password is required');
+    }
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
     const user = await this.prisma.user.create({

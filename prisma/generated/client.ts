@@ -118,6 +118,11 @@ export type SubjectTeacher = Prisma.SubjectTeacherModel
  */
 export type Attendance = Prisma.AttendanceModel
 /**
+ * Model TeacherAttendance
+ * 
+ */
+export type TeacherAttendance = Prisma.TeacherAttendanceModel
+/**
  * Model Book
  * 
  */

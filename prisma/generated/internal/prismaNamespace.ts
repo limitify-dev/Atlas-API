@@ -400,6 +400,7 @@ export const ModelName = {
   ClassTeacher: 'ClassTeacher',
   SubjectTeacher: 'SubjectTeacher',
   Attendance: 'Attendance',
+  TeacherAttendance: 'TeacherAttendance',
   Book: 'Book',
   BookTransaction: 'BookTransaction',
   Bus: 'Bus',
@@ -435,7 +436,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "session" | "refreshToken" | "registrationToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "attendance" | "book" | "bookTransaction" | "bus" | "busRoute" | "transportAssignment" | "permission" | "conductRecord" | "message" | "announcement" | "notification" | "notificationRecipient" | "inventoryItem" | "inventoryTransaction" | "card" | "cardLog" | "cardPermission" | "event" | "device" | "deviceLog" | "systemLog"
+    modelProps: "tenant" | "user" | "session" | "refreshToken" | "registrationToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "attendance" | "teacherAttendance" | "book" | "bookTransaction" | "bus" | "busRoute" | "transportAssignment" | "permission" | "conductRecord" | "message" | "announcement" | "notification" | "notificationRecipient" | "inventoryItem" | "inventoryTransaction" | "card" | "cardLog" | "cardPermission" | "event" | "device" | "deviceLog" | "systemLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1620,6 +1621,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AttendanceCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AttendanceCountAggregateOutputType> | number
+        }
+      }
+    }
+    TeacherAttendance: {
+      payload: Prisma.$TeacherAttendancePayload<ExtArgs>
+      fields: Prisma.TeacherAttendanceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TeacherAttendanceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TeacherAttendanceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>
+        }
+        findFirst: {
+          args: Prisma.TeacherAttendanceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TeacherAttendanceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>
+        }
+        findMany: {
+          args: Prisma.TeacherAttendanceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>[]
+        }
+        create: {
+          args: Prisma.TeacherAttendanceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>
+        }
+        createMany: {
+          args: Prisma.TeacherAttendanceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TeacherAttendanceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>[]
+        }
+        delete: {
+          args: Prisma.TeacherAttendanceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>
+        }
+        update: {
+          args: Prisma.TeacherAttendanceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>
+        }
+        deleteMany: {
+          args: Prisma.TeacherAttendanceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TeacherAttendanceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TeacherAttendanceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>[]
+        }
+        upsert: {
+          args: Prisma.TeacherAttendanceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeacherAttendancePayload>
+        }
+        aggregate: {
+          args: Prisma.TeacherAttendanceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTeacherAttendance>
+        }
+        groupBy: {
+          args: Prisma.TeacherAttendanceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeacherAttendanceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TeacherAttendanceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeacherAttendanceCountAggregateOutputType> | number
         }
       }
     }
@@ -3400,6 +3475,21 @@ export const AttendanceScalarFieldEnum = {
 export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
 
 
+export const TeacherAttendanceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  teacherId: 'teacherId',
+  status: 'status',
+  checkInTime: 'checkInTime',
+  checkOutTime: 'checkOutTime',
+  remarks: 'remarks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TeacherAttendanceScalarFieldEnum = (typeof TeacherAttendanceScalarFieldEnum)[keyof typeof TeacherAttendanceScalarFieldEnum]
+
+
 export const BookScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -4221,6 +4311,7 @@ export type GlobalOmitConfig = {
   classTeacher?: Prisma.ClassTeacherOmit
   subjectTeacher?: Prisma.SubjectTeacherOmit
   attendance?: Prisma.AttendanceOmit
+  teacherAttendance?: Prisma.TeacherAttendanceOmit
   book?: Prisma.BookOmit
   bookTransaction?: Prisma.BookTransactionOmit
   bus?: Prisma.BusOmit

@@ -369,6 +369,7 @@ export type TenantWhereInput = {
   combinations?: Prisma.CombinationListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
   attendances?: Prisma.AttendanceListRelationFilter
+  teacherAttendances?: Prisma.TeacherAttendanceListRelationFilter
   books?: Prisma.BookListRelationFilter
   bookTransactions?: Prisma.BookTransactionListRelationFilter
   buses?: Prisma.BusListRelationFilter
@@ -423,6 +424,7 @@ export type TenantOrderByWithRelationInput = {
   combinations?: Prisma.CombinationOrderByRelationAggregateInput
   subjects?: Prisma.SubjectOrderByRelationAggregateInput
   attendances?: Prisma.AttendanceOrderByRelationAggregateInput
+  teacherAttendances?: Prisma.TeacherAttendanceOrderByRelationAggregateInput
   books?: Prisma.BookOrderByRelationAggregateInput
   bookTransactions?: Prisma.BookTransactionOrderByRelationAggregateInput
   buses?: Prisma.BusOrderByRelationAggregateInput
@@ -480,6 +482,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   combinations?: Prisma.CombinationListRelationFilter
   subjects?: Prisma.SubjectListRelationFilter
   attendances?: Prisma.AttendanceListRelationFilter
+  teacherAttendances?: Prisma.TeacherAttendanceListRelationFilter
   books?: Prisma.BookListRelationFilter
   bookTransactions?: Prisma.BookTransactionListRelationFilter
   buses?: Prisma.BusListRelationFilter
@@ -594,6 +597,7 @@ export type TenantCreateInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -648,6 +652,7 @@ export type TenantUncheckedCreateInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -702,6 +707,7 @@ export type TenantUpdateInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -756,6 +762,7 @@ export type TenantUncheckedUpdateInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -1127,6 +1134,20 @@ export type TenantUpdateOneRequiredWithoutAttendancesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutAttendancesInput, Prisma.TenantUpdateWithoutAttendancesInput>, Prisma.TenantUncheckedUpdateWithoutAttendancesInput>
 }
 
+export type TenantCreateNestedOneWithoutTeacherAttendancesInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTeacherAttendancesInput, Prisma.TenantUncheckedCreateWithoutTeacherAttendancesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTeacherAttendancesInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutTeacherAttendancesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutTeacherAttendancesInput, Prisma.TenantUncheckedCreateWithoutTeacherAttendancesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutTeacherAttendancesInput
+  upsert?: Prisma.TenantUpsertWithoutTeacherAttendancesInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutTeacherAttendancesInput, Prisma.TenantUpdateWithoutTeacherAttendancesInput>, Prisma.TenantUncheckedUpdateWithoutTeacherAttendancesInput>
+}
+
 export type TenantCreateNestedOneWithoutBooksInput = {
   create?: Prisma.XOR<Prisma.TenantCreateWithoutBooksInput, Prisma.TenantUncheckedCreateWithoutBooksInput>
   connectOrCreate?: Prisma.TenantCreateOrConnectWithoutBooksInput
@@ -1411,6 +1432,7 @@ export type TenantCreateWithoutUsersInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -1464,6 +1486,7 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -1533,6 +1556,7 @@ export type TenantUpdateWithoutUsersInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -1586,6 +1610,7 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -1640,6 +1665,7 @@ export type TenantCreateWithoutRegistrationTokensInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -1693,6 +1719,7 @@ export type TenantUncheckedCreateWithoutRegistrationTokensInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -1762,6 +1789,7 @@ export type TenantUpdateWithoutRegistrationTokensInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -1815,6 +1843,7 @@ export type TenantUncheckedUpdateWithoutRegistrationTokensInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -1867,6 +1896,7 @@ export type TenantCreateWithoutStudentsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -1920,6 +1950,7 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -1989,6 +2020,7 @@ export type TenantUpdateWithoutStudentsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -2042,6 +2074,7 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -2095,6 +2128,7 @@ export type TenantCreateWithoutParentsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -2148,6 +2182,7 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -2217,6 +2252,7 @@ export type TenantUpdateWithoutParentsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -2270,6 +2306,7 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -2323,6 +2360,7 @@ export type TenantCreateWithoutTeachersInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -2376,6 +2414,7 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -2445,6 +2484,7 @@ export type TenantUpdateWithoutTeachersInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -2498,6 +2538,7 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -2551,6 +2592,7 @@ export type TenantCreateWithoutGradesInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -2604,6 +2646,7 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -2673,6 +2716,7 @@ export type TenantUpdateWithoutGradesInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -2726,6 +2770,7 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -2779,6 +2824,7 @@ export type TenantCreateWithoutCombinationsInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -2832,6 +2878,7 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -2901,6 +2948,7 @@ export type TenantUpdateWithoutCombinationsInput = {
   sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -2954,6 +3002,7 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -3007,6 +3056,7 @@ export type TenantCreateWithoutSectionsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -3060,6 +3110,7 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -3129,6 +3180,7 @@ export type TenantUpdateWithoutSectionsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -3182,6 +3234,7 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -3235,6 +3288,7 @@ export type TenantCreateWithoutSubjectsInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -3288,6 +3342,7 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -3357,6 +3412,7 @@ export type TenantUpdateWithoutSubjectsInput = {
   sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -3410,6 +3466,7 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -3463,6 +3520,7 @@ export type TenantCreateWithoutAttendancesInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -3516,6 +3574,7 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -3585,6 +3644,7 @@ export type TenantUpdateWithoutAttendancesInput = {
   sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -3638,6 +3698,239 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  registrationTokens?: Prisma.RegistrationTokenUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutTeacherAttendancesInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  timezone?: string
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  registrationTokens?: Prisma.RegistrationTokenCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  timezone?: string
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  registrationTokens?: Prisma.RegistrationTokenUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutTeacherAttendancesInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTeacherAttendancesInput, Prisma.TenantUncheckedCreateWithoutTeacherAttendancesInput>
+}
+
+export type TenantUpsertWithoutTeacherAttendancesInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutTeacherAttendancesInput, Prisma.TenantUncheckedUpdateWithoutTeacherAttendancesInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutTeacherAttendancesInput, Prisma.TenantUncheckedCreateWithoutTeacherAttendancesInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutTeacherAttendancesInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutTeacherAttendancesInput, Prisma.TenantUncheckedUpdateWithoutTeacherAttendancesInput>
+}
+
+export type TenantUpdateWithoutTeacherAttendancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  registrationTokens?: Prisma.RegistrationTokenUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -3692,6 +3985,7 @@ export type TenantCreateWithoutBooksInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
@@ -3745,6 +4039,7 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
@@ -3814,6 +4109,7 @@ export type TenantUpdateWithoutBooksInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
@@ -3867,6 +4163,7 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
@@ -3920,6 +4217,7 @@ export type TenantCreateWithoutBookTransactionsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
@@ -3973,6 +4271,7 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
@@ -4042,6 +4341,7 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
@@ -4095,6 +4395,7 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
@@ -4148,6 +4449,7 @@ export type TenantCreateWithoutBusesInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
@@ -4201,6 +4503,7 @@ export type TenantUncheckedCreateWithoutBusesInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
@@ -4270,6 +4573,7 @@ export type TenantUpdateWithoutBusesInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
@@ -4323,6 +4627,7 @@ export type TenantUncheckedUpdateWithoutBusesInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
@@ -4376,6 +4681,7 @@ export type TenantCreateWithoutBusRoutesInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -4429,6 +4735,7 @@ export type TenantUncheckedCreateWithoutBusRoutesInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -4498,6 +4805,7 @@ export type TenantUpdateWithoutBusRoutesInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -4551,6 +4859,7 @@ export type TenantUncheckedUpdateWithoutBusRoutesInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -4604,6 +4913,7 @@ export type TenantCreateWithoutTransportAssignmentsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -4657,6 +4967,7 @@ export type TenantUncheckedCreateWithoutTransportAssignmentsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -4726,6 +5037,7 @@ export type TenantUpdateWithoutTransportAssignmentsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -4779,6 +5091,7 @@ export type TenantUncheckedUpdateWithoutTransportAssignmentsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -4832,6 +5145,7 @@ export type TenantCreateWithoutPermissionsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -4885,6 +5199,7 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -4954,6 +5269,7 @@ export type TenantUpdateWithoutPermissionsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -5007,6 +5323,7 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -5060,6 +5377,7 @@ export type TenantCreateWithoutConductRecordsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -5113,6 +5431,7 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -5182,6 +5501,7 @@ export type TenantUpdateWithoutConductRecordsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -5235,6 +5555,7 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -5288,6 +5609,7 @@ export type TenantCreateWithoutMessagesInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -5341,6 +5663,7 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -5410,6 +5733,7 @@ export type TenantUpdateWithoutMessagesInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -5463,6 +5787,7 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -5516,6 +5841,7 @@ export type TenantCreateWithoutAnnouncementsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -5569,6 +5895,7 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -5638,6 +5965,7 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -5691,6 +6019,7 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -5744,6 +6073,7 @@ export type TenantCreateWithoutNotificationsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -5797,6 +6127,7 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -5866,6 +6197,7 @@ export type TenantUpdateWithoutNotificationsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -5919,6 +6251,7 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -5972,6 +6305,7 @@ export type TenantCreateWithoutInventoryItemsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -6025,6 +6359,7 @@ export type TenantUncheckedCreateWithoutInventoryItemsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -6094,6 +6429,7 @@ export type TenantUpdateWithoutInventoryItemsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -6147,6 +6483,7 @@ export type TenantUncheckedUpdateWithoutInventoryItemsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -6200,6 +6537,7 @@ export type TenantCreateWithoutInventoryTransactionsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -6253,6 +6591,7 @@ export type TenantUncheckedCreateWithoutInventoryTransactionsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -6322,6 +6661,7 @@ export type TenantUpdateWithoutInventoryTransactionsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -6375,6 +6715,7 @@ export type TenantUncheckedUpdateWithoutInventoryTransactionsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -6428,6 +6769,7 @@ export type TenantCreateWithoutCardsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -6481,6 +6823,7 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -6550,6 +6893,7 @@ export type TenantUpdateWithoutCardsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -6603,6 +6947,7 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -6656,6 +7001,7 @@ export type TenantCreateWithoutCardLogsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -6709,6 +7055,7 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -6778,6 +7125,7 @@ export type TenantUpdateWithoutCardLogsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -6831,6 +7179,7 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -6884,6 +7233,7 @@ export type TenantCreateWithoutCardPermissionsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -6937,6 +7287,7 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -7006,6 +7357,7 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -7059,6 +7411,7 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -7112,6 +7465,7 @@ export type TenantCreateWithoutEventsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -7165,6 +7519,7 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -7234,6 +7589,7 @@ export type TenantUpdateWithoutEventsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -7287,6 +7643,7 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -7340,6 +7697,7 @@ export type TenantCreateWithoutDevicesInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -7393,6 +7751,7 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -7462,6 +7821,7 @@ export type TenantUpdateWithoutDevicesInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -7515,6 +7875,7 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -7568,6 +7929,7 @@ export type TenantCreateWithoutDeviceLogsInput = {
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusCreateNestedManyWithoutTenantInput
@@ -7621,6 +7983,7 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
@@ -7690,6 +8053,7 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
@@ -7743,6 +8107,7 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
@@ -7778,6 +8143,7 @@ export type TenantCountOutputType = {
   combinations: number
   subjects: number
   attendances: number
+  teacherAttendances: number
   books: number
   bookTransactions: number
   buses: number
@@ -7809,6 +8175,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   combinations?: boolean | TenantCountOutputTypeCountCombinationsArgs
   subjects?: boolean | TenantCountOutputTypeCountSubjectsArgs
   attendances?: boolean | TenantCountOutputTypeCountAttendancesArgs
+  teacherAttendances?: boolean | TenantCountOutputTypeCountTeacherAttendancesArgs
   books?: boolean | TenantCountOutputTypeCountBooksArgs
   bookTransactions?: boolean | TenantCountOutputTypeCountBookTransactionsArgs
   buses?: boolean | TenantCountOutputTypeCountBusesArgs
@@ -7901,6 +8268,13 @@ export type TenantCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types
  */
 export type TenantCountOutputTypeCountAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AttendanceWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTeacherAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeacherAttendanceWhereInput
 }
 
 /**
@@ -8070,6 +8444,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   combinations?: boolean | Prisma.Tenant$combinationsArgs<ExtArgs>
   subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
   attendances?: boolean | Prisma.Tenant$attendancesArgs<ExtArgs>
+  teacherAttendances?: boolean | Prisma.Tenant$teacherAttendancesArgs<ExtArgs>
   books?: boolean | Prisma.Tenant$booksArgs<ExtArgs>
   bookTransactions?: boolean | Prisma.Tenant$bookTransactionsArgs<ExtArgs>
   buses?: boolean | Prisma.Tenant$busesArgs<ExtArgs>
@@ -8181,6 +8556,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   combinations?: boolean | Prisma.Tenant$combinationsArgs<ExtArgs>
   subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
   attendances?: boolean | Prisma.Tenant$attendancesArgs<ExtArgs>
+  teacherAttendances?: boolean | Prisma.Tenant$teacherAttendancesArgs<ExtArgs>
   books?: boolean | Prisma.Tenant$booksArgs<ExtArgs>
   bookTransactions?: boolean | Prisma.Tenant$bookTransactionsArgs<ExtArgs>
   buses?: boolean | Prisma.Tenant$busesArgs<ExtArgs>
@@ -8217,6 +8593,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     combinations: Prisma.$CombinationPayload<ExtArgs>[]
     subjects: Prisma.$SubjectPayload<ExtArgs>[]
     attendances: Prisma.$AttendancePayload<ExtArgs>[]
+    teacherAttendances: Prisma.$TeacherAttendancePayload<ExtArgs>[]
     books: Prisma.$BookPayload<ExtArgs>[]
     bookTransactions: Prisma.$BookTransactionPayload<ExtArgs>[]
     buses: Prisma.$BusPayload<ExtArgs>[]
@@ -8664,6 +9041,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   combinations<T extends Prisma.Tenant$combinationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$combinationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CombinationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subjects<T extends Prisma.Tenant$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attendances<T extends Prisma.Tenant$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  teacherAttendances<T extends Prisma.Tenant$teacherAttendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$teacherAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   books<T extends Prisma.Tenant$booksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$booksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookTransactions<T extends Prisma.Tenant$bookTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$bookTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   buses<T extends Prisma.Tenant$busesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$busesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9336,6 +9714,30 @@ export type Tenant$attendancesArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.AttendanceScalarFieldEnum | Prisma.AttendanceScalarFieldEnum[]
+}
+
+/**
+ * Tenant.teacherAttendances
+ */
+export type Tenant$teacherAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TeacherAttendance
+   */
+  select?: Prisma.TeacherAttendanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TeacherAttendance
+   */
+  omit?: Prisma.TeacherAttendanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeacherAttendanceInclude<ExtArgs> | null
+  where?: Prisma.TeacherAttendanceWhereInput
+  orderBy?: Prisma.TeacherAttendanceOrderByWithRelationInput | Prisma.TeacherAttendanceOrderByWithRelationInput[]
+  cursor?: Prisma.TeacherAttendanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeacherAttendanceScalarFieldEnum | Prisma.TeacherAttendanceScalarFieldEnum[]
 }
 
 /**

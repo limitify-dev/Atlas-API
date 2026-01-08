@@ -67,6 +67,7 @@ export const ModelName = {
   ClassTeacher: 'ClassTeacher',
   SubjectTeacher: 'SubjectTeacher',
   Attendance: 'Attendance',
+  TeacherAttendance: 'TeacherAttendance',
   Book: 'Book',
   BookTransaction: 'BookTransaction',
   Bus: 'Bus',
@@ -361,6 +362,21 @@ export const AttendanceScalarFieldEnum = {
 } as const
 
 export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
+
+
+export const TeacherAttendanceScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  teacherId: 'teacherId',
+  status: 'status',
+  checkInTime: 'checkInTime',
+  checkOutTime: 'checkOutTime',
+  remarks: 'remarks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TeacherAttendanceScalarFieldEnum = (typeof TeacherAttendanceScalarFieldEnum)[keyof typeof TeacherAttendanceScalarFieldEnum]
 
 
 export const BookScalarFieldEnum = {

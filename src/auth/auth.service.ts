@@ -1,12 +1,11 @@
 import {
   Injectable,
   UnauthorizedException,
-  BadRequestException,
   ConflictException,
+  BadRequestException,
 } from '@nestjs/common';
-import { LoginDto, RegisterDto, AuthResponseDto, UserDto } from './dto';
+import { AuthResponseDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/users/users.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import { jwtConstants } from './constant';
@@ -14,137 +13,9 @@ import { jwtConstants } from './constant';
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UsersService,
     private jwtService: JwtService,
     private prisma: PrismaService,
   ) {}
-  /**
-   * Register a new user with a valid registration token
-   * @param registerDto - User registration data
-   * @param token - Registration token received via email
-   * @returns Authentication response with tokens and user info
-   * @throws BadRequestException if token is invalid or expired
-   * @throws ConflictException if email or username already exists
-   */
-  async registerWithToken(
-    registerDto: RegisterDto,
-    token: string,
-  ): Promise<AuthResponseDto> {
-    // Verify registration token
-    const registrationToken = await this.prisma.registrationToken.findFirst({
-      where: {
-        token,
-        email: registerDto.email,
-        usedAt: null,
-        expiresAt: {
-          gt: new Date(),
-        },
-      },
-      include: {
-        tenant: true,
-      },
-    });
-
-    if (!registrationToken) {
-      throw new BadRequestException('Invalid or expired registration token');
-    }
-
-    // Create user with role and tenant from token
-    const userDto = {
-      ...registerDto,
-      role: registrationToken.role,
-      tenantId: registrationToken.tenantId,
-      phone: registerDto.phone || null,
-      status: 'ACTIVE' as any,
-      emailVerified: true,
-    };
-
-    // Create user through UserService (handles validation and password hashing)
-    const createdUser: any = await this.userService.create(userDto as any);
-
-    // Mark token as used
-    await this.prisma.registrationToken.update({
-      where: { id: registrationToken.id },
-      data: { usedAt: new Date() },
-    });
-
-    // Generate tokens
-    const payload = {
-      sub: createdUser.id,
-      username: createdUser.username,
-      role: createdUser.role,
-      tenantId: createdUser.tenantId,
-    };
-    const accessToken = this.jwtService.sign(payload);
-    const refreshToken = this.jwtService.sign(payload, {
-      expiresIn: jwtConstants.refreshTokenExpiry,
-    });
-
-    // Store refresh token in database
-    await this.prisma.refreshToken.create({
-      data: {
-        userId: createdUser.id,
-        token: refreshToken,
-        expiresAt: new Date(
-          Date.now() + jwtConstants.refreshTokenExpiry * 1000,
-        ),
-      },
-    });
-
-    // Create session
-    await this.prisma.session.create({
-      data: {
-        userId: createdUser.id,
-        token: accessToken,
-        expiresAt: new Date(Date.now() + jwtConstants.accessTokenExpiry * 1000),
-      },
-    });
-
-    return {
-      accessToken,
-      refreshToken,
-      user: createdUser,
-    };
-  }
-
-  /**
-   * Verify a registration token
-   * @param token - Registration token
-   * @returns Token details if valid
-   * @throws BadRequestException if token is invalid or expired
-   */
-  async verifyRegistrationToken(token: string) {
-    const registrationToken = await this.prisma.registrationToken.findFirst({
-      where: {
-        token,
-        usedAt: null,
-        expiresAt: {
-          gt: new Date(),
-        },
-      },
-      include: {
-        tenant: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-          },
-        },
-      },
-    });
-
-    if (!registrationToken) {
-      throw new BadRequestException('Invalid or expired registration token');
-    }
-
-    return {
-      email: registrationToken.email,
-      role: registrationToken.role,
-      tenant: registrationToken.tenant,
-      expiresAt: registrationToken.expiresAt,
-    };
-  }
-
   /**
    * Authenticate a user
    * @param user - User details (from validateUser)
@@ -358,6 +229,73 @@ export class AuthService {
     await this.prisma.refreshToken.deleteMany({
       where: { userId },
     });
+  }
+
+  /**
+   * Register a new user (public endpoint for invite links)
+   * @param registerData - User registration data
+   * @returns Created user without password
+   * @throws ConflictException if email or username already exists
+   * @throws BadRequestException if required fields are missing
+   */
+  async register(registerData: {
+    email: string;
+    name: string;
+    username: string;
+    password: string;
+    role: string;
+    tenantId?: string;
+    userType?: string;
+    status?: string;
+  }) {
+    // Validate required fields
+    if (
+      !registerData.email ||
+      !registerData.name ||
+      !registerData.username ||
+      !registerData.password ||
+      !registerData.role
+    ) {
+      throw new BadRequestException('Missing required registration fields');
+    }
+
+    // Check if email already exists
+    const existingEmail = await this.prisma.user.findUnique({
+      where: { email: registerData.email },
+    });
+    if (existingEmail) {
+      throw new ConflictException('Email already exists');
+    }
+
+    // Check if username already exists
+    const existingUsername = await this.prisma.user.findUnique({
+      where: { username: registerData.username },
+    });
+    if (existingUsername) {
+      throw new ConflictException('Username already exists');
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(registerData.password, 10);
+
+    // Create user
+    const user = await this.prisma.user.create({
+      data: {
+        email: registerData.email,
+        name: registerData.name,
+        username: registerData.username,
+        password: hashedPassword,
+        role: registerData.role as any,
+        tenantId: registerData.tenantId || null,
+        userType: registerData.userType as any || null,
+        status: (registerData.status as any) || 'ACTIVE',
+        emailVerified: true,
+      },
+    });
+
+    // Return user without password
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   }
 
   /**

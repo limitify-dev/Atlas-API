@@ -20,7 +20,6 @@ import { CreateTenantDto, UpdateTenantDto } from './dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Role } from '../../prisma/generated/client';
 
 @ApiTags('Tenants')
@@ -32,12 +31,12 @@ export class TenantsController {
 
   @Post()
   @Roles(Role.SUPER_ADMIN)
-  @ApiOperation({ summary: 'Create a new tenant with admin registration token (Super Admin only)' })
-  @ApiResponse({ status: 201, description: 'Tenant created successfully with registration token sent to admin email' })
+  @ApiOperation({ summary: 'Create a new tenant (Super Admin only)' })
+  @ApiResponse({ status: 201, description: 'Tenant created successfully' })
   @ApiResponse({ status: 403, description: 'Forbidden - Super Admin access required' })
-  @ApiResponse({ status: 409, description: 'Slug, domain, or admin email already exists' })
-  create(@Body() createTenantDto: CreateTenantDto, @CurrentUser() user: any) {
-    return this.tenantsService.create(createTenantDto, user.userId);
+  @ApiResponse({ status: 409, description: 'Slug or domain already exists' })
+  create(@Body() createTenantDto: CreateTenantDto) {
+    return this.tenantsService.create(createTenantDto);
   }
 
   @Get()

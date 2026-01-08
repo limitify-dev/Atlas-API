@@ -50,7 +50,7 @@ export class SectionsController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS, Role.DM)
   @ApiOperation({ summary: 'Get all sections' })
   @ApiQuery({
     name: 'gradeId',
@@ -61,15 +61,12 @@ export class SectionsController {
     status: HttpStatus.OK,
     description: 'Sections retrieved successfully',
   })
-  async findAll(
-    @CurrentUser() user: any,
-    @Query('gradeId') gradeId?: string,
-  ) {
+  async findAll(@CurrentUser() user: any, @Query('gradeId') gradeId?: string) {
     return this.sectionsService.findAll(user.tenantId, gradeId);
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS, Role.DM)
   @ApiOperation({ summary: 'Get a section by ID' })
   @ApiParam({
     name: 'id',

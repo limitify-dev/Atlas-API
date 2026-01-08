@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Role, UserType } from '../../../prisma/generated/client';
+import { Role, Status, UserType } from '../../../prisma/generated/client';
+import { IsString, MinLength, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -46,5 +47,21 @@ export class CreateUserDto {
     description: 'User password',
     example: '**********',
   })
+  @IsOptional()
+  @IsString({ message: 'Password must be a string' })
+  @MinLength(6, { message: 'Password must be at least 6 characters long' })
   password: string;
+
+  @ApiProperty({
+    description: 'Tenant ID',
+    example: 'tenant_12345',
+    nullable: true,
+  })
+  tenantId: string | null;
+
+  @ApiProperty({
+    description: 'Account status',
+    example: 'ACTIVE',
+  })
+  status: Status;
 }

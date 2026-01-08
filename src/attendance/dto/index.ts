@@ -50,19 +50,13 @@ export class MarkAttendanceDto {
   studentId: string;
 
   @ApiProperty({
-    description: 'Date in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.sssZ)',
-    example: '2024-01-15T00:00:00.000Z',
-    format: 'date-time',
+    description: 'Date in ISO 8601 date format (YYYY-MM-DD) or datetime format (YYYY-MM-DDTHH:mm:ss.sssZ)',
+    example: '2024-01-15',
+    format: 'date',
   })
   @IsString()
-  @IsNotEmpty()
-  @Matches(
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/,
-    {
-      message: 'Date must be in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.sssZ)',
-    },
-  )
-  date: string;
+  @IsOptional()
+  date?: string;
 
   @ApiProperty({
     description: 'Attendance status',
@@ -80,13 +74,22 @@ export class MarkAttendanceDto {
   isManual: boolean;
 
   @ApiProperty({
-    description: 'Check-in time (HH:mm format)',
+    description: 'Check-in time (HH:mm format) - only for automatic check-ins',
     example: '08:30',
     required: false,
   })
   @IsString()
   @IsOptional()
   checkInTime?: string;
+
+  @ApiProperty({
+    description: 'Check-in datetime (ISO 8601 format) - only for automatic check-ins',
+    example: '2024-01-15T08:30:00.000Z',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  checkInDateTime?: string;
 
   @ApiProperty({
     description: 'Additional remarks',

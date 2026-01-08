@@ -12,6 +12,11 @@
 export const Role = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
+  DOS: 'DOS',
+  DM: 'DM',
+  TEACHER: 'TEACHER',
+  STUDENT: 'STUDENT',
+  PARENT: 'PARENT',
   USER: 'USER'
 } as const
 
@@ -22,7 +27,9 @@ export const UserType = {
   TEACHER: 'TEACHER',
   STUDENT: 'STUDENT',
   PARENT: 'PARENT',
-  STAFF: 'STAFF'
+  STAFF: 'STAFF',
+  DOS: 'DOS',
+  DM: 'DM'
 } as const
 
 export type UserType = (typeof UserType)[keyof typeof UserType]

@@ -1,24 +1,22 @@
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTenantDto, UpdateTenantDto } from './dto';
-import { EmailService } from '../email/email.service';
-import * as crypto from 'crypto';
 
 @Injectable()
 export class TenantsService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly emailService: EmailService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
-   * Create a new tenant with admin registration token
+   * Create a new tenant
    * @param createTenantDto - Tenant creation data
-   * @param createdBy - Super admin user ID who created the tenant
-   * @returns Created tenant with registration token info
+   * @returns Created tenant
    * @throws ConflictException if slug or domain already exists
    */
-  async create(createTenantDto: CreateTenantDto, createdBy?: string) {
+  async create(createTenantDto: CreateTenantDto) {
     // Check if slug already exists
     const existingTenant = await this.prisma.tenant.findFirst({
       where: {
@@ -40,54 +38,12 @@ export class TenantsService {
       }
     }
 
-    // Check if admin email already exists
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email: createTenantDto.adminEmail },
-    });
-
-    if (existingUser) {
-      throw new ConflictException('Admin email already exists');
-    }
-
-    // Extract admin fields
-    const { adminEmail, adminName, ...tenantData } = createTenantDto;
-
     // Create tenant
     const tenant = await this.prisma.tenant.create({
-      data: tenantData as any,
+      data: createTenantDto as any,
     });
 
-    // Generate registration token for admin
-    const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7); // Token expires in 7 days
-
-    const registrationToken = await this.prisma.registrationToken.create({
-      data: {
-        email: adminEmail,
-        token,
-        tenantId: tenant.id,
-        role: 'ADMIN' as any,
-        expiresAt,
-        createdBy: createdBy || 'system',
-      },
-    });
-
-    // Send registration email
-    await this.emailService.sendRegistrationToken(
-      adminEmail,
-      token,
-      tenant.name,
-    );
-
-    return {
-      tenant,
-      registrationToken: {
-        email: adminEmail,
-        token,
-        expiresAt,
-      },
-    };
+    return tenant;
   }
 
   /**

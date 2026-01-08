@@ -76,7 +76,7 @@ export class DeviceController {
     data: {
       name?: string;
       location?: string;
-      description?: string;
+      description?: string; 
       status?: DeviceStatus;
       metadata?: any;
     },

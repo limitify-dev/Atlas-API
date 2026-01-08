@@ -16,7 +16,7 @@ import {
   ApiConflictResponse,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginDto, RegisterDto, AuthResponseDto } from './dto';
+import { AuthResponseDto } from './dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
@@ -27,83 +27,34 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({
-    summary: 'Register a new user with token',
+    summary: 'Register a new user',
     description:
-      'Creates a new user account using a valid registration token received via email. Public signup is disabled - users must receive a registration token from a super admin.',
+      'Creates a new user account from an invitation link. This is a public endpoint.',
   })
   @ApiResponse({
     status: 201,
     description: 'User successfully registered',
-    type: AuthResponseDto,
   })
   @ApiConflictResponse({
     description: 'Email or username already exists',
-    schema: {
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number', example: 409 },
-        message: { type: 'string', example: 'Email already exists' },
-        error: { type: 'string', example: 'Conflict' },
-      },
-    },
   })
   @ApiBadRequestResponse({
-    description: 'Invalid input data or registration token',
-    schema: {
-      type: 'object',
-      properties: {
-        statusCode: { type: 'number', example: 400 },
-        message: {
-          oneOf: [
-            { type: 'string', example: 'Invalid or expired registration token' },
-            {
-              type: 'array',
-              items: { type: 'string' },
-              example: ['email must be a valid email address'],
-            },
-          ],
-        },
-        error: { type: 'string', example: 'Bad Request' },
-      },
-    },
+    description: 'Invalid input data or missing required fields',
   })
   async register(
-    @Body() body: { registerDto: RegisterDto; token: string },
-  ): Promise<AuthResponseDto> {
-    return this.authService.registerWithToken(body.registerDto, body.token);
-  }
-
-  @Get('verify-registration-token')
-  @ApiOperation({
-    summary: 'Verify registration token',
-    description:
-      'Verifies a registration token and returns the associated tenant and role information.',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Token is valid',
-    schema: {
-      type: 'object',
-      properties: {
-        email: { type: 'string', example: 'admin@school.edu' },
-        role: { type: 'string', example: 'ADMIN' },
-        tenant: {
-          type: 'object',
-          properties: {
-            id: { type: 'string' },
-            name: { type: 'string', example: 'Springfield Elementary' },
-            slug: { type: 'string', example: 'springfield-elementary' },
-          },
-        },
-        expiresAt: { type: 'string', format: 'date-time' },
-      },
+    @Body()
+    body: {
+      email: string;
+      name: string;
+      username: string;
+      password: string;
+      role: string;
+      tenantId?: string;
+      userType?: string;
+      status?: string;
     },
-  })
-  @ApiBadRequestResponse({
-    description: 'Invalid or expired token',
-  })
-  async verifyRegistrationToken(@Query('token') token: string) {
-    return this.authService.verifyRegistrationToken(token);
+  ) {
+    return this.authService.register(body);
   }
 
   @UseGuards(LocalAuthGuard)

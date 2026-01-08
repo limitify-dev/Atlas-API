@@ -6,38 +6,6 @@ export class EmailService {
   constructor(private configService: ConfigService) {}
 
   /**
-   * Send registration token email
-   * @param email - Recipient email address
-   * @param token - Registration token
-   * @param tenantName - Tenant name (school name)
-   */
-  async sendRegistrationToken(
-    email: string,
-    token: string,
-    tenantName?: string,
-  ): Promise<void> {
-    const registrationUrl = `${this.configService.get('FRONTEND_URL')}/register?token=${token}`;
-
-    console.log(`
-==============================================
-REGISTRATION TOKEN EMAIL
-==============================================
-To: ${email}
-Subject: Welcome to Atlas - Complete Your Registration
-${tenantName ? `Tenant: ${tenantName}` : 'Platform: Atlas Studio'}
-
-Registration Link: ${registrationUrl}
-
-Token: ${token}
-Expires: 7 days from now
-==============================================
-    `);
-
-    // TODO: Implement actual email sending with nodemailer or similar
-    // For now, we just log the email content
-  }
-
-  /**
    * Send welcome email after successful registration
    * @param email - Recipient email address
    * @param name - User name

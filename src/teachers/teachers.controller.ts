@@ -46,7 +46,7 @@ export class TeachersController {
   constructor(private readonly teachersService: TeachersService) {}
 
   @Post()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @ApiOperation({ summary: 'Create a new teacher' })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -65,7 +65,7 @@ export class TeachersController {
   }
 
   @Post('bulk-upload')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Bulk upload teachers from Excel/CSV' })
   @ApiResponse({
@@ -80,7 +80,7 @@ export class TeachersController {
   }
 
   @Get('bulk-upload-template')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @ApiOperation({ summary: 'Download teacher bulk upload template' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -92,14 +92,15 @@ export class TeachersController {
     res.set({
       'Content-Type':
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'Content-Disposition': 'attachment; filename="teacher_import_template.xlsx"',
+      'Content-Disposition':
+        'attachment; filename="teacher_import_template.xlsx"',
     });
 
     return new StreamableFile(buffer as any);
   }
 
   @Get('statistics')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @ApiOperation({ summary: 'Get teacher statistics' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -110,7 +111,7 @@ export class TeachersController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @ApiOperation({ summary: 'Get all teachers with filtering and pagination' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -129,7 +130,7 @@ export class TeachersController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @ApiOperation({ summary: 'Get a teacher by ID' })
   @ApiParam({
     name: 'id',
@@ -153,7 +154,7 @@ export class TeachersController {
   }
 
   @Put(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @ApiOperation({ summary: 'Update a teacher' })
   @ApiParam({
     name: 'id',

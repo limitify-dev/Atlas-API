@@ -14,6 +14,11 @@ datasource db {
 enum Role {
   SUPER_ADMIN // Platform admin
   ADMIN // School admin
+  DOS // Director of Studies - manages teacher attendance and academic staff
+  DM // Discipline Master - manages student attendance, conduct, and permissions
+  TEACHER // Teacher
+  STUDENT // Student
+  PARENT // Parent
   USER // Regular users
 }
 
@@ -22,6 +27,8 @@ enum UserType {
   STUDENT
   PARENT
   STAFF
+  DOS
+  DM
 }
 
 enum Status {
@@ -134,6 +141,7 @@ model Tenant {
   combinations          Combination[]
   subjects              Subject[]
   attendances           Attendance[]
+  teacherAttendances    TeacherAttendance[]
   books                 Book[]
   bookTransactions      BookTransaction[]
   buses                 Bus[]
@@ -147,7 +155,6 @@ model Tenant {
   inventoryItems        InventoryItem[]
   inventoryTransactions InventoryTransaction[]
   events                Event[]
-  registrationTokens    RegistrationToken[]
   cards                 Card[]
   cardLogs              CardLog[]
   cardPermissions       CardPermission[]
@@ -235,25 +242,6 @@ model RefreshToken {
   @@map("refresh_tokens")
 }
 
-model RegistrationToken {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  token     String    @unique
-  tenantId  String?
-  role      Role      @default(USER)
-  expiresAt DateTime
-  usedAt    DateTime?
-  createdBy String // SUPER_ADMIN who created the token
-  createdAt DateTime  @default(now())
-
-  tenant Tenant? @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-
-  @@index([email])
-  @@index([token])
-  @@index([expiresAt])
-  @@index([tenantId])
-  @@map("registration_tokens")
-}
 
 // ============================================
 // STUDENT MODELS
@@ -359,11 +347,12 @@ model Teacher {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  tenant         Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant         Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user           User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   classes        ClassTeacher[]
   subjects       SubjectTeacher[]
   conductRecords ConductRecord[]
+  attendances    TeacherAttendance[]
   card           Card?
 
   @@unique([tenantId, teacherId])
@@ -523,11 +512,34 @@ model Attendance {
   tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
-  @@unique([tenantId, studentId])
   @@index([tenantId])
   @@index([studentId])
   @@index([status])
+  @@index([createdAt])
+  @@index([tenantId, studentId, createdAt])
   @@map("attendances")
+}
+
+model TeacherAttendance {
+  id          String           @id @default(uuid())
+  tenantId    String
+  teacherId   String
+  status      AttendanceStatus
+  checkInTime DateTime? // Actual check-in time
+  checkOutTime DateTime? // Check-out time for corporate attendance
+  remarks     String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([teacherId])
+  @@index([status])
+  @@index([createdAt])
+  @@index([tenantId, teacherId, createdAt])
+  @@map("teacher_attendances")
 }
 
 // ============================================
