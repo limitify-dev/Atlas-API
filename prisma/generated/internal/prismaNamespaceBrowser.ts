@@ -55,7 +55,6 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   RefreshToken: 'RefreshToken',
-  RegistrationToken: 'RegistrationToken',
   Student: 'Student',
   Parent: 'Parent',
   StudentParent: 'StudentParent',
@@ -74,7 +73,10 @@ export const ModelName = {
   BusRoute: 'BusRoute',
   TransportAssignment: 'TransportAssignment',
   Permission: 'Permission',
+  PermissionUsage: 'PermissionUsage',
   ConductRecord: 'ConductRecord',
+  StudentConductPoints: 'StudentConductPoints',
+  ConductPointTransaction: 'ConductPointTransaction',
   Message: 'Message',
   Announcement: 'Announcement',
   Notification: 'Notification',
@@ -179,21 +181,6 @@ export const RefreshTokenScalarFieldEnum = {
 } as const
 
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
-
-
-export const RegistrationTokenScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  token: 'token',
-  tenantId: 'tenantId',
-  role: 'role',
-  expiresAt: 'expiresAt',
-  usedAt: 'usedAt',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt'
-} as const
-
-export type RegistrationTokenScalarFieldEnum = (typeof RegistrationTokenScalarFieldEnum)[keyof typeof RegistrationTokenScalarFieldEnum]
 
 
 export const StudentScalarFieldEnum = {
@@ -469,19 +456,42 @@ export const PermissionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   studentId: 'studentId',
+  permissionType: 'permissionType',
   requestDate: 'requestDate',
+  title: 'title',
+  reason: 'reason',
   fromDate: 'fromDate',
   toDate: 'toDate',
-  reason: 'reason',
+  fromTime: 'fromTime',
+  toTime: 'toTime',
+  schedule: 'schedule',
   status: 'status',
+  requestedBy: 'requestedBy',
+  requestedById: 'requestedById',
   approvedBy: 'approvedBy',
   approvedAt: 'approvedAt',
   remarks: 'remarks',
+  qrCode: 'qrCode',
+  qrCodeUsed: 'qrCodeUsed',
+  usedAt: 'usedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
+
+
+export const PermissionUsageScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  permissionId: 'permissionId',
+  usedAt: 'usedAt',
+  checkoutTime: 'checkoutTime',
+  location: 'location',
+  cardLogId: 'cardLogId'
+} as const
+
+export type PermissionUsageScalarFieldEnum = (typeof PermissionUsageScalarFieldEnum)[keyof typeof PermissionUsageScalarFieldEnum]
 
 
 export const ConductRecordScalarFieldEnum = {
@@ -492,13 +502,48 @@ export const ConductRecordScalarFieldEnum = {
   description: 'description',
   date: 'date',
   reportedBy: 'reportedBy',
+  reportedByUserId: 'reportedByUserId',
   severity: 'severity',
+  pointsDeducted: 'pointsDeducted',
+  incidentStatus: 'incidentStatus',
   actionTaken: 'actionTaken',
+  resolutionNotes: 'resolutionNotes',
+  resolvedAt: 'resolvedAt',
+  resolvedBy: 'resolvedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ConductRecordScalarFieldEnum = (typeof ConductRecordScalarFieldEnum)[keyof typeof ConductRecordScalarFieldEnum]
+
+
+export const StudentConductPointsScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentId: 'studentId',
+  currentPoints: 'currentPoints',
+  lastUpdatedAt: 'lastUpdatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type StudentConductPointsScalarFieldEnum = (typeof StudentConductPointsScalarFieldEnum)[keyof typeof StudentConductPointsScalarFieldEnum]
+
+
+export const ConductPointTransactionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentConductPointsId: 'studentConductPointsId',
+  conductRecordId: 'conductRecordId',
+  transactionType: 'transactionType',
+  pointsChange: 'pointsChange',
+  pointsBefore: 'pointsBefore',
+  pointsAfter: 'pointsAfter',
+  reason: 'reason',
+  recordedBy: 'recordedBy',
+  recordedAt: 'recordedAt'
+} as const
+
+export type ConductPointTransactionScalarFieldEnum = (typeof ConductPointTransactionScalarFieldEnum)[keyof typeof ConductPointTransactionScalarFieldEnum]
 
 
 export const MessageScalarFieldEnum = {

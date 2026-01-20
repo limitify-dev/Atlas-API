@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, ConflictException, BadRequestException }
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { UpdateSectionDto } from './dto/update-section.dto';
-import { Prisma } from '../../prisma/generated/client';
+import { Prisma, EducationLevel } from '../../prisma/generated/client';
 
 @Injectable()
 export class SectionsService {
@@ -21,6 +21,42 @@ export class SectionsService {
 
       if (existingSection) {
         throw new ConflictException(`Section "${createSectionDto.name}" already exists for this grade`);
+      }
+
+      // Fetch the grade to check its education level
+      const grade = await this.prisma.grade.findUnique({
+        where: { id: createSectionDto.gradeId },
+        select: { educationLevel: true },
+      });
+
+      if (!grade) {
+        throw new NotFoundException(`Grade with ID ${createSectionDto.gradeId} not found`);
+      }
+
+      // Enforce combination rules based on education level
+      if (grade.educationLevel === EducationLevel.ADVANCED) {
+        // For Advanced Level, a combinationId is required
+        if (!createSectionDto.combinationId) {
+          throw new BadRequestException(
+            `Subject combination is required for Advanced Level grades.`,
+          );
+        }
+        // Also verify the combination exists and belongs to the same tenant
+        const combination = await this.prisma.combination.findUnique({
+          where: { id: createSectionDto.combinationId, tenantId },
+        });
+        if (!combination) {
+          throw new BadRequestException(
+            `Invalid combination ID ${createSectionDto.combinationId}`,
+          );
+        }
+      } else {
+        // For PRIMARY, NURSERY, ORDINARY, subject combinations are not allowed
+        if (createSectionDto.combinationId) {
+          throw new BadRequestException(
+            `Subject combinations are not allowed for ${grade.educationLevel} level grades.`,
+          );
+        }
       }
 
       return await this.prisma.section.create({

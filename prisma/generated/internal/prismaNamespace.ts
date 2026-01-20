@@ -388,7 +388,6 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   RefreshToken: 'RefreshToken',
-  RegistrationToken: 'RegistrationToken',
   Student: 'Student',
   Parent: 'Parent',
   StudentParent: 'StudentParent',
@@ -407,7 +406,10 @@ export const ModelName = {
   BusRoute: 'BusRoute',
   TransportAssignment: 'TransportAssignment',
   Permission: 'Permission',
+  PermissionUsage: 'PermissionUsage',
   ConductRecord: 'ConductRecord',
+  StudentConductPoints: 'StudentConductPoints',
+  ConductPointTransaction: 'ConductPointTransaction',
   Message: 'Message',
   Announcement: 'Announcement',
   Notification: 'Notification',
@@ -436,7 +438,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "session" | "refreshToken" | "registrationToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "attendance" | "teacherAttendance" | "book" | "bookTransaction" | "bus" | "busRoute" | "transportAssignment" | "permission" | "conductRecord" | "message" | "announcement" | "notification" | "notificationRecipient" | "inventoryItem" | "inventoryTransaction" | "card" | "cardLog" | "cardPermission" | "event" | "device" | "deviceLog" | "systemLog"
+    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "attendance" | "teacherAttendance" | "book" | "bookTransaction" | "bus" | "busRoute" | "transportAssignment" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "message" | "announcement" | "notification" | "notificationRecipient" | "inventoryItem" | "inventoryTransaction" | "card" | "cardLog" | "cardPermission" | "event" | "device" | "deviceLog" | "systemLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -733,80 +735,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.RefreshTokenCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RefreshTokenCountAggregateOutputType> | number
-        }
-      }
-    }
-    RegistrationToken: {
-      payload: Prisma.$RegistrationTokenPayload<ExtArgs>
-      fields: Prisma.RegistrationTokenFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.RegistrationTokenFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.RegistrationTokenFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>
-        }
-        findFirst: {
-          args: Prisma.RegistrationTokenFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.RegistrationTokenFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>
-        }
-        findMany: {
-          args: Prisma.RegistrationTokenFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>[]
-        }
-        create: {
-          args: Prisma.RegistrationTokenCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>
-        }
-        createMany: {
-          args: Prisma.RegistrationTokenCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.RegistrationTokenCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>[]
-        }
-        delete: {
-          args: Prisma.RegistrationTokenDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>
-        }
-        update: {
-          args: Prisma.RegistrationTokenUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>
-        }
-        deleteMany: {
-          args: Prisma.RegistrationTokenDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.RegistrationTokenUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.RegistrationTokenUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>[]
-        }
-        upsert: {
-          args: Prisma.RegistrationTokenUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$RegistrationTokenPayload>
-        }
-        aggregate: {
-          args: Prisma.RegistrationTokenAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateRegistrationToken>
-        }
-        groupBy: {
-          args: Prisma.RegistrationTokenGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RegistrationTokenGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.RegistrationTokenCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.RegistrationTokenCountAggregateOutputType> | number
         }
       }
     }
@@ -2142,6 +2070,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PermissionUsage: {
+      payload: Prisma.$PermissionUsagePayload<ExtArgs>
+      fields: Prisma.PermissionUsageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PermissionUsageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PermissionUsageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>
+        }
+        findFirst: {
+          args: Prisma.PermissionUsageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PermissionUsageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>
+        }
+        findMany: {
+          args: Prisma.PermissionUsageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>[]
+        }
+        create: {
+          args: Prisma.PermissionUsageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>
+        }
+        createMany: {
+          args: Prisma.PermissionUsageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PermissionUsageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>[]
+        }
+        delete: {
+          args: Prisma.PermissionUsageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>
+        }
+        update: {
+          args: Prisma.PermissionUsageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>
+        }
+        deleteMany: {
+          args: Prisma.PermissionUsageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PermissionUsageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PermissionUsageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>[]
+        }
+        upsert: {
+          args: Prisma.PermissionUsageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PermissionUsagePayload>
+        }
+        aggregate: {
+          args: Prisma.PermissionUsageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePermissionUsage>
+        }
+        groupBy: {
+          args: Prisma.PermissionUsageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PermissionUsageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PermissionUsageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PermissionUsageCountAggregateOutputType> | number
+        }
+      }
+    }
     ConductRecord: {
       payload: Prisma.$ConductRecordPayload<ExtArgs>
       fields: Prisma.ConductRecordFieldRefs
@@ -2213,6 +2215,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ConductRecordCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ConductRecordCountAggregateOutputType> | number
+        }
+      }
+    }
+    StudentConductPoints: {
+      payload: Prisma.$StudentConductPointsPayload<ExtArgs>
+      fields: Prisma.StudentConductPointsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudentConductPointsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudentConductPointsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>
+        }
+        findFirst: {
+          args: Prisma.StudentConductPointsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudentConductPointsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>
+        }
+        findMany: {
+          args: Prisma.StudentConductPointsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>[]
+        }
+        create: {
+          args: Prisma.StudentConductPointsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>
+        }
+        createMany: {
+          args: Prisma.StudentConductPointsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudentConductPointsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>[]
+        }
+        delete: {
+          args: Prisma.StudentConductPointsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>
+        }
+        update: {
+          args: Prisma.StudentConductPointsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>
+        }
+        deleteMany: {
+          args: Prisma.StudentConductPointsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudentConductPointsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudentConductPointsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>[]
+        }
+        upsert: {
+          args: Prisma.StudentConductPointsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentConductPointsPayload>
+        }
+        aggregate: {
+          args: Prisma.StudentConductPointsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudentConductPoints>
+        }
+        groupBy: {
+          args: Prisma.StudentConductPointsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentConductPointsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudentConductPointsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentConductPointsCountAggregateOutputType> | number
+        }
+      }
+    }
+    ConductPointTransaction: {
+      payload: Prisma.$ConductPointTransactionPayload<ExtArgs>
+      fields: Prisma.ConductPointTransactionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ConductPointTransactionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ConductPointTransactionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>
+        }
+        findFirst: {
+          args: Prisma.ConductPointTransactionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ConductPointTransactionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>
+        }
+        findMany: {
+          args: Prisma.ConductPointTransactionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>[]
+        }
+        create: {
+          args: Prisma.ConductPointTransactionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>
+        }
+        createMany: {
+          args: Prisma.ConductPointTransactionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ConductPointTransactionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>[]
+        }
+        delete: {
+          args: Prisma.ConductPointTransactionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>
+        }
+        update: {
+          args: Prisma.ConductPointTransactionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ConductPointTransactionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ConductPointTransactionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ConductPointTransactionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ConductPointTransactionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ConductPointTransactionPayload>
+        }
+        aggregate: {
+          args: Prisma.ConductPointTransactionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConductPointTransaction>
+        }
+        groupBy: {
+          args: Prisma.ConductPointTransactionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConductPointTransactionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ConductPointTransactionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ConductPointTransactionCountAggregateOutputType> | number
         }
       }
     }
@@ -3292,21 +3442,6 @@ export const RefreshTokenScalarFieldEnum = {
 export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
 
 
-export const RegistrationTokenScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  token: 'token',
-  tenantId: 'tenantId',
-  role: 'role',
-  expiresAt: 'expiresAt',
-  usedAt: 'usedAt',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt'
-} as const
-
-export type RegistrationTokenScalarFieldEnum = (typeof RegistrationTokenScalarFieldEnum)[keyof typeof RegistrationTokenScalarFieldEnum]
-
-
 export const StudentScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -3580,19 +3715,42 @@ export const PermissionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   studentId: 'studentId',
+  permissionType: 'permissionType',
   requestDate: 'requestDate',
+  title: 'title',
+  reason: 'reason',
   fromDate: 'fromDate',
   toDate: 'toDate',
-  reason: 'reason',
+  fromTime: 'fromTime',
+  toTime: 'toTime',
+  schedule: 'schedule',
   status: 'status',
+  requestedBy: 'requestedBy',
+  requestedById: 'requestedById',
   approvedBy: 'approvedBy',
   approvedAt: 'approvedAt',
   remarks: 'remarks',
+  qrCode: 'qrCode',
+  qrCodeUsed: 'qrCodeUsed',
+  usedAt: 'usedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
+
+
+export const PermissionUsageScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  permissionId: 'permissionId',
+  usedAt: 'usedAt',
+  checkoutTime: 'checkoutTime',
+  location: 'location',
+  cardLogId: 'cardLogId'
+} as const
+
+export type PermissionUsageScalarFieldEnum = (typeof PermissionUsageScalarFieldEnum)[keyof typeof PermissionUsageScalarFieldEnum]
 
 
 export const ConductRecordScalarFieldEnum = {
@@ -3603,13 +3761,48 @@ export const ConductRecordScalarFieldEnum = {
   description: 'description',
   date: 'date',
   reportedBy: 'reportedBy',
+  reportedByUserId: 'reportedByUserId',
   severity: 'severity',
+  pointsDeducted: 'pointsDeducted',
+  incidentStatus: 'incidentStatus',
   actionTaken: 'actionTaken',
+  resolutionNotes: 'resolutionNotes',
+  resolvedAt: 'resolvedAt',
+  resolvedBy: 'resolvedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ConductRecordScalarFieldEnum = (typeof ConductRecordScalarFieldEnum)[keyof typeof ConductRecordScalarFieldEnum]
+
+
+export const StudentConductPointsScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentId: 'studentId',
+  currentPoints: 'currentPoints',
+  lastUpdatedAt: 'lastUpdatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type StudentConductPointsScalarFieldEnum = (typeof StudentConductPointsScalarFieldEnum)[keyof typeof StudentConductPointsScalarFieldEnum]
+
+
+export const ConductPointTransactionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentConductPointsId: 'studentConductPointsId',
+  conductRecordId: 'conductRecordId',
+  transactionType: 'transactionType',
+  pointsChange: 'pointsChange',
+  pointsBefore: 'pointsBefore',
+  pointsAfter: 'pointsAfter',
+  reason: 'reason',
+  recordedBy: 'recordedBy',
+  recordedAt: 'recordedAt'
+} as const
+
+export type ConductPointTransactionScalarFieldEnum = (typeof ConductPointTransactionScalarFieldEnum)[keyof typeof ConductPointTransactionScalarFieldEnum]
 
 
 export const MessageScalarFieldEnum = {
@@ -4104,6 +4297,20 @@ export type ListEnumBusStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 
 
 /**
+ * Reference to a field of type 'PermissionType'
+ */
+export type EnumPermissionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PermissionType'>
+    
+
+
+/**
+ * Reference to a field of type 'PermissionType[]'
+ */
+export type ListEnumPermissionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PermissionType[]'>
+    
+
+
+/**
  * Reference to a field of type 'PermissionStatus'
  */
 export type EnumPermissionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PermissionStatus'>
@@ -4118,6 +4325,20 @@ export type ListEnumPermissionStatusFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
+ * Reference to a field of type 'PermissionRequestedBy'
+ */
+export type EnumPermissionRequestedByFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PermissionRequestedBy'>
+    
+
+
+/**
+ * Reference to a field of type 'PermissionRequestedBy[]'
+ */
+export type ListEnumPermissionRequestedByFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PermissionRequestedBy[]'>
+    
+
+
+/**
  * Reference to a field of type 'ConductType'
  */
 export type EnumConductTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConductType'>
@@ -4128,6 +4349,34 @@ export type EnumConductTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pris
  * Reference to a field of type 'ConductType[]'
  */
 export type ListEnumConductTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConductType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'IncidentStatus'
+ */
+export type EnumIncidentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IncidentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'IncidentStatus[]'
+ */
+export type ListEnumIncidentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IncidentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'PointTransactionType'
+ */
+export type EnumPointTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PointTransactionType'>
+    
+
+
+/**
+ * Reference to a field of type 'PointTransactionType[]'
+ */
+export type ListEnumPointTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PointTransactionType[]'>
     
 
 
@@ -4299,7 +4548,6 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   session?: Prisma.SessionOmit
   refreshToken?: Prisma.RefreshTokenOmit
-  registrationToken?: Prisma.RegistrationTokenOmit
   student?: Prisma.StudentOmit
   parent?: Prisma.ParentOmit
   studentParent?: Prisma.StudentParentOmit
@@ -4318,7 +4566,10 @@ export type GlobalOmitConfig = {
   busRoute?: Prisma.BusRouteOmit
   transportAssignment?: Prisma.TransportAssignmentOmit
   permission?: Prisma.PermissionOmit
+  permissionUsage?: Prisma.PermissionUsageOmit
   conductRecord?: Prisma.ConductRecordOmit
+  studentConductPoints?: Prisma.StudentConductPointsOmit
+  conductPointTransaction?: Prisma.ConductPointTransactionOmit
   message?: Prisma.MessageOmit
   announcement?: Prisma.AnnouncementOmit
   notification?: Prisma.NotificationOmit

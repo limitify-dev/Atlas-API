@@ -26,4 +26,13 @@ export class CreateSectionDto {
   @IsInt()
   @IsOptional()
   capacity?: number;
+
+  @ApiProperty({
+    description: 'Combination ID for Advanced Level sections',
+    example: 'uuid-combination-id',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  combinationId?: string;
 }

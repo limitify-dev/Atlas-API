@@ -38,11 +38,6 @@ export type Session = Prisma.SessionModel
  */
 export type RefreshToken = Prisma.RefreshTokenModel
 /**
- * Model RegistrationToken
- * 
- */
-export type RegistrationToken = Prisma.RegistrationTokenModel
-/**
  * Model Student
  * 
  */
@@ -133,10 +128,25 @@ export type TransportAssignment = Prisma.TransportAssignmentModel
  */
 export type Permission = Prisma.PermissionModel
 /**
+ * Model PermissionUsage
+ * 
+ */
+export type PermissionUsage = Prisma.PermissionUsageModel
+/**
  * Model ConductRecord
  * 
  */
 export type ConductRecord = Prisma.ConductRecordModel
+/**
+ * Model StudentConductPoints
+ * 
+ */
+export type StudentConductPoints = Prisma.StudentConductPointsModel
+/**
+ * Model ConductPointTransaction
+ * 
+ */
+export type ConductPointTransaction = Prisma.ConductPointTransactionModel
 /**
  * Model Message
  * 

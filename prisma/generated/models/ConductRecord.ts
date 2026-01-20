@@ -28,10 +28,12 @@ export type AggregateConductRecord = {
 
 export type ConductRecordAvgAggregateOutputType = {
   severity: number | null
+  pointsDeducted: number | null
 }
 
 export type ConductRecordSumAggregateOutputType = {
   severity: number | null
+  pointsDeducted: number | null
 }
 
 export type ConductRecordMinAggregateOutputType = {
@@ -42,8 +44,14 @@ export type ConductRecordMinAggregateOutputType = {
   description: string | null
   date: Date | null
   reportedBy: string | null
+  reportedByUserId: string | null
   severity: number | null
+  pointsDeducted: number | null
+  incidentStatus: $Enums.IncidentStatus | null
   actionTaken: string | null
+  resolutionNotes: string | null
+  resolvedAt: Date | null
+  resolvedBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,8 +64,14 @@ export type ConductRecordMaxAggregateOutputType = {
   description: string | null
   date: Date | null
   reportedBy: string | null
+  reportedByUserId: string | null
   severity: number | null
+  pointsDeducted: number | null
+  incidentStatus: $Enums.IncidentStatus | null
   actionTaken: string | null
+  resolutionNotes: string | null
+  resolvedAt: Date | null
+  resolvedBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -70,8 +84,14 @@ export type ConductRecordCountAggregateOutputType = {
   description: number
   date: number
   reportedBy: number
+  reportedByUserId: number
   severity: number
+  pointsDeducted: number
+  incidentStatus: number
   actionTaken: number
+  resolutionNotes: number
+  resolvedAt: number
+  resolvedBy: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -80,10 +100,12 @@ export type ConductRecordCountAggregateOutputType = {
 
 export type ConductRecordAvgAggregateInputType = {
   severity?: true
+  pointsDeducted?: true
 }
 
 export type ConductRecordSumAggregateInputType = {
   severity?: true
+  pointsDeducted?: true
 }
 
 export type ConductRecordMinAggregateInputType = {
@@ -94,8 +116,14 @@ export type ConductRecordMinAggregateInputType = {
   description?: true
   date?: true
   reportedBy?: true
+  reportedByUserId?: true
   severity?: true
+  pointsDeducted?: true
+  incidentStatus?: true
   actionTaken?: true
+  resolutionNotes?: true
+  resolvedAt?: true
+  resolvedBy?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -108,8 +136,14 @@ export type ConductRecordMaxAggregateInputType = {
   description?: true
   date?: true
   reportedBy?: true
+  reportedByUserId?: true
   severity?: true
+  pointsDeducted?: true
+  incidentStatus?: true
   actionTaken?: true
+  resolutionNotes?: true
+  resolvedAt?: true
+  resolvedBy?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -122,8 +156,14 @@ export type ConductRecordCountAggregateInputType = {
   description?: true
   date?: true
   reportedBy?: true
+  reportedByUserId?: true
   severity?: true
+  pointsDeducted?: true
+  incidentStatus?: true
   actionTaken?: true
+  resolutionNotes?: true
+  resolvedAt?: true
+  resolvedBy?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -222,9 +262,15 @@ export type ConductRecordGroupByOutputType = {
   type: $Enums.ConductType
   description: string
   date: Date
-  reportedBy: string
+  reportedBy: string | null
+  reportedByUserId: string | null
   severity: number
+  pointsDeducted: number | null
+  incidentStatus: $Enums.IncidentStatus
   actionTaken: string | null
+  resolutionNotes: string | null
+  resolvedAt: Date | null
+  resolvedBy: string | null
   createdAt: Date
   updatedAt: Date
   _count: ConductRecordCountAggregateOutputType | null
@@ -259,14 +305,22 @@ export type ConductRecordWhereInput = {
   type?: Prisma.EnumConductTypeFilter<"ConductRecord"> | $Enums.ConductType
   description?: Prisma.StringFilter<"ConductRecord"> | string
   date?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
-  reportedBy?: Prisma.StringFilter<"ConductRecord"> | string
+  reportedBy?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  reportedByUserId?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
   severity?: Prisma.IntFilter<"ConductRecord"> | number
+  pointsDeducted?: Prisma.IntNullableFilter<"ConductRecord"> | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFilter<"ConductRecord"> | $Enums.IncidentStatus
   actionTaken?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  resolutionNotes?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"ConductRecord"> | Date | string | null
+  resolvedBy?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
-  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
+  teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
+  reportedByUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  pointTransactions?: Prisma.ConductPointTransactionListRelationFilter
 }
 
 export type ConductRecordOrderByWithRelationInput = {
@@ -276,14 +330,22 @@ export type ConductRecordOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  reportedBy?: Prisma.SortOrder
+  reportedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  reportedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   severity?: Prisma.SortOrder
+  pointsDeducted?: Prisma.SortOrderInput | Prisma.SortOrder
+  incidentStatus?: Prisma.SortOrder
   actionTaken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolutionNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
   student?: Prisma.StudentOrderByWithRelationInput
   teacher?: Prisma.TeacherOrderByWithRelationInput
+  reportedByUser?: Prisma.UserOrderByWithRelationInput
+  pointTransactions?: Prisma.ConductPointTransactionOrderByRelationAggregateInput
 }
 
 export type ConductRecordWhereUniqueInput = Prisma.AtLeast<{
@@ -296,14 +358,22 @@ export type ConductRecordWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumConductTypeFilter<"ConductRecord"> | $Enums.ConductType
   description?: Prisma.StringFilter<"ConductRecord"> | string
   date?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
-  reportedBy?: Prisma.StringFilter<"ConductRecord"> | string
+  reportedBy?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  reportedByUserId?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
   severity?: Prisma.IntFilter<"ConductRecord"> | number
+  pointsDeducted?: Prisma.IntNullableFilter<"ConductRecord"> | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFilter<"ConductRecord"> | $Enums.IncidentStatus
   actionTaken?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  resolutionNotes?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"ConductRecord"> | Date | string | null
+  resolvedBy?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
-  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
+  teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
+  reportedByUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  pointTransactions?: Prisma.ConductPointTransactionListRelationFilter
 }, "id">
 
 export type ConductRecordOrderByWithAggregationInput = {
@@ -313,9 +383,15 @@ export type ConductRecordOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
-  reportedBy?: Prisma.SortOrder
+  reportedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  reportedByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   severity?: Prisma.SortOrder
+  pointsDeducted?: Prisma.SortOrderInput | Prisma.SortOrder
+  incidentStatus?: Prisma.SortOrder
   actionTaken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolutionNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ConductRecordCountOrderByAggregateInput
@@ -335,9 +411,15 @@ export type ConductRecordScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumConductTypeWithAggregatesFilter<"ConductRecord"> | $Enums.ConductType
   description?: Prisma.StringWithAggregatesFilter<"ConductRecord"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"ConductRecord"> | Date | string
-  reportedBy?: Prisma.StringWithAggregatesFilter<"ConductRecord"> | string
+  reportedBy?: Prisma.StringNullableWithAggregatesFilter<"ConductRecord"> | string | null
+  reportedByUserId?: Prisma.StringNullableWithAggregatesFilter<"ConductRecord"> | string | null
   severity?: Prisma.IntWithAggregatesFilter<"ConductRecord"> | number
+  pointsDeducted?: Prisma.IntNullableWithAggregatesFilter<"ConductRecord"> | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusWithAggregatesFilter<"ConductRecord"> | $Enums.IncidentStatus
   actionTaken?: Prisma.StringNullableWithAggregatesFilter<"ConductRecord"> | string | null
+  resolutionNotes?: Prisma.StringNullableWithAggregatesFilter<"ConductRecord"> | string | null
+  resolvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ConductRecord"> | Date | string | null
+  resolvedBy?: Prisma.StringNullableWithAggregatesFilter<"ConductRecord"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ConductRecord"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ConductRecord"> | Date | string
 }
@@ -348,12 +430,19 @@ export type ConductRecordCreateInput = {
   description: string
   date?: Date | string
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutConductRecordsInput
   student: Prisma.StudentCreateNestedOneWithoutConductRecordsInput
-  teacher: Prisma.TeacherCreateNestedOneWithoutConductRecordsInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutConductRecordsInput
+  reportedByUser?: Prisma.UserCreateNestedOneWithoutConductRecordsReportedInput
+  pointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutConductRecordInput
 }
 
 export type ConductRecordUncheckedCreateInput = {
@@ -363,11 +452,18 @@ export type ConductRecordUncheckedCreateInput = {
   type: $Enums.ConductType
   description: string
   date?: Date | string
-  reportedBy: string
+  reportedBy?: string | null
+  reportedByUserId?: string | null
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutConductRecordInput
 }
 
 export type ConductRecordUpdateInput = {
@@ -376,12 +472,19 @@ export type ConductRecordUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutConductRecordsNestedInput
   student?: Prisma.StudentUpdateOneRequiredWithoutConductRecordsNestedInput
-  teacher?: Prisma.TeacherUpdateOneRequiredWithoutConductRecordsNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutConductRecordsNestedInput
+  reportedByUser?: Prisma.UserUpdateOneWithoutConductRecordsReportedNestedInput
+  pointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutConductRecordNestedInput
 }
 
 export type ConductRecordUncheckedUpdateInput = {
@@ -391,11 +494,18 @@ export type ConductRecordUncheckedUpdateInput = {
   type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reportedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutConductRecordNestedInput
 }
 
 export type ConductRecordCreateManyInput = {
@@ -405,9 +515,15 @@ export type ConductRecordCreateManyInput = {
   type: $Enums.ConductType
   description: string
   date?: Date | string
-  reportedBy: string
+  reportedBy?: string | null
+  reportedByUserId?: string | null
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -418,7 +534,12 @@ export type ConductRecordUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -430,9 +551,15 @@ export type ConductRecordUncheckedUpdateManyInput = {
   type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reportedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -455,14 +582,21 @@ export type ConductRecordCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   reportedBy?: Prisma.SortOrder
+  reportedByUserId?: Prisma.SortOrder
   severity?: Prisma.SortOrder
+  pointsDeducted?: Prisma.SortOrder
+  incidentStatus?: Prisma.SortOrder
   actionTaken?: Prisma.SortOrder
+  resolutionNotes?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ConductRecordAvgOrderByAggregateInput = {
   severity?: Prisma.SortOrder
+  pointsDeducted?: Prisma.SortOrder
 }
 
 export type ConductRecordMaxOrderByAggregateInput = {
@@ -473,8 +607,14 @@ export type ConductRecordMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   reportedBy?: Prisma.SortOrder
+  reportedByUserId?: Prisma.SortOrder
   severity?: Prisma.SortOrder
+  pointsDeducted?: Prisma.SortOrder
+  incidentStatus?: Prisma.SortOrder
   actionTaken?: Prisma.SortOrder
+  resolutionNotes?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -487,14 +627,26 @@ export type ConductRecordMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   date?: Prisma.SortOrder
   reportedBy?: Prisma.SortOrder
+  reportedByUserId?: Prisma.SortOrder
   severity?: Prisma.SortOrder
+  pointsDeducted?: Prisma.SortOrder
+  incidentStatus?: Prisma.SortOrder
   actionTaken?: Prisma.SortOrder
+  resolutionNotes?: Prisma.SortOrder
+  resolvedAt?: Prisma.SortOrder
+  resolvedBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ConductRecordSumOrderByAggregateInput = {
   severity?: Prisma.SortOrder
+  pointsDeducted?: Prisma.SortOrder
+}
+
+export type ConductRecordNullableScalarRelationFilter = {
+  is?: Prisma.ConductRecordWhereInput | null
+  isNot?: Prisma.ConductRecordWhereInput | null
 }
 
 export type ConductRecordCreateNestedManyWithoutTenantInput = {
@@ -536,6 +688,48 @@ export type ConductRecordUncheckedUpdateManyWithoutTenantNestedInput = {
   connect?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
   update?: Prisma.ConductRecordUpdateWithWhereUniqueWithoutTenantInput | Prisma.ConductRecordUpdateWithWhereUniqueWithoutTenantInput[]
   updateMany?: Prisma.ConductRecordUpdateManyWithWhereWithoutTenantInput | Prisma.ConductRecordUpdateManyWithWhereWithoutTenantInput[]
+  deleteMany?: Prisma.ConductRecordScalarWhereInput | Prisma.ConductRecordScalarWhereInput[]
+}
+
+export type ConductRecordCreateNestedManyWithoutReportedByUserInput = {
+  create?: Prisma.XOR<Prisma.ConductRecordCreateWithoutReportedByUserInput, Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput> | Prisma.ConductRecordCreateWithoutReportedByUserInput[] | Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput[]
+  connectOrCreate?: Prisma.ConductRecordCreateOrConnectWithoutReportedByUserInput | Prisma.ConductRecordCreateOrConnectWithoutReportedByUserInput[]
+  createMany?: Prisma.ConductRecordCreateManyReportedByUserInputEnvelope
+  connect?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+}
+
+export type ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput = {
+  create?: Prisma.XOR<Prisma.ConductRecordCreateWithoutReportedByUserInput, Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput> | Prisma.ConductRecordCreateWithoutReportedByUserInput[] | Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput[]
+  connectOrCreate?: Prisma.ConductRecordCreateOrConnectWithoutReportedByUserInput | Prisma.ConductRecordCreateOrConnectWithoutReportedByUserInput[]
+  createMany?: Prisma.ConductRecordCreateManyReportedByUserInputEnvelope
+  connect?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+}
+
+export type ConductRecordUpdateManyWithoutReportedByUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ConductRecordCreateWithoutReportedByUserInput, Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput> | Prisma.ConductRecordCreateWithoutReportedByUserInput[] | Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput[]
+  connectOrCreate?: Prisma.ConductRecordCreateOrConnectWithoutReportedByUserInput | Prisma.ConductRecordCreateOrConnectWithoutReportedByUserInput[]
+  upsert?: Prisma.ConductRecordUpsertWithWhereUniqueWithoutReportedByUserInput | Prisma.ConductRecordUpsertWithWhereUniqueWithoutReportedByUserInput[]
+  createMany?: Prisma.ConductRecordCreateManyReportedByUserInputEnvelope
+  set?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+  disconnect?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+  delete?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+  connect?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+  update?: Prisma.ConductRecordUpdateWithWhereUniqueWithoutReportedByUserInput | Prisma.ConductRecordUpdateWithWhereUniqueWithoutReportedByUserInput[]
+  updateMany?: Prisma.ConductRecordUpdateManyWithWhereWithoutReportedByUserInput | Prisma.ConductRecordUpdateManyWithWhereWithoutReportedByUserInput[]
+  deleteMany?: Prisma.ConductRecordScalarWhereInput | Prisma.ConductRecordScalarWhereInput[]
+}
+
+export type ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ConductRecordCreateWithoutReportedByUserInput, Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput> | Prisma.ConductRecordCreateWithoutReportedByUserInput[] | Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput[]
+  connectOrCreate?: Prisma.ConductRecordCreateOrConnectWithoutReportedByUserInput | Prisma.ConductRecordCreateOrConnectWithoutReportedByUserInput[]
+  upsert?: Prisma.ConductRecordUpsertWithWhereUniqueWithoutReportedByUserInput | Prisma.ConductRecordUpsertWithWhereUniqueWithoutReportedByUserInput[]
+  createMany?: Prisma.ConductRecordCreateManyReportedByUserInputEnvelope
+  set?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+  disconnect?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+  delete?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+  connect?: Prisma.ConductRecordWhereUniqueInput | Prisma.ConductRecordWhereUniqueInput[]
+  update?: Prisma.ConductRecordUpdateWithWhereUniqueWithoutReportedByUserInput | Prisma.ConductRecordUpdateWithWhereUniqueWithoutReportedByUserInput[]
+  updateMany?: Prisma.ConductRecordUpdateManyWithWhereWithoutReportedByUserInput | Prisma.ConductRecordUpdateManyWithWhereWithoutReportedByUserInput[]
   deleteMany?: Prisma.ConductRecordScalarWhereInput | Prisma.ConductRecordScalarWhereInput[]
 }
 
@@ -627,17 +821,44 @@ export type EnumConductTypeFieldUpdateOperationsInput = {
   set?: $Enums.ConductType
 }
 
+export type EnumIncidentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.IncidentStatus
+}
+
+export type ConductRecordCreateNestedOneWithoutPointTransactionsInput = {
+  create?: Prisma.XOR<Prisma.ConductRecordCreateWithoutPointTransactionsInput, Prisma.ConductRecordUncheckedCreateWithoutPointTransactionsInput>
+  connectOrCreate?: Prisma.ConductRecordCreateOrConnectWithoutPointTransactionsInput
+  connect?: Prisma.ConductRecordWhereUniqueInput
+}
+
+export type ConductRecordUpdateOneWithoutPointTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ConductRecordCreateWithoutPointTransactionsInput, Prisma.ConductRecordUncheckedCreateWithoutPointTransactionsInput>
+  connectOrCreate?: Prisma.ConductRecordCreateOrConnectWithoutPointTransactionsInput
+  upsert?: Prisma.ConductRecordUpsertWithoutPointTransactionsInput
+  disconnect?: Prisma.ConductRecordWhereInput | boolean
+  delete?: Prisma.ConductRecordWhereInput | boolean
+  connect?: Prisma.ConductRecordWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ConductRecordUpdateToOneWithWhereWithoutPointTransactionsInput, Prisma.ConductRecordUpdateWithoutPointTransactionsInput>, Prisma.ConductRecordUncheckedUpdateWithoutPointTransactionsInput>
+}
+
 export type ConductRecordCreateWithoutTenantInput = {
   id?: string
   type: $Enums.ConductType
   description: string
   date?: Date | string
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   student: Prisma.StudentCreateNestedOneWithoutConductRecordsInput
-  teacher: Prisma.TeacherCreateNestedOneWithoutConductRecordsInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutConductRecordsInput
+  reportedByUser?: Prisma.UserCreateNestedOneWithoutConductRecordsReportedInput
+  pointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutConductRecordInput
 }
 
 export type ConductRecordUncheckedCreateWithoutTenantInput = {
@@ -646,11 +867,18 @@ export type ConductRecordUncheckedCreateWithoutTenantInput = {
   type: $Enums.ConductType
   description: string
   date?: Date | string
-  reportedBy: string
+  reportedBy?: string | null
+  reportedByUserId?: string | null
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutConductRecordInput
 }
 
 export type ConductRecordCreateOrConnectWithoutTenantInput = {
@@ -689,11 +917,83 @@ export type ConductRecordScalarWhereInput = {
   type?: Prisma.EnumConductTypeFilter<"ConductRecord"> | $Enums.ConductType
   description?: Prisma.StringFilter<"ConductRecord"> | string
   date?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
-  reportedBy?: Prisma.StringFilter<"ConductRecord"> | string
+  reportedBy?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  reportedByUserId?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
   severity?: Prisma.IntFilter<"ConductRecord"> | number
+  pointsDeducted?: Prisma.IntNullableFilter<"ConductRecord"> | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFilter<"ConductRecord"> | $Enums.IncidentStatus
   actionTaken?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  resolutionNotes?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
+  resolvedAt?: Prisma.DateTimeNullableFilter<"ConductRecord"> | Date | string | null
+  resolvedBy?: Prisma.StringNullableFilter<"ConductRecord"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ConductRecord"> | Date | string
+}
+
+export type ConductRecordCreateWithoutReportedByUserInput = {
+  id?: string
+  type: $Enums.ConductType
+  description: string
+  date?: Date | string
+  severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
+  actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutConductRecordsInput
+  student: Prisma.StudentCreateNestedOneWithoutConductRecordsInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutConductRecordsInput
+  pointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutConductRecordInput
+}
+
+export type ConductRecordUncheckedCreateWithoutReportedByUserInput = {
+  id?: string
+  tenantId: string
+  studentId: string
+  type: $Enums.ConductType
+  description: string
+  date?: Date | string
+  reportedBy?: string | null
+  severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
+  actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutConductRecordInput
+}
+
+export type ConductRecordCreateOrConnectWithoutReportedByUserInput = {
+  where: Prisma.ConductRecordWhereUniqueInput
+  create: Prisma.XOR<Prisma.ConductRecordCreateWithoutReportedByUserInput, Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput>
+}
+
+export type ConductRecordCreateManyReportedByUserInputEnvelope = {
+  data: Prisma.ConductRecordCreateManyReportedByUserInput | Prisma.ConductRecordCreateManyReportedByUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type ConductRecordUpsertWithWhereUniqueWithoutReportedByUserInput = {
+  where: Prisma.ConductRecordWhereUniqueInput
+  update: Prisma.XOR<Prisma.ConductRecordUpdateWithoutReportedByUserInput, Prisma.ConductRecordUncheckedUpdateWithoutReportedByUserInput>
+  create: Prisma.XOR<Prisma.ConductRecordCreateWithoutReportedByUserInput, Prisma.ConductRecordUncheckedCreateWithoutReportedByUserInput>
+}
+
+export type ConductRecordUpdateWithWhereUniqueWithoutReportedByUserInput = {
+  where: Prisma.ConductRecordWhereUniqueInput
+  data: Prisma.XOR<Prisma.ConductRecordUpdateWithoutReportedByUserInput, Prisma.ConductRecordUncheckedUpdateWithoutReportedByUserInput>
+}
+
+export type ConductRecordUpdateManyWithWhereWithoutReportedByUserInput = {
+  where: Prisma.ConductRecordScalarWhereInput
+  data: Prisma.XOR<Prisma.ConductRecordUpdateManyMutationInput, Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserInput>
 }
 
 export type ConductRecordCreateWithoutStudentInput = {
@@ -702,11 +1002,18 @@ export type ConductRecordCreateWithoutStudentInput = {
   description: string
   date?: Date | string
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutConductRecordsInput
-  teacher: Prisma.TeacherCreateNestedOneWithoutConductRecordsInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutConductRecordsInput
+  reportedByUser?: Prisma.UserCreateNestedOneWithoutConductRecordsReportedInput
+  pointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutConductRecordInput
 }
 
 export type ConductRecordUncheckedCreateWithoutStudentInput = {
@@ -715,11 +1022,18 @@ export type ConductRecordUncheckedCreateWithoutStudentInput = {
   type: $Enums.ConductType
   description: string
   date?: Date | string
-  reportedBy: string
+  reportedBy?: string | null
+  reportedByUserId?: string | null
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutConductRecordInput
 }
 
 export type ConductRecordCreateOrConnectWithoutStudentInput = {
@@ -754,11 +1068,18 @@ export type ConductRecordCreateWithoutTeacherInput = {
   description: string
   date?: Date | string
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutConductRecordsInput
   student: Prisma.StudentCreateNestedOneWithoutConductRecordsInput
+  reportedByUser?: Prisma.UserCreateNestedOneWithoutConductRecordsReportedInput
+  pointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutConductRecordInput
 }
 
 export type ConductRecordUncheckedCreateWithoutTeacherInput = {
@@ -768,10 +1089,17 @@ export type ConductRecordUncheckedCreateWithoutTeacherInput = {
   type: $Enums.ConductType
   description: string
   date?: Date | string
+  reportedByUserId?: string | null
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutConductRecordInput
 }
 
 export type ConductRecordCreateOrConnectWithoutTeacherInput = {
@@ -800,15 +1128,117 @@ export type ConductRecordUpdateManyWithWhereWithoutTeacherInput = {
   data: Prisma.XOR<Prisma.ConductRecordUpdateManyMutationInput, Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherInput>
 }
 
+export type ConductRecordCreateWithoutPointTransactionsInput = {
+  id?: string
+  type: $Enums.ConductType
+  description: string
+  date?: Date | string
+  severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
+  actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutConductRecordsInput
+  student: Prisma.StudentCreateNestedOneWithoutConductRecordsInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutConductRecordsInput
+  reportedByUser?: Prisma.UserCreateNestedOneWithoutConductRecordsReportedInput
+}
+
+export type ConductRecordUncheckedCreateWithoutPointTransactionsInput = {
+  id?: string
+  tenantId: string
+  studentId: string
+  type: $Enums.ConductType
+  description: string
+  date?: Date | string
+  reportedBy?: string | null
+  reportedByUserId?: string | null
+  severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
+  actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ConductRecordCreateOrConnectWithoutPointTransactionsInput = {
+  where: Prisma.ConductRecordWhereUniqueInput
+  create: Prisma.XOR<Prisma.ConductRecordCreateWithoutPointTransactionsInput, Prisma.ConductRecordUncheckedCreateWithoutPointTransactionsInput>
+}
+
+export type ConductRecordUpsertWithoutPointTransactionsInput = {
+  update: Prisma.XOR<Prisma.ConductRecordUpdateWithoutPointTransactionsInput, Prisma.ConductRecordUncheckedUpdateWithoutPointTransactionsInput>
+  create: Prisma.XOR<Prisma.ConductRecordCreateWithoutPointTransactionsInput, Prisma.ConductRecordUncheckedCreateWithoutPointTransactionsInput>
+  where?: Prisma.ConductRecordWhereInput
+}
+
+export type ConductRecordUpdateToOneWithWhereWithoutPointTransactionsInput = {
+  where?: Prisma.ConductRecordWhereInput
+  data: Prisma.XOR<Prisma.ConductRecordUpdateWithoutPointTransactionsInput, Prisma.ConductRecordUncheckedUpdateWithoutPointTransactionsInput>
+}
+
+export type ConductRecordUpdateWithoutPointTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
+  actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConductRecordsNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutConductRecordsNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutConductRecordsNestedInput
+  reportedByUser?: Prisma.UserUpdateOneWithoutConductRecordsReportedNestedInput
+}
+
+export type ConductRecordUncheckedUpdateWithoutPointTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
+  actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ConductRecordCreateManyTenantInput = {
   id?: string
   studentId: string
   type: $Enums.ConductType
   description: string
   date?: Date | string
-  reportedBy: string
+  reportedBy?: string | null
+  reportedByUserId?: string | null
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -819,11 +1249,18 @@ export type ConductRecordUpdateWithoutTenantInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   student?: Prisma.StudentUpdateOneRequiredWithoutConductRecordsNestedInput
-  teacher?: Prisma.TeacherUpdateOneRequiredWithoutConductRecordsNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutConductRecordsNestedInput
+  reportedByUser?: Prisma.UserUpdateOneWithoutConductRecordsReportedNestedInput
+  pointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutConductRecordNestedInput
 }
 
 export type ConductRecordUncheckedUpdateWithoutTenantInput = {
@@ -832,11 +1269,18 @@ export type ConductRecordUncheckedUpdateWithoutTenantInput = {
   type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reportedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutConductRecordNestedInput
 }
 
 export type ConductRecordUncheckedUpdateManyWithoutTenantInput = {
@@ -845,9 +1289,93 @@ export type ConductRecordUncheckedUpdateManyWithoutTenantInput = {
   type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reportedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ConductRecordCreateManyReportedByUserInput = {
+  id?: string
+  tenantId: string
+  studentId: string
+  type: $Enums.ConductType
+  description: string
+  date?: Date | string
+  reportedBy?: string | null
+  severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
+  actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ConductRecordUpdateWithoutReportedByUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
+  actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutConductRecordsNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutConductRecordsNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutConductRecordsNestedInput
+  pointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutConductRecordNestedInput
+}
+
+export type ConductRecordUncheckedUpdateWithoutReportedByUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
+  actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutConductRecordNestedInput
+}
+
+export type ConductRecordUncheckedUpdateManyWithoutReportedByUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
+  actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -858,9 +1386,15 @@ export type ConductRecordCreateManyStudentInput = {
   type: $Enums.ConductType
   description: string
   date?: Date | string
-  reportedBy: string
+  reportedBy?: string | null
+  reportedByUserId?: string | null
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -871,11 +1405,18 @@ export type ConductRecordUpdateWithoutStudentInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutConductRecordsNestedInput
-  teacher?: Prisma.TeacherUpdateOneRequiredWithoutConductRecordsNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutConductRecordsNestedInput
+  reportedByUser?: Prisma.UserUpdateOneWithoutConductRecordsReportedNestedInput
+  pointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutConductRecordNestedInput
 }
 
 export type ConductRecordUncheckedUpdateWithoutStudentInput = {
@@ -884,11 +1425,18 @@ export type ConductRecordUncheckedUpdateWithoutStudentInput = {
   type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reportedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutConductRecordNestedInput
 }
 
 export type ConductRecordUncheckedUpdateManyWithoutStudentInput = {
@@ -897,9 +1445,15 @@ export type ConductRecordUncheckedUpdateManyWithoutStudentInput = {
   type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  reportedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  reportedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -911,8 +1465,14 @@ export type ConductRecordCreateManyTeacherInput = {
   type: $Enums.ConductType
   description: string
   date?: Date | string
+  reportedByUserId?: string | null
   severity?: number
+  pointsDeducted?: number | null
+  incidentStatus?: $Enums.IncidentStatus
   actionTaken?: string | null
+  resolutionNotes?: string | null
+  resolvedAt?: Date | string | null
+  resolvedBy?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -923,11 +1483,18 @@ export type ConductRecordUpdateWithoutTeacherInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutConductRecordsNestedInput
   student?: Prisma.StudentUpdateOneRequiredWithoutConductRecordsNestedInput
+  reportedByUser?: Prisma.UserUpdateOneWithoutConductRecordsReportedNestedInput
+  pointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutConductRecordNestedInput
 }
 
 export type ConductRecordUncheckedUpdateWithoutTeacherInput = {
@@ -937,10 +1504,17 @@ export type ConductRecordUncheckedUpdateWithoutTeacherInput = {
   type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutConductRecordNestedInput
 }
 
 export type ConductRecordUncheckedUpdateManyWithoutTeacherInput = {
@@ -950,12 +1524,47 @@ export type ConductRecordUncheckedUpdateManyWithoutTeacherInput = {
   type?: Prisma.EnumConductTypeFieldUpdateOperationsInput | $Enums.ConductType
   description?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  reportedByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   severity?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsDeducted?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  incidentStatus?: Prisma.EnumIncidentStatusFieldUpdateOperationsInput | $Enums.IncidentStatus
   actionTaken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolutionNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resolvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type ConductRecordCountOutputType
+ */
+
+export type ConductRecordCountOutputType = {
+  pointTransactions: number
+}
+
+export type ConductRecordCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pointTransactions?: boolean | ConductRecordCountOutputTypeCountPointTransactionsArgs
+}
+
+/**
+ * ConductRecordCountOutputType without action
+ */
+export type ConductRecordCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConductRecordCountOutputType
+   */
+  select?: Prisma.ConductRecordCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ConductRecordCountOutputType without action
+ */
+export type ConductRecordCountOutputTypeCountPointTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConductPointTransactionWhereInput
+}
 
 
 export type ConductRecordSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -966,13 +1575,22 @@ export type ConductRecordSelect<ExtArgs extends runtime.Types.Extensions.Interna
   description?: boolean
   date?: boolean
   reportedBy?: boolean
+  reportedByUserId?: boolean
   severity?: boolean
+  pointsDeducted?: boolean
+  incidentStatus?: boolean
   actionTaken?: boolean
+  resolutionNotes?: boolean
+  resolvedAt?: boolean
+  resolvedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.ConductRecord$teacherArgs<ExtArgs>
+  reportedByUser?: boolean | Prisma.ConductRecord$reportedByUserArgs<ExtArgs>
+  pointTransactions?: boolean | Prisma.ConductRecord$pointTransactionsArgs<ExtArgs>
+  _count?: boolean | Prisma.ConductRecordCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["conductRecord"]>
 
 export type ConductRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -983,13 +1601,20 @@ export type ConductRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   date?: boolean
   reportedBy?: boolean
+  reportedByUserId?: boolean
   severity?: boolean
+  pointsDeducted?: boolean
+  incidentStatus?: boolean
   actionTaken?: boolean
+  resolutionNotes?: boolean
+  resolvedAt?: boolean
+  resolvedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.ConductRecord$teacherArgs<ExtArgs>
+  reportedByUser?: boolean | Prisma.ConductRecord$reportedByUserArgs<ExtArgs>
 }, ExtArgs["result"]["conductRecord"]>
 
 export type ConductRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1000,13 +1625,20 @@ export type ConductRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   description?: boolean
   date?: boolean
   reportedBy?: boolean
+  reportedByUserId?: boolean
   severity?: boolean
+  pointsDeducted?: boolean
+  incidentStatus?: boolean
   actionTaken?: boolean
+  resolutionNotes?: boolean
+  resolvedAt?: boolean
+  resolvedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.ConductRecord$teacherArgs<ExtArgs>
+  reportedByUser?: boolean | Prisma.ConductRecord$reportedByUserArgs<ExtArgs>
 }, ExtArgs["result"]["conductRecord"]>
 
 export type ConductRecordSelectScalar = {
@@ -1017,27 +1649,38 @@ export type ConductRecordSelectScalar = {
   description?: boolean
   date?: boolean
   reportedBy?: boolean
+  reportedByUserId?: boolean
   severity?: boolean
+  pointsDeducted?: boolean
+  incidentStatus?: boolean
   actionTaken?: boolean
+  resolutionNotes?: boolean
+  resolvedAt?: boolean
+  resolvedBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ConductRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "studentId" | "type" | "description" | "date" | "reportedBy" | "severity" | "actionTaken" | "createdAt" | "updatedAt", ExtArgs["result"]["conductRecord"]>
+export type ConductRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "studentId" | "type" | "description" | "date" | "reportedBy" | "reportedByUserId" | "severity" | "pointsDeducted" | "incidentStatus" | "actionTaken" | "resolutionNotes" | "resolvedAt" | "resolvedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["conductRecord"]>
 export type ConductRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.ConductRecord$teacherArgs<ExtArgs>
+  reportedByUser?: boolean | Prisma.ConductRecord$reportedByUserArgs<ExtArgs>
+  pointTransactions?: boolean | Prisma.ConductRecord$pointTransactionsArgs<ExtArgs>
+  _count?: boolean | Prisma.ConductRecordCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ConductRecordIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.ConductRecord$teacherArgs<ExtArgs>
+  reportedByUser?: boolean | Prisma.ConductRecord$reportedByUserArgs<ExtArgs>
 }
 export type ConductRecordIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.ConductRecord$teacherArgs<ExtArgs>
+  reportedByUser?: boolean | Prisma.ConductRecord$reportedByUserArgs<ExtArgs>
 }
 
 export type $ConductRecordPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1045,7 +1688,9 @@ export type $ConductRecordPayload<ExtArgs extends runtime.Types.Extensions.Inter
   objects: {
     tenant: Prisma.$TenantPayload<ExtArgs>
     student: Prisma.$StudentPayload<ExtArgs>
-    teacher: Prisma.$TeacherPayload<ExtArgs>
+    teacher: Prisma.$TeacherPayload<ExtArgs> | null
+    reportedByUser: Prisma.$UserPayload<ExtArgs> | null
+    pointTransactions: Prisma.$ConductPointTransactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1054,9 +1699,15 @@ export type $ConductRecordPayload<ExtArgs extends runtime.Types.Extensions.Inter
     type: $Enums.ConductType
     description: string
     date: Date
-    reportedBy: string
+    reportedBy: string | null
+    reportedByUserId: string | null
     severity: number
+    pointsDeducted: number | null
+    incidentStatus: $Enums.IncidentStatus
     actionTaken: string | null
+    resolutionNotes: string | null
+    resolvedAt: Date | null
+    resolvedBy: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["conductRecord"]>
@@ -1455,7 +2106,9 @@ export interface Prisma__ConductRecordClient<T, Null = never, ExtArgs extends ru
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  teacher<T extends Prisma.ConductRecord$teacherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ConductRecord$teacherArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reportedByUser<T extends Prisma.ConductRecord$reportedByUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ConductRecord$reportedByUserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  pointTransactions<T extends Prisma.ConductRecord$pointTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ConductRecord$pointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductPointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1492,8 +2145,14 @@ export interface ConductRecordFieldRefs {
   readonly description: Prisma.FieldRef<"ConductRecord", 'String'>
   readonly date: Prisma.FieldRef<"ConductRecord", 'DateTime'>
   readonly reportedBy: Prisma.FieldRef<"ConductRecord", 'String'>
+  readonly reportedByUserId: Prisma.FieldRef<"ConductRecord", 'String'>
   readonly severity: Prisma.FieldRef<"ConductRecord", 'Int'>
+  readonly pointsDeducted: Prisma.FieldRef<"ConductRecord", 'Int'>
+  readonly incidentStatus: Prisma.FieldRef<"ConductRecord", 'IncidentStatus'>
   readonly actionTaken: Prisma.FieldRef<"ConductRecord", 'String'>
+  readonly resolutionNotes: Prisma.FieldRef<"ConductRecord", 'String'>
+  readonly resolvedAt: Prisma.FieldRef<"ConductRecord", 'DateTime'>
+  readonly resolvedBy: Prisma.FieldRef<"ConductRecord", 'String'>
   readonly createdAt: Prisma.FieldRef<"ConductRecord", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ConductRecord", 'DateTime'>
 }
@@ -1889,6 +2548,68 @@ export type ConductRecordDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many ConductRecords to delete.
    */
   limit?: number
+}
+
+/**
+ * ConductRecord.teacher
+ */
+export type ConductRecord$teacherArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Teacher
+   */
+  select?: Prisma.TeacherSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Teacher
+   */
+  omit?: Prisma.TeacherOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeacherInclude<ExtArgs> | null
+  where?: Prisma.TeacherWhereInput
+}
+
+/**
+ * ConductRecord.reportedByUser
+ */
+export type ConductRecord$reportedByUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * ConductRecord.pointTransactions
+ */
+export type ConductRecord$pointTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConductPointTransaction
+   */
+  select?: Prisma.ConductPointTransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ConductPointTransaction
+   */
+  omit?: Prisma.ConductPointTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConductPointTransactionInclude<ExtArgs> | null
+  where?: Prisma.ConductPointTransactionWhereInput
+  orderBy?: Prisma.ConductPointTransactionOrderByWithRelationInput | Prisma.ConductPointTransactionOrderByWithRelationInput[]
+  cursor?: Prisma.ConductPointTransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConductPointTransactionScalarFieldEnum | Prisma.ConductPointTransactionScalarFieldEnum[]
 }
 
 /**

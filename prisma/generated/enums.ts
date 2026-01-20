@@ -113,6 +113,23 @@ export const PermissionStatus = {
 export type PermissionStatus = (typeof PermissionStatus)[keyof typeof PermissionStatus]
 
 
+export const PermissionType = {
+  ONE_TIME: 'ONE_TIME',
+  RECURRING: 'RECURRING'
+} as const
+
+export type PermissionType = (typeof PermissionType)[keyof typeof PermissionType]
+
+
+export const PermissionRequestedBy = {
+  ADMIN: 'ADMIN',
+  TEACHER: 'TEACHER',
+  PARENT: 'PARENT'
+} as const
+
+export type PermissionRequestedBy = (typeof PermissionRequestedBy)[keyof typeof PermissionRequestedBy]
+
+
 export const ConductType = {
   WARNING: 'WARNING',
   SUSPENSION: 'SUSPENSION',
@@ -123,7 +140,27 @@ export const ConductType = {
 export type ConductType = (typeof ConductType)[keyof typeof ConductType]
 
 
+export const IncidentStatus = {
+  ACTIVE: 'ACTIVE',
+  IN_PROGRESS: 'IN_PROGRESS',
+  RESOLVED: 'RESOLVED'
+} as const
+
+export type IncidentStatus = (typeof IncidentStatus)[keyof typeof IncidentStatus]
+
+
+export const PointTransactionType = {
+  DEDUCTION: 'DEDUCTION',
+  ADDITION: 'ADDITION',
+  RESET: 'RESET',
+  INITIAL: 'INITIAL'
+} as const
+
+export type PointTransactionType = (typeof PointTransactionType)[keyof typeof PointTransactionType]
+
+
 export const SchoolLevel = {
+  NURSERY: 'NURSERY',
   PRIMARY: 'PRIMARY',
   SENIOR: 'SENIOR'
 } as const
@@ -132,6 +169,8 @@ export type SchoolLevel = (typeof SchoolLevel)[keyof typeof SchoolLevel]
 
 
 export const EducationLevel = {
+  NURSERY: 'NURSERY',
+  PRIMARY: 'PRIMARY',
   ORDINARY: 'ORDINARY',
   ADVANCED: 'ADVANCED'
 } as const

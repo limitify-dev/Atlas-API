@@ -44,23 +44,26 @@ export class AttendanceService {
             grade: true,
           },
         },
-        attendances: startOfDay && endOfDay ? {
-          where: {
-            createdAt: {
-              gte: startOfDay,
-              lte: endOfDay,
-            },
-          },
-          orderBy: {
-            createdAt: 'desc',
-          },
-          take: 1,
-        } : {
-          orderBy: {
-            createdAt: 'desc',
-          },
-          take: 1,
-        },
+        attendances:
+          startOfDay && endOfDay
+            ? {
+                where: {
+                  createdAt: {
+                    gte: startOfDay,
+                    lte: endOfDay,
+                  },
+                },
+                orderBy: {
+                  createdAt: 'desc',
+                },
+                take: 1,
+              }
+            : {
+                orderBy: {
+                  createdAt: 'desc',
+                },
+                take: 1,
+              },
         card: true,
       },
       orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
@@ -175,8 +178,10 @@ export class AttendanceService {
   async autoCheckIn(data: {
     cardNumber: string;
     tenantId: string;
+    date: string;
     location?: string;
   }) {
+    const dateEntry = new Date(data.date);
     // Find the card
     const card = await this.prisma.card.findFirst({
       where: {
@@ -199,7 +204,7 @@ export class AttendanceService {
     }
 
     // Parse the current datetime
-    const checkInDateTime = new Date();
+    const checkInDateTime = dateEntry;
 
     // Format check-in time for display (HH:mm) - use UTC to avoid timezone conversion
     const hour = checkInDateTime.getUTCHours();
@@ -248,27 +253,25 @@ export class AttendanceService {
         status,
       };
     } else if (card.teacher) {
-      // Teacher check-in (auto only)
-      const today = new Date();
-      const startOfDay = new Date(today);
+      // Teacher check-in (auto only) - use date from request body
+      const startOfDay = new Date(dateEntry);
       startOfDay.setUTCHours(0, 0, 0, 0);
-      const endOfDay = new Date(today);
+      const endOfDay = new Date(dateEntry);
       endOfDay.setUTCHours(23, 59, 59, 999);
 
       // Check if teacher already checked in today
-      const existingAttendance =
-        await this.prisma.teacherAttendance.findFirst({
-          where: {
-            tenantId: data.tenantId,
-            teacherId: card.teacherId!,
-            createdAt: {
-              gte: startOfDay,
-              lte: endOfDay,
-            },
+      const existingAttendance = await this.prisma.teacherAttendance.findFirst({
+        where: {
+          tenantId: data.tenantId,
+          teacherId: card.teacherId!,
+          createdAt: {
+            gte: startOfDay,
+            lte: endOfDay,
           },
-        });
+        },
+      });
 
-      let teacherAttendance;
+      let teacherAttendance: any;
 
       if (existingAttendance) {
         // Update existing attendance (check-out)
@@ -502,7 +505,12 @@ export class AttendanceService {
     };
   }
 
-  async getAllTeachers(tenantId: string, date?: string) {
+  async getAllTeachers(
+    tenantId: string,
+    date?: string,
+    page: number = 1,
+    pageSize: number = 10,
+  ) {
     let startOfDay: Date | undefined;
     let endOfDay: Date | undefined;
 
@@ -513,6 +521,8 @@ export class AttendanceService {
       endOfDay = new Date(targetDate);
       endOfDay.setUTCHours(23, 59, 59, 999);
     }
+
+    const skip = (page - 1) * pageSize;
 
     const teachers = await this.prisma.teacher.findMany({
       where: { tenantId },
@@ -540,6 +550,8 @@ export class AttendanceService {
         card: true,
       },
       orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
+      skip,
+      take: pageSize,
     });
 
     return teachers.map((teacher) => ({

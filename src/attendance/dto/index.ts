@@ -1,5 +1,14 @@
-import { IsString, IsNotEmpty, IsOptional, Matches } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  Matches,
+  IsDate,
+  IsArray,
+  ValidateNested,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 /**
  * Standard date format for all attendance operations: ISO 8601 (YYYY-MM-DDTHH:mm:ss.sssZ)
@@ -22,16 +31,14 @@ export class AutoCheckInDto {
   })
   @IsString()
   @IsNotEmpty()
-  @Matches(
-    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/,
-    {
-      message: 'Date must be in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.sssZ)',
-    },
-  )
+  @Matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/, {
+    message: 'Date must be in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.sssZ)',
+  })
   date: string;
 
   @ApiProperty({
-    description: 'Location where the card was scanned (e.g., entrance, classroom)',
+    description:
+      'Location where the card was scanned (e.g., entrance, classroom)',
     example: 'entrance',
     required: false,
   })
@@ -50,7 +57,8 @@ export class MarkAttendanceDto {
   studentId: string;
 
   @ApiProperty({
-    description: 'Date in ISO 8601 date format (YYYY-MM-DD) or datetime format (YYYY-MM-DDTHH:mm:ss.sssZ)',
+    description:
+      'Date in ISO 8601 date format (YYYY-MM-DD) or datetime format (YYYY-MM-DDTHH:mm:ss.sssZ)',
     example: '2024-01-15',
     format: 'date',
   })
@@ -83,7 +91,8 @@ export class MarkAttendanceDto {
   checkInTime?: string;
 
   @ApiProperty({
-    description: 'Check-in datetime (ISO 8601 format) - only for automatic check-ins',
+    description:
+      'Check-in datetime (ISO 8601 format) - only for automatic check-ins',
     example: '2024-01-15T08:30:00.000Z',
     required: false,
   })
@@ -107,4 +116,71 @@ export class MarkAttendanceDto {
   @IsString()
   @IsOptional()
   tenantId?: string;
+}
+
+/**
+ * DTO for Edge device attendance record
+ * Maps from Atlas-Edge format (card_id, timestamp) to backend format
+ */
+export class EdgeAttendanceRecordDto {
+  @ApiProperty({
+    description: 'Card ID/number from RFID reader',
+    example: '123456789',
+  })
+  @IsString()
+  @IsNotEmpty()
+  card_id: string;
+
+  @ApiProperty({
+    description: 'Timestamp in ISO 8601 format',
+    example: '2024-01-15T08:30:00.000Z',
+  })
+  @IsString()
+  @IsNotEmpty()
+  timestamp: string;
+
+  @ApiProperty({
+    description: 'Device ID that scanned the card',
+    example: 'atlas-edge-001',
+  })
+  @IsString()
+  @IsOptional()
+  device_id?: string;
+
+  @ApiProperty({
+    description: 'Device name',
+    example: 'Main Entrance',
+  })
+  @IsString()
+  @IsOptional()
+  device_name?: string;
+
+  @ApiProperty({
+    description: 'Location where the card was scanned',
+    example: 'Main Entrance',
+  })
+  @IsString()
+  @IsOptional()
+  location?: string;
+
+  @ApiProperty({
+    description: 'Whether this record has been synced (Edge internal)',
+    example: false,
+  })
+  @IsOptional()
+  synced?: boolean;
+}
+
+/**
+ * DTO for batch attendance sync from Atlas-Edge
+ */
+export class BatchAttendanceDto {
+  @ApiProperty({
+    description: 'Array of attendance records to sync',
+    type: [EdgeAttendanceRecordDto],
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => EdgeAttendanceRecordDto)
+  records: EdgeAttendanceRecordDto[];
 }

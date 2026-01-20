@@ -85,6 +85,17 @@ enum PermissionStatus {
   REJECTED
 }
 
+enum PermissionType {
+  ONE_TIME // Single use with QR code for temporary leave
+  RECURRING // Pre-scheduled recurring permission
+}
+
+enum PermissionRequestedBy {
+  ADMIN
+  TEACHER
+  PARENT
+}
+
 enum ConductType {
   WARNING
   SUSPENSION
@@ -92,12 +103,28 @@ enum ConductType {
   DETENTION
 }
 
+enum IncidentStatus {
+  ACTIVE
+  IN_PROGRESS
+  RESOLVED
+}
+
+enum PointTransactionType {
+  DEDUCTION // Points removed for violations
+  ADDITION // Points added for good behavior
+  RESET // Administrative reset
+  INITIAL // Initial point allocation
+}
+
 enum SchoolLevel {
+  NURSERY // N
   PRIMARY // P
   SENIOR // S (High School)
 }
 
 enum EducationLevel {
+  NURSERY // N-Level
+  PRIMARY // P-Level
   ORDINARY // O-Level (S1-S3)
   ADVANCED // A-Level (S4-S6)
 }
@@ -132,34 +159,37 @@ model Tenant {
   updatedAt             DateTime         @updatedAt
 
   // Relations
-  users                 User[]
-  students              Student[]
-  teachers              Teacher[]
-  parents               Parent[]
-  grades                Grade[]
-  sections              Section[]
-  combinations          Combination[]
-  subjects              Subject[]
-  attendances           Attendance[]
-  teacherAttendances    TeacherAttendance[]
-  books                 Book[]
-  bookTransactions      BookTransaction[]
-  buses                 Bus[]
-  busRoutes             BusRoute[]
-  transportAssignments  TransportAssignment[]
-  permissions           Permission[]
-  conductRecords        ConductRecord[]
-  messages              Message[]
-  announcements         Announcement[]
-  notifications         Notification[]
-  inventoryItems        InventoryItem[]
-  inventoryTransactions InventoryTransaction[]
-  events                Event[]
-  cards                 Card[]
-  cardLogs              CardLog[]
-  cardPermissions       CardPermission[]
-  devices               Device[]
-  deviceLogs            DeviceLog[]
+  users                    User[]
+  students                 Student[]
+  teachers                 Teacher[]
+  parents                  Parent[]
+  grades                   Grade[]
+  sections                 Section[]
+  combinations             Combination[]
+  subjects                 Subject[]
+  attendances              Attendance[]
+  teacherAttendances       TeacherAttendance[]
+  books                    Book[]
+  bookTransactions         BookTransaction[]
+  buses                    Bus[]
+  busRoutes                BusRoute[]
+  transportAssignments     TransportAssignment[]
+  permissions              Permission[]
+  conductRecords           ConductRecord[]
+  studentConductPoints     StudentConductPoints[]
+  conductPointTransactions ConductPointTransaction[]
+  permissionUsages         PermissionUsage[]
+  messages                 Message[]
+  announcements            Announcement[]
+  notifications            Notification[]
+  inventoryItems           InventoryItem[]
+  inventoryTransactions    InventoryTransaction[]
+  events                   Event[]
+  cards                    Card[]
+  cardLogs                 CardLog[]
+  cardPermissions          CardPermission[]
+  devices                  Device[]
+  deviceLogs               DeviceLog[]
 
   @@index([slug])
   @@index([status])
@@ -200,6 +230,7 @@ model User {
   sentAnnouncements     Announcement[]
   sentNotifications     Notification[]
   receivedNotifications NotificationRecipient[]
+  conductRecordsReported ConductRecord[]
 
   @@index([tenantId])
   @@index([email])
@@ -242,7 +273,6 @@ model RefreshToken {
   @@map("refresh_tokens")
 }
 
-
 // ============================================
 // STUDENT MODELS
 // ============================================
@@ -270,15 +300,16 @@ model Student {
   updatedAt     DateTime @updatedAt
 
   // Relations
-  tenant              Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user                User?                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  grade               Grade                @relation(fields: [gradeId], references: [id])
-  section             Section              @relation(fields: [sectionId], references: [id])
+  tenant              Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user                User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  grade               Grade                 @relation(fields: [gradeId], references: [id])
+  section             Section               @relation(fields: [sectionId], references: [id])
   parents             StudentParent[]
   attendances         Attendance[]
   borrowedBooks       BookTransaction[]
   transportAssignment TransportAssignment?
   conductRecords      ConductRecord[]
+  conductPoints       StudentConductPoints?
   permissions         Permission[]
   card                Card?
 
@@ -521,15 +552,15 @@ model Attendance {
 }
 
 model TeacherAttendance {
-  id          String           @id @default(uuid())
-  tenantId    String
-  teacherId   String
-  status      AttendanceStatus
-  checkInTime DateTime? // Actual check-in time
+  id           String           @id @default(uuid())
+  tenantId     String
+  teacherId    String
+  status       AttendanceStatus
+  checkInTime  DateTime? // Actual check-in time
   checkOutTime DateTime? // Check-out time for corporate attendance
-  remarks     String?
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  remarks      String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
 
   tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   teacher Teacher @relation(fields: [teacherId], references: [id], onDelete: Cascade)
@@ -676,27 +707,70 @@ model TransportAssignment {
 // ============================================
 
 model Permission {
-  id          String           @id @default(uuid())
-  tenantId    String
-  studentId   String
-  requestDate DateTime         @default(now())
+  id             String         @id @default(uuid())
+  tenantId       String
+  studentId      String
+  permissionType PermissionType @default(ONE_TIME)
+
+  // Request details
+  requestDate DateTime @default(now())
+  title       String? // Title for QR card display (e.g., "Medical Appointment")
+  reason      String
   fromDate    DateTime
   toDate      DateTime
-  reason      String
-  status      PermissionStatus @default(PENDING)
-  approvedBy  String?
-  approvedAt  DateTime?
-  remarks     String?
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  fromTime    String? // Time string "HH:mm" for recurring permissions
+  toTime      String? // Time string "HH:mm" for recurring permissions
 
-  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  // Recurring schedule (JSON for flexibility)
+  // Example: { "days": [1,3,5] } where 0=Sunday, 1=Monday, etc.
+  schedule Json?
+
+  // Approval workflow
+  status        PermissionStatus      @default(PENDING)
+  requestedBy   PermissionRequestedBy @default(ADMIN)
+  requestedById String // User ID of requester
+  approvedBy    String?
+  approvedAt    DateTime?
+  remarks       String?
+
+  // QR Code fields (for ONE_TIME permissions)
+  qrCode     String?   @db.Text // Encoded QR data
+  qrCodeUsed Boolean   @default(false)
+  usedAt     DateTime? // When the QR was scanned for checkout
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant  Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  student Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  usages  PermissionUsage[]
 
   @@index([tenantId])
   @@index([studentId])
   @@index([status])
+  @@index([permissionType])
+  @@index([fromDate, toDate])
+  @@index([qrCodeUsed])
   @@map("permissions")
+}
+
+// Track each use of recurring permissions
+model PermissionUsage {
+  id           String   @id @default(uuid())
+  tenantId     String
+  permissionId String
+  usedAt       DateTime @default(now())
+  checkoutTime DateTime
+  location     String?
+  cardLogId    String? // Reference to card log entry
+
+  tenant     Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([permissionId])
+  @@index([usedAt])
+  @@map("permission_usages")
 }
 
 model ConductRecord {
@@ -706,21 +780,81 @@ model ConductRecord {
   type        ConductType
   description String
   date        DateTime    @default(now())
-  reportedBy  String
-  severity    Int         @default(1)
-  actionTaken String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  reportedBy  String? // Optional - may be null for admin users without teacher record
+  reportedByUserId String? // Store user ID when reportedBy (teacher) is not available
+  severity    Int         @default(1) // 1=Minor, 2=Moderate, 3=Major
 
-  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  teacher Teacher @relation(fields: [reportedBy], references: [id])
+  // Point deduction
+  pointsDeducted Int? // Points deducted for this incident
+
+  // Resolution tracking
+  incidentStatus  IncidentStatus @default(ACTIVE)
+  actionTaken     String?
+  resolutionNotes String?
+  resolvedAt      DateTime?
+  resolvedBy      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant            Tenant                    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  student           Student                   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  teacher           Teacher?                  @relation(fields: [reportedBy], references: [id])
+  reportedByUser    User?                     @relation(fields: [reportedByUserId], references: [id])
+  pointTransactions ConductPointTransaction[]
 
   @@index([tenantId])
   @@index([studentId])
   @@index([type])
   @@index([date])
+  @@index([incidentStatus])
   @@map("conduct_records")
+}
+
+// Student conduct points - one record per student
+model StudentConductPoints {
+  id            String   @id @default(uuid())
+  tenantId      String
+  studentId     String   @unique // One record per student
+  currentPoints Int      @default(100) // Students start at 100
+  lastUpdatedAt DateTime @default(now())
+  createdAt     DateTime @default(now())
+
+  tenant       Tenant                    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  student      Student                   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  transactions ConductPointTransaction[]
+
+  @@index([tenantId])
+  @@index([currentPoints])
+  @@map("student_conduct_points")
+}
+
+// History of all point transactions
+model ConductPointTransaction {
+  id                     String  @id @default(uuid())
+  tenantId               String
+  studentConductPointsId String
+  conductRecordId        String? // Optional link to incident record
+
+  transactionType PointTransactionType
+  pointsChange    Int // Negative for deductions, positive for additions
+  pointsBefore    Int
+  pointsAfter     Int
+  reason          String
+
+  recordedBy String // Teacher/Admin ID
+  recordedAt DateTime @default(now())
+
+  tenant               Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  studentConductPoints StudentConductPoints @relation(fields: [studentConductPointsId], references: [id], onDelete: Cascade)
+  conductRecord        ConductRecord?       @relation(fields: [conductRecordId], references: [id])
+
+  @@index([tenantId])
+  @@index([studentConductPointsId])
+  @@index([conductRecordId])
+  @@index([recordedAt])
+  @@index([transactionType])
+  @@map("conduct_point_transactions")
 }
 
 // ============================================

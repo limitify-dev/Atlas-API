@@ -22,9 +22,15 @@ import { Response } from 'express';
 import * as XLSX from 'xlsx';
 import { AttendanceService } from './attendance.service';
 import { AttendanceAnalyticsService } from './attendance-analytics.service';
+import { TeacherAttendanceAnalyticsService } from './teacher-attendance-analytics.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { DeviceApiKeyGuard } from '../device/guards/device-api-key.guard';
-import { AutoCheckInDto, MarkAttendanceDto } from './dto';
+import {
+  AutoCheckInDto,
+  MarkAttendanceDto,
+  BatchAttendanceDto,
+  EdgeAttendanceRecordDto,
+} from './dto';
 
 @ApiTags('Attendance')
 @Controller('attendance')
@@ -32,6 +38,7 @@ export class AttendanceController {
   constructor(
     private readonly attendanceService: AttendanceService,
     private readonly analyticsService: AttendanceAnalyticsService,
+    private readonly teacherAnalyticsService: TeacherAttendanceAnalyticsService,
   ) {}
 
   @Get('students')
@@ -192,6 +199,101 @@ export class AttendanceController {
     });
   }
 
+  /**
+   * Batch auto check-in endpoint for Atlas-Edge devices
+   * Processes multiple attendance records from offline storage sync
+   */
+  @Post('batch')
+  @UseGuards(DeviceApiKeyGuard)
+  @ApiSecurity('device-api-key')
+  @ApiOperation({
+    summary: 'Batch auto check-in from Edge device',
+    description: `
+      Processes multiple attendance records from Atlas-Edge devices.
+      Used for syncing offline-stored attendance records.
+
+      **Authentication:** Requires device API key in Authorization header (Bearer token)
+
+      **Record Format:** Each record should contain:
+      - card_id: The RFID card number
+      - timestamp: ISO 8601 format timestamp
+      - device_id: Optional device identifier
+      - location: Optional location string
+    `,
+  })
+  @ApiBody({
+    type: BatchAttendanceDto,
+    description: 'Batch of attendance records from Edge device',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Batch processed successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        success: { type: 'boolean', example: true },
+        message: { type: 'string', example: 'Batch processed' },
+        count: { type: 'number', example: 45 },
+        results: {
+          type: 'object',
+          properties: {
+            successful: { type: 'number', example: 43 },
+            failed: { type: 'number', example: 2 },
+            records: { type: 'array' },
+          },
+        },
+      },
+    },
+  })
+  async batchAutoCheckIn(
+    @Request() req: any,
+    @Body() data: BatchAttendanceDto,
+  ) {
+    const tenantId = req.tenantId;
+    const results = {
+      successful: 0,
+      failed: 0,
+      records: [] as any[],
+      errors: [] as any[],
+    };
+
+    for (const record of data.records) {
+      try {
+        // Map Edge format to backend format
+        const result = await this.attendanceService.autoCheckIn({
+          cardNumber: record.card_id,
+          date: record.timestamp,
+          location: record.location || record.device_name || 'Edge Device',
+          tenantId,
+        });
+
+        results.successful++;
+        results.records.push({
+          card_id: record.card_id,
+          timestamp: record.timestamp,
+          success: true,
+          type: result.type,
+          status: result.status,
+        });
+      } catch (error) {
+        results.failed++;
+        results.errors.push({
+          card_id: record.card_id,
+          timestamp: record.timestamp,
+          success: false,
+          error: error.message || 'Unknown error',
+        });
+      }
+    }
+
+    return {
+      success: true,
+      message: 'Batch processed',
+      count: data.records.length,
+      results,
+    };
+  }
+
   @Get('report')
   @UseGuards(JwtAuthGuard)
   async getAttendanceReport(
@@ -246,12 +348,19 @@ export class AttendanceController {
     @Request() req: any,
     @Query('tenantId') tenantId?: string,
     @Query('date') date?: string,
+    @Query('page') page?: number,
+    @Query('pageSize') pageSize?: number,
   ) {
     const effectiveTenantId = tenantId || req.user.tenantId;
     if (!effectiveTenantId) {
       throw new Error('Tenant ID is required');
     }
-    return this.attendanceService.getAllTeachers(effectiveTenantId, date);
+    return this.attendanceService.getAllTeachers(
+      effectiveTenantId,
+      date,
+      page,
+      pageSize,
+    );
   }
 
   @Get('teachers/report')
@@ -311,7 +420,513 @@ export class AttendanceController {
   }
 
   // ============================================
-  // ANALYTICS ENDPOINTS
+  // TEACHER ANALYTICS ENDPOINTS
+  // ============================================
+
+  @Get('teachers/analytics/overview')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get teacher attendance analytics overview',
+    description:
+      'Retrieve comprehensive teacher attendance analytics overview with key metrics',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({
+    name: 'period',
+    required: false,
+    description: 'Period: today, week, month, quarter, year, custom',
+  })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  async getTeacherAnalyticsOverview(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getOverviewAnalytics(
+      effectiveTenantId,
+      period || 'month',
+      startDate,
+      endDate,
+    );
+  }
+
+  @Get('teachers/analytics/trend')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get teacher attendance trend data',
+    description: 'Retrieve daily teacher attendance trend data for visualization',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  async getTeacherAnalyticsTrend(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getAttendanceTrend(
+      effectiveTenantId,
+      period || 'month',
+      startDate,
+      endDate,
+    );
+  }
+
+  @Get('teachers/analytics/departments')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get department-wise teacher attendance analytics',
+    description:
+      'Retrieve attendance analytics for all departments with comparison metrics',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  async getDepartmentAnalytics(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getDepartmentAnalytics(
+      effectiveTenantId,
+      period || 'month',
+      startDate,
+      endDate,
+    );
+  }
+
+  @Get('teachers/analytics/all')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get all teachers attendance analytics',
+    description:
+      'Retrieve attendance analytics for all teachers with filtering options',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  @ApiQuery({ name: 'department', required: false })
+  async getAllTeachersAnalytics(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+    @Query('department') department?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getAllTeachersAnalytics(
+      effectiveTenantId,
+      period || 'month',
+      startDate,
+      endDate,
+      department,
+    );
+  }
+
+  @Get('teachers/analytics/teacher/:teacherId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get individual teacher attendance analytics',
+    description:
+      'Retrieve detailed attendance analytics for a specific teacher',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  async getTeacherAnalytics(
+    @Request() req: any,
+    @Param('teacherId') teacherId: string,
+    @Query('tenantId') tenantId?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getTeacherAnalytics(
+      effectiveTenantId,
+      teacherId,
+      period || 'month',
+      startDate,
+      endDate,
+    );
+  }
+
+  @Get('teachers/analytics/at-risk')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get at-risk teachers',
+    description:
+      'Retrieve teachers with attendance below the specified threshold',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({
+    name: 'threshold',
+    required: false,
+    description: 'Attendance rate threshold (default: 85)',
+  })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  async getAtRiskTeachers(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('threshold') threshold?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getAtRiskTeachers(
+      effectiveTenantId,
+      threshold ? parseInt(threshold, 10) : 85,
+      period || 'month',
+      startDate,
+      endDate,
+    );
+  }
+
+  @Get('teachers/analytics/top-performers')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get top performing teachers',
+    description: 'Retrieve teachers with the best attendance records',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Number of teachers to return (default: 10)',
+  })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  async getTopPerformingTeachers(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('limit') limit?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getTopPerformers(
+      effectiveTenantId,
+      limit ? parseInt(limit, 10) : 10,
+      period || 'month',
+      startDate,
+      endDate,
+    );
+  }
+
+  @Get('teachers/analytics/day-of-week')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get day of week teacher attendance analytics',
+    description: 'Retrieve average teacher attendance rates by day of week',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({ name: 'period', required: false })
+  async getTeacherDayOfWeekAnalytics(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('period') period?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getDayOfWeekAnalytics(
+      effectiveTenantId,
+      period || 'quarter',
+    );
+  }
+
+  @Get('teachers/analytics/monthly-comparison')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get monthly teacher attendance comparison',
+    description: 'Retrieve teacher attendance rates comparison across months',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({
+    name: 'months',
+    required: false,
+    description: 'Number of months to compare (default: 6)',
+  })
+  async getTeacherMonthlyComparison(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('months') months?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.getMonthlyComparison(
+      effectiveTenantId,
+      months ? parseInt(months, 10) : 6,
+    );
+  }
+
+  @Get('teachers/analytics/report')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Generate teacher attendance report data',
+    description: 'Generate comprehensive teacher report data for export',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({
+    name: 'reportType',
+    required: true,
+    description: 'Report type: summary, detailed, department, teacher',
+  })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  @ApiQuery({ name: 'department', required: false })
+  @ApiQuery({ name: 'teacherId', required: false })
+  async generateTeacherReport(
+    @Request() req: any,
+    @Query('tenantId') tenantId?: string,
+    @Query('reportType') reportType?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+    @Query('department') department?: string,
+    @Query('teacherId') teacherId?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.teacherAnalyticsService.generateReportData(
+      effectiveTenantId,
+      (reportType as 'summary' | 'detailed' | 'department' | 'teacher') ||
+        'summary',
+      period || 'month',
+      startDate,
+      endDate,
+      department,
+      teacherId,
+    );
+  }
+
+  @Get('teachers/analytics/export')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Export teacher attendance report as Excel',
+    description: 'Download teacher attendance report in Excel format',
+  })
+  @ApiQuery({ name: 'tenantId', required: false })
+  @ApiQuery({ name: 'reportType', required: false })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  @ApiQuery({ name: 'department', required: false })
+  async exportTeacherReport(
+    @Request() req: any,
+    @Res() res: Response,
+    @Query('tenantId') tenantId?: string,
+    @Query('reportType') reportType?: string,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+    @Query('department') department?: string,
+  ) {
+    const effectiveTenantId = tenantId || req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+
+    const reportData = await this.teacherAnalyticsService.generateReportData(
+      effectiveTenantId,
+      (reportType as 'summary' | 'detailed' | 'department' | 'teacher') ||
+        'summary',
+      period || 'month',
+      startDate,
+      endDate,
+      department,
+    );
+
+    // Create workbook
+    const workbook = XLSX.utils.book_new();
+
+    // Add overview sheet if available
+    if (reportData.overview) {
+      const overviewData = [
+        ['Teacher Attendance Report Overview'],
+        ['Generated At', reportData.generatedAt],
+        ['School', reportData.schoolName],
+        ['Period', `${reportData.period.start} to ${reportData.period.end}`],
+        [],
+        ['Metric', 'Value'],
+        ['Total Teachers', reportData.overview.totalTeachers],
+        [
+          'Average Attendance Rate',
+          `${reportData.overview.averageAttendanceRate}%`,
+        ],
+        ['Present Today', reportData.overview.presentToday],
+        ['Absent Today', reportData.overview.absentToday],
+        ['Late Today', reportData.overview.lateToday],
+        ['Teachers At Risk', reportData.overview.teachersAtRisk],
+        ['Perfect Attendance', reportData.overview.perfectAttendanceCount],
+        [
+          'Average Work Hours Today',
+          reportData.overview.averageWorkHoursToday
+            ? `${reportData.overview.averageWorkHoursToday} hrs`
+            : 'N/A',
+        ],
+      ];
+      const overviewSheet = XLSX.utils.aoa_to_sheet(overviewData);
+      XLSX.utils.book_append_sheet(workbook, overviewSheet, 'Overview');
+    }
+
+    // Add departments sheet if available
+    if (reportData.departments && reportData.departments.length > 0) {
+      const departmentData = [
+        [
+          'Department',
+          'Total Teachers',
+          'Present',
+          'Absent',
+          'Late',
+          'Excused',
+          'Attendance Rate',
+          'Trend',
+        ],
+        ...reportData.departments.map((d: any) => [
+          d.department,
+          d.totalTeachers,
+          d.presentCount,
+          d.absentCount,
+          d.lateCount,
+          d.excusedCount,
+          `${d.attendanceRate}%`,
+          `${d.trend} (${d.trendPercentage > 0 ? '+' : ''}${d.trendPercentage}%)`,
+        ]),
+      ];
+      const departmentSheet = XLSX.utils.aoa_to_sheet(departmentData);
+      XLSX.utils.book_append_sheet(workbook, departmentSheet, 'Departments');
+    }
+
+    // Add teachers sheet if available
+    if (reportData.teachers && reportData.teachers.length > 0) {
+      const teacherData = [
+        [
+          'Teacher ID',
+          'Name',
+          'Email',
+          'Department',
+          'Total Days',
+          'Present',
+          'Absent',
+          'Late',
+          'Excused',
+          'Attendance Rate',
+          'Risk Level',
+        ],
+        ...reportData.teachers.map((t: any) => [
+          t.teacherId,
+          `${t.firstName} ${t.lastName}`,
+          t.email || 'N/A',
+          t.department || 'Unassigned',
+          t.totalDays,
+          t.presentDays,
+          t.absentDays,
+          t.lateDays,
+          t.excusedDays,
+          `${t.attendanceRate}%`,
+          t.riskLevel,
+        ]),
+      ];
+      const teacherSheet = XLSX.utils.aoa_to_sheet(teacherData);
+      XLSX.utils.book_append_sheet(workbook, teacherSheet, 'Teachers');
+    }
+
+    // Add at-risk teachers sheet if available
+    if (reportData.atRiskTeachers && reportData.atRiskTeachers.length > 0) {
+      const atRiskData = [
+        [
+          'Teacher ID',
+          'Name',
+          'Department',
+          'Attendance Rate',
+          'Last Absence',
+        ],
+        ...reportData.atRiskTeachers.map((t: any) => [
+          t.teacherId,
+          `${t.firstName} ${t.lastName}`,
+          t.department || 'Unassigned',
+          `${t.attendanceRate}%`,
+          t.lastAbsenceDate || 'N/A',
+        ]),
+      ];
+      const atRiskSheet = XLSX.utils.aoa_to_sheet(atRiskData);
+      XLSX.utils.book_append_sheet(workbook, atRiskSheet, 'At Risk Teachers');
+    }
+
+    // Generate buffer
+    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+
+    // Set headers and send
+    const filename = `teacher_attendance_report_${new Date().toISOString().split('T')[0]}.xlsx`;
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    );
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.send(buffer);
+  }
+
+  // ============================================
+  // STUDENT ANALYTICS ENDPOINTS
   // ============================================
 
   @Get('analytics/overview')
@@ -319,12 +934,25 @@ export class AttendanceController {
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get attendance analytics overview',
-    description: 'Retrieve comprehensive attendance analytics overview with key metrics',
+    description:
+      'Retrieve comprehensive attendance analytics overview with key metrics',
   })
   @ApiQuery({ name: 'tenantId', required: false })
-  @ApiQuery({ name: 'period', required: false, description: 'Period: today, week, month, quarter, year, custom' })
-  @ApiQuery({ name: 'startDate', required: false, description: 'Custom start date (YYYY-MM-DD)' })
-  @ApiQuery({ name: 'endDate', required: false, description: 'Custom end date (YYYY-MM-DD)' })
+  @ApiQuery({
+    name: 'period',
+    required: false,
+    description: 'Period: today, week, month, quarter, year, custom',
+  })
+  @ApiQuery({
+    name: 'startDate',
+    required: false,
+    description: 'Custom start date (YYYY-MM-DD)',
+  })
+  @ApiQuery({
+    name: 'endDate',
+    required: false,
+    description: 'Custom end date (YYYY-MM-DD)',
+  })
   async getAnalyticsOverview(
     @Request() req: any,
     @Query('tenantId') tenantId?: string,
@@ -379,7 +1007,8 @@ export class AttendanceController {
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get classroom-wise attendance analytics',
-    description: 'Retrieve attendance analytics for all classrooms with comparison metrics',
+    description:
+      'Retrieve attendance analytics for all classrooms with comparison metrics',
   })
   @ApiQuery({ name: 'tenantId', required: false })
   @ApiQuery({ name: 'period', required: false })
@@ -409,7 +1038,8 @@ export class AttendanceController {
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get all students attendance analytics',
-    description: 'Retrieve attendance analytics for all students with filtering options',
+    description:
+      'Retrieve attendance analytics for all students with filtering options',
   })
   @ApiQuery({ name: 'tenantId', required: false })
   @ApiQuery({ name: 'period', required: false })
@@ -445,7 +1075,8 @@ export class AttendanceController {
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get individual student attendance analytics',
-    description: 'Retrieve detailed attendance analytics for a specific student',
+    description:
+      'Retrieve detailed attendance analytics for a specific student',
   })
   @ApiQuery({ name: 'tenantId', required: false })
   @ApiQuery({ name: 'period', required: false })
@@ -477,10 +1108,15 @@ export class AttendanceController {
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get at-risk students',
-    description: 'Retrieve students with attendance below the specified threshold',
+    description:
+      'Retrieve students with attendance below the specified threshold',
   })
   @ApiQuery({ name: 'tenantId', required: false })
-  @ApiQuery({ name: 'threshold', required: false, description: 'Attendance rate threshold (default: 85)' })
+  @ApiQuery({
+    name: 'threshold',
+    required: false,
+    description: 'Attendance rate threshold (default: 85)',
+  })
   @ApiQuery({ name: 'period', required: false })
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
@@ -513,7 +1149,11 @@ export class AttendanceController {
     description: 'Retrieve students with the best attendance records',
   })
   @ApiQuery({ name: 'tenantId', required: false })
-  @ApiQuery({ name: 'limit', required: false, description: 'Number of students to return (default: 10)' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Number of students to return (default: 10)',
+  })
   @ApiQuery({ name: 'period', required: false })
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
@@ -570,7 +1210,11 @@ export class AttendanceController {
     description: 'Retrieve attendance rates comparison across months',
   })
   @ApiQuery({ name: 'tenantId', required: false })
-  @ApiQuery({ name: 'months', required: false, description: 'Number of months to compare (default: 6)' })
+  @ApiQuery({
+    name: 'months',
+    required: false,
+    description: 'Number of months to compare (default: 6)',
+  })
   async getMonthlyComparison(
     @Request() req: any,
     @Query('tenantId') tenantId?: string,
@@ -594,7 +1238,11 @@ export class AttendanceController {
     description: 'Generate comprehensive report data for export',
   })
   @ApiQuery({ name: 'tenantId', required: false })
-  @ApiQuery({ name: 'reportType', required: true, description: 'Report type: summary, detailed, classroom, student' })
+  @ApiQuery({
+    name: 'reportType',
+    required: true,
+    description: 'Report type: summary, detailed, classroom, student',
+  })
   @ApiQuery({ name: 'period', required: false })
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
@@ -616,7 +1264,8 @@ export class AttendanceController {
     }
     return this.analyticsService.generateReportData(
       effectiveTenantId,
-      (reportType as 'summary' | 'detailed' | 'classroom' | 'student') || 'summary',
+      (reportType as 'summary' | 'detailed' | 'classroom' | 'student') ||
+        'summary',
       period || 'month',
       startDate,
       endDate,
@@ -655,7 +1304,8 @@ export class AttendanceController {
 
     const reportData = await this.analyticsService.generateReportData(
       effectiveTenantId,
-      (reportType as 'summary' | 'detailed' | 'classroom' | 'student') || 'summary',
+      (reportType as 'summary' | 'detailed' | 'classroom' | 'student') ||
+        'summary',
       period || 'month',
       startDate,
       endDate,
@@ -675,7 +1325,10 @@ export class AttendanceController {
         [],
         ['Metric', 'Value'],
         ['Total Students', reportData.overview.totalStudents],
-        ['Average Attendance Rate', `${reportData.overview.averageAttendanceRate}%`],
+        [
+          'Average Attendance Rate',
+          `${reportData.overview.averageAttendanceRate}%`,
+        ],
         ['Present Today', reportData.overview.presentToday],
         ['Absent Today', reportData.overview.absentToday],
         ['Late Today', reportData.overview.lateToday],
@@ -689,7 +1342,17 @@ export class AttendanceController {
     // Add classrooms sheet if available
     if (reportData.classrooms && reportData.classrooms.length > 0) {
       const classroomData = [
-        ['Grade', 'Section', 'Total Students', 'Present', 'Absent', 'Late', 'Excused', 'Attendance Rate', 'Trend'],
+        [
+          'Grade',
+          'Section',
+          'Total Students',
+          'Present',
+          'Absent',
+          'Late',
+          'Excused',
+          'Attendance Rate',
+          'Trend',
+        ],
         ...reportData.classrooms.map((c: any) => [
           c.gradeName,
           c.sectionName,
@@ -709,7 +1372,19 @@ export class AttendanceController {
     // Add students sheet if available
     if (reportData.students && reportData.students.length > 0) {
       const studentData = [
-        ['Student ID', 'Name', 'Grade', 'Section', 'Total Days', 'Present', 'Absent', 'Late', 'Excused', 'Attendance Rate', 'Risk Level'],
+        [
+          'Student ID',
+          'Name',
+          'Grade',
+          'Section',
+          'Total Days',
+          'Present',
+          'Absent',
+          'Late',
+          'Excused',
+          'Attendance Rate',
+          'Risk Level',
+        ],
         ...reportData.students.map((s: any) => [
           s.studentId,
           `${s.firstName} ${s.lastName}`,
@@ -731,7 +1406,14 @@ export class AttendanceController {
     // Add at-risk students sheet if available
     if (reportData.atRiskStudents && reportData.atRiskStudents.length > 0) {
       const atRiskData = [
-        ['Student ID', 'Name', 'Grade', 'Section', 'Attendance Rate', 'Last Absence'],
+        [
+          'Student ID',
+          'Name',
+          'Grade',
+          'Section',
+          'Attendance Rate',
+          'Last Absence',
+        ],
         ...reportData.atRiskStudents.map((s: any) => [
           s.studentId,
           `${s.firstName} ${s.lastName}`,
@@ -750,7 +1432,10 @@ export class AttendanceController {
 
     // Set headers and send
     const filename = `attendance_report_${new Date().toISOString().split('T')[0]}.xlsx`;
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    );
     res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
     res.send(buffer);
   }

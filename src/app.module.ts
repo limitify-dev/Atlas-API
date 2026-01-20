@@ -25,6 +25,8 @@ import { CardsModule } from './cards/cards.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DeviceModule } from './device/device.module';
 import { SystemLogsModule } from './system-logs/system-logs.module';
+import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -56,6 +58,8 @@ import { ConfigModule } from '@nestjs/config';
     DashboardModule,
     DeviceModule,
     SystemLogsModule,
+    PlatformAnalyticsModule,
+    SubscriptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

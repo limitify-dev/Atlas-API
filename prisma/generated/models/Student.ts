@@ -311,6 +311,7 @@ export type StudentWhereInput = {
   borrowedBooks?: Prisma.BookTransactionListRelationFilter
   transportAssignment?: Prisma.XOR<Prisma.TransportAssignmentNullableScalarRelationFilter, Prisma.TransportAssignmentWhereInput> | null
   conductRecords?: Prisma.ConductRecordListRelationFilter
+  conductPoints?: Prisma.XOR<Prisma.StudentConductPointsNullableScalarRelationFilter, Prisma.StudentConductPointsWhereInput> | null
   permissions?: Prisma.PermissionListRelationFilter
   card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
 }
@@ -345,6 +346,7 @@ export type StudentOrderByWithRelationInput = {
   borrowedBooks?: Prisma.BookTransactionOrderByRelationAggregateInput
   transportAssignment?: Prisma.TransportAssignmentOrderByWithRelationInput
   conductRecords?: Prisma.ConductRecordOrderByRelationAggregateInput
+  conductPoints?: Prisma.StudentConductPointsOrderByWithRelationInput
   permissions?: Prisma.PermissionOrderByRelationAggregateInput
   card?: Prisma.CardOrderByWithRelationInput
 }
@@ -383,6 +385,7 @@ export type StudentWhereUniqueInput = Prisma.AtLeast<{
   borrowedBooks?: Prisma.BookTransactionListRelationFilter
   transportAssignment?: Prisma.XOR<Prisma.TransportAssignmentNullableScalarRelationFilter, Prisma.TransportAssignmentWhereInput> | null
   conductRecords?: Prisma.ConductRecordListRelationFilter
+  conductPoints?: Prisma.XOR<Prisma.StudentConductPointsNullableScalarRelationFilter, Prisma.StudentConductPointsWhereInput> | null
   permissions?: Prisma.PermissionListRelationFilter
   card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
 }, "id" | "userId" | "tenantId_studentId">
@@ -465,6 +468,7 @@ export type StudentCreateInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -495,6 +499,7 @@ export type StudentUncheckedCreateInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -525,6 +530,7 @@ export type StudentUpdateInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -555,6 +561,7 @@ export type StudentUncheckedUpdateInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -964,6 +971,20 @@ export type StudentUpdateOneRequiredWithoutConductRecordsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.StudentUpdateToOneWithWhereWithoutConductRecordsInput, Prisma.StudentUpdateWithoutConductRecordsInput>, Prisma.StudentUncheckedUpdateWithoutConductRecordsInput>
 }
 
+export type StudentCreateNestedOneWithoutConductPointsInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutConductPointsInput, Prisma.StudentUncheckedCreateWithoutConductPointsInput>
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutConductPointsInput
+  connect?: Prisma.StudentWhereUniqueInput
+}
+
+export type StudentUpdateOneRequiredWithoutConductPointsNestedInput = {
+  create?: Prisma.XOR<Prisma.StudentCreateWithoutConductPointsInput, Prisma.StudentUncheckedCreateWithoutConductPointsInput>
+  connectOrCreate?: Prisma.StudentCreateOrConnectWithoutConductPointsInput
+  upsert?: Prisma.StudentUpsertWithoutConductPointsInput
+  connect?: Prisma.StudentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StudentUpdateToOneWithWhereWithoutConductPointsInput, Prisma.StudentUpdateWithoutConductPointsInput>, Prisma.StudentUncheckedUpdateWithoutConductPointsInput>
+}
+
 export type StudentCreateNestedOneWithoutCardInput = {
   create?: Prisma.XOR<Prisma.StudentCreateWithoutCardInput, Prisma.StudentUncheckedCreateWithoutCardInput>
   connectOrCreate?: Prisma.StudentCreateOrConnectWithoutCardInput
@@ -1005,6 +1026,7 @@ export type StudentCreateWithoutTenantInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -1034,6 +1056,7 @@ export type StudentUncheckedCreateWithoutTenantInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -1115,6 +1138,7 @@ export type StudentCreateWithoutUserInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -1144,6 +1168,7 @@ export type StudentUncheckedCreateWithoutUserInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -1189,6 +1214,7 @@ export type StudentUpdateWithoutUserInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -1218,6 +1244,7 @@ export type StudentUncheckedUpdateWithoutUserInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -1247,6 +1274,7 @@ export type StudentCreateWithoutParentsInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -1276,6 +1304,7 @@ export type StudentUncheckedCreateWithoutParentsInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -1321,6 +1350,7 @@ export type StudentUpdateWithoutParentsInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -1350,6 +1380,7 @@ export type StudentUncheckedUpdateWithoutParentsInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -1379,6 +1410,7 @@ export type StudentCreateWithoutGradeInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -1408,6 +1440,7 @@ export type StudentUncheckedCreateWithoutGradeInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -1463,6 +1496,7 @@ export type StudentCreateWithoutSectionInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -1492,6 +1526,7 @@ export type StudentUncheckedCreateWithoutSectionInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -1547,6 +1582,7 @@ export type StudentCreateWithoutAttendancesInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -1576,6 +1612,7 @@ export type StudentUncheckedCreateWithoutAttendancesInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -1621,6 +1658,7 @@ export type StudentUpdateWithoutAttendancesInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -1650,6 +1688,7 @@ export type StudentUncheckedUpdateWithoutAttendancesInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -1679,6 +1718,7 @@ export type StudentCreateWithoutBorrowedBooksInput = {
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -1708,6 +1748,7 @@ export type StudentUncheckedCreateWithoutBorrowedBooksInput = {
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -1753,6 +1794,7 @@ export type StudentUpdateWithoutBorrowedBooksInput = {
   attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -1782,6 +1824,7 @@ export type StudentUncheckedUpdateWithoutBorrowedBooksInput = {
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -1811,6 +1854,7 @@ export type StudentCreateWithoutTransportAssignmentInput = {
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -1840,6 +1884,7 @@ export type StudentUncheckedCreateWithoutTransportAssignmentInput = {
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -1885,6 +1930,7 @@ export type StudentUpdateWithoutTransportAssignmentInput = {
   attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -1914,6 +1960,7 @@ export type StudentUncheckedUpdateWithoutTransportAssignmentInput = {
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -1944,6 +1991,7 @@ export type StudentCreateWithoutPermissionsInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
 
@@ -1973,6 +2021,7 @@ export type StudentUncheckedCreateWithoutPermissionsInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
 
@@ -2018,6 +2067,7 @@ export type StudentUpdateWithoutPermissionsInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
 
@@ -2047,6 +2097,7 @@ export type StudentUncheckedUpdateWithoutPermissionsInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
 
@@ -2075,6 +2126,7 @@ export type StudentCreateWithoutConductRecordsInput = {
   attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
   card?: Prisma.CardCreateNestedOneWithoutStudentInput
 }
@@ -2104,6 +2156,7 @@ export type StudentUncheckedCreateWithoutConductRecordsInput = {
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
   card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
 }
@@ -2149,6 +2202,7 @@ export type StudentUpdateWithoutConductRecordsInput = {
   attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -2178,6 +2232,143 @@ export type StudentUncheckedUpdateWithoutConductRecordsInput = {
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
+  card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
+}
+
+export type StudentCreateWithoutConductPointsInput = {
+  id?: string
+  studentId: string
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  dateOfBirth: Date | string
+  gender: $Enums.Gender
+  bloodGroup?: string | null
+  nationality?: string | null
+  address?: string | null
+  photoUrl?: string | null
+  rollNumber?: string | null
+  admissionDate: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tenant: Prisma.TenantCreateNestedOneWithoutStudentsInput
+  user?: Prisma.UserCreateNestedOneWithoutStudentInput
+  grade: Prisma.GradeCreateNestedOneWithoutStudentsInput
+  section: Prisma.SectionCreateNestedOneWithoutStudentsInput
+  parents?: Prisma.StudentParentCreateNestedManyWithoutStudentInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutStudentInput
+  borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
+  transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
+  card?: Prisma.CardCreateNestedOneWithoutStudentInput
+}
+
+export type StudentUncheckedCreateWithoutConductPointsInput = {
+  id?: string
+  tenantId: string
+  userId?: string | null
+  studentId: string
+  firstName: string
+  lastName: string
+  email?: string | null
+  phone?: string | null
+  dateOfBirth: Date | string
+  gender: $Enums.Gender
+  bloodGroup?: string | null
+  nationality?: string | null
+  address?: string | null
+  photoUrl?: string | null
+  rollNumber?: string | null
+  admissionDate: Date | string
+  gradeId: string
+  sectionId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  parents?: Prisma.StudentParentUncheckedCreateNestedManyWithoutStudentInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutStudentInput
+  borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
+  transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
+  card?: Prisma.CardUncheckedCreateNestedOneWithoutStudentInput
+}
+
+export type StudentCreateOrConnectWithoutConductPointsInput = {
+  where: Prisma.StudentWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudentCreateWithoutConductPointsInput, Prisma.StudentUncheckedCreateWithoutConductPointsInput>
+}
+
+export type StudentUpsertWithoutConductPointsInput = {
+  update: Prisma.XOR<Prisma.StudentUpdateWithoutConductPointsInput, Prisma.StudentUncheckedUpdateWithoutConductPointsInput>
+  create: Prisma.XOR<Prisma.StudentCreateWithoutConductPointsInput, Prisma.StudentUncheckedCreateWithoutConductPointsInput>
+  where?: Prisma.StudentWhereInput
+}
+
+export type StudentUpdateToOneWithWhereWithoutConductPointsInput = {
+  where?: Prisma.StudentWhereInput
+  data: Prisma.XOR<Prisma.StudentUpdateWithoutConductPointsInput, Prisma.StudentUncheckedUpdateWithoutConductPointsInput>
+}
+
+export type StudentUpdateWithoutConductPointsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  bloodGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rollNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  admissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutStudentsNestedInput
+  user?: Prisma.UserUpdateOneWithoutStudentNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutStudentsNestedInput
+  section?: Prisma.SectionUpdateOneRequiredWithoutStudentsNestedInput
+  parents?: Prisma.StudentParentUpdateManyWithoutStudentNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutStudentNestedInput
+  borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
+  transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
+  card?: Prisma.CardUpdateOneWithoutStudentNestedInput
+}
+
+export type StudentUncheckedUpdateWithoutConductPointsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gender?: Prisma.EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+  bloodGroup?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nationality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rollNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  admissionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  gradeId?: Prisma.StringFieldUpdateOperationsInput | string
+  sectionId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parents?: Prisma.StudentParentUncheckedUpdateManyWithoutStudentNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutStudentNestedInput
+  borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
+  transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -2208,6 +2399,7 @@ export type StudentCreateWithoutCardInput = {
   borrowedBooks?: Prisma.BookTransactionCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionCreateNestedManyWithoutStudentInput
 }
 
@@ -2237,6 +2429,7 @@ export type StudentUncheckedCreateWithoutCardInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutStudentInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedCreateNestedOneWithoutStudentInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutStudentInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedOneWithoutStudentInput
   permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutStudentInput
 }
 
@@ -2282,6 +2475,7 @@ export type StudentUpdateWithoutCardInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
 }
 
@@ -2311,6 +2505,7 @@ export type StudentUncheckedUpdateWithoutCardInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
 }
 
@@ -2361,6 +2556,7 @@ export type StudentUpdateWithoutTenantInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -2390,6 +2586,7 @@ export type StudentUncheckedUpdateWithoutTenantInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -2463,6 +2660,7 @@ export type StudentUpdateWithoutGradeInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -2492,6 +2690,7 @@ export type StudentUncheckedUpdateWithoutGradeInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -2565,6 +2764,7 @@ export type StudentUpdateWithoutSectionInput = {
   borrowedBooks?: Prisma.BookTransactionUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUpdateOneWithoutStudentNestedInput
 }
@@ -2594,6 +2794,7 @@ export type StudentUncheckedUpdateWithoutSectionInput = {
   borrowedBooks?: Prisma.BookTransactionUncheckedUpdateManyWithoutStudentNestedInput
   transportAssignment?: Prisma.TransportAssignmentUncheckedUpdateOneWithoutStudentNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutStudentNestedInput
+  conductPoints?: Prisma.StudentConductPointsUncheckedUpdateOneWithoutStudentNestedInput
   permissions?: Prisma.PermissionUncheckedUpdateManyWithoutStudentNestedInput
   card?: Prisma.CardUncheckedUpdateOneWithoutStudentNestedInput
 }
@@ -2717,6 +2918,7 @@ export type StudentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   borrowedBooks?: boolean | Prisma.Student$borrowedBooksArgs<ExtArgs>
   transportAssignment?: boolean | Prisma.Student$transportAssignmentArgs<ExtArgs>
   conductRecords?: boolean | Prisma.Student$conductRecordsArgs<ExtArgs>
+  conductPoints?: boolean | Prisma.Student$conductPointsArgs<ExtArgs>
   permissions?: boolean | Prisma.Student$permissionsArgs<ExtArgs>
   card?: boolean | Prisma.Student$cardArgs<ExtArgs>
   _count?: boolean | Prisma.StudentCountOutputTypeDefaultArgs<ExtArgs>
@@ -2810,6 +3012,7 @@ export type StudentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   borrowedBooks?: boolean | Prisma.Student$borrowedBooksArgs<ExtArgs>
   transportAssignment?: boolean | Prisma.Student$transportAssignmentArgs<ExtArgs>
   conductRecords?: boolean | Prisma.Student$conductRecordsArgs<ExtArgs>
+  conductPoints?: boolean | Prisma.Student$conductPointsArgs<ExtArgs>
   permissions?: boolean | Prisma.Student$permissionsArgs<ExtArgs>
   card?: boolean | Prisma.Student$cardArgs<ExtArgs>
   _count?: boolean | Prisma.StudentCountOutputTypeDefaultArgs<ExtArgs>
@@ -2839,6 +3042,7 @@ export type $StudentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     borrowedBooks: Prisma.$BookTransactionPayload<ExtArgs>[]
     transportAssignment: Prisma.$TransportAssignmentPayload<ExtArgs> | null
     conductRecords: Prisma.$ConductRecordPayload<ExtArgs>[]
+    conductPoints: Prisma.$StudentConductPointsPayload<ExtArgs> | null
     permissions: Prisma.$PermissionPayload<ExtArgs>[]
     card: Prisma.$CardPayload<ExtArgs> | null
   }
@@ -3266,6 +3470,7 @@ export interface Prisma__StudentClient<T, Null = never, ExtArgs extends runtime.
   borrowedBooks<T extends Prisma.Student$borrowedBooksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$borrowedBooksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transportAssignment<T extends Prisma.Student$transportAssignmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$transportAssignmentArgs<ExtArgs>>): Prisma.Prisma__TransportAssignmentClient<runtime.Types.Result.GetResult<Prisma.$TransportAssignmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   conductRecords<T extends Prisma.Student$conductRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$conductRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conductPoints<T extends Prisma.Student$conductPointsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$conductPointsArgs<ExtArgs>>): Prisma.Prisma__StudentConductPointsClient<runtime.Types.Result.GetResult<Prisma.$StudentConductPointsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   permissions<T extends Prisma.Student$permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   card<T extends Prisma.Student$cardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Student$cardArgs<ExtArgs>>): Prisma.Prisma__CardClient<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
@@ -3844,6 +4049,25 @@ export type Student$conductRecordsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.ConductRecordScalarFieldEnum | Prisma.ConductRecordScalarFieldEnum[]
+}
+
+/**
+ * Student.conductPoints
+ */
+export type Student$conductPointsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentConductPoints
+   */
+  select?: Prisma.StudentConductPointsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentConductPoints
+   */
+  omit?: Prisma.StudentConductPointsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentConductPointsInclude<ExtArgs> | null
+  where?: Prisma.StudentConductPointsWhereInput
 }
 
 /**

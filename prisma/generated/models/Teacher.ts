@@ -694,10 +694,12 @@ export type TeacherCreateNestedOneWithoutConductRecordsInput = {
   connect?: Prisma.TeacherWhereUniqueInput
 }
 
-export type TeacherUpdateOneRequiredWithoutConductRecordsNestedInput = {
+export type TeacherUpdateOneWithoutConductRecordsNestedInput = {
   create?: Prisma.XOR<Prisma.TeacherCreateWithoutConductRecordsInput, Prisma.TeacherUncheckedCreateWithoutConductRecordsInput>
   connectOrCreate?: Prisma.TeacherCreateOrConnectWithoutConductRecordsInput
   upsert?: Prisma.TeacherUpsertWithoutConductRecordsInput
+  disconnect?: Prisma.TeacherWhereInput | boolean
+  delete?: Prisma.TeacherWhereInput | boolean
   connect?: Prisma.TeacherWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TeacherUpdateToOneWithWhereWithoutConductRecordsInput, Prisma.TeacherUpdateWithoutConductRecordsInput>, Prisma.TeacherUncheckedUpdateWithoutConductRecordsInput>
 }
