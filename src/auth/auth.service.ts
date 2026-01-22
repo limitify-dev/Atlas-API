@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import { jwtConstants } from './constant';
+import { UserType } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +26,7 @@ export class AuthService {
     const payload = {
       sub: user.id,
       username: user.username,
+      userType: user.userType,
       role: user.role,
       tenantId: user.tenantId,
       timezone: user.timezone,
@@ -117,6 +119,7 @@ export class AuthService {
       const newPayload = {
         sub: storedToken.user.id,
         username: storedToken.user.username,
+        UserType: storedToken.user.userType,
         role: storedToken.user.role,
         tenantId: storedToken.user.tenantId,
         timezone: userWithTenant?.tenant?.timezone || 'UTC',
@@ -287,7 +290,7 @@ export class AuthService {
         password: hashedPassword,
         role: registerData.role as any,
         tenantId: registerData.tenantId || null,
-        userType: registerData.userType as any || null,
+        userType: (registerData.userType as any) || null,
         status: (registerData.status as any) || 'ACTIVE',
         emailVerified: true,
       },

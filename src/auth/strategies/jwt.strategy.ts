@@ -19,6 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       userId: payload.sub, // Keep for backward compatibility
       username: payload.username,
       role: payload.role,
+      userType: payload.userType,
       tenantId: payload.tenantId,
       timezone: payload.timezone,
       schoolName: payload.schoolName,
