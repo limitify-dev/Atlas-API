@@ -47,6 +47,7 @@ export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
   @Post()
+  @UseInterceptors(FileInterceptor('photo'))
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Create a new student' })
   @ApiResponse({
@@ -65,8 +66,9 @@ export class StudentsController {
   async create(
     @Body() createStudentDto: CreateStudentDto,
     @CurrentUser() user: any,
+    @UploadedFile() photo?: Express.Multer.File,
   ): Promise<StudentResponseDto> {
-    return this.studentsService.create(createStudentDto, user.tenantId);
+    return this.studentsService.create(createStudentDto, user.tenantId, photo);
   }
 
   @Post('bulk-upload')
@@ -95,8 +97,10 @@ export class StudentsController {
     const buffer = await this.studentsService.getBulkUploadTemplate();
 
     res.set({
-      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'Content-Disposition': 'attachment; filename="student_import_template.xlsx"',
+      'Content-Type':
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition':
+        'attachment; filename="student_import_template.xlsx"',
     });
 
     return new StreamableFile(buffer as any);
@@ -124,7 +128,12 @@ export class StudentsController {
   async findAll(
     @Query() queryDto: QueryStudentsDto,
     @CurrentUser() user: any,
-  ): Promise<{ data: StudentResponseDto[]; total: number; page: number; limit: number }> {
+  ): Promise<{
+    data: StudentResponseDto[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
     return this.studentsService.findAll(queryDto, user.tenantId);
   }
 
@@ -177,6 +186,7 @@ export class StudentsController {
   }
 
   @Put(':id')
+  @UseInterceptors(FileInterceptor('photo'))
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Update a student' })
   @ApiParam({
@@ -201,8 +211,9 @@ export class StudentsController {
     @Param('id') id: string,
     @Body() updateStudentDto: UpdateStudentDto,
     @CurrentUser() user: any,
+    @UploadedFile() photo?: Express.Multer.File,
   ): Promise<StudentResponseDto> {
-    return this.studentsService.update(id, updateStudentDto, user.tenantId);
+    return this.studentsService.update(id, updateStudentDto, user.tenantId,photo);
   }
 
   @Delete(':id')

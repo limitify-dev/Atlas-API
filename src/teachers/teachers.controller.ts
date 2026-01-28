@@ -46,6 +46,7 @@ export class TeachersController {
   constructor(private readonly teachersService: TeachersService) {}
 
   @Post()
+  @UseInterceptors(FileInterceptor('photo'))
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @ApiOperation({ summary: 'Create a new teacher' })
   @ApiResponse({
@@ -60,8 +61,9 @@ export class TeachersController {
   async create(
     @Body() createTeacherDto: CreateTeacherDto,
     @CurrentUser() user: any,
+    @UploadedFile() photo?: Express.Multer.File,
   ): Promise<TeacherResponseDto> {
-    return this.teachersService.create(createTeacherDto, user.tenantId);
+    return this.teachersService.create(createTeacherDto, user.tenantId, photo);
   }
 
   @Post('bulk-upload')
@@ -154,6 +156,7 @@ export class TeachersController {
   }
 
   @Put(':id')
+  @UseInterceptors(FileInterceptor('photo'))
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
   @ApiOperation({ summary: 'Update a teacher' })
   @ApiParam({
@@ -174,8 +177,14 @@ export class TeachersController {
     @Param('id') id: string,
     @Body() updateTeacherDto: UpdateTeacherDto,
     @CurrentUser() user: any,
+    @UploadedFile() photo?: Express.Multer.File,
   ): Promise<TeacherResponseDto> {
-    return this.teachersService.update(id, updateTeacherDto, user.tenantId);
+    return this.teachersService.update(
+      id,
+      updateTeacherDto,
+      user.tenantId,
+      photo,
+    );
   }
 
   @Delete(':id')

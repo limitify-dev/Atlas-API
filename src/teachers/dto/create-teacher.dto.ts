@@ -45,6 +45,15 @@ export class CreateTeacherDto {
   @IsEnum(Gender)
   gender?: Gender;
 
+  @ApiProperty({
+    description: 'Photo URL',
+    example: 'https://example.com/photo.jpg',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  photoUrl?: string;
+
   @ApiProperty({ example: 'PhD in Physics', required: false })
   @IsOptional()
   @IsString()
@@ -54,7 +63,7 @@ export class CreateTeacherDto {
   @IsOptional()
   @IsString()
   specialization?: string;
-  
+
   @ApiProperty({ example: '1980-01-01', required: false })
   @IsOptional()
   @IsDateString()

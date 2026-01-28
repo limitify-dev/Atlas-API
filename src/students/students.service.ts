@@ -20,14 +20,19 @@ import {
   Gender,
 } from '../../prisma/generated/client';
 import * as XLSX from 'xlsx';
+import { SupabaseService } from 'src/common/supabase/supabase.service';
 
 @Injectable()
 export class StudentsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private supabase: SupabaseService,
+  ) {}
 
   async create(
     createStudentDto: CreateStudentDto,
     tenantId: string,
+    photo?: Express.Multer.File,
   ): Promise<StudentResponseDto> {
     // Generate student ID
     const studentCount = await this.prisma.student.count({
@@ -128,8 +133,55 @@ export class StudentsService {
 
         return student;
       });
+      // 2. Handle photo upload AFTER successful transaction (no rollback if it fails)
+      let photoUrl: string | null = null;
 
-      // Fetch complete student data with all relations
+      if (photo) {
+        try {
+          const fileExt = photo.originalname.split('.').pop() || 'jpg';
+          const fileName = `profile.${fileExt}`;
+          const filePath = `${tenantId}/students/${result.id}/${fileName}`;
+
+          const { error: uploadError } = await this.supabase.client.storage
+            .from('atlas-profiles')
+            .upload(filePath, photo.buffer, {
+              contentType: photo.mimetype,
+              upsert: true,
+              cacheControl: '3600',
+            });
+
+          if (uploadError) {
+            // Just log the error — student remains without photo
+            console.error(
+              `Photo upload failed for student ${result.id}:`,
+              uploadError.message,
+            );
+            // Optionally: notify admin/sentry, but do NOT throw
+          } else {
+            // Get public URL
+            const { data: urlData } = this.supabase.client.storage
+              .from('atlas-profiles')
+              .getPublicUrl(filePath);
+
+            photoUrl = urlData.publicUrl;
+
+            // Update student with photoUrl
+            await this.prisma.student.update({
+              where: { id: result.id },
+              data: { photoUrl },
+            });
+          }
+        } catch (uploadErr) {
+          // Catch any unexpected errors during upload/update (e.g. network)
+          console.error(
+            `Unexpected error during photo processing for student ${result.id}:`,
+            uploadErr,
+          );
+          // Student stays without photo — no throw
+        }
+      }
+
+      // 3. Return the complete student (photoUrl will be set if successful, null otherwise)
       return this.findOne(result.id, tenantId);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -467,6 +519,7 @@ export class StudentsService {
     id: string,
     updateStudentDto: UpdateStudentDto,
     tenantId: string,
+    photo?: Express.Multer.File,
   ): Promise<StudentResponseDto> {
     // Check if student exists
     const existingStudent = await this.prisma.student.findFirst({
@@ -478,19 +531,20 @@ export class StudentsService {
     }
 
     try {
-      // Update student information directly
+      // 1. Prepare update data for non-photo fields
       const studentUpdateData: Prisma.StudentUpdateInput = {};
-      if (updateStudentDto.firstName)
+
+      if (updateStudentDto.firstName !== undefined)
         studentUpdateData.firstName = updateStudentDto.firstName;
-      if (updateStudentDto.lastName)
+      if (updateStudentDto.lastName !== undefined)
         studentUpdateData.lastName = updateStudentDto.lastName;
       if (updateStudentDto.email !== undefined)
         studentUpdateData.email = updateStudentDto.email;
       if (updateStudentDto.phone !== undefined)
         studentUpdateData.phone = updateStudentDto.phone;
-      if (updateStudentDto.dateOfBirth)
+      if (updateStudentDto.dateOfBirth !== undefined)
         studentUpdateData.dateOfBirth = new Date(updateStudentDto.dateOfBirth);
-      if (updateStudentDto.gender)
+      if (updateStudentDto.gender !== undefined)
         studentUpdateData.gender = updateStudentDto.gender;
       if (updateStudentDto.nationality !== undefined)
         studentUpdateData.nationality = updateStudentDto.nationality;
@@ -508,13 +562,15 @@ export class StudentsService {
           connect: { id: updateStudentDto.sectionId },
         };
       }
-      if (updateStudentDto.admissionDate)
+      if (updateStudentDto.admissionDate !== undefined)
         studentUpdateData.admissionDate = new Date(
           updateStudentDto.admissionDate,
         );
-      if (updateStudentDto.photoUrl !== undefined)
-        studentUpdateData.photoUrl = updateStudentDto.photoUrl;
 
+      // Note: We deliberately ignore updateStudentDto.photoUrl
+      // (we generate it ourselves from Supabase upload)
+
+      // 2. Perform the core update if there are changes
       if (Object.keys(studentUpdateData).length > 0) {
         await this.prisma.student.update({
           where: { id },
@@ -522,6 +578,66 @@ export class StudentsService {
         });
       }
 
+      // 3. Handle photo update (if provided)
+      if (photo) {
+        try {
+          // Optional: basic validation
+          if (photo.size > 5 * 1024 * 1024) {
+            // 5MB limit example
+            console.warn(
+              `Photo too large (${photo.size} bytes) for student ${id}`,
+            );
+          } else if (
+            !['image/jpeg', 'image/png', 'image/webp'].includes(photo.mimetype)
+          ) {
+            console.warn(
+              `Invalid photo type ${photo.mimetype} for student ${id}`,
+            );
+          } else {
+            const fileExt = photo.originalname.split('.').pop() || 'jpg';
+            const fileName = `profile.${fileExt}`;
+            const filePath = `${tenantId}/students/${id}/${fileName}`;
+
+            // Upload (upsert = overwrite old profile picture)
+            const { error: uploadError } = await this.supabase.client.storage
+              .from('atlas-profiles')
+              .upload(filePath, photo.buffer, {
+                contentType: photo.mimetype,
+                upsert: true,
+                cacheControl: '3600',
+              });
+
+            if (uploadError) {
+              console.error(
+                `Photo upload failed for student ${id}:`,
+                uploadError.message,
+              );
+              // Do NOT throw — keep existing photoUrl (or null)
+            } else {
+              // Get fresh public URL
+              const { data: urlData } = this.supabase.client.storage
+                .from('atlas-profiles')
+                .getPublicUrl(filePath);
+
+              const newPhotoUrl = urlData.publicUrl;
+
+              // Update photoUrl in DB
+              await this.prisma.student.update({
+                where: { id },
+                data: { photoUrl: newPhotoUrl },
+              });
+            }
+          }
+        } catch (uploadErr) {
+          console.error(
+            `Unexpected error processing photo for student ${id}:`,
+            uploadErr,
+          );
+          // Silent fail — student update already succeeded
+        }
+      }
+
+      // 4. Return updated student with latest data
       return this.findOne(id, tenantId);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -593,11 +709,13 @@ export class StudentsService {
           occupation: sp.parent.occupation,
           isPrimary: sp.isPrimary,
         })) || [],
-      card: student.card ? {
-        id: student.card.id,
-        cardNumber: student.card.cardNumber,
-        status: student.card.status,
-      } : null,
+      card: student.card
+        ? {
+            id: student.card.id,
+            cardNumber: student.card.cardNumber,
+            status: student.card.status,
+          }
+        : null,
       createdAt: student.createdAt,
       updatedAt: student.updatedAt,
     };
@@ -613,31 +731,32 @@ export class StudentsService {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     sevenDaysAgo.setHours(0, 0, 0, 0);
 
-    const [totalEnrolled, newAdmissionsThisMonth, studentsAddedThisWeek] = await Promise.all([
-      // Total enrolled students
-      this.prisma.student.count({
-        where: { tenantId },
-      }),
-      // New admissions this month (by admission date)
-      this.prisma.student.count({
-        where: {
-          tenantId,
-          admissionDate: {
-            gte: firstDayOfMonth,
+    const [totalEnrolled, newAdmissionsThisMonth, studentsAddedThisWeek] =
+      await Promise.all([
+        // Total enrolled students
+        this.prisma.student.count({
+          where: { tenantId },
+        }),
+        // New admissions this month (by admission date)
+        this.prisma.student.count({
+          where: {
+            tenantId,
+            admissionDate: {
+              gte: firstDayOfMonth,
+            },
           },
-        },
-      }),
-      // Students created/added in the last 7 days (by createdAt timestamp)
-      // This is more accurate as it shows when students were actually added to the system
-      this.prisma.student.count({
-        where: {
-          tenantId,
-          createdAt: {
-            gte: sevenDaysAgo,
+        }),
+        // Students created/added in the last 7 days (by createdAt timestamp)
+        // This is more accurate as it shows when students were actually added to the system
+        this.prisma.student.count({
+          where: {
+            tenantId,
+            createdAt: {
+              gte: sevenDaysAgo,
+            },
           },
-        },
-      }),
-    ]);
+        }),
+      ]);
 
     // Since students don't have status field in the database, all enrolled students are considered active
     // Use studentsAddedThisWeek (based on createdAt) for the weekly count

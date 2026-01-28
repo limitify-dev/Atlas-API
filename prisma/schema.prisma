@@ -219,17 +219,17 @@ model User {
   lastLoginAt   DateTime?
 
   // Relations
-  tenant                Tenant?                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  sessions              Session[]
-  refreshTokens         RefreshToken[]
-  student               Student?
-  teacher               Teacher?
-  parent                Parent?
-  sentMessages          Message[]               @relation("MessageSender")
-  receivedMessages      Message[]               @relation("MessageReceiver")
-  sentAnnouncements     Announcement[]
-  sentNotifications     Notification[]
-  receivedNotifications NotificationRecipient[]
+  tenant                 Tenant?                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sessions               Session[]
+  refreshTokens          RefreshToken[]
+  student                Student?
+  teacher                Teacher?
+  parent                 Parent?
+  sentMessages           Message[]               @relation("MessageSender")
+  receivedMessages       Message[]               @relation("MessageReceiver")
+  sentAnnouncements      Announcement[]
+  sentNotifications      Notification[]
+  receivedNotifications  NotificationRecipient[]
   conductRecordsReported ConductRecord[]
 
   @@index([tenantId])
@@ -370,6 +370,7 @@ model Teacher {
   firstName      String
   lastName       String
   dateOfBirth    DateTime?
+  photoUrl       String?
   gender         Gender?
   qualification  String?
   specialization String?
@@ -774,15 +775,15 @@ model PermissionUsage {
 }
 
 model ConductRecord {
-  id          String      @id @default(uuid())
-  tenantId    String
-  studentId   String
-  type        ConductType
-  description String
-  date        DateTime    @default(now())
-  reportedBy  String? // Optional - may be null for admin users without teacher record
+  id               String      @id @default(uuid())
+  tenantId         String
+  studentId        String
+  type             ConductType
+  description      String
+  date             DateTime    @default(now())
+  reportedBy       String? // Optional - may be null for admin users without teacher record
   reportedByUserId String? // Store user ID when reportedBy (teacher) is not available
-  severity    Int         @default(1) // 1=Minor, 2=Moderate, 3=Major
+  severity         Int         @default(1) // 1=Minor, 2=Moderate, 3=Major
 
   // Point deduction
   pointsDeducted Int? // Points deducted for this incident

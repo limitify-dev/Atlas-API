@@ -20,14 +20,19 @@ import {
   Gender,
 } from '../../prisma/generated/client';
 import * as XLSX from 'xlsx';
+import { SupabaseService } from 'src/common/supabase/supabase.service';
 
 @Injectable()
 export class TeachersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private supabase: SupabaseService,
+  ) {}
 
   async create(
     createTeacherDto: CreateTeacherDto,
     tenantId: string,
+    photo?: Express.Multer.File,
   ): Promise<TeacherResponseDto> {
     // Check if email already exists
     const existingUser = await this.prisma.user.findUnique({
@@ -76,12 +81,16 @@ export class TeachersService {
             teacherId,
             firstName: createTeacherDto.firstName,
             lastName: createTeacherDto.lastName,
-            dateOfBirth: createTeacherDto.dateOfBirth ? new Date(createTeacherDto.dateOfBirth) : null,
+            dateOfBirth: createTeacherDto.dateOfBirth
+              ? new Date(createTeacherDto.dateOfBirth)
+              : null,
             gender: createTeacherDto.gender,
             qualification: createTeacherDto.qualification,
             specialization: createTeacherDto.specialization,
             department: createTeacherDto.department,
-            joiningDate: createTeacherDto.joiningDate ? new Date(createTeacherDto.joiningDate) : new Date(),
+            joiningDate: createTeacherDto.joiningDate
+              ? new Date(createTeacherDto.joiningDate)
+              : new Date(),
           },
           include: {
             user: true,
@@ -91,9 +100,53 @@ export class TeachersService {
         return teacher;
       });
 
+      let photoUrl: string | null = null;
+      if (photo) {
+        try {
+          const fileExt = photo.originalname.split('.').pop() || 'jpg';
+          const fileName = `profile.${fileExt}`;
+          const filePath = `${tenantId}/teachers/${result.id}/${fileName}`;
+
+          const { error: uploadError } = await this.supabase.client.storage
+            .from('atlas-profiles')
+            .upload(filePath, photo.buffer, {
+              contentType: photo.mimetype,
+              upsert: true,
+              cacheControl: '3600',
+            });
+
+          if (uploadError) {
+            console.error(
+              `Photo upload failed for teacher ${result.id}:`,
+              uploadError.message,
+            );
+            // Optionally: notify admin/sentry, but do NOT throw
+          } else {
+            // Get public URL
+            const { data: urlData } = this.supabase.client.storage
+              .from('atlas-profiles')
+              .getPublicUrl(filePath);
+
+            photoUrl = urlData.publicUrl;
+
+            // Update student with photoUrl
+            await this.prisma.teacher.update({
+              where: { id: result.id },
+              data: { photoUrl },
+            });
+          }
+        } catch (uploadErr) {
+          // Catch any unexpected errors during upload/update (e.g. network)
+          console.error(
+            `Unexpected error during photo processing for teacher ${result.id}:`,
+            uploadErr,
+          );
+        }
+      }
+
       return this.transformToResponse(result);
     } catch (error) {
-       if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new ConflictException('Teacher with this info already exists');
         }
@@ -143,20 +196,29 @@ export class TeachersService {
         dto.lastName = String(getVal('LastName') || '');
         dto.email = String(getVal('Email') || '');
         dto.phone = getVal('Phone') ? String(getVal('Phone')) : undefined;
-        dto.department = getVal('Department') ? String(getVal('Department')) : undefined;
-        dto.qualification = getVal('Qualification') ? String(getVal('Qualification')) : undefined;
-        dto.specialization = getVal('Specialization') ? String(getVal('Specialization')) : undefined;
+        dto.department = getVal('Department')
+          ? String(getVal('Department'))
+          : undefined;
+        dto.qualification = getVal('Qualification')
+          ? String(getVal('Qualification'))
+          : undefined;
+        dto.specialization = getVal('Specialization')
+          ? String(getVal('Specialization'))
+          : undefined;
 
         const dob = getVal('DateofBirth');
         dto.dateOfBirth = dob instanceof Date ? dob.toISOString() : undefined;
 
         const joiningDate = getVal('JoiningDate');
-        dto.joiningDate = joiningDate instanceof Date ? joiningDate.toISOString() : undefined;
-        
+        dto.joiningDate =
+          joiningDate instanceof Date ? joiningDate.toISOString() : undefined;
+
         dto.gender = getVal('Gender') as Gender;
 
         if (!dto.firstName || !dto.lastName || !dto.email) {
-          throw new Error('Missing required fields (First Name, Last Name, Email)');
+          throw new Error(
+            'Missing required fields (First Name, Last Name, Email)',
+          );
         }
 
         await this.create(dto, tenantId);
@@ -223,7 +285,9 @@ export class TeachersService {
 
     const where: Prisma.TeacherWhereInput = {
       tenantId,
-      ...(department && { department: { contains: department, mode: 'insensitive' } }),
+      ...(department && {
+        department: { contains: department, mode: 'insensitive' },
+      }),
       ...(search && {
         OR: [
           { firstName: { contains: search, mode: 'insensitive' } },
@@ -273,6 +337,7 @@ export class TeachersService {
     id: string,
     updateTeacherDto: UpdateTeacherDto,
     tenantId: string,
+    photo?: Express.Multer.File,
   ): Promise<TeacherResponseDto> {
     const existingTeacher = await this.prisma.teacher.findFirst({
       where: { id, tenantId },
@@ -287,19 +352,24 @@ export class TeachersService {
       const result = await this.prisma.$transaction(async (tx) => {
         // Update user info if needed
         if (
-            updateTeacherDto.email || 
-            updateTeacherDto.phone || 
-            (updateTeacherDto.firstName || updateTeacherDto.lastName)
-           ) {
+          updateTeacherDto.email ||
+          updateTeacherDto.phone ||
+          updateTeacherDto.firstName ||
+          updateTeacherDto.lastName
+        ) {
           const userUpdateData: Prisma.UserUpdateInput = {};
-          if (updateTeacherDto.email) userUpdateData.email = updateTeacherDto.email;
-          if (updateTeacherDto.phone) userUpdateData.phone = updateTeacherDto.phone;
+          if (updateTeacherDto.email)
+            userUpdateData.email = updateTeacherDto.email;
+          if (updateTeacherDto.phone)
+            userUpdateData.phone = updateTeacherDto.phone;
           if (updateTeacherDto.firstName || updateTeacherDto.lastName) {
-             const firstName = updateTeacherDto.firstName || existingTeacher.firstName;
-             const lastName = updateTeacherDto.lastName || existingTeacher.lastName;
-             userUpdateData.name = `${firstName} ${lastName}`;
+            const firstName =
+              updateTeacherDto.firstName || existingTeacher.firstName;
+            const lastName =
+              updateTeacherDto.lastName || existingTeacher.lastName;
+            userUpdateData.name = `${firstName} ${lastName}`;
           }
-          
+
           await tx.user.update({
             where: { id: existingTeacher.userId },
             data: userUpdateData,
@@ -308,14 +378,26 @@ export class TeachersService {
 
         // Update teacher info
         const teacherUpdateData: Prisma.TeacherUpdateInput = {};
-        if (updateTeacherDto.firstName) teacherUpdateData.firstName = updateTeacherDto.firstName;
-        if (updateTeacherDto.lastName) teacherUpdateData.lastName = updateTeacherDto.lastName;
-        if (updateTeacherDto.department) teacherUpdateData.department = updateTeacherDto.department;
-        if (updateTeacherDto.qualification) teacherUpdateData.qualification = updateTeacherDto.qualification;
-        if (updateTeacherDto.specialization) teacherUpdateData.specialization = updateTeacherDto.specialization;
-        if (updateTeacherDto.gender) teacherUpdateData.gender = updateTeacherDto.gender;
-        if (updateTeacherDto.dateOfBirth) teacherUpdateData.dateOfBirth = new Date(updateTeacherDto.dateOfBirth);
-        if (updateTeacherDto.joiningDate) teacherUpdateData.joiningDate = new Date(updateTeacherDto.joiningDate);
+        if (updateTeacherDto.firstName)
+          teacherUpdateData.firstName = updateTeacherDto.firstName;
+        if (updateTeacherDto.lastName)
+          teacherUpdateData.lastName = updateTeacherDto.lastName;
+        if (updateTeacherDto.department)
+          teacherUpdateData.department = updateTeacherDto.department;
+        if (updateTeacherDto.qualification)
+          teacherUpdateData.qualification = updateTeacherDto.qualification;
+        if (updateTeacherDto.specialization)
+          teacherUpdateData.specialization = updateTeacherDto.specialization;
+        if (updateTeacherDto.gender)
+          teacherUpdateData.gender = updateTeacherDto.gender;
+        if (updateTeacherDto.dateOfBirth)
+          teacherUpdateData.dateOfBirth = new Date(
+            updateTeacherDto.dateOfBirth,
+          );
+        if (updateTeacherDto.joiningDate)
+          teacherUpdateData.joiningDate = new Date(
+            updateTeacherDto.joiningDate,
+          );
 
         const updatedTeacher = await tx.teacher.update({
           where: { id },
@@ -325,10 +407,67 @@ export class TeachersService {
 
         return updatedTeacher;
       });
+      if (photo) {
+        try {
+          // Optional: basic validation
+          if (photo.size > 5 * 1024 * 1024) {
+            // 5MB limit example
+            console.warn(
+              `Photo too large (${photo.size} bytes) for teacher ${id}`,
+            );
+          } else if (
+            !['image/jpeg', 'image/png', 'image/webp'].includes(photo.mimetype)
+          ) {
+            console.warn(
+              `Invalid photo type ${photo.mimetype} for teacher ${id}`,
+            );
+          } else {
+            const fileExt = photo.originalname.split('.').pop() || 'jpg';
+            const fileName = `profile.${fileExt}`;
+            const filePath = `${tenantId}/teachers/${id}/${fileName}`;
+
+            // Upload (upsert = overwrite old profile picture)
+            const { error: uploadError } = await this.supabase.client.storage
+              .from('atlas-profiles')
+              .upload(filePath, photo.buffer, {
+                contentType: photo.mimetype,
+                upsert: true,
+                cacheControl: '3600',
+              });
+
+            if (uploadError) {
+              console.error(
+                `Photo upload failed for teacher ${id}:`,
+                uploadError.message,
+              );
+              // Do NOT throw — keep existing photoUrl (or null)
+            } else {
+              // Get fresh public URL
+              const { data: urlData } = this.supabase.client.storage
+                .from('atlas-profiles')
+                .getPublicUrl(filePath);
+
+              const newPhotoUrl = urlData.publicUrl;
+
+              // Update photoUrl in DB
+              await this.prisma.teacher.update({
+                where: { id },
+                data: { photoUrl: newPhotoUrl },
+              });
+            }
+          }
+        } catch (uploadErr) {
+          console.error(
+            `Unexpected error processing photo for teacher ${id}:`,
+            uploadErr,
+          );
+          
+        }
+      }
 
       return this.transformToResponse(result);
     } catch (error) {
-       if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new ConflictException('Email already exists');
         }
@@ -338,7 +477,7 @@ export class TeachersService {
   }
 
   async remove(id: string, tenantId: string): Promise<{ message: string }> {
-     const teacher = await this.prisma.teacher.findFirst({
+    const teacher = await this.prisma.teacher.findFirst({
       where: { id, tenantId },
       include: { user: true },
     });
@@ -349,9 +488,9 @@ export class TeachersService {
 
     // Deleting the user will cascade delete the teacher because of the relation in schema?
     // Let's check schema:   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    // Yes, deleting User deletes Teacher. 
+    // Yes, deleting User deletes Teacher.
     // But wait, should we delete the User? Yes, usually.
-    
+
     await this.prisma.user.delete({
       where: { id: teacher.userId },
     });
@@ -363,31 +502,32 @@ export class TeachersService {
     const now = new Date();
     const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const [totalTeachers, activeTeachers, newJoinersThisMonth] = await Promise.all([
-      // Total teachers
-      this.prisma.teacher.count({
-        where: { tenantId },
-      }),
-      // Active teachers (based on User status)
-      this.prisma.teacher.count({
-        where: { 
-          tenantId,
-          user: {
-            status: Status.ACTIVE,
+    const [totalTeachers, activeTeachers, newJoinersThisMonth] =
+      await Promise.all([
+        // Total teachers
+        this.prisma.teacher.count({
+          where: { tenantId },
+        }),
+        // Active teachers (based on User status)
+        this.prisma.teacher.count({
+          where: {
+            tenantId,
+            user: {
+              status: Status.ACTIVE,
+            },
           },
-        },
-      }),
-      // New joiners this month
-      this.prisma.teacher.count({
-        where: {
-          tenantId,
-          joiningDate: {
-            gte: firstDayOfMonth,
+        }),
+        // New joiners this month
+        this.prisma.teacher.count({
+          where: {
+            tenantId,
+            joiningDate: {
+              gte: firstDayOfMonth,
+            },
           },
-        },
-      }),
-    ]);
-    
+        }),
+      ]);
+
     // Get unique departments count
     const departments = await this.prisma.teacher.groupBy({
       by: ['department'],
@@ -413,15 +553,18 @@ export class TeachersService {
       phone: teacher.user.phone,
       department: teacher.department,
       joiningDate: teacher.joiningDate,
+      photoUrl: teacher.photoUrl,
       gender: teacher.gender,
       qualification: teacher.qualification,
       specialization: teacher.specialization,
       status: teacher.user.status,
-      card: teacher.card ? {
-        id: teacher.card.id,
-        cardNumber: teacher.card.cardNumber,
-        status: teacher.card.status,
-      } : null,
+      card: teacher.card
+        ? {
+            id: teacher.card.id,
+            cardNumber: teacher.card.cardNumber,
+            status: teacher.card.status,
+          }
+        : null,
       createdAt: teacher.createdAt,
       updatedAt: teacher.updatedAt,
     };

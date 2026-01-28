@@ -30,6 +30,7 @@
     "@prisma/adapter-pg": "^7.1.0",
     "@prisma/client": "^7.1.0",
     "@scalar/nestjs-api-reference": "^1.0.9",
+    "@supabase/supabase-js": "^2.93.2",
     "@types/multer": "^2.0.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",

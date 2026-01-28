@@ -119,7 +119,7 @@ export class AuthService {
       const newPayload = {
         sub: storedToken.user.id,
         username: storedToken.user.username,
-        UserType: storedToken.user.userType,
+        userType: storedToken.user.userType,
         role: storedToken.user.role,
         tenantId: storedToken.user.tenantId,
         timezone: userWithTenant?.tenant?.timezone || 'UTC',

@@ -19,6 +19,13 @@ export class TeacherResponseDto {
 
   @ApiProperty({ required: false })
   phone?: string;
+  
+  @ApiProperty({
+    description: 'Photo URL',
+    example: 'https://example.com/photo.jpg',
+    nullable: true,
+  })
+  photoUrl: string | null;
 
   @ApiProperty({ required: false })
   department?: string;
