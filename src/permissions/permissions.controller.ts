@@ -146,27 +146,6 @@ export class PermissionsController {
     return this.permissionsService.findOne(id, user.tenantId);
   }
 
-  @Get(':id/qr')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER, Role.PARENT)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get QR code data for a one-time permission' })
-  @ApiParam({ name: 'id', description: 'Permission ID' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'QR code data retrieved successfully',
-    type: PermissionQrDataDto,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'QR code not available for this permission',
-  })
-  async getQrCode(
-    @Param('id') id: string,
-    @CurrentUser() user: any,
-  ): Promise<PermissionQrDataDto> {
-    return this.permissionsService.getQrCode(id, user.tenantId);
-  }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)

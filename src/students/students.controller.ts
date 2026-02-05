@@ -32,6 +32,9 @@ import {
   QueryStudentsDto,
   StudentResponseDto,
   StudentStatsDto,
+  StudentCardQrResponseDto,
+  ScanStudentCardDto,
+  StudentCardInfoDto,
 } from './dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -119,7 +122,7 @@ export class StudentsController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
   @ApiOperation({ summary: 'Get all students with filtering and pagination' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -138,7 +141,7 @@ export class StudentsController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
   @ApiOperation({ summary: 'Get a student by ID' })
   @ApiParam({
     name: 'id',
@@ -185,6 +188,53 @@ export class StudentsController {
     return this.studentsService.findByStudentId(studentId, user.tenantId);
   }
 
+  @Get(':id/card-qr')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @ApiOperation({ summary: 'Generate QR code token for student card' })
+  @ApiParam({
+    name: 'id',
+    description: 'Student UUID',
+    example: 'uuid-string',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'QR token generated successfully',
+    type: StudentCardQrResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Student not found',
+  })
+  async getCardQr(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+  ): Promise<StudentCardQrResponseDto> {
+    return this.studentsService.generateCardQrToken(id, user.tenantId);
+  }
+
+  @Post('scan-card')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER)
+  @ApiOperation({ summary: 'Scan student card QR and get student info with permissions' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Student card scanned successfully',
+    type: StudentCardInfoDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Invalid QR code or wrong organization',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Student not found',
+  })
+  async scanCard(
+    @Body() scanCardDto: ScanStudentCardDto,
+    @CurrentUser() user: any,
+  ): Promise<StudentCardInfoDto> {
+    return this.studentsService.scanStudentCard(scanCardDto.token, user.tenantId);
+  }
+
   @Put(':id')
   @UseInterceptors(FileInterceptor('photo'))
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)
@@ -213,7 +263,12 @@ export class StudentsController {
     @CurrentUser() user: any,
     @UploadedFile() photo?: Express.Multer.File,
   ): Promise<StudentResponseDto> {
-    return this.studentsService.update(id, updateStudentDto, user.tenantId,photo);
+    return this.studentsService.update(
+      id,
+      updateStudentDto,
+      user.tenantId,
+      photo,
+    );
   }
 
   @Delete(':id')

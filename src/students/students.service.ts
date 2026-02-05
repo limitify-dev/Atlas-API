@@ -3,13 +3,17 @@ import {
   NotFoundException,
   ConflictException,
   BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreateStudentDto,
   UpdateStudentDto,
   QueryStudentsDto,
   StudentResponseDto,
+  StudentCardQrResponseDto,
+  StudentCardInfoDto,
 } from './dto';
 import * as bcrypt from 'bcrypt';
 import {
@@ -18,6 +22,7 @@ import {
   Role,
   Status,
   Gender,
+  PermissionStatus,
 } from '../../prisma/generated/client';
 import * as XLSX from 'xlsx';
 import { SupabaseService } from 'src/common/supabase/supabase.service';
@@ -26,6 +31,7 @@ import { SupabaseService } from 'src/common/supabase/supabase.service';
 export class StudentsService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
     private supabase: SupabaseService,
   ) {}
 
@@ -769,6 +775,140 @@ export class StudentsService {
       inactiveStudents: 0,
       suspendedStudents: 0,
       newAdmissionsThisWeek: studentsAddedThisWeek, // Use createdAt for accurate weekly count
+    };
+  }
+
+  /**
+   * Generate a JWT token for a student's card QR code
+   * The token contains the student ID and tenant ID for verification
+   */
+  async generateCardQrToken(
+    studentId: string,
+    tenantId: string,
+  ): Promise<StudentCardQrResponseDto> {
+    const student = await this.prisma.student.findFirst({
+      where: { id: studentId, tenantId },
+    });
+
+    if (!student) throw new NotFoundException('Student not found');
+
+    const payload = {
+      type: 'student_card',
+      sub: student.id,
+      tenantId: tenantId,
+    };
+
+    // Keep the token secure
+    const token = this.jwtService.sign(payload, { expiresIn: '2d' });
+
+    // WRAP THE TOKEN IN A URL
+    // Replace 'https://limitify.crw/verify' with your actual web domain
+    const deepLinkUrl = `https://limitify.rw/verify?data=${token}`;
+
+    return {
+      token: deepLinkUrl, // Return the URL instead of the raw JWT
+      studentId: student.studentId,
+      studentName: `${student.firstName} ${student.lastName}`,
+    };
+  }
+
+  /**
+   * Verify a scanned student card QR token and return student info with active permissions
+   */
+  async scanStudentCard(
+    token: string,
+    scannerTenantId: string,
+  ): Promise<StudentCardInfoDto> {
+    // Verify and decode the JWT token
+    let payload: { type: string; sub: string; tenantId: string };
+    try {
+      payload = this.jwtService.verify(token);
+    } catch (error) {
+      throw new UnauthorizedException('Invalid or expired QR code');
+    }
+
+    // Validate token type
+    if (payload.type !== 'student_card') {
+      throw new BadRequestException('Invalid QR code type');
+    }
+
+    // Validate tenant (scanner must be from same tenant as the card)
+    if (payload.tenantId !== scannerTenantId) {
+      throw new UnauthorizedException(
+        'This student card belongs to a different organization',
+      );
+    }
+
+    // Find the student with their grade and section
+    const student = await this.prisma.student.findFirst({
+      where: {
+        id: payload.sub,
+        tenantId: payload.tenantId,
+      },
+      include: {
+        grade: true,
+        section: true,
+        card: true,
+        parents: {
+          include: {
+            parent: {
+              include: {
+                user: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!student) {
+      throw new NotFoundException('Student not found or has been removed');
+    }
+
+    // Get active permissions for this student
+    const now = new Date();
+    const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
+    const currentTime = now.toTimeString().slice(0, 5); // HH:mm
+
+    const activePermissions = await this.prisma.permission.findMany({
+      where: {
+        studentId: student.id,
+        tenantId: payload.tenantId,
+        status: PermissionStatus.APPROVED,
+        fromDate: { lte: now },
+        toDate: { gte: now },
+        // For ONE_TIME permissions, check if not already used
+        OR: [
+          { permissionType: 'RECURRING' },
+          { permissionType: 'ONE_TIME', qrCodeUsed: false },
+        ],
+      },
+      orderBy: { fromDate: 'asc' },
+    });
+
+    // Filter permissions that are valid at the current time (if time restrictions exist)
+    const validPermissions = activePermissions.filter((p) => {
+      // If no time restrictions, permission is valid all day
+      if (!p.fromTime || !p.toTime) return true;
+
+      // Check if current time is within the allowed window
+      return currentTime >= p.fromTime && currentTime <= p.toTime;
+    });
+    const data = this.transformToResponse(student);
+    return {
+      student: data,
+      activePermissions: validPermissions.map((p) => ({
+        id: p.id,
+        title: p.title,
+        reason: p.reason,
+        permissionType: p.permissionType,
+        fromDate: p.fromDate,
+        toDate: p.toDate,
+        fromTime: p.fromTime,
+        toTime: p.toTime,
+        status: p.status,
+      })),
+      hasActivePermission: validPermissions.length > 0,
     };
   }
 }

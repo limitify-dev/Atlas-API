@@ -28,12 +28,14 @@ import { SystemLogsModule } from './system-logs/system-logs.module';
 import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // Makes env vars available everywhere
     }),
+    ScheduleModule.forRoot(),
     PrismaModule,
     EmailModule,
     AuthModule,

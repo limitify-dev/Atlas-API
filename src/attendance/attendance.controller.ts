@@ -30,6 +30,7 @@ import {
   MarkAttendanceDto,
   BatchAttendanceDto,
   EdgeAttendanceRecordDto,
+  BulkMarkAttendanceDto,
 } from './dto';
 
 @ApiTags('Attendance')
@@ -98,6 +99,63 @@ export class AttendanceController {
         : undefined,
       remarks: data.remarks,
     });
+  }
+
+  @Post('mark-bulk')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Bulk mark student attendance manually',
+    description: 'Mark attendance for multiple students at once',
+  })
+  @ApiBody({ type: BulkMarkAttendanceDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Attendance marked successfully for all students',
+  })
+  async markBulkAttendance(
+    @Request() req: any,
+    @Body() data: BulkMarkAttendanceDto,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.attendanceService.markBulkAttendance(tenantId, data.records);
+  }
+
+  @Get('records')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Get attendance records',
+    description: 'Get flat list of attendance records with optional filters',
+  })
+  @ApiQuery({ name: 'date', required: false, description: 'Date in YYYY-MM-DD format' })
+  @ApiQuery({ name: 'sectionId', required: false })
+  @ApiQuery({ name: 'gradeId', required: false })
+  @ApiQuery({ name: 'page', required: false })
+  @ApiQuery({ name: 'limit', required: false })
+  async getAttendanceRecords(
+    @Request() req: any,
+    @Query('date') date?: string,
+    @Query('sectionId') sectionId?: string,
+    @Query('gradeId') gradeId?: string,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    const tenantId = req.user.tenantId;
+    if (!tenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.attendanceService.getAttendanceRecords(
+      tenantId,
+      date,
+      sectionId,
+      gradeId,
+      page || 1,
+      limit || 100,
+    );
   }
 
   @Post('auto-checkin')

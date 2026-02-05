@@ -125,18 +125,30 @@ export class AttendanceService {
       },
     });
 
-    let attendance;
+    let attendance: any;
 
     if (existingAttendance) {
-      // Update existing attendance for today
+      // Only allow updates for manual attendance
+      // Auto check-in should not overwrite existing records
+      if (!data.isManual) {
+        // Return existing attendance without updating
+        return {
+          ...existingAttendance,
+          method: 'auto',
+          checkInTime: existingAttendance.checkInTime?.toISOString() || null,
+          alreadyRecorded: true,
+        };
+      }
+
+      // Update existing attendance for today (manual only)
       attendance = await this.prisma.attendance.update({
         where: {
           id: existingAttendance.id,
         },
         data: {
           status: data.status as AttendanceStatus,
-          checkInTime: data.checkInDateTime || null,
-          remarks: data.remarks || null,
+          checkInTime: data.checkInDateTime || existingAttendance.checkInTime,
+          remarks: `Manual entry${data.remarks ? `: ${data.remarks}` : ''}`,
         },
         include: {
           student: {
@@ -332,6 +344,103 @@ export class AttendanceService {
     throw new BadRequestException(
       'Card is not associated with a student or teacher',
     );
+  }
+
+  /**
+   * Get attendance records (flat list) with pagination
+   */
+  async getAttendanceRecords(
+    tenantId: string,
+    date?: string,
+    sectionId?: string,
+    gradeId?: string,
+    page: number = 1,
+    limit: number = 100,
+  ) {
+    const where: any = {
+      tenantId,
+    };
+
+    if (sectionId) {
+      where.student = { sectionId };
+    } else if (gradeId) {
+      where.student = { gradeId };
+    }
+
+    // Add date filtering if provided
+    if (date) {
+      const targetDate = new Date(date);
+      const startOfDay = new Date(targetDate);
+      startOfDay.setUTCHours(0, 0, 0, 0);
+      const endOfDay = new Date(targetDate);
+      endOfDay.setUTCHours(23, 59, 59, 999);
+
+      where.createdAt = {
+        gte: startOfDay,
+        lte: endOfDay,
+      };
+    }
+
+    const [attendances, total] = await Promise.all([
+      this.prisma.attendance.findMany({
+        where,
+        include: {
+          student: {
+            include: {
+              section: {
+                include: {
+                  grade: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.attendance.count({ where }),
+    ]);
+
+    return {
+      data: attendances,
+      total,
+      page,
+      limit,
+    };
+  }
+
+  /**
+   * Bulk mark attendance for multiple students
+   */
+  async markBulkAttendance(
+    tenantId: string,
+    records: Array<{
+      studentId: string;
+      status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
+      remarks?: string;
+    }>,
+  ) {
+    const results: any = [];
+
+    for (const record of records) {
+      const result = await this.markAttendance({
+        tenantId,
+        studentId: record.studentId,
+        status: record.status,
+        isManual: true,
+        remarks: record.remarks,
+      });
+      results.push(result);
+    }
+
+    return {
+      success: true,
+      count: results.length,
+      data: results,
+    };
   }
 
   async getAttendanceReport(

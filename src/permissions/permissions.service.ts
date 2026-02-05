@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
   ForbiddenException,
+  Logger,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
@@ -22,9 +23,11 @@ import {
   PermissionRequestedBy,
   Role,
 } from '../../prisma/generated/client';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class PermissionsService {
+  private readonly logger = new Logger(PermissionsService.name);
   constructor(private readonly prisma: PrismaService) {}
 
   async create(
@@ -44,7 +47,8 @@ export class PermissionsService {
     }
 
     // Determine requestedBy based on user role
-    let requestedBy = createPermissionDto.requestedBy || PermissionRequestedBy.ADMIN;
+    let requestedBy =
+      createPermissionDto.requestedBy || PermissionRequestedBy.ADMIN;
     if (userRole === Role.TEACHER) {
       requestedBy = PermissionRequestedBy.TEACHER;
     } else if (userRole === Role.PARENT) {
@@ -53,7 +57,9 @@ export class PermissionsService {
 
     // Auto-approve for admin/teacher requests, pending for parent requests
     const autoApprove = requestedBy !== PermissionRequestedBy.PARENT;
-    const status = autoApprove ? PermissionStatus.APPROVED : PermissionStatus.PENDING;
+    const status = autoApprove
+      ? PermissionStatus.APPROVED
+      : PermissionStatus.PENDING;
 
     // Prepare schedule data for recurring permissions
     const schedule = createPermissionDto.scheduleDays
@@ -185,7 +191,9 @@ export class PermissionsService {
     ]);
 
     return {
-      data: await Promise.all(permissions.map((p) => this.formatPermissionResponse(p))),
+      data: await Promise.all(
+        permissions.map((p) => this.formatPermissionResponse(p)),
+      ),
       total,
       page,
       limit,
@@ -363,32 +371,6 @@ export class PermissionsService {
     return this.formatPermissionResponse(updatedPermission);
   }
 
-  async getQrCode(id: string, tenantId: string): Promise<PermissionQrDataDto> {
-    const permission = await this.prisma.permission.findFirst({
-      where: { id, tenantId },
-      include: {
-        student: {
-          include: { grade: true, section: true },
-        },
-        tenant: true,
-      },
-    });
-
-    if (!permission) {
-      throw new NotFoundException('Permission not found');
-    }
-
-    if (permission.status !== PermissionStatus.APPROVED) {
-      throw new BadRequestException('Permission is not approved');
-    }
-
-    if (permission.permissionType !== PermissionType.ONE_TIME) {
-      throw new BadRequestException('QR code is only available for one-time permissions');
-    }
-
-    return this.generateQrCodeData(permission);
-  }
-
   async checkActivePermission(
     studentId: string,
     tenantId: string,
@@ -442,7 +424,10 @@ export class PermissionsService {
       if (schedule?.days?.includes(currentDay)) {
         // Check time window if specified
         if (permission.fromTime && permission.toTime) {
-          if (currentTime >= permission.fromTime && currentTime <= permission.toTime) {
+          if (
+            currentTime >= permission.fromTime &&
+            currentTime <= permission.toTime
+          ) {
             return { hasPermission: true, permission };
           }
         } else {
@@ -579,48 +564,57 @@ export class PermissionsService {
     const endOfDay = new Date(today);
     endOfDay.setHours(23, 59, 59, 999);
 
-    const [total, pending, approved, rejected, oneTime, recurring, used, unused, activeToday] =
-      await Promise.all([
-        this.prisma.permission.count({ where: { tenantId } }),
-        this.prisma.permission.count({
-          where: { tenantId, status: PermissionStatus.PENDING },
-        }),
-        this.prisma.permission.count({
-          where: { tenantId, status: PermissionStatus.APPROVED },
-        }),
-        this.prisma.permission.count({
-          where: { tenantId, status: PermissionStatus.REJECTED },
-        }),
-        this.prisma.permission.count({
-          where: { tenantId, permissionType: PermissionType.ONE_TIME },
-        }),
-        this.prisma.permission.count({
-          where: { tenantId, permissionType: PermissionType.RECURRING },
-        }),
-        this.prisma.permission.count({
-          where: {
-            tenantId,
-            permissionType: PermissionType.ONE_TIME,
-            qrCodeUsed: true,
-          },
-        }),
-        this.prisma.permission.count({
-          where: {
-            tenantId,
-            permissionType: PermissionType.ONE_TIME,
-            status: PermissionStatus.APPROVED,
-            qrCodeUsed: false,
-          },
-        }),
-        this.prisma.permission.count({
-          where: {
-            tenantId,
-            status: PermissionStatus.APPROVED,
-            fromDate: { lte: endOfDay },
-            toDate: { gte: startOfDay },
-          },
-        }),
-      ]);
+    const [
+      total,
+      pending,
+      approved,
+      rejected,
+      oneTime,
+      recurring,
+      used,
+      unused,
+      activeToday,
+    ] = await Promise.all([
+      this.prisma.permission.count({ where: { tenantId } }),
+      this.prisma.permission.count({
+        where: { tenantId, status: PermissionStatus.PENDING },
+      }),
+      this.prisma.permission.count({
+        where: { tenantId, status: PermissionStatus.APPROVED },
+      }),
+      this.prisma.permission.count({
+        where: { tenantId, status: PermissionStatus.REJECTED },
+      }),
+      this.prisma.permission.count({
+        where: { tenantId, permissionType: PermissionType.ONE_TIME },
+      }),
+      this.prisma.permission.count({
+        where: { tenantId, permissionType: PermissionType.RECURRING },
+      }),
+      this.prisma.permission.count({
+        where: {
+          tenantId,
+          permissionType: PermissionType.ONE_TIME,
+          qrCodeUsed: true,
+        },
+      }),
+      this.prisma.permission.count({
+        where: {
+          tenantId,
+          permissionType: PermissionType.ONE_TIME,
+          status: PermissionStatus.APPROVED,
+          qrCodeUsed: false,
+        },
+      }),
+      this.prisma.permission.count({
+        where: {
+          tenantId,
+          status: PermissionStatus.APPROVED,
+          fromDate: { lte: endOfDay },
+          toDate: { gte: startOfDay },
+        },
+      }),
+    ]);
 
     return {
       total,
@@ -654,7 +648,9 @@ export class PermissionsService {
     };
   }
 
-  private async formatPermissionResponse(permission: any): Promise<PermissionResponseDto> {
+  private async formatPermissionResponse(
+    permission: any,
+  ): Promise<PermissionResponseDto> {
     let approvedByName: string | undefined;
 
     // Fetch approver's name if approvedBy exists
@@ -710,11 +706,28 @@ export class PermissionsService {
           : undefined,
         section: permission.student.section
           ? {
-                id: permission.student.section.id,
-                name: permission.student.section.name,
-              }
+              id: permission.student.section.id,
+              name: permission.student.section.name,
+            }
           : undefined,
       },
     };
+  }
+
+  @Cron(CronExpression.EVERY_HOUR)
+  async expirePermissions() {
+    const now = new Date();
+
+    //Expire ONE_TIME and RECURRING permissions whose toDate has passed
+    const result = await this.prisma.permission.updateMany({
+      where: {
+        status: PermissionStatus.APPROVED,
+        toDate: { lt: now },
+      },
+      data: { status: PermissionStatus.EXPIRED },
+    });
+    this.logger.log(
+      `Expired ${result.count} permissions at ${now.toISOString()}`,
+    );
   }
 }

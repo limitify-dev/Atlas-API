@@ -89,8 +89,16 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
+  @ApiOperation({
+    summary: 'Get current user profile',
+    description: 'Returns the full profile of the currently authenticated user.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'User profile retrieved successfully',
+  })
   async getProfile(@Request() req: any): Promise<any> {
-    return req.user;
+    return this.authService.getProfile(req.user.id);
   }
 
   @Post('refresh')

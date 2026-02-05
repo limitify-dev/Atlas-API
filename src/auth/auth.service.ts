@@ -302,6 +302,38 @@ export class AuthService {
   }
 
   /**
+   * Get user profile by ID
+   * @param userId - User ID
+   * @returns Full user profile without password
+   */
+  async getProfile(userId: string): Promise<any> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        tenant: {
+          select: {
+            id: true,
+            name: true,
+            timezone: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    // Remove password and flatten tenant data
+    const { password, tenant, ...userWithoutPassword } = user;
+    return {
+      ...userWithoutPassword,
+      timezone: tenant?.timezone || 'UTC',
+      schoolName: tenant?.name,
+    };
+  }
+
+  /**
    * Verify user email
    * @param token - Email verification token
    * @returns Success message

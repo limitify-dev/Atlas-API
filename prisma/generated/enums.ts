@@ -107,7 +107,8 @@ export type BusStatus = (typeof BusStatus)[keyof typeof BusStatus]
 export const PermissionStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED'
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED'
 } as const
 
 export type PermissionStatus = (typeof PermissionStatus)[keyof typeof PermissionStatus]

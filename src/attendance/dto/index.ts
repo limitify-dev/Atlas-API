@@ -184,3 +184,48 @@ export class BatchAttendanceDto {
   @Type(() => EdgeAttendanceRecordDto)
   records: EdgeAttendanceRecordDto[];
 }
+
+/**
+ * Single record for bulk manual attendance marking
+ */
+export class BulkAttendanceRecordDto {
+  @ApiProperty({
+    description: 'Student ID',
+    example: 'student-uuid',
+  })
+  @IsString()
+  @IsNotEmpty()
+  studentId: string;
+
+  @ApiProperty({
+    description: 'Attendance status',
+    enum: ['PRESENT', 'ABSENT', 'LATE', 'EXCUSED'],
+    example: 'PRESENT',
+  })
+  @IsString()
+  @IsNotEmpty()
+  status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
+
+  @ApiProperty({
+    description: 'Additional remarks',
+    example: 'Late due to traffic',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  remarks?: string;
+}
+
+/**
+ * DTO for bulk manual attendance marking
+ */
+export class BulkMarkAttendanceDto {
+  @ApiProperty({
+    description: 'Array of attendance records to mark',
+    type: [BulkAttendanceRecordDto],
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BulkAttendanceRecordDto)
+  records: BulkAttendanceRecordDto[];
+}
