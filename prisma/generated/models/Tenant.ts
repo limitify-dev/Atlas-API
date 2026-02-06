@@ -42,6 +42,7 @@ export type TenantMinAggregateOutputType = {
   slug: string | null
   domain: string | null
   logo: string | null
+  brandColor: string | null
   address: string | null
   city: string | null
   state: string | null
@@ -67,6 +68,7 @@ export type TenantMaxAggregateOutputType = {
   slug: string | null
   domain: string | null
   logo: string | null
+  brandColor: string | null
   address: string | null
   city: string | null
   state: string | null
@@ -92,6 +94,7 @@ export type TenantCountAggregateOutputType = {
   slug: number
   domain: number
   logo: number
+  brandColor: number
   address: number
   city: number
   state: number
@@ -130,6 +133,7 @@ export type TenantMinAggregateInputType = {
   slug?: true
   domain?: true
   logo?: true
+  brandColor?: true
   address?: true
   city?: true
   state?: true
@@ -155,6 +159,7 @@ export type TenantMaxAggregateInputType = {
   slug?: true
   domain?: true
   logo?: true
+  brandColor?: true
   address?: true
   city?: true
   state?: true
@@ -180,6 +185,7 @@ export type TenantCountAggregateInputType = {
   slug?: true
   domain?: true
   logo?: true
+  brandColor?: true
   address?: true
   city?: true
   state?: true
@@ -293,6 +299,7 @@ export type TenantGroupByOutputType = {
   slug: string
   domain: string | null
   logo: string | null
+  brandColor: string | null
   address: string | null
   city: string | null
   state: string | null
@@ -342,6 +349,7 @@ export type TenantWhereInput = {
   slug?: Prisma.StringFilter<"Tenant"> | string
   domain?: Prisma.StringNullableFilter<"Tenant"> | string | null
   logo?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  brandColor?: Prisma.StringNullableFilter<"Tenant"> | string | null
   address?: Prisma.StringNullableFilter<"Tenant"> | string | null
   city?: Prisma.StringNullableFilter<"Tenant"> | string | null
   state?: Prisma.StringNullableFilter<"Tenant"> | string | null
@@ -399,6 +407,7 @@ export type TenantOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrderInput | Prisma.SortOrder
   logo?: Prisma.SortOrderInput | Prisma.SortOrder
+  brandColor?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -459,6 +468,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   name?: Prisma.StringFilter<"Tenant"> | string
   logo?: Prisma.StringNullableFilter<"Tenant"> | string | null
+  brandColor?: Prisma.StringNullableFilter<"Tenant"> | string | null
   address?: Prisma.StringNullableFilter<"Tenant"> | string | null
   city?: Prisma.StringNullableFilter<"Tenant"> | string | null
   state?: Prisma.StringNullableFilter<"Tenant"> | string | null
@@ -516,6 +526,7 @@ export type TenantOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrderInput | Prisma.SortOrder
   logo?: Prisma.SortOrderInput | Prisma.SortOrder
+  brandColor?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -550,6 +561,7 @@ export type TenantScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   domain?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   logo?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
+  brandColor?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   city?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   state?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
@@ -576,6 +588,7 @@ export type TenantCreateInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -633,6 +646,7 @@ export type TenantUncheckedCreateInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -690,6 +704,7 @@ export type TenantUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -747,6 +762,7 @@ export type TenantUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -804,6 +820,7 @@ export type TenantCreateManyInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -830,6 +847,7 @@ export type TenantUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -856,6 +874,7 @@ export type TenantUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -882,6 +901,7 @@ export type TenantCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logo?: Prisma.SortOrder
+  brandColor?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -913,6 +933,7 @@ export type TenantMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logo?: Prisma.SortOrder
+  brandColor?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -938,6 +959,7 @@ export type TenantMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logo?: Prisma.SortOrder
+  brandColor?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -1446,6 +1468,7 @@ export type TenantCreateWithoutUsersInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1502,6 +1525,7 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1574,6 +1598,7 @@ export type TenantUpdateWithoutUsersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1630,6 +1655,7 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1686,6 +1712,7 @@ export type TenantCreateWithoutStudentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1742,6 +1769,7 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1814,6 +1842,7 @@ export type TenantUpdateWithoutStudentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1870,6 +1899,7 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1926,6 +1956,7 @@ export type TenantCreateWithoutParentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1982,6 +2013,7 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2054,6 +2086,7 @@ export type TenantUpdateWithoutParentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2110,6 +2143,7 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2166,6 +2200,7 @@ export type TenantCreateWithoutTeachersInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2222,6 +2257,7 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2294,6 +2330,7 @@ export type TenantUpdateWithoutTeachersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2350,6 +2387,7 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2406,6 +2444,7 @@ export type TenantCreateWithoutGradesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2462,6 +2501,7 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2534,6 +2574,7 @@ export type TenantUpdateWithoutGradesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2590,6 +2631,7 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2646,6 +2688,7 @@ export type TenantCreateWithoutCombinationsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2702,6 +2745,7 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2774,6 +2818,7 @@ export type TenantUpdateWithoutCombinationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2830,6 +2875,7 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2886,6 +2932,7 @@ export type TenantCreateWithoutSectionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2942,6 +2989,7 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3014,6 +3062,7 @@ export type TenantUpdateWithoutSectionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3070,6 +3119,7 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3126,6 +3176,7 @@ export type TenantCreateWithoutSubjectsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3182,6 +3233,7 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3254,6 +3306,7 @@ export type TenantUpdateWithoutSubjectsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3310,6 +3363,7 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3366,6 +3420,7 @@ export type TenantCreateWithoutAttendancesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3422,6 +3477,7 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3494,6 +3550,7 @@ export type TenantUpdateWithoutAttendancesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3550,6 +3607,7 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3606,6 +3664,7 @@ export type TenantCreateWithoutTeacherAttendancesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3662,6 +3721,7 @@ export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3734,6 +3794,7 @@ export type TenantUpdateWithoutTeacherAttendancesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3790,6 +3851,7 @@ export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3846,6 +3908,7 @@ export type TenantCreateWithoutBooksInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3902,6 +3965,7 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3974,6 +4038,7 @@ export type TenantUpdateWithoutBooksInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4030,6 +4095,7 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4086,6 +4152,7 @@ export type TenantCreateWithoutBookTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4142,6 +4209,7 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4214,6 +4282,7 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4270,6 +4339,7 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4326,6 +4396,7 @@ export type TenantCreateWithoutBusesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4382,6 +4453,7 @@ export type TenantUncheckedCreateWithoutBusesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4454,6 +4526,7 @@ export type TenantUpdateWithoutBusesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4510,6 +4583,7 @@ export type TenantUncheckedUpdateWithoutBusesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4566,6 +4640,7 @@ export type TenantCreateWithoutBusRoutesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4622,6 +4697,7 @@ export type TenantUncheckedCreateWithoutBusRoutesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4694,6 +4770,7 @@ export type TenantUpdateWithoutBusRoutesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4750,6 +4827,7 @@ export type TenantUncheckedUpdateWithoutBusRoutesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4806,6 +4884,7 @@ export type TenantCreateWithoutTransportAssignmentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4862,6 +4941,7 @@ export type TenantUncheckedCreateWithoutTransportAssignmentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4934,6 +5014,7 @@ export type TenantUpdateWithoutTransportAssignmentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4990,6 +5071,7 @@ export type TenantUncheckedUpdateWithoutTransportAssignmentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5046,6 +5128,7 @@ export type TenantCreateWithoutPermissionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5102,6 +5185,7 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5174,6 +5258,7 @@ export type TenantUpdateWithoutPermissionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5230,6 +5315,7 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5286,6 +5372,7 @@ export type TenantCreateWithoutPermissionUsagesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5342,6 +5429,7 @@ export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5414,6 +5502,7 @@ export type TenantUpdateWithoutPermissionUsagesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5470,6 +5559,7 @@ export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5526,6 +5616,7 @@ export type TenantCreateWithoutConductRecordsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5582,6 +5673,7 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5654,6 +5746,7 @@ export type TenantUpdateWithoutConductRecordsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5710,6 +5803,7 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5766,6 +5860,7 @@ export type TenantCreateWithoutStudentConductPointsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5822,6 +5917,7 @@ export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5894,6 +5990,7 @@ export type TenantUpdateWithoutStudentConductPointsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5950,6 +6047,7 @@ export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6006,6 +6104,7 @@ export type TenantCreateWithoutConductPointTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6062,6 +6161,7 @@ export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6134,6 +6234,7 @@ export type TenantUpdateWithoutConductPointTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6190,6 +6291,7 @@ export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6246,6 +6348,7 @@ export type TenantCreateWithoutMessagesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6302,6 +6405,7 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6374,6 +6478,7 @@ export type TenantUpdateWithoutMessagesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6430,6 +6535,7 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6486,6 +6592,7 @@ export type TenantCreateWithoutAnnouncementsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6542,6 +6649,7 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6614,6 +6722,7 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6670,6 +6779,7 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6726,6 +6836,7 @@ export type TenantCreateWithoutNotificationsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6782,6 +6893,7 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6854,6 +6966,7 @@ export type TenantUpdateWithoutNotificationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6910,6 +7023,7 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6966,6 +7080,7 @@ export type TenantCreateWithoutInventoryItemsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7022,6 +7137,7 @@ export type TenantUncheckedCreateWithoutInventoryItemsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7094,6 +7210,7 @@ export type TenantUpdateWithoutInventoryItemsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7150,6 +7267,7 @@ export type TenantUncheckedUpdateWithoutInventoryItemsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7206,6 +7324,7 @@ export type TenantCreateWithoutInventoryTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7262,6 +7381,7 @@ export type TenantUncheckedCreateWithoutInventoryTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7334,6 +7454,7 @@ export type TenantUpdateWithoutInventoryTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7390,6 +7511,7 @@ export type TenantUncheckedUpdateWithoutInventoryTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7446,6 +7568,7 @@ export type TenantCreateWithoutCardsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7502,6 +7625,7 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7574,6 +7698,7 @@ export type TenantUpdateWithoutCardsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7630,6 +7755,7 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7686,6 +7812,7 @@ export type TenantCreateWithoutCardLogsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7742,6 +7869,7 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7814,6 +7942,7 @@ export type TenantUpdateWithoutCardLogsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7870,6 +7999,7 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7926,6 +8056,7 @@ export type TenantCreateWithoutCardPermissionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7982,6 +8113,7 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8054,6 +8186,7 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8110,6 +8243,7 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8166,6 +8300,7 @@ export type TenantCreateWithoutEventsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8222,6 +8357,7 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8294,6 +8430,7 @@ export type TenantUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8350,6 +8487,7 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8406,6 +8544,7 @@ export type TenantCreateWithoutDevicesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8462,6 +8601,7 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8534,6 +8674,7 @@ export type TenantUpdateWithoutDevicesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8590,6 +8731,7 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8646,6 +8788,7 @@ export type TenantCreateWithoutDeviceLogsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8702,6 +8845,7 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
+  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8774,6 +8918,7 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8830,6 +8975,7 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9187,6 +9333,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   slug?: boolean
   domain?: boolean
   logo?: boolean
+  brandColor?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
@@ -9245,6 +9392,7 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   slug?: boolean
   domain?: boolean
   logo?: boolean
+  brandColor?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
@@ -9271,6 +9419,7 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   slug?: boolean
   domain?: boolean
   logo?: boolean
+  brandColor?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
@@ -9297,6 +9446,7 @@ export type TenantSelectScalar = {
   slug?: boolean
   domain?: boolean
   logo?: boolean
+  brandColor?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
@@ -9317,7 +9467,7 @@ export type TenantSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "address" | "city" | "state" | "country" | "zipCode" | "phone" | "email" | "website" | "timezone" | "status" | "subscriptionPlan" | "subscriptionStartDate" | "subscriptionEndDate" | "maxStudents" | "maxTeachers" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "brandColor" | "address" | "city" | "state" | "country" | "zipCode" | "phone" | "email" | "website" | "timezone" | "status" | "subscriptionPlan" | "subscriptionStartDate" | "subscriptionEndDate" | "maxStudents" | "maxTeachers" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
   students?: boolean | Prisma.Tenant$studentsArgs<ExtArgs>
@@ -9396,6 +9546,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     slug: string
     domain: string | null
     logo: string | null
+    brandColor: string | null
     address: string | null
     city: string | null
     state: string | null
@@ -9873,6 +10024,7 @@ export interface TenantFieldRefs {
   readonly slug: Prisma.FieldRef<"Tenant", 'String'>
   readonly domain: Prisma.FieldRef<"Tenant", 'String'>
   readonly logo: Prisma.FieldRef<"Tenant", 'String'>
+  readonly brandColor: Prisma.FieldRef<"Tenant", 'String'>
   readonly address: Prisma.FieldRef<"Tenant", 'String'>
   readonly city: Prisma.FieldRef<"Tenant", 'String'>
   readonly state: Prisma.FieldRef<"Tenant", 'String'>

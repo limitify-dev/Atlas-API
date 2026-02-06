@@ -31,6 +31,8 @@ export class AuthService {
       tenantId: user.tenantId,
       timezone: user.timezone,
       schoolName: user.schoolName,
+      schoolLogo: user.schoolLogo,
+      brandColor: user.brandColor,
     };
     const accessToken = this.jwtService.sign(payload);
     const refreshToken = this.jwtService.sign(payload, {
@@ -101,7 +103,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid or expired refresh token');
       }
 
-      // Fetch tenant data for timezone and schoolName
+      // Fetch tenant data for timezone, schoolName, logo and brandColor
       const userWithTenant = await this.prisma.user.findUnique({
         where: { id: storedToken.user.id },
         include: {
@@ -110,6 +112,8 @@ export class AuthService {
               id: true,
               name: true,
               timezone: true,
+              logo: true,
+              brandColor: true,
             },
           },
         },
@@ -124,6 +128,8 @@ export class AuthService {
         tenantId: storedToken.user.tenantId,
         timezone: userWithTenant?.tenant?.timezone || 'UTC',
         schoolName: userWithTenant?.tenant?.name,
+        schoolLogo: userWithTenant?.tenant?.logo || null,
+        brandColor: userWithTenant?.tenant?.brandColor || '#1e40af',
       };
       const newAccessToken = this.jwtService.sign(newPayload);
       const newRefreshToken = this.jwtService.sign(newPayload, {
@@ -167,6 +173,8 @@ export class AuthService {
           ...userWithoutPassword,
           timezone: tenant?.timezone || 'UTC',
           schoolName: tenant?.name,
+          schoolLogo: tenant?.logo || null,
+          brandColor: tenant?.brandColor || '#1e40af',
         } as any,
       };
     } catch (error) {
@@ -191,6 +199,8 @@ export class AuthService {
             id: true,
             name: true,
             timezone: true,
+            logo: true,
+            brandColor: true,
           },
         },
       },
@@ -210,6 +220,8 @@ export class AuthService {
     return {
       ...userWithoutPassword,
       schoolName: tenant?.name,
+      schoolLogo: tenant?.logo || null,
+      brandColor: tenant?.brandColor || '#1e40af',
       timezone: tenant?.timezone || 'UTC',
     };
   }
@@ -315,6 +327,8 @@ export class AuthService {
             id: true,
             name: true,
             timezone: true,
+            logo: true,
+            brandColor: true,
           },
         },
       },
@@ -330,6 +344,8 @@ export class AuthService {
       ...userWithoutPassword,
       timezone: tenant?.timezone || 'UTC',
       schoolName: tenant?.name,
+      schoolLogo: tenant?.logo || null,
+      brandColor: tenant?.brandColor || '#1e40af',
     };
   }
 

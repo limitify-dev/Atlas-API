@@ -23,6 +23,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       tenantId: payload.tenantId,
       timezone: payload.timezone,
       schoolName: payload.schoolName,
+      schoolLogo: payload.schoolLogo,
+      brandColor: payload.brandColor,
     };
   }
 }

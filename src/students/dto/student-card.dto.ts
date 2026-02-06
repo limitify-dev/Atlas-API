@@ -75,6 +75,15 @@ export class PermissionSummaryDto {
  */
 export class StudentCardInfoDto {
   @ApiProperty({
+    description: 'School/Tenant information',
+  })
+  school: {
+    id: string;
+    name: string;
+    logo: string | null;
+  };
+
+  @ApiProperty({
     description: 'Student information',
   })
   student: {
@@ -87,6 +96,8 @@ export class StudentCardInfoDto {
     grade: {
       id: string;
       name: string;
+      level: number;
+      educationLevel: string;
     };
     section: {
       id: string;

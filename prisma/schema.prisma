@@ -140,6 +140,7 @@ model Tenant {
   slug                  String           @unique // subdomain or identifier
   domain                String?          @unique // custom domain if any
   logo                  String?
+  brandColor            String?          @default("#1e40af") // Brand color for student ID cards
   address               String?
   city                  String?
   state                 String?

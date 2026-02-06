@@ -4,11 +4,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { SupabaseService } from 'src/common/supabase/supabase.service';
 import { CreateTenantDto, UpdateTenantDto } from './dto';
 
 @Injectable()
 export class TenantsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly supabase: SupabaseService,
+  ) {}
 
   /**
    * Create a new tenant
@@ -105,9 +109,14 @@ export class TenantsService {
    * Update tenant
    * @param id - Tenant ID
    * @param updateTenantDto - Update data
+   * @param logoFile - Optional logo file
    * @returns Updated tenant
    */
-  async update(id: string, updateTenantDto: UpdateTenantDto) {
+  async update(
+    id: string,
+    updateTenantDto: UpdateTenantDto,
+    logoFile?: Express.Multer.File,
+  ) {
     // Check if tenant exists
     await this.findOne(id);
 
@@ -141,9 +150,51 @@ export class TenantsService {
       }
     }
 
+    let logoUrl: string | undefined;
+
+    // Handle logo upload
+    if (logoFile) {
+      try {
+        const fileExt = logoFile.originalname.split('.').pop() || 'png';
+        const fileName = `logo.${fileExt}`;
+        const filePath = `tenants/${id}/${fileName}`;
+
+        const { error: uploadError } = await this.supabase.client.storage
+          .from('atlas-profiles')
+          .upload(filePath, logoFile.buffer, {
+            contentType: logoFile.mimetype,
+            upsert: true,
+            cacheControl: '3600',
+          });
+
+        if (uploadError) {
+          console.error(`Logo upload failed for tenant ${id}:`, uploadError.message);
+        } else {
+          const { data: urlData } = this.supabase.client.storage
+            .from('atlas-profiles')
+            .getPublicUrl(filePath);
+          logoUrl = urlData.publicUrl;
+        }
+      } catch (uploadErr) {
+        console.error(`Unexpected error during logo upload for tenant ${id}:`, uploadErr);
+      }
+    }
+
+    // Parse numeric fields that may come as strings from FormData
+    const updateData: any = { ...updateTenantDto };
+    if (updateData.maxStudents !== undefined) {
+      updateData.maxStudents = parseInt(updateData.maxStudents, 10);
+    }
+    if (updateData.maxTeachers !== undefined) {
+      updateData.maxTeachers = parseInt(updateData.maxTeachers, 10);
+    }
+
     return await this.prisma.tenant.update({
       where: { id },
-      data: updateTenantDto as any,
+      data: {
+        ...updateData,
+        ...(logoUrl && { logo: logoUrl }),
+      },
     });
   }
 

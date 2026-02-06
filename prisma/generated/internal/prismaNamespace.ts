@@ -3373,6 +3373,7 @@ export const TenantScalarFieldEnum = {
   slug: 'slug',
   domain: 'domain',
   logo: 'logo',
+  brandColor: 'brandColor',
   address: 'address',
   city: 'city',
   state: 'state',

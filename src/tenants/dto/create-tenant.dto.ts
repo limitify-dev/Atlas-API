@@ -27,6 +27,13 @@ export class CreateTenantDto {
   logo?: string;
 
   @ApiPropertyOptional({
+    description: 'Brand color for student ID cards (hex format)',
+    example: '#3b82f6',
+    default: '#1e40af',
+  })
+  brandColor?: string;
+
+  @ApiPropertyOptional({
     description: 'School address',
     example: '123 School Street',
   })

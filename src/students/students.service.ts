@@ -865,6 +865,12 @@ export class StudentsService {
       throw new NotFoundException('Student not found or has been removed');
     }
 
+    // Fetch tenant (school) information
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: payload.tenantId },
+      select: { id: true, name: true, logo: true },
+    });
+
     // Get active permissions for this student
     const now = new Date();
     const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
@@ -896,6 +902,11 @@ export class StudentsService {
     });
     const data = this.transformToResponse(student);
     return {
+      school: {
+        id: tenant?.id || payload.tenantId,
+        name: tenant?.name || 'Unknown School',
+        logo: tenant?.logo || null,
+      },
       student: data,
       activePermissions: validPermissions.map((p) => ({
         id: p.id,

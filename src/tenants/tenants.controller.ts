@@ -7,13 +7,17 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiTags,
   ApiOperation,
   ApiBearerAuth,
   ApiResponse,
   ApiParam,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { TenantsService } from './tenants.service';
 import { CreateTenantDto, UpdateTenantDto } from './dto';
@@ -78,13 +82,19 @@ export class TenantsController {
 
   @Patch(':id')
   @Roles(Role.SUPER_ADMIN)
+  @UseInterceptors(FileInterceptor('logoFile'))
+  @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Update tenant (Super Admin only)' })
   @ApiParam({ name: 'id', description: 'Tenant UUID' })
   @ApiResponse({ status: 200, description: 'Tenant updated successfully' })
   @ApiResponse({ status: 404, description: 'Tenant not found' })
   @ApiResponse({ status: 409, description: 'Slug or domain already exists' })
-  update(@Param('id') id: string, @Body() updateTenantDto: UpdateTenantDto) {
-    return this.tenantsService.update(id, updateTenantDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateTenantDto: UpdateTenantDto,
+    @UploadedFile() logoFile?: Express.Multer.File,
+  ) {
+    return this.tenantsService.update(id, updateTenantDto, logoFile);
   }
 
   @Delete(':id')
