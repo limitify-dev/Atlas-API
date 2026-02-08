@@ -23,9 +23,93 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Atlas API** - A comprehensive school management system API built with [NestJS](https://github.com/nestjs/nest) framework. This API provides multi-tenant support for managing students, teachers, attendance, library, transportation, conduct tracking, and more.
 
-## Project setup
+## 🐳 Docker Deployment (Recommended)
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) (v20.10+)
+- [Docker Compose](https://docs.docker.com/compose/install/) (v2.0+)
+- External PostgreSQL database
+
+### Quick Start with Docker
+
+1. **Clone and navigate to the project**
+   ```bash
+   cd Atlas-API
+   ```
+
+2. **Configure environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your actual configuration
+   ```
+
+3. **Build and run with Docker Compose**
+   
+   **Production mode:**
+   ```bash
+   docker-compose up -d
+   ```
+   
+   **Development mode (with hot-reload):**
+   ```bash
+   docker-compose -f docker-compose.dev.yml up
+   ```
+
+4. **Access the API**
+   - API: http://localhost:4000
+   - API Documentation: http://localhost:4000/doc
+
+### Docker Commands
+
+```bash
+# Build the Docker image
+docker build -t atlas-api:latest .
+
+# Run container (production)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f api
+
+# Stop containers
+docker-compose down
+
+# Rebuild and restart
+docker-compose up -d --build
+
+# Run Prisma migrations manually
+docker-compose exec api npx prisma migrate deploy
+
+# Access container shell
+docker-compose exec api sh
+```
+
+### Environment Variables
+
+Required environment variables (see `.env.example` for template):
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `PORT` | API port | `4000` |
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@host:5432/db` |
+| `SUPABASE_URL` | Supabase project URL | `https://xxx.supabase.co` |
+| `SUPABASE_KEY` | Supabase API key | `your-key` |
+| `NODE_ENV` | Environment | `production` or `development` |
+
+### Docker Architecture
+
+- **Multi-stage build** for optimized image size
+- **Node.js 22 Alpine** base image
+- **Automatic Prisma migrations** on container startup
+- **Health checks** for container monitoring
+- **Non-root user** for security
+- **Hot-reload support** in development mode
+
+## 📦 Local Development (Without Docker)
+
 
 ```bash
 $ npm install

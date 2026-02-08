@@ -1,0 +1,58 @@
+services:
+  # ============================================
+  # Atlas API Service
+  # ============================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: atlas-api
+    restart: unless-stopped
+    ports:
+      - "${PORT:-4000}:4000"
+    environment:
+      # Application
+      PORT: ${PORT:-4000}
+      NODE_ENV: ${NODE_ENV:-production}
+
+      # Database - Use your external PostgreSQL connection string
+      DATABASE_URL: ${DATABASE_URL}
+
+      # Supabase
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+
+      # Optional: JWT Configuration
+      JWT_SECRET: ${JWT_SECRET:-}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+
+    # Load environment variables from .env file
+    env_file:
+      - .env
+
+    # Health check
+    healthcheck:
+      test: [ "CMD", "node", "-e", "require('http').get('http://localhost:4000', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    # Networks
+    networks:
+      - atlas-network
+
+# ============================================
+# Networks
+# ============================================
+networks:
+  atlas-network:
+    driver: bridge

@@ -1,0 +1,39 @@
+services:
+  # ============================================
+  # Development API Service
+  # ============================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder # Use builder stage for development
+    container_name: atlas-api-dev
+    restart: unless-stopped
+    ports:
+      - "${PORT:-4000}:4000"
+
+    # Mount source code for hot-reload
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+      - /app/node_modules # Prevent overwriting node_modules
+
+    environment:
+      PORT: ${PORT:-4000}
+      NODE_ENV: development
+      DATABASE_URL: ${DATABASE_URL}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+
+    env_file:
+      - .env
+
+    # Override CMD to run in dev mode with hot-reload
+    command: npm run start:dev
+
+    networks:
+      - atlas-network
+
+networks:
+  atlas-network:
+    driver: bridge
