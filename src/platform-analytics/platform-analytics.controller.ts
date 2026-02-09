@@ -37,6 +37,14 @@ export class PlatformAnalyticsController {
   }
 
   /**
+   * Get growth trend for dashboard
+   */
+  @Get('growth-trend')
+  async getGrowthTrend() {
+    return this.platformAnalyticsService.getGrowthTrend();
+  }
+
+  /**
    * Get system health metrics
    */
   @Get('health')
@@ -62,6 +70,14 @@ export class PlatformAnalyticsController {
     return this.platformAnalyticsService.getRecentActivity(
       limit ? parseInt(limit, 10) : 20,
     );
+  }
+
+  /**
+   * Get revenue analytics
+   */
+  @Get('revenue')
+  async getRevenueAnalytics() {
+    return this.platformAnalyticsService.getRevenueAnalytics();
   }
 
   /**

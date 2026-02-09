@@ -4,6 +4,7 @@ import {
   Post,
   Body,
   Query,
+  Param,
   UseGuards,
   Request,
 } from '@nestjs/common';
@@ -54,6 +55,11 @@ export class SystemLogsController {
   @Get('stats')
   async getStats(@Query('tenantId') tenantId?: string) {
     return this.systemLogsService.getLogStats(tenantId);
+  }
+
+  @Get(':id')
+  async getLogById(@Param('id') id: string) {
+    return this.systemLogsService.getLogById(id);
   }
 
   @Post()

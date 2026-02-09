@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
   UseGuards,
   ForbiddenException,
 } from '@nestjs/common';
@@ -46,9 +47,12 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'List of all users' })
-  findAll() {
-    // TODO: Add tenant filtering based on user's tenantId
-    return this.usersService.findAll();
+  findAll(
+    @Query('tenantId') tenantId?: string,
+    @Query('role') role?: Role,
+    @Query('noTenant') noTenant?: boolean,
+  ) {
+    return this.usersService.findAll(tenantId, role, noTenant);
   }
 
   @Get(':id')

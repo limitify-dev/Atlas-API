@@ -159,6 +159,15 @@ export class SystemLogsService {
   }
 
   /**
+   * Get a single log by ID
+   */
+  async getLogById(id: string) {
+    return this.prisma.systemLog.findUnique({
+      where: { id },
+    });
+  }
+
+  /**
    * Delete old logs (for cleanup)
    */
   async deleteOldLogs(daysToKeep: number = 30) {

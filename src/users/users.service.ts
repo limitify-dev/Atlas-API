@@ -44,13 +44,31 @@ export class UsersService {
     return userWithoutPassword;
   }
 
-  async findAll() {
+  async findAll(tenantId?: string, role?: string, noTenant?: boolean) {
+    const where: any = {};
+
+    // If tenantId is provided, filter by it
+    if (tenantId) {
+      where.tenantId = tenantId;
+    }
+
+    // If noTenant is true, filter for users without a tenant
+    if (noTenant) {
+      where.tenantId = null;
+    }
+
+    // If role is provided, filter by it
+    if (role) {
+      where.role = role;
+    } else {
+      // Default behavior: hide SUPER_ADMIN unless specifically requested
+      where.role = {
+        not: 'SUPER_ADMIN',
+      };
+    }
+
     const users = await this.prisma.user.findMany({
-      where: {
-        role: {
-          not: 'SUPER_ADMIN',
-        },
-      },
+      where,
       include: {
         tenant: {
           select: {
@@ -59,6 +77,9 @@ export class UsersService {
             slug: true,
           },
         },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
 

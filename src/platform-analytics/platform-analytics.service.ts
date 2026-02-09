@@ -25,8 +25,8 @@ export class PlatformAnalyticsService {
       this.prisma.tenant.count({ where: { status: 'TRIAL' } }),
       this.prisma.tenant.count({ where: { status: 'SUSPENDED' } }),
       this.prisma.user.count(),
-      this.prisma.student.count(),
-      this.prisma.teacher.count(),
+      this.prisma.user.count({ where: { role: 'STUDENT' } }),
+      this.prisma.user.count({ where: { role: 'TEACHER' } }),
       this.prisma.device.count(),
       this.prisma.device.count({ where: { status: 'ACTIVE' } }),
     ]);
@@ -158,6 +158,90 @@ export class PlatformAnalyticsService {
         growth: calculateGrowth(currentStudents, previousStudents),
       },
     };
+  }
+
+  /**
+   * Get growth trend for the last 7 days
+   */
+  async getGrowthTrend() {
+    const days: Date[] = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      d.setHours(23, 59, 59, 999);
+      days.push(d);
+    }
+
+    const [allTenants, allUsers] = await Promise.all([
+      this.prisma.tenant.findMany({ select: { createdAt: true } }),
+      this.prisma.user.findMany({ select: { createdAt: true } }),
+    ]);
+
+    return days.map((date) => {
+      const dayName =
+        date.toDateString() === new Date().toDateString()
+          ? 'Today'
+          : date.toLocaleString('default', { weekday: 'short' });
+
+      const tenants = allTenants.filter((t) => t.createdAt <= date).length;
+      const users = allUsers.filter((u) => u.createdAt <= date).length;
+
+      return {
+        day: dayName,
+        institutions: tenants,
+        users: users,
+      };
+    });
+  }
+
+  /**
+   * Get revenue analytics for the last 6 months
+   */
+  async getRevenueAnalytics() {
+    const PLAN_PRICES = {
+      FREE: 0,
+      BASIC: 49,
+      PREMIUM: 99,
+      ENTERPRISE: 299,
+    };
+
+    const months: Date[] = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date();
+      d.setMonth(d.getMonth() - i);
+      d.setDate(1);
+      months.push(d);
+    }
+
+    const allTenants = await this.prisma.tenant.findMany({
+      select: {
+        createdAt: true,
+        subscriptionPlan: true,
+        status: true,
+      },
+    });
+
+    return months.map((monthDate) => {
+      const monthName = monthDate.toLocaleString('default', { month: 'short' });
+      const endOfMonth = new Date(monthDate);
+      endOfMonth.setMonth(endOfMonth.getMonth() + 1);
+      endOfMonth.setDate(0);
+
+      const existingTenants = allTenants.filter(
+        (t) => t.createdAt <= endOfMonth,
+      );
+
+      const revenue = existingTenants.reduce((sum, t) => {
+        return sum + (PLAN_PRICES[t.subscriptionPlan] || 0);
+      }, 0);
+
+      return {
+        month: monthName,
+        revenue,
+        subscriptions: existingTenants.length,
+        trials: existingTenants.filter((t) => t.status === 'TRIAL').length,
+      };
+    });
   }
 
   /**
