@@ -47,7 +47,7 @@ export class StudentsService {
     const studentId = `ST${String(studentCount + 1).padStart(3, '0')}`;
 
     try {
-      // Create student, parent, and link them in a transaction
+      // Create student, parents, and link them in a transaction
       const result = await this.prisma.$transaction(async (tx) => {
         // Create student (no user account needed)
         const student = await tx.student.create({
@@ -75,67 +75,48 @@ export class StudentsService {
           },
         });
 
-        // Check if parent exists
-        let parent = await tx.user.findUnique({
-          where: { email: createStudentDto.parentEmail },
-          include: { parent: true },
+        // 1. Handle primary parent
+        const parent1 = await this.getOrCreateParent(tx, tenantId, {
+          name: createStudentDto.parentName,
+          email: createStudentDto.parentEmail,
+          phone: createStudentDto.parentPhone,
+          relationship: createStudentDto.relationship,
+          occupation: createStudentDto.occupation,
         });
 
-        if (!parent) {
-          // Create parent user
-          const parentUsername =
-            createStudentDto.parentEmail.split('@')[0] +
-            Math.random().toString(36).substring(2, 6);
-          const parentPassword = 'Parent@123';
-          const hashedParentPassword = await bcrypt.hash(parentPassword, 10);
-
-          parent = await tx.user.create({
-            data: {
-              tenantId,
-              email: createStudentDto.parentEmail,
-              name: createStudentDto.parentName,
-              username: parentUsername,
-              password: hashedParentPassword,
-              phone: createStudentDto.parentPhone,
-              role: Role.USER,
-              userType: UserType.PARENT,
-              status: Status.ACTIVE,
-            },
-            include: { parent: true },
-          });
-
-          // Create parent record
-          const parentFirstName = createStudentDto.parentName.split(' ')[0];
-          const parentLastName =
-            createStudentDto.parentName.split(' ').slice(1).join(' ') ||
-            parentFirstName;
-
-          await tx.parent.create({
-            data: {
-              tenantId,
-              userId: parent.id,
-              firstName: parentFirstName,
-              lastName: parentLastName,
-              relationship: createStudentDto.relationship || null,
-              occupation: createStudentDto.occupation || null,
-            },
-          });
-
-          // Refresh parent with the newly created parent record
-          parent = await tx.user.findUnique({
-            where: { id: parent.id },
-            include: { parent: true },
-          });
-        }
-
-        // Link student to parent
         await tx.studentParent.create({
           data: {
             studentId: student.id,
-            parentId: parent!.parent!.id,
+            parentId: parent1.id,
             isPrimary: true,
           },
         });
+
+        // 2. Handle optional second parent
+        if (
+          createStudentDto.parent2Email &&
+          createStudentDto.parent2Name &&
+          createStudentDto.parent2Phone
+        ) {
+          const parent2 = await this.getOrCreateParent(tx, tenantId, {
+            name: createStudentDto.parent2Name,
+            email: createStudentDto.parent2Email,
+            phone: createStudentDto.parent2Phone,
+            relationship: createStudentDto.parent2Relationship,
+            occupation: createStudentDto.parent2Occupation,
+          });
+
+          // Avoid duplicate link if it's the same person
+          if (parent2.id !== parent1.id) {
+            await tx.studentParent.create({
+              data: {
+                studentId: student.id,
+                parentId: parent2.id,
+                isPrimary: false,
+              },
+            });
+          }
+        }
 
         return student;
       });
@@ -192,7 +173,20 @@ export class StudentsService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new ConflictException('Student with this email already exists');
+          const target = (error.meta?.target as string[]) || [];
+          if (target.includes('email')) {
+            throw new ConflictException(
+              'Student with this email already exists',
+            );
+          }
+          if (target.includes('studentId')) {
+            throw new ConflictException(
+              'A student with this ID already exists in this school',
+            );
+          }
+          throw new ConflictException(
+            `Duplicate record found: ${target.join(', ')}`,
+          );
         }
         if (error.code === 'P2003') {
           throw new BadRequestException('Invalid grade or section ID');
@@ -297,6 +291,23 @@ export class StudentsService {
           ? String(getVal('Occupation'))
           : undefined;
 
+        // Parent 2 info
+        dto.parent2Name = getVal('Parent2Name')
+          ? String(getVal('Parent2Name'))
+          : undefined;
+        dto.parent2Email = getVal('Parent2Email')
+          ? String(getVal('Parent2Email'))
+          : undefined;
+        dto.parent2Phone = getVal('Parent2Phone')
+          ? String(getVal('Parent2Phone'))
+          : undefined;
+        dto.parent2Relationship = getVal('Parent2Relationship')
+          ? String(getVal('Parent2Relationship'))
+          : undefined;
+        dto.parent2Occupation = getVal('Parent2Occupation')
+          ? String(getVal('Parent2Occupation'))
+          : undefined;
+
         // Basic validation before calling create to save DB calls if obviously wrong
         if (
           !dto.firstName ||
@@ -344,6 +355,11 @@ export class StudentsService {
       'Parent Phone',
       'Relationship',
       'Occupation',
+      'Parent2 Name',
+      'Parent2 Email',
+      'Parent2 Phone',
+      'Parent2 Relationship',
+      'Parent2 Occupation',
     ];
 
     const data = [
@@ -423,6 +439,18 @@ export class StudentsService {
           { lastName: { contains: search, mode: 'insensitive' } },
           { studentId: { contains: search, mode: 'insensitive' } },
           { email: { contains: search, mode: 'insensitive' } },
+          // Support searching by full name (splitting terms)
+          {
+            AND: search
+              .split(/\s+/)
+              .filter(Boolean)
+              .map((term) => ({
+                OR: [
+                  { firstName: { contains: term, mode: 'insensitive' } },
+                  { lastName: { contains: term, mode: 'insensitive' } },
+                ],
+              })),
+          },
         ],
       }),
     };
@@ -477,6 +505,11 @@ export class StudentsService {
             },
           },
         },
+        conductPoints: true,
+        borrowedBooks: {
+          where: { returnDate: null },
+        },
+        attendances: true,
       },
     });
 
@@ -511,6 +544,11 @@ export class StudentsService {
             },
           },
         },
+        conductPoints: true,
+        borrowedBooks: {
+          where: { returnDate: null },
+        },
+        attendances: true,
       },
     });
 
@@ -537,74 +575,136 @@ export class StudentsService {
     }
 
     try {
-      // 1. Prepare update data for non-photo fields
-      const studentUpdateData: Prisma.StudentUpdateInput = {};
+      // 1. Perform all updates in a transaction
+      await this.prisma.$transaction(async (tx) => {
+        // Prepare update data for non-photo fields
+        const studentUpdateData: Prisma.StudentUpdateInput = {};
 
-      if (updateStudentDto.firstName !== undefined)
-        studentUpdateData.firstName = updateStudentDto.firstName;
-      if (updateStudentDto.lastName !== undefined)
-        studentUpdateData.lastName = updateStudentDto.lastName;
-      if (updateStudentDto.email !== undefined)
-        studentUpdateData.email = updateStudentDto.email;
-      if (updateStudentDto.phone !== undefined)
-        studentUpdateData.phone = updateStudentDto.phone;
-      if (updateStudentDto.dateOfBirth !== undefined)
-        studentUpdateData.dateOfBirth = new Date(updateStudentDto.dateOfBirth);
-      if (updateStudentDto.gender !== undefined)
-        studentUpdateData.gender = updateStudentDto.gender;
-      if (updateStudentDto.nationality !== undefined)
-        studentUpdateData.nationality = updateStudentDto.nationality;
-      if (updateStudentDto.address !== undefined)
-        studentUpdateData.address = updateStudentDto.address;
-      if (updateStudentDto.bloodGroup !== undefined)
-        studentUpdateData.bloodGroup = updateStudentDto.bloodGroup;
-      if (updateStudentDto.rollNumber !== undefined)
-        studentUpdateData.rollNumber = updateStudentDto.rollNumber;
-      if (updateStudentDto.gradeId) {
-        studentUpdateData.grade = { connect: { id: updateStudentDto.gradeId } };
-      }
-      if (updateStudentDto.sectionId) {
-        studentUpdateData.section = {
-          connect: { id: updateStudentDto.sectionId },
-        };
-      }
-      if (updateStudentDto.admissionDate !== undefined)
-        studentUpdateData.admissionDate = new Date(
-          updateStudentDto.admissionDate,
-        );
+        if (updateStudentDto.firstName !== undefined)
+          studentUpdateData.firstName = updateStudentDto.firstName;
+        if (updateStudentDto.lastName !== undefined)
+          studentUpdateData.lastName = updateStudentDto.lastName;
+        if (updateStudentDto.email !== undefined)
+          studentUpdateData.email = updateStudentDto.email || null;
+        if (updateStudentDto.phone !== undefined)
+          studentUpdateData.phone = updateStudentDto.phone || null;
+        if (updateStudentDto.dateOfBirth !== undefined)
+          studentUpdateData.dateOfBirth = new Date(
+            updateStudentDto.dateOfBirth,
+          );
+        if (updateStudentDto.gender !== undefined)
+          studentUpdateData.gender = updateStudentDto.gender;
+        if (updateStudentDto.nationality !== undefined)
+          studentUpdateData.nationality = updateStudentDto.nationality || null;
+        if (updateStudentDto.address !== undefined)
+          studentUpdateData.address = updateStudentDto.address || null;
+        if (updateStudentDto.bloodGroup !== undefined)
+          studentUpdateData.bloodGroup = updateStudentDto.bloodGroup || null;
+        if (updateStudentDto.rollNumber !== undefined)
+          studentUpdateData.rollNumber = updateStudentDto.rollNumber || null;
+        if (updateStudentDto.gradeId) {
+          studentUpdateData.grade = {
+            connect: { id: updateStudentDto.gradeId },
+          };
+        }
+        if (updateStudentDto.sectionId) {
+          studentUpdateData.section = {
+            connect: { id: updateStudentDto.sectionId },
+          };
+        }
+        if (updateStudentDto.admissionDate !== undefined)
+          studentUpdateData.admissionDate = new Date(
+            updateStudentDto.admissionDate,
+          );
 
-      // Note: We deliberately ignore updateStudentDto.photoUrl
-      // (we generate it ourselves from Supabase upload)
+        if (Object.keys(studentUpdateData).length > 0) {
+          await tx.student.update({
+            where: { id },
+            data: studentUpdateData,
+          });
+        }
 
-      // 2. Perform the core update if there are changes
-      if (Object.keys(studentUpdateData).length > 0) {
-        await this.prisma.student.update({
-          where: { id },
-          data: studentUpdateData,
-        });
-      }
+        // 2. Handle Primary Parent Update/Link
+        if (
+          updateStudentDto.parentEmail &&
+          updateStudentDto.parentName &&
+          updateStudentDto.parentPhone
+        ) {
+          const p1 = await this.getOrCreateParent(tx, tenantId, {
+            name: updateStudentDto.parentName,
+            email: updateStudentDto.parentEmail,
+            phone: updateStudentDto.parentPhone,
+            relationship: updateStudentDto.relationship,
+            occupation: updateStudentDto.occupation,
+          });
 
-      // 3. Handle photo update (if provided)
+          const existingP1Link = await tx.studentParent.findFirst({
+            where: { studentId: id, isPrimary: true },
+          });
+
+          if (existingP1Link) {
+            if (existingP1Link.parentId !== p1.id) {
+              await tx.studentParent.update({
+                where: { id: existingP1Link.id },
+                data: { parentId: p1.id },
+              });
+            }
+          } else {
+            await tx.studentParent.create({
+              data: { studentId: id, parentId: p1.id, isPrimary: true },
+            });
+          }
+        }
+
+        // 3. Handle Second Parent Update/Link/Remove
+        if (
+          updateStudentDto.parent2Email &&
+          updateStudentDto.parent2Name &&
+          updateStudentDto.parent2Phone
+        ) {
+          const p2 = await this.getOrCreateParent(tx, tenantId, {
+            name: updateStudentDto.parent2Name,
+            email: updateStudentDto.parent2Email,
+            phone: updateStudentDto.parent2Phone,
+            relationship: updateStudentDto.parent2Relationship,
+            occupation: updateStudentDto.parent2Occupation,
+          });
+
+          const existingP2Link = await tx.studentParent.findFirst({
+            where: { studentId: id, isPrimary: false },
+          });
+
+          if (existingP2Link) {
+            if (existingP2Link.parentId !== p2.id) {
+              await tx.studentParent.update({
+                where: { id: existingP2Link.id },
+                data: { parentId: p2.id },
+              });
+            }
+          } else {
+            await tx.studentParent.create({
+              data: { studentId: id, parentId: p2.id, isPrimary: false },
+            });
+          }
+        } else if (updateStudentDto.parent2Email === '') {
+          // Explicitly cleared secondary parent
+          await tx.studentParent.deleteMany({
+            where: { studentId: id, isPrimary: false },
+          });
+        }
+      });
+
+      // 4. Handle photo update (if provided)
       if (photo) {
         try {
-          // Optional: basic validation
-          if (photo.size > 5 * 1024 * 1024) {
-            // 5MB limit example
-            console.warn(
-              `Photo too large (${photo.size} bytes) for student ${id}`,
-            );
-          } else if (
-            !['image/jpeg', 'image/png', 'image/webp'].includes(photo.mimetype)
+          if (
+            photo.size <= 5 * 1024 * 1024 &&
+            ['image/jpeg', 'image/png', 'image/webp'].includes(photo.mimetype)
           ) {
-            console.warn(
-              `Invalid photo type ${photo.mimetype} for student ${id}`,
-            );
-          } else {
             const fileExt = photo.originalname.split('.').pop() || 'jpg';
             const fileName = `profile.${fileExt}`;
             const filePath = `${tenantId}/students/${id}/${fileName}`;
 
-            // Upload (upsert = overwrite old profile picture)
             const { error: uploadError } = await this.supabase.client.storage
               .from('atlas-profiles')
               .upload(filePath, photo.buffer, {
@@ -613,42 +713,43 @@ export class StudentsService {
                 cacheControl: '3600',
               });
 
-            if (uploadError) {
-              console.error(
-                `Photo upload failed for student ${id}:`,
-                uploadError.message,
-              );
-              // Do NOT throw — keep existing photoUrl (or null)
-            } else {
-              // Get fresh public URL
+            if (!uploadError) {
               const { data: urlData } = this.supabase.client.storage
                 .from('atlas-profiles')
                 .getPublicUrl(filePath);
 
-              const newPhotoUrl = urlData.publicUrl;
-
-              // Update photoUrl in DB
               await this.prisma.student.update({
                 where: { id },
-                data: { photoUrl: newPhotoUrl },
+                data: { photoUrl: urlData.publicUrl },
               });
             }
           }
         } catch (uploadErr) {
-          console.error(
-            `Unexpected error processing photo for student ${id}:`,
-            uploadErr,
-          );
-          // Silent fail — student update already succeeded
+          console.error(`Unexpected error processing photo:`, uploadErr);
         }
       }
 
-      // 4. Return updated student with latest data
       return this.findOne(id, tenantId);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new ConflictException('Email already exists');
+          const target = (error.meta?.target as string[]) || [];
+          if (target.includes('email')) {
+            throw new ConflictException(
+              'Email already exists (student or parent)',
+            );
+          }
+          if (target.includes('phone')) {
+            throw new ConflictException('Phone number already exists');
+          }
+          if (target.includes('studentId')) {
+            throw new ConflictException(
+              'Student ID already exists in this school',
+            );
+          }
+          throw new ConflictException(
+            `Duplicate record found: ${target.join(', ')}`,
+          );
         }
         if (error.code === 'P2003') {
           throw new BadRequestException('Invalid grade or section ID');
@@ -709,6 +810,7 @@ export class StudentsService {
           firstName: sp.parent.firstName,
           lastName: sp.parent.lastName,
           fullName: `${sp.parent.firstName} ${sp.parent.lastName}`,
+          userId: sp.parent.user.id,
           email: sp.parent.user.email,
           phone: sp.parent.user.phone,
           relationship: sp.parent.relationship,
@@ -724,6 +826,20 @@ export class StudentsService {
         : null,
       createdAt: student.createdAt,
       updatedAt: student.updatedAt,
+      stats: {
+        attendancePercentage:
+          student.attendances?.length > 0
+            ? Math.round(
+                (student.attendances.filter(
+                  (a) => a.status === 'PRESENT' || a.status === 'LATE',
+                ).length /
+                  student.attendances.length) *
+                  100,
+              )
+            : 0,
+        conductPoints: student.conductPoints?.currentPoints ?? 100,
+        booksBorrowed: student.borrowedBooks?.length || 0,
+      },
     };
   }
 
@@ -921,5 +1037,95 @@ export class StudentsService {
       })),
       hasActivePermission: validPermissions.length > 0,
     };
+  }
+
+  private async getOrCreateParent(
+    tx: Prisma.TransactionClient,
+    tenantId: string,
+    parentData: {
+      name: string;
+      email: string;
+      phone: string;
+      relationship?: string;
+      occupation?: string;
+    },
+  ) {
+    let user = await tx.user.findUnique({
+      where: { email: parentData.email },
+      include: { parent: true },
+    });
+
+    if (!user) {
+      const parentUsername =
+        parentData.email.split('@')[0] +
+        Math.random().toString(36).substring(2, 6);
+      const parentPassword = 'Parent@123';
+      const hashedParentPassword = await bcrypt.hash(parentPassword, 10);
+
+      user = await tx.user.create({
+        data: {
+          tenantId,
+          email: parentData.email,
+          name: parentData.name,
+          username: parentUsername,
+          password: hashedParentPassword,
+          phone: parentData.phone,
+          role: Role.PARENT,
+          userType: UserType.PARENT,
+          status: Status.ACTIVE,
+        },
+        include: { parent: true },
+      });
+
+      const parentFirstName = parentData.name.split(' ')[0];
+      const parentLastName =
+        parentData.name.split(' ').slice(1).join(' ') || parentFirstName;
+
+      await tx.parent.create({
+        data: {
+          tenantId,
+          userId: user.id,
+          firstName: parentFirstName,
+          lastName: parentLastName,
+          relationship: parentData.relationship || null,
+          occupation: parentData.occupation || null,
+        },
+      });
+
+      user = await tx.user.findUnique({
+        where: { id: user.id },
+        include: { parent: true },
+      });
+    } else {
+      // Sync info if it exists
+      const parentFirstName = parentData.name.split(' ')[0];
+      const parentLastName =
+        parentData.name.split(' ').slice(1).join(' ') || parentFirstName;
+
+      await tx.user.update({
+        where: { id: user.id },
+        data: {
+          name: parentData.name,
+          phone: parentData.phone,
+        },
+      });
+
+      await tx.parent.update({
+        where: { userId: user.id },
+        data: {
+          firstName: parentFirstName,
+          lastName: parentLastName,
+          relationship: parentData.relationship || undefined,
+          occupation: parentData.occupation || undefined,
+        },
+      });
+
+      user = await tx.user.findUnique({
+        where: { id: user.id },
+        include: { parent: true },
+      });
+    }
+
+    return user!.parent!;
   }
 }

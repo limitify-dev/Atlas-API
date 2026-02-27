@@ -256,8 +256,8 @@ export type BusWhereInput = {
   registrationNumber?: Prisma.StringFilter<"Bus"> | string
   createdAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   routes?: Prisma.BusRouteListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type BusOrderByWithRelationInput = {
@@ -271,8 +271,8 @@ export type BusOrderByWithRelationInput = {
   registrationNumber?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   routes?: Prisma.BusRouteOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type BusWhereUniqueInput = Prisma.AtLeast<{
@@ -291,8 +291,8 @@ export type BusWhereUniqueInput = Prisma.AtLeast<{
   registrationNumber?: Prisma.StringFilter<"Bus"> | string
   createdAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Bus"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   routes?: Prisma.BusRouteListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id" | "tenantId_busNumber" | "tenantId_registrationNumber">
 
 export type BusOrderByWithAggregationInput = {
@@ -339,8 +339,8 @@ export type BusCreateInput = {
   registrationNumber: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutBusesInput
   routes?: Prisma.BusRouteCreateNestedManyWithoutBusInput
+  tenant: Prisma.TenantCreateNestedOneWithoutBusesInput
 }
 
 export type BusUncheckedCreateInput = {
@@ -367,8 +367,8 @@ export type BusUpdateInput = {
   registrationNumber?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutBusesNestedInput
   routes?: Prisma.BusRouteUpdateManyWithoutBusNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutBusesNestedInput
 }
 
 export type BusUncheckedUpdateInput = {
@@ -783,8 +783,8 @@ export type BusSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   registrationNumber?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   routes?: boolean | Prisma.Bus$routesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.BusCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bus"]>
 
@@ -831,8 +831,8 @@ export type BusSelectScalar = {
 
 export type BusOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "busNumber" | "capacity" | "driver" | "driverContact" | "status" | "registrationNumber" | "createdAt" | "updatedAt", ExtArgs["result"]["bus"]>
 export type BusInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   routes?: boolean | Prisma.Bus$routesArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.BusCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BusIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -845,8 +845,8 @@ export type BusIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type $BusPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Bus"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     routes: Prisma.$BusRoutePayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1253,8 +1253,8 @@ readonly fields: BusFieldRefs;
  */
 export interface Prisma__BusClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   routes<T extends Prisma.Bus$routesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Bus$routesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusRoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

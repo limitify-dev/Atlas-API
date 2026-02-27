@@ -103,6 +103,11 @@ export type TeacherAttendance = Prisma.TeacherAttendanceModel
  */
 export type Book = Prisma.BookModel
 /**
+ * Model BookCopy
+ * 
+ */
+export type BookCopy = Prisma.BookCopyModel
+/**
  * Model BookTransaction
  * 
  */
@@ -147,6 +152,26 @@ export type StudentConductPoints = Prisma.StudentConductPointsModel
  * 
  */
 export type ConductPointTransaction = Prisma.ConductPointTransactionModel
+/**
+ * Model Conversation
+ * 
+ */
+export type Conversation = Prisma.ConversationModel
+/**
+ * Model ConversationParticipant
+ * 
+ */
+export type ConversationParticipant = Prisma.ConversationParticipantModel
+/**
+ * Model ChatMessage
+ * 
+ */
+export type ChatMessage = Prisma.ChatMessageModel
+/**
+ * Model PushToken
+ * 
+ */
+export type PushToken = Prisma.PushTokenModel
 /**
  * Model Message
  * 

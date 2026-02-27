@@ -30,12 +30,14 @@ export type BookAvgAggregateOutputType = {
   publicationYear: number | null
   totalCopies: number | null
   availableCopies: number | null
+  price: number | null
 }
 
 export type BookSumAggregateOutputType = {
   publicationYear: number | null
   totalCopies: number | null
   availableCopies: number | null
+  price: number | null
 }
 
 export type BookMinAggregateOutputType = {
@@ -54,6 +56,7 @@ export type BookMinAggregateOutputType = {
   status: $Enums.BookStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  price: number | null
 }
 
 export type BookMaxAggregateOutputType = {
@@ -72,6 +75,7 @@ export type BookMaxAggregateOutputType = {
   status: $Enums.BookStatus | null
   createdAt: Date | null
   updatedAt: Date | null
+  price: number | null
 }
 
 export type BookCountAggregateOutputType = {
@@ -90,6 +94,7 @@ export type BookCountAggregateOutputType = {
   status: number
   createdAt: number
   updatedAt: number
+  price: number
   _all: number
 }
 
@@ -98,12 +103,14 @@ export type BookAvgAggregateInputType = {
   publicationYear?: true
   totalCopies?: true
   availableCopies?: true
+  price?: true
 }
 
 export type BookSumAggregateInputType = {
   publicationYear?: true
   totalCopies?: true
   availableCopies?: true
+  price?: true
 }
 
 export type BookMinAggregateInputType = {
@@ -122,6 +129,7 @@ export type BookMinAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  price?: true
 }
 
 export type BookMaxAggregateInputType = {
@@ -140,6 +148,7 @@ export type BookMaxAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  price?: true
 }
 
 export type BookCountAggregateInputType = {
@@ -158,6 +167,7 @@ export type BookCountAggregateInputType = {
   status?: true
   createdAt?: true
   updatedAt?: true
+  price?: true
   _all?: true
 }
 
@@ -263,6 +273,7 @@ export type BookGroupByOutputType = {
   status: $Enums.BookStatus
   createdAt: Date
   updatedAt: Date
+  price: number
   _count: BookCountAggregateOutputType | null
   _avg: BookAvgAggregateOutputType | null
   _sum: BookSumAggregateOutputType | null
@@ -304,8 +315,10 @@ export type BookWhereInput = {
   status?: Prisma.EnumBookStatusFilter<"Book"> | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  price?: Prisma.FloatFilter<"Book"> | number
+  copies?: Prisma.BookCopyListRelationFilter
   transactions?: Prisma.BookTransactionListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type BookOrderByWithRelationInput = {
@@ -324,8 +337,10 @@ export type BookOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  price?: Prisma.SortOrder
+  copies?: Prisma.BookCopyOrderByRelationAggregateInput
   transactions?: Prisma.BookTransactionOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -348,8 +363,10 @@ export type BookWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumBookStatusFilter<"Book"> | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  price?: Prisma.FloatFilter<"Book"> | number
+  copies?: Prisma.BookCopyListRelationFilter
   transactions?: Prisma.BookTransactionListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id" | "tenantId_isbn">
 
 export type BookOrderByWithAggregationInput = {
@@ -368,6 +385,7 @@ export type BookOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   _count?: Prisma.BookCountOrderByAggregateInput
   _avg?: Prisma.BookAvgOrderByAggregateInput
   _max?: Prisma.BookMaxOrderByAggregateInput
@@ -394,6 +412,7 @@ export type BookScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumBookStatusWithAggregatesFilter<"Book"> | $Enums.BookStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Book"> | Date | string
+  price?: Prisma.FloatWithAggregatesFilter<"Book"> | number
 }
 
 export type BookCreateInput = {
@@ -411,8 +430,10 @@ export type BookCreateInput = {
   status?: $Enums.BookStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutBooksInput
+  price?: number
+  copies?: Prisma.BookCopyCreateNestedManyWithoutBookInput
   transactions?: Prisma.BookTransactionCreateNestedManyWithoutBookInput
+  tenant: Prisma.TenantCreateNestedOneWithoutBooksInput
 }
 
 export type BookUncheckedCreateInput = {
@@ -431,6 +452,8 @@ export type BookUncheckedCreateInput = {
   status?: $Enums.BookStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  price?: number
+  copies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutBookInput
   transactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutBookInput
 }
 
@@ -449,8 +472,10 @@ export type BookUpdateInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutBooksNestedInput
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  copies?: Prisma.BookCopyUpdateManyWithoutBookNestedInput
   transactions?: Prisma.BookTransactionUpdateManyWithoutBookNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutBooksNestedInput
 }
 
 export type BookUncheckedUpdateInput = {
@@ -469,6 +494,8 @@ export type BookUncheckedUpdateInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  copies?: Prisma.BookCopyUncheckedUpdateManyWithoutBookNestedInput
   transactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutBookNestedInput
 }
 
@@ -488,6 +515,7 @@ export type BookCreateManyInput = {
   status?: $Enums.BookStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  price?: number
 }
 
 export type BookUpdateManyMutationInput = {
@@ -505,6 +533,7 @@ export type BookUpdateManyMutationInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type BookUncheckedUpdateManyInput = {
@@ -523,6 +552,7 @@ export type BookUncheckedUpdateManyInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type BookListRelationFilter = {
@@ -556,12 +586,14 @@ export type BookCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type BookAvgOrderByAggregateInput = {
   publicationYear?: Prisma.SortOrder
   totalCopies?: Prisma.SortOrder
   availableCopies?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type BookMaxOrderByAggregateInput = {
@@ -580,6 +612,7 @@ export type BookMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type BookMinOrderByAggregateInput = {
@@ -598,12 +631,14 @@ export type BookMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type BookSumOrderByAggregateInput = {
   publicationYear?: Prisma.SortOrder
   totalCopies?: Prisma.SortOrder
   availableCopies?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type BookScalarRelationFilter = {
@@ -665,6 +700,28 @@ export type EnumBookStatusFieldUpdateOperationsInput = {
   set?: $Enums.BookStatus
 }
 
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type BookCreateNestedOneWithoutCopiesInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutCopiesInput, Prisma.BookUncheckedCreateWithoutCopiesInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutCopiesInput
+  connect?: Prisma.BookWhereUniqueInput
+}
+
+export type BookUpdateOneRequiredWithoutCopiesNestedInput = {
+  create?: Prisma.XOR<Prisma.BookCreateWithoutCopiesInput, Prisma.BookUncheckedCreateWithoutCopiesInput>
+  connectOrCreate?: Prisma.BookCreateOrConnectWithoutCopiesInput
+  upsert?: Prisma.BookUpsertWithoutCopiesInput
+  connect?: Prisma.BookWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookUpdateToOneWithWhereWithoutCopiesInput, Prisma.BookUpdateWithoutCopiesInput>, Prisma.BookUncheckedUpdateWithoutCopiesInput>
+}
+
 export type BookCreateNestedOneWithoutTransactionsInput = {
   create?: Prisma.XOR<Prisma.BookCreateWithoutTransactionsInput, Prisma.BookUncheckedCreateWithoutTransactionsInput>
   connectOrCreate?: Prisma.BookCreateOrConnectWithoutTransactionsInput
@@ -694,6 +751,8 @@ export type BookCreateWithoutTenantInput = {
   status?: $Enums.BookStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  price?: number
+  copies?: Prisma.BookCopyCreateNestedManyWithoutBookInput
   transactions?: Prisma.BookTransactionCreateNestedManyWithoutBookInput
 }
 
@@ -712,6 +771,8 @@ export type BookUncheckedCreateWithoutTenantInput = {
   status?: $Enums.BookStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  price?: number
+  copies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutBookInput
   transactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutBookInput
 }
 
@@ -760,6 +821,103 @@ export type BookScalarWhereInput = {
   status?: Prisma.EnumBookStatusFilter<"Book"> | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFilter<"Book"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Book"> | Date | string
+  price?: Prisma.FloatFilter<"Book"> | number
+}
+
+export type BookCreateWithoutCopiesInput = {
+  id?: string
+  title: string
+  author: string
+  isbn: string
+  publisher?: string | null
+  publicationYear?: number | null
+  category: string
+  totalCopies?: number
+  availableCopies?: number
+  description?: string | null
+  imageUrl?: string | null
+  status?: $Enums.BookStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  price?: number
+  transactions?: Prisma.BookTransactionCreateNestedManyWithoutBookInput
+  tenant: Prisma.TenantCreateNestedOneWithoutBooksInput
+}
+
+export type BookUncheckedCreateWithoutCopiesInput = {
+  id?: string
+  tenantId: string
+  title: string
+  author: string
+  isbn: string
+  publisher?: string | null
+  publicationYear?: number | null
+  category: string
+  totalCopies?: number
+  availableCopies?: number
+  description?: string | null
+  imageUrl?: string | null
+  status?: $Enums.BookStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  price?: number
+  transactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutBookInput
+}
+
+export type BookCreateOrConnectWithoutCopiesInput = {
+  where: Prisma.BookWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookCreateWithoutCopiesInput, Prisma.BookUncheckedCreateWithoutCopiesInput>
+}
+
+export type BookUpsertWithoutCopiesInput = {
+  update: Prisma.XOR<Prisma.BookUpdateWithoutCopiesInput, Prisma.BookUncheckedUpdateWithoutCopiesInput>
+  create: Prisma.XOR<Prisma.BookCreateWithoutCopiesInput, Prisma.BookUncheckedCreateWithoutCopiesInput>
+  where?: Prisma.BookWhereInput
+}
+
+export type BookUpdateToOneWithWhereWithoutCopiesInput = {
+  where?: Prisma.BookWhereInput
+  data: Prisma.XOR<Prisma.BookUpdateWithoutCopiesInput, Prisma.BookUncheckedUpdateWithoutCopiesInput>
+}
+
+export type BookUpdateWithoutCopiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publisher?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publicationYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  totalCopies?: Prisma.IntFieldUpdateOperationsInput | number
+  availableCopies?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  transactions?: Prisma.BookTransactionUpdateManyWithoutBookNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutBooksNestedInput
+}
+
+export type BookUncheckedUpdateWithoutCopiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  isbn?: Prisma.StringFieldUpdateOperationsInput | string
+  publisher?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  publicationYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  totalCopies?: Prisma.IntFieldUpdateOperationsInput | number
+  availableCopies?: Prisma.IntFieldUpdateOperationsInput | number
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  transactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateWithoutTransactionsInput = {
@@ -777,6 +935,8 @@ export type BookCreateWithoutTransactionsInput = {
   status?: $Enums.BookStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  price?: number
+  copies?: Prisma.BookCopyCreateNestedManyWithoutBookInput
   tenant: Prisma.TenantCreateNestedOneWithoutBooksInput
 }
 
@@ -796,6 +956,8 @@ export type BookUncheckedCreateWithoutTransactionsInput = {
   status?: $Enums.BookStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  price?: number
+  copies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutBookInput
 }
 
 export type BookCreateOrConnectWithoutTransactionsInput = {
@@ -829,6 +991,8 @@ export type BookUpdateWithoutTransactionsInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  copies?: Prisma.BookCopyUpdateManyWithoutBookNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutBooksNestedInput
 }
 
@@ -848,6 +1012,8 @@ export type BookUncheckedUpdateWithoutTransactionsInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  copies?: Prisma.BookCopyUncheckedUpdateManyWithoutBookNestedInput
 }
 
 export type BookCreateManyTenantInput = {
@@ -865,6 +1031,7 @@ export type BookCreateManyTenantInput = {
   status?: $Enums.BookStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  price?: number
 }
 
 export type BookUpdateWithoutTenantInput = {
@@ -882,6 +1049,8 @@ export type BookUpdateWithoutTenantInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  copies?: Prisma.BookCopyUpdateManyWithoutBookNestedInput
   transactions?: Prisma.BookTransactionUpdateManyWithoutBookNestedInput
 }
 
@@ -900,6 +1069,8 @@ export type BookUncheckedUpdateWithoutTenantInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  copies?: Prisma.BookCopyUncheckedUpdateManyWithoutBookNestedInput
   transactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutBookNestedInput
 }
 
@@ -918,6 +1089,7 @@ export type BookUncheckedUpdateManyWithoutTenantInput = {
   status?: Prisma.EnumBookStatusFieldUpdateOperationsInput | $Enums.BookStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 
@@ -926,10 +1098,12 @@ export type BookUncheckedUpdateManyWithoutTenantInput = {
  */
 
 export type BookCountOutputType = {
+  copies: number
   transactions: number
 }
 
 export type BookCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  copies?: boolean | BookCountOutputTypeCountCopiesArgs
   transactions?: boolean | BookCountOutputTypeCountTransactionsArgs
 }
 
@@ -941,6 +1115,13 @@ export type BookCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the BookCountOutputType
    */
   select?: Prisma.BookCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * BookCountOutputType without action
+ */
+export type BookCountOutputTypeCountCopiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookCopyWhereInput
 }
 
 /**
@@ -967,8 +1148,10 @@ export type BookSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  price?: boolean
+  copies?: boolean | Prisma.Book$copiesArgs<ExtArgs>
   transactions?: boolean | Prisma.Book$transactionsArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
@@ -988,6 +1171,7 @@ export type BookSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  price?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
@@ -1007,6 +1191,7 @@ export type BookSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  price?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["book"]>
 
@@ -1026,12 +1211,14 @@ export type BookSelectScalar = {
   status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  price?: boolean
 }
 
-export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "title" | "author" | "isbn" | "publisher" | "publicationYear" | "category" | "totalCopies" | "availableCopies" | "description" | "imageUrl" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
+export type BookOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "title" | "author" | "isbn" | "publisher" | "publicationYear" | "category" | "totalCopies" | "availableCopies" | "description" | "imageUrl" | "status" | "createdAt" | "updatedAt" | "price", ExtArgs["result"]["book"]>
 export type BookInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  copies?: boolean | Prisma.Book$copiesArgs<ExtArgs>
   transactions?: boolean | Prisma.Book$transactionsArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.BookCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BookIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1044,8 +1231,9 @@ export type BookIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Book"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    copies: Prisma.$BookCopyPayload<ExtArgs>[]
     transactions: Prisma.$BookTransactionPayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1063,6 +1251,7 @@ export type $BookPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     status: $Enums.BookStatus
     createdAt: Date
     updatedAt: Date
+    price: number
   }, ExtArgs["result"]["book"]>
   composites: {}
 }
@@ -1457,8 +1646,9 @@ readonly fields: BookFieldRefs;
  */
 export interface Prisma__BookClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  copies<T extends Prisma.Book$copiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$copiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookCopyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   transactions<T extends Prisma.Book$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Book$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1503,6 +1693,7 @@ export interface BookFieldRefs {
   readonly status: Prisma.FieldRef<"Book", 'BookStatus'>
   readonly createdAt: Prisma.FieldRef<"Book", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Book", 'DateTime'>
+  readonly price: Prisma.FieldRef<"Book", 'Float'>
 }
     
 
@@ -1896,6 +2087,30 @@ export type BookDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Books to delete.
    */
   limit?: number
+}
+
+/**
+ * Book.copies
+ */
+export type Book$copiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BookCopy
+   */
+  select?: Prisma.BookCopySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BookCopy
+   */
+  omit?: Prisma.BookCopyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookCopyInclude<ExtArgs> | null
+  where?: Prisma.BookCopyWhereInput
+  orderBy?: Prisma.BookCopyOrderByWithRelationInput | Prisma.BookCopyOrderByWithRelationInput[]
+  cursor?: Prisma.BookCopyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookCopyScalarFieldEnum | Prisma.BookCopyScalarFieldEnum[]
 }
 
 /**

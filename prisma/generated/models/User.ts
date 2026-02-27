@@ -29,7 +29,6 @@ export type UserMinAggregateOutputType = {
   tenantId: string | null
   email: string | null
   name: string | null
-  username: string | null
   password: string | null
   phone: string | null
   avatar: string | null
@@ -40,6 +39,8 @@ export type UserMinAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   lastLoginAt: Date | null
+  passwordChangedAt: Date | null
+  username: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -47,7 +48,6 @@ export type UserMaxAggregateOutputType = {
   tenantId: string | null
   email: string | null
   name: string | null
-  username: string | null
   password: string | null
   phone: string | null
   avatar: string | null
@@ -58,6 +58,8 @@ export type UserMaxAggregateOutputType = {
   createdAt: Date | null
   updatedAt: Date | null
   lastLoginAt: Date | null
+  passwordChangedAt: Date | null
+  username: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -65,7 +67,6 @@ export type UserCountAggregateOutputType = {
   tenantId: number
   email: number
   name: number
-  username: number
   password: number
   phone: number
   avatar: number
@@ -76,6 +77,8 @@ export type UserCountAggregateOutputType = {
   createdAt: number
   updatedAt: number
   lastLoginAt: number
+  passwordChangedAt: number
+  username: number
   _all: number
 }
 
@@ -85,7 +88,6 @@ export type UserMinAggregateInputType = {
   tenantId?: true
   email?: true
   name?: true
-  username?: true
   password?: true
   phone?: true
   avatar?: true
@@ -96,6 +98,8 @@ export type UserMinAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   lastLoginAt?: true
+  passwordChangedAt?: true
+  username?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -103,7 +107,6 @@ export type UserMaxAggregateInputType = {
   tenantId?: true
   email?: true
   name?: true
-  username?: true
   password?: true
   phone?: true
   avatar?: true
@@ -114,6 +117,8 @@ export type UserMaxAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   lastLoginAt?: true
+  passwordChangedAt?: true
+  username?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -121,7 +126,6 @@ export type UserCountAggregateInputType = {
   tenantId?: true
   email?: true
   name?: true
-  username?: true
   password?: true
   phone?: true
   avatar?: true
@@ -132,6 +136,8 @@ export type UserCountAggregateInputType = {
   createdAt?: true
   updatedAt?: true
   lastLoginAt?: true
+  passwordChangedAt?: true
+  username?: true
   _all?: true
 }
 
@@ -212,7 +218,6 @@ export type UserGroupByOutputType = {
   tenantId: string | null
   email: string
   name: string
-  username: string
   password: string
   phone: string | null
   avatar: string | null
@@ -223,6 +228,8 @@ export type UserGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   lastLoginAt: Date | null
+  passwordChangedAt: Date | null
+  username: string
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -251,7 +258,6 @@ export type UserWhereInput = {
   tenantId?: Prisma.StringNullableFilter<"User"> | string | null
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringFilter<"User"> | string
-  username?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
@@ -262,18 +268,23 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
-  sessions?: Prisma.SessionListRelationFilter
+  passwordChangedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  username?: Prisma.StringFilter<"User"> | string
+  sentAnnouncements?: Prisma.AnnouncementListRelationFilter
+  chatMessages?: Prisma.ChatMessageListRelationFilter
+  conductRecordsReported?: Prisma.ConductRecordListRelationFilter
+  conversationParticipants?: Prisma.ConversationParticipantListRelationFilter
+  receivedMessages?: Prisma.MessageListRelationFilter
+  sentMessages?: Prisma.MessageListRelationFilter
+  receivedNotifications?: Prisma.NotificationRecipientListRelationFilter
+  sentNotifications?: Prisma.NotificationListRelationFilter
+  parent?: Prisma.XOR<Prisma.ParentNullableScalarRelationFilter, Prisma.ParentWhereInput> | null
+  pushTokens?: Prisma.PushTokenListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
+  sessions?: Prisma.SessionListRelationFilter
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
-  parent?: Prisma.XOR<Prisma.ParentNullableScalarRelationFilter, Prisma.ParentWhereInput> | null
-  sentMessages?: Prisma.MessageListRelationFilter
-  receivedMessages?: Prisma.MessageListRelationFilter
-  sentAnnouncements?: Prisma.AnnouncementListRelationFilter
-  sentNotifications?: Prisma.NotificationListRelationFilter
-  receivedNotifications?: Prisma.NotificationRecipientListRelationFilter
-  conductRecordsReported?: Prisma.ConductRecordListRelationFilter
+  tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -281,7 +292,6 @@ export type UserOrderByWithRelationInput = {
   tenantId?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  username?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -292,25 +302,30 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  sessions?: Prisma.SessionOrderByRelationAggregateInput
+  passwordChangedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrder
+  sentAnnouncements?: Prisma.AnnouncementOrderByRelationAggregateInput
+  chatMessages?: Prisma.ChatMessageOrderByRelationAggregateInput
+  conductRecordsReported?: Prisma.ConductRecordOrderByRelationAggregateInput
+  conversationParticipants?: Prisma.ConversationParticipantOrderByRelationAggregateInput
+  receivedMessages?: Prisma.MessageOrderByRelationAggregateInput
+  sentMessages?: Prisma.MessageOrderByRelationAggregateInput
+  receivedNotifications?: Prisma.NotificationRecipientOrderByRelationAggregateInput
+  sentNotifications?: Prisma.NotificationOrderByRelationAggregateInput
+  parent?: Prisma.ParentOrderByWithRelationInput
+  pushTokens?: Prisma.PushTokenOrderByRelationAggregateInput
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
+  sessions?: Prisma.SessionOrderByRelationAggregateInput
   student?: Prisma.StudentOrderByWithRelationInput
   teacher?: Prisma.TeacherOrderByWithRelationInput
-  parent?: Prisma.ParentOrderByWithRelationInput
-  sentMessages?: Prisma.MessageOrderByRelationAggregateInput
-  receivedMessages?: Prisma.MessageOrderByRelationAggregateInput
-  sentAnnouncements?: Prisma.AnnouncementOrderByRelationAggregateInput
-  sentNotifications?: Prisma.NotificationOrderByRelationAggregateInput
-  receivedNotifications?: Prisma.NotificationRecipientOrderByRelationAggregateInput
-  conductRecordsReported?: Prisma.ConductRecordOrderByRelationAggregateInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
-  username?: string
   phone?: string
+  username?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -325,26 +340,29 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
-  sessions?: Prisma.SessionListRelationFilter
+  passwordChangedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  sentAnnouncements?: Prisma.AnnouncementListRelationFilter
+  chatMessages?: Prisma.ChatMessageListRelationFilter
+  conductRecordsReported?: Prisma.ConductRecordListRelationFilter
+  conversationParticipants?: Prisma.ConversationParticipantListRelationFilter
+  receivedMessages?: Prisma.MessageListRelationFilter
+  sentMessages?: Prisma.MessageListRelationFilter
+  receivedNotifications?: Prisma.NotificationRecipientListRelationFilter
+  sentNotifications?: Prisma.NotificationListRelationFilter
+  parent?: Prisma.XOR<Prisma.ParentNullableScalarRelationFilter, Prisma.ParentWhereInput> | null
+  pushTokens?: Prisma.PushTokenListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
+  sessions?: Prisma.SessionListRelationFilter
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
-  parent?: Prisma.XOR<Prisma.ParentNullableScalarRelationFilter, Prisma.ParentWhereInput> | null
-  sentMessages?: Prisma.MessageListRelationFilter
-  receivedMessages?: Prisma.MessageListRelationFilter
-  sentAnnouncements?: Prisma.AnnouncementListRelationFilter
-  sentNotifications?: Prisma.NotificationListRelationFilter
-  receivedNotifications?: Prisma.NotificationRecipientListRelationFilter
-  conductRecordsReported?: Prisma.ConductRecordListRelationFilter
-}, "id" | "email" | "username" | "phone">
+  tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
+}, "id" | "email" | "phone" | "username">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  username?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -355,6 +373,8 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -368,7 +388,6 @@ export type UserScalarWhereWithAggregatesInput = {
   tenantId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
-  username?: Prisma.StringWithAggregatesFilter<"User"> | string
   password?: Prisma.StringWithAggregatesFilter<"User"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -379,13 +398,14 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  passwordChangedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  username?: Prisma.StringWithAggregatesFilter<"User"> | string
 }
 
 export type UserCreateInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -396,18 +416,23 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -415,7 +440,6 @@ export type UserUncheckedCreateInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -426,24 +450,28 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -454,18 +482,23 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -473,7 +506,6 @@ export type UserUncheckedUpdateInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -484,17 +516,22 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -502,7 +539,6 @@ export type UserCreateManyInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -513,13 +549,14 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -530,6 +567,8 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -537,7 +576,6 @@ export type UserUncheckedUpdateManyInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -548,6 +586,8 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserListRelationFilter = {
@@ -565,7 +605,6 @@ export type UserCountOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  username?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -576,6 +615,8 @@ export type UserCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrder
+  username?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -583,7 +624,6 @@ export type UserMaxOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  username?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -594,6 +634,8 @@ export type UserMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrder
+  username?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -601,7 +643,6 @@ export type UserMinOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  username?: Prisma.SortOrder
   password?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   avatar?: Prisma.SortOrder
@@ -612,6 +653,8 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+  passwordChangedAt?: Prisma.SortOrder
+  username?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -770,10 +813,46 @@ export type UserUpdateOneWithoutConductRecordsReportedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConductRecordsReportedInput, Prisma.UserUpdateWithoutConductRecordsReportedInput>, Prisma.UserUncheckedUpdateWithoutConductRecordsReportedInput>
 }
 
-export type UserCreateNestedOneWithoutSentMessagesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
+export type UserCreateNestedOneWithoutConversationParticipantsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConversationParticipantsInput, Prisma.UserUncheckedCreateWithoutConversationParticipantsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConversationParticipantsInput
   connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutConversationParticipantsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutConversationParticipantsInput, Prisma.UserUncheckedCreateWithoutConversationParticipantsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutConversationParticipantsInput
+  upsert?: Prisma.UserUpsertWithoutConversationParticipantsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConversationParticipantsInput, Prisma.UserUpdateWithoutConversationParticipantsInput>, Prisma.UserUncheckedUpdateWithoutConversationParticipantsInput>
+}
+
+export type UserCreateNestedOneWithoutChatMessagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatMessagesInput, Prisma.UserUncheckedCreateWithoutChatMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutChatMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutChatMessagesInput, Prisma.UserUncheckedCreateWithoutChatMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutChatMessagesInput
+  upsert?: Prisma.UserUpsertWithoutChatMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatMessagesInput, Prisma.UserUpdateWithoutChatMessagesInput>, Prisma.UserUncheckedUpdateWithoutChatMessagesInput>
+}
+
+export type UserCreateNestedOneWithoutPushTokensInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPushTokensInput, Prisma.UserUncheckedCreateWithoutPushTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPushTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPushTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPushTokensInput, Prisma.UserUncheckedCreateWithoutPushTokensInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPushTokensInput
+  upsert?: Prisma.UserUpsertWithoutPushTokensInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPushTokensInput, Prisma.UserUpdateWithoutPushTokensInput>, Prisma.UserUncheckedUpdateWithoutPushTokensInput>
 }
 
 export type UserCreateNestedOneWithoutReceivedMessagesInput = {
@@ -782,12 +861,10 @@ export type UserCreateNestedOneWithoutReceivedMessagesInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutSentMessagesNestedInput = {
+export type UserCreateNestedOneWithoutSentMessagesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
-  upsert?: Prisma.UserUpsertWithoutSentMessagesInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSentMessagesInput, Prisma.UserUpdateWithoutSentMessagesInput>, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
 }
 
 export type UserUpdateOneRequiredWithoutReceivedMessagesNestedInput = {
@@ -796,6 +873,14 @@ export type UserUpdateOneRequiredWithoutReceivedMessagesNestedInput = {
   upsert?: Prisma.UserUpsertWithoutReceivedMessagesInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReceivedMessagesInput, Prisma.UserUpdateWithoutReceivedMessagesInput>, Prisma.UserUncheckedUpdateWithoutReceivedMessagesInput>
+}
+
+export type UserUpdateOneRequiredWithoutSentMessagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSentMessagesInput
+  upsert?: Prisma.UserUpsertWithoutSentMessagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSentMessagesInput, Prisma.UserUpdateWithoutSentMessagesInput>, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
 }
 
 export type UserCreateNestedOneWithoutSentAnnouncementsInput = {
@@ -844,7 +929,6 @@ export type UserCreateWithoutTenantInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -855,24 +939,28 @@ export type UserCreateWithoutTenantInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserUncheckedCreateWithoutTenantInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -883,17 +971,22 @@ export type UserUncheckedCreateWithoutTenantInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserCreateOrConnectWithoutTenantInput = {
@@ -930,7 +1023,6 @@ export type UserScalarWhereInput = {
   tenantId?: Prisma.StringNullableFilter<"User"> | string | null
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringFilter<"User"> | string
-  username?: Prisma.StringFilter<"User"> | string
   password?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
@@ -941,13 +1033,14 @@ export type UserScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  passwordChangedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  username?: Prisma.StringFilter<"User"> | string
 }
 
 export type UserCreateWithoutSessionsInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -958,17 +1051,22 @@ export type UserCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -976,7 +1074,6 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -987,16 +1084,21 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1019,7 +1121,6 @@ export type UserUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1030,17 +1131,22 @@ export type UserUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1048,7 +1154,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1059,23 +1164,27 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1086,17 +1195,22 @@ export type UserCreateWithoutRefreshTokensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -1104,7 +1218,6 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1115,16 +1228,21 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -1147,7 +1265,6 @@ export type UserUpdateWithoutRefreshTokensInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1158,17 +1275,22 @@ export type UserUpdateWithoutRefreshTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -1176,7 +1298,6 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1187,23 +1308,27 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserCreateWithoutStudentInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1214,17 +1339,22 @@ export type UserCreateWithoutStudentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
-  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  passwordChangedAt?: Date | string | null
+  username: string
   sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
   conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutStudentInput = {
@@ -1232,7 +1362,6 @@ export type UserUncheckedCreateWithoutStudentInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1243,16 +1372,21 @@ export type UserUncheckedCreateWithoutStudentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
-  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  passwordChangedAt?: Date | string | null
+  username: string
   sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
   conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudentInput = {
@@ -1275,7 +1409,6 @@ export type UserUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1286,17 +1419,22 @@ export type UserUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
-  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
   conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentInput = {
@@ -1304,7 +1442,6 @@ export type UserUncheckedUpdateWithoutStudentInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1315,23 +1452,27 @@ export type UserUncheckedUpdateWithoutStudentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
-  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
   conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutParentInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1342,17 +1483,22 @@ export type UserCreateWithoutParentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutParentInput = {
@@ -1360,7 +1506,6 @@ export type UserUncheckedCreateWithoutParentInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1371,16 +1516,21 @@ export type UserUncheckedCreateWithoutParentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserCreateOrConnectWithoutParentInput = {
@@ -1403,7 +1553,6 @@ export type UserUpdateWithoutParentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1414,17 +1563,22 @@ export type UserUpdateWithoutParentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutParentInput = {
@@ -1432,7 +1586,6 @@ export type UserUncheckedUpdateWithoutParentInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1443,23 +1596,27 @@ export type UserUncheckedUpdateWithoutParentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserCreateWithoutTeacherInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1470,17 +1627,22 @@ export type UserCreateWithoutTeacherInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
-  student?: Prisma.StudentCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  passwordChangedAt?: Date | string | null
+  username: string
   sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
   conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutTeacherInput = {
@@ -1488,7 +1650,6 @@ export type UserUncheckedCreateWithoutTeacherInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1499,16 +1660,21 @@ export type UserUncheckedCreateWithoutTeacherInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
-  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  passwordChangedAt?: Date | string | null
+  username: string
   sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
   conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTeacherInput = {
@@ -1531,7 +1697,6 @@ export type UserUpdateWithoutTeacherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1542,17 +1707,22 @@ export type UserUpdateWithoutTeacherInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
-  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
   conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeacherInput = {
@@ -1560,7 +1730,6 @@ export type UserUncheckedUpdateWithoutTeacherInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1571,23 +1740,27 @@ export type UserUncheckedUpdateWithoutTeacherInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
-  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
   conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConductRecordsReportedInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1598,17 +1771,22 @@ export type UserCreateWithoutConductRecordsReportedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutConductRecordsReportedInput = {
@@ -1616,7 +1794,6 @@ export type UserUncheckedCreateWithoutConductRecordsReportedInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1627,16 +1804,21 @@ export type UserUncheckedCreateWithoutConductRecordsReportedInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConductRecordsReportedInput = {
@@ -1659,7 +1841,6 @@ export type UserUpdateWithoutConductRecordsReportedInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1670,17 +1851,22 @@ export type UserUpdateWithoutConductRecordsReportedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConductRecordsReportedInput = {
@@ -1688,7 +1874,6 @@ export type UserUncheckedUpdateWithoutConductRecordsReportedInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1699,23 +1884,27 @@ export type UserUncheckedUpdateWithoutConductRecordsReportedInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutSentMessagesInput = {
+export type UserCreateWithoutConversationParticipantsInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1726,25 +1915,29 @@ export type UserCreateWithoutSentMessagesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
-export type UserUncheckedCreateWithoutSentMessagesInput = {
+export type UserUncheckedCreateWithoutConversationParticipantsInput = {
   id?: string
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1755,28 +1948,395 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
-export type UserCreateOrConnectWithoutSentMessagesInput = {
+export type UserCreateOrConnectWithoutConversationParticipantsInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutConversationParticipantsInput, Prisma.UserUncheckedCreateWithoutConversationParticipantsInput>
+}
+
+export type UserUpsertWithoutConversationParticipantsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutConversationParticipantsInput, Prisma.UserUncheckedUpdateWithoutConversationParticipantsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutConversationParticipantsInput, Prisma.UserUncheckedCreateWithoutConversationParticipantsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutConversationParticipantsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutConversationParticipantsInput, Prisma.UserUncheckedUpdateWithoutConversationParticipantsInput>
+}
+
+export type UserUpdateWithoutConversationParticipantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+}
+
+export type UserUncheckedUpdateWithoutConversationParticipantsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutChatMessagesInput = {
+  id?: string
+  email: string
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+}
+
+export type UserUncheckedCreateWithoutChatMessagesInput = {
+  id?: string
+  tenantId?: string | null
+  email: string
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutChatMessagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutChatMessagesInput, Prisma.UserUncheckedCreateWithoutChatMessagesInput>
+}
+
+export type UserUpsertWithoutChatMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutChatMessagesInput, Prisma.UserUncheckedUpdateWithoutChatMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutChatMessagesInput, Prisma.UserUncheckedCreateWithoutChatMessagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutChatMessagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutChatMessagesInput, Prisma.UserUncheckedUpdateWithoutChatMessagesInput>
+}
+
+export type UserUpdateWithoutChatMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+}
+
+export type UserUncheckedUpdateWithoutChatMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPushTokensInput = {
+  id?: string
+  email: string
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+}
+
+export type UserUncheckedCreateWithoutPushTokensInput = {
+  id?: string
+  tenantId?: string | null
+  email: string
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPushTokensInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPushTokensInput, Prisma.UserUncheckedCreateWithoutPushTokensInput>
+}
+
+export type UserUpsertWithoutPushTokensInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPushTokensInput, Prisma.UserUncheckedUpdateWithoutPushTokensInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPushTokensInput, Prisma.UserUncheckedCreateWithoutPushTokensInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPushTokensInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPushTokensInput, Prisma.UserUncheckedUpdateWithoutPushTokensInput>
+}
+
+export type UserUpdateWithoutPushTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPushTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReceivedMessagesInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1787,17 +2347,22 @@ export type UserCreateWithoutReceivedMessagesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutReceivedMessagesInput = {
@@ -1805,7 +2370,6 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1816,16 +2380,21 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserCreateOrConnectWithoutReceivedMessagesInput = {
@@ -1833,71 +2402,73 @@ export type UserCreateOrConnectWithoutReceivedMessagesInput = {
   create: Prisma.XOR<Prisma.UserCreateWithoutReceivedMessagesInput, Prisma.UserUncheckedCreateWithoutReceivedMessagesInput>
 }
 
-export type UserUpsertWithoutSentMessagesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+export type UserCreateWithoutSentMessagesInput = {
+  id?: string
+  email: string
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+}
+
+export type UserUncheckedCreateWithoutSentMessagesInput = {
+  id?: string
+  tenantId?: string | null
+  email: string
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSentMessagesInput = {
+  where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutSentMessagesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
-}
-
-export type UserUpdateWithoutSentMessagesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
-  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
-  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutSentMessagesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
-  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
-  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
-  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
-  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserUpsertWithoutReceivedMessagesInput = {
@@ -1915,7 +2486,6 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1926,17 +2496,22 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
@@ -1944,7 +2519,6 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1955,23 +2529,102 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+export type UserUpsertWithoutSentMessagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSentMessagesInput, Prisma.UserUncheckedCreateWithoutSentMessagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSentMessagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSentMessagesInput, Prisma.UserUncheckedUpdateWithoutSentMessagesInput>
+}
+
+export type UserUpdateWithoutSentMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSentMessagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
   sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
   conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSentAnnouncementsInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -1982,17 +2635,22 @@ export type UserCreateWithoutSentAnnouncementsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutSentAnnouncementsInput = {
@@ -2000,7 +2658,6 @@ export type UserUncheckedCreateWithoutSentAnnouncementsInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -2011,16 +2668,21 @@ export type UserUncheckedCreateWithoutSentAnnouncementsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserCreateOrConnectWithoutSentAnnouncementsInput = {
@@ -2043,7 +2705,6 @@ export type UserUpdateWithoutSentAnnouncementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2054,17 +2715,22 @@ export type UserUpdateWithoutSentAnnouncementsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentAnnouncementsInput = {
@@ -2072,7 +2738,6 @@ export type UserUncheckedUpdateWithoutSentAnnouncementsInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2083,23 +2748,27 @@ export type UserUncheckedUpdateWithoutSentAnnouncementsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserCreateWithoutSentNotificationsInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -2110,17 +2779,22 @@ export type UserCreateWithoutSentNotificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutSentNotificationsInput = {
@@ -2128,7 +2802,6 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -2139,16 +2812,21 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserCreateOrConnectWithoutSentNotificationsInput = {
@@ -2171,7 +2849,6 @@ export type UserUpdateWithoutSentNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2182,17 +2859,22 @@ export type UserUpdateWithoutSentNotificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentNotificationsInput = {
@@ -2200,7 +2882,6 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2211,23 +2892,27 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserCreateWithoutReceivedNotificationsInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -2238,17 +2923,22 @@ export type UserCreateWithoutReceivedNotificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
@@ -2256,7 +2946,6 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   tenantId?: string | null
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -2267,16 +2956,21 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
-  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
-  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
-  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
-  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
 }
 
 export type UserCreateOrConnectWithoutReceivedNotificationsInput = {
@@ -2299,7 +2993,6 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2310,17 +3003,22 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
@@ -2328,7 +3026,6 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2339,23 +3036,27 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserCreateManyTenantInput = {
   id?: string
   email: string
   name: string
-  username: string
   password: string
   phone?: string | null
   avatar?: string | null
@@ -2366,13 +3067,14 @@ export type UserCreateManyTenantInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
 }
 
 export type UserUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2383,24 +3085,28 @@ export type UserUpdateWithoutTenantInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2411,24 +3117,28 @@ export type UserUncheckedUpdateWithoutTenantInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
-  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
-  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
-  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
-  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
-  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
-  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
-  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  username?: Prisma.StringFieldUpdateOperationsInput | string
   password?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2439,6 +3149,8 @@ export type UserUncheckedUpdateManyWithoutTenantInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -2447,25 +3159,31 @@ export type UserUncheckedUpdateManyWithoutTenantInput = {
  */
 
 export type UserCountOutputType = {
-  sessions: number
-  refreshTokens: number
-  sentMessages: number
-  receivedMessages: number
   sentAnnouncements: number
-  sentNotifications: number
-  receivedNotifications: number
+  chatMessages: number
   conductRecordsReported: number
+  conversationParticipants: number
+  receivedMessages: number
+  sentMessages: number
+  receivedNotifications: number
+  sentNotifications: number
+  pushTokens: number
+  refreshTokens: number
+  sessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
-  refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
-  sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
-  receivedMessages?: boolean | UserCountOutputTypeCountReceivedMessagesArgs
   sentAnnouncements?: boolean | UserCountOutputTypeCountSentAnnouncementsArgs
-  sentNotifications?: boolean | UserCountOutputTypeCountSentNotificationsArgs
-  receivedNotifications?: boolean | UserCountOutputTypeCountReceivedNotificationsArgs
+  chatMessages?: boolean | UserCountOutputTypeCountChatMessagesArgs
   conductRecordsReported?: boolean | UserCountOutputTypeCountConductRecordsReportedArgs
+  conversationParticipants?: boolean | UserCountOutputTypeCountConversationParticipantsArgs
+  receivedMessages?: boolean | UserCountOutputTypeCountReceivedMessagesArgs
+  sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
+  receivedNotifications?: boolean | UserCountOutputTypeCountReceivedNotificationsArgs
+  sentNotifications?: boolean | UserCountOutputTypeCountSentNotificationsArgs
+  pushTokens?: boolean | UserCountOutputTypeCountPushTokensArgs
+  refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
+  sessions?: boolean | UserCountOutputTypeCountSessionsArgs
 }
 
 /**
@@ -2481,22 +3199,29 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SessionWhereInput
+export type UserCountOutputTypeCountSentAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnnouncementWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RefreshTokenWhereInput
+export type UserCountOutputTypeCountChatMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ChatMessageWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MessageWhereInput
+export type UserCountOutputTypeCountConductRecordsReportedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConductRecordWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountConversationParticipantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConversationParticipantWhereInput
 }
 
 /**
@@ -2509,15 +3234,8 @@ export type UserCountOutputTypeCountReceivedMessagesArgs<ExtArgs extends runtime
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSentAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AnnouncementWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountSentNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NotificationWhereInput
+export type UserCountOutputTypeCountSentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MessageWhereInput
 }
 
 /**
@@ -2530,8 +3248,29 @@ export type UserCountOutputTypeCountReceivedNotificationsArgs<ExtArgs extends ru
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountConductRecordsReportedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ConductRecordWhereInput
+export type UserCountOutputTypeCountSentNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPushTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PushTokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RefreshTokenWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SessionWhereInput
 }
 
 
@@ -2540,7 +3279,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   tenantId?: boolean
   email?: boolean
   name?: boolean
-  username?: boolean
   password?: boolean
   phone?: boolean
   avatar?: boolean
@@ -2551,18 +3289,23 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
-  tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
-  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  passwordChangedAt?: boolean
+  username?: boolean
+  sentAnnouncements?: boolean | Prisma.User$sentAnnouncementsArgs<ExtArgs>
+  chatMessages?: boolean | Prisma.User$chatMessagesArgs<ExtArgs>
+  conductRecordsReported?: boolean | Prisma.User$conductRecordsReportedArgs<ExtArgs>
+  conversationParticipants?: boolean | Prisma.User$conversationParticipantsArgs<ExtArgs>
+  receivedMessages?: boolean | Prisma.User$receivedMessagesArgs<ExtArgs>
+  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
+  receivedNotifications?: boolean | Prisma.User$receivedNotificationsArgs<ExtArgs>
+  sentNotifications?: boolean | Prisma.User$sentNotificationsArgs<ExtArgs>
+  parent?: boolean | Prisma.User$parentArgs<ExtArgs>
+  pushTokens?: boolean | Prisma.User$pushTokensArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   teacher?: boolean | Prisma.User$teacherArgs<ExtArgs>
-  parent?: boolean | Prisma.User$parentArgs<ExtArgs>
-  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
-  receivedMessages?: boolean | Prisma.User$receivedMessagesArgs<ExtArgs>
-  sentAnnouncements?: boolean | Prisma.User$sentAnnouncementsArgs<ExtArgs>
-  sentNotifications?: boolean | Prisma.User$sentNotificationsArgs<ExtArgs>
-  receivedNotifications?: boolean | Prisma.User$receivedNotificationsArgs<ExtArgs>
-  conductRecordsReported?: boolean | Prisma.User$conductRecordsReportedArgs<ExtArgs>
+  tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2571,7 +3314,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   tenantId?: boolean
   email?: boolean
   name?: boolean
-  username?: boolean
   password?: boolean
   phone?: boolean
   avatar?: boolean
@@ -2582,6 +3324,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
+  passwordChangedAt?: boolean
+  username?: boolean
   tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2590,7 +3334,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   tenantId?: boolean
   email?: boolean
   name?: boolean
-  username?: boolean
   password?: boolean
   phone?: boolean
   avatar?: boolean
@@ -2601,6 +3344,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
+  passwordChangedAt?: boolean
+  username?: boolean
   tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2609,7 +3354,6 @@ export type UserSelectScalar = {
   tenantId?: boolean
   email?: boolean
   name?: boolean
-  username?: boolean
   password?: boolean
   phone?: boolean
   avatar?: boolean
@@ -2620,22 +3364,27 @@ export type UserSelectScalar = {
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
+  passwordChangedAt?: boolean
+  username?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "email" | "name" | "username" | "password" | "phone" | "avatar" | "role" | "userType" | "status" | "emailVerified" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "email" | "name" | "password" | "phone" | "avatar" | "role" | "userType" | "status" | "emailVerified" | "createdAt" | "updatedAt" | "lastLoginAt" | "passwordChangedAt" | "username", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
-  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
+  sentAnnouncements?: boolean | Prisma.User$sentAnnouncementsArgs<ExtArgs>
+  chatMessages?: boolean | Prisma.User$chatMessagesArgs<ExtArgs>
+  conductRecordsReported?: boolean | Prisma.User$conductRecordsReportedArgs<ExtArgs>
+  conversationParticipants?: boolean | Prisma.User$conversationParticipantsArgs<ExtArgs>
+  receivedMessages?: boolean | Prisma.User$receivedMessagesArgs<ExtArgs>
+  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
+  receivedNotifications?: boolean | Prisma.User$receivedNotificationsArgs<ExtArgs>
+  sentNotifications?: boolean | Prisma.User$sentNotificationsArgs<ExtArgs>
+  parent?: boolean | Prisma.User$parentArgs<ExtArgs>
+  pushTokens?: boolean | Prisma.User$pushTokensArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
+  sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   teacher?: boolean | Prisma.User$teacherArgs<ExtArgs>
-  parent?: boolean | Prisma.User$parentArgs<ExtArgs>
-  sentMessages?: boolean | Prisma.User$sentMessagesArgs<ExtArgs>
-  receivedMessages?: boolean | Prisma.User$receivedMessagesArgs<ExtArgs>
-  sentAnnouncements?: boolean | Prisma.User$sentAnnouncementsArgs<ExtArgs>
-  sentNotifications?: boolean | Prisma.User$sentNotificationsArgs<ExtArgs>
-  receivedNotifications?: boolean | Prisma.User$receivedNotificationsArgs<ExtArgs>
-  conductRecordsReported?: boolean | Prisma.User$conductRecordsReportedArgs<ExtArgs>
+  tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2648,25 +3397,27 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs> | null
-    sessions: Prisma.$SessionPayload<ExtArgs>[]
+    sentAnnouncements: Prisma.$AnnouncementPayload<ExtArgs>[]
+    chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
+    conductRecordsReported: Prisma.$ConductRecordPayload<ExtArgs>[]
+    conversationParticipants: Prisma.$ConversationParticipantPayload<ExtArgs>[]
+    receivedMessages: Prisma.$MessagePayload<ExtArgs>[]
+    sentMessages: Prisma.$MessagePayload<ExtArgs>[]
+    receivedNotifications: Prisma.$NotificationRecipientPayload<ExtArgs>[]
+    sentNotifications: Prisma.$NotificationPayload<ExtArgs>[]
+    parent: Prisma.$ParentPayload<ExtArgs> | null
+    pushTokens: Prisma.$PushTokenPayload<ExtArgs>[]
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
+    sessions: Prisma.$SessionPayload<ExtArgs>[]
     student: Prisma.$StudentPayload<ExtArgs> | null
     teacher: Prisma.$TeacherPayload<ExtArgs> | null
-    parent: Prisma.$ParentPayload<ExtArgs> | null
-    sentMessages: Prisma.$MessagePayload<ExtArgs>[]
-    receivedMessages: Prisma.$MessagePayload<ExtArgs>[]
-    sentAnnouncements: Prisma.$AnnouncementPayload<ExtArgs>[]
-    sentNotifications: Prisma.$NotificationPayload<ExtArgs>[]
-    receivedNotifications: Prisma.$NotificationRecipientPayload<ExtArgs>[]
-    conductRecordsReported: Prisma.$ConductRecordPayload<ExtArgs>[]
+    tenant: Prisma.$TenantPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string | null
     email: string
     name: string
-    username: string
     password: string
     phone: string | null
     avatar: string | null
@@ -2677,6 +3428,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     updatedAt: Date
     lastLoginAt: Date | null
+    passwordChangedAt: Date | null
+    username: string
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -3071,18 +3824,21 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.User$tenantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tenantArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sentAnnouncements<T extends Prisma.User$sentAnnouncementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  chatMessages<T extends Prisma.User$chatMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conductRecordsReported<T extends Prisma.User$conductRecordsReportedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conductRecordsReportedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conversationParticipants<T extends Prisma.User$conversationParticipantsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conversationParticipantsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationParticipantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  receivedMessages<T extends Prisma.User$receivedMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sentMessages<T extends Prisma.User$sentMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  receivedNotifications<T extends Prisma.User$receivedNotificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationRecipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sentNotifications<T extends Prisma.User$sentNotificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  parent<T extends Prisma.User$parentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$parentArgs<ExtArgs>>): Prisma.Prisma__ParentClient<runtime.Types.Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  pushTokens<T extends Prisma.User$pushTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pushTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   refreshTokens<T extends Prisma.User$refreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   student<T extends Prisma.User$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   teacher<T extends Prisma.User$teacherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$teacherArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  parent<T extends Prisma.User$parentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$parentArgs<ExtArgs>>): Prisma.Prisma__ParentClient<runtime.Types.Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  sentMessages<T extends Prisma.User$sentMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  receivedMessages<T extends Prisma.User$receivedMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  sentAnnouncements<T extends Prisma.User$sentAnnouncementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  sentNotifications<T extends Prisma.User$sentNotificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sentNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  receivedNotifications<T extends Prisma.User$receivedNotificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$receivedNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationRecipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  conductRecordsReported<T extends Prisma.User$conductRecordsReportedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$conductRecordsReportedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tenant<T extends Prisma.User$tenantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tenantArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3116,7 +3872,6 @@ export interface UserFieldRefs {
   readonly tenantId: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
-  readonly username: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
   readonly avatar: Prisma.FieldRef<"User", 'String'>
@@ -3127,6 +3882,8 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly passwordChangedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly username: Prisma.FieldRef<"User", 'String'>
 }
     
 
@@ -3523,46 +4280,238 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.tenant
+ * User.sentAnnouncements
  */
-export type User$tenantArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$sentAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Tenant
+   * Select specific fields to fetch from the Announcement
    */
-  select?: Prisma.TenantSelect<ExtArgs> | null
+  select?: Prisma.AnnouncementSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Tenant
+   * Omit specific fields from the Announcement
    */
-  omit?: Prisma.TenantOmit<ExtArgs> | null
+  omit?: Prisma.AnnouncementOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TenantInclude<ExtArgs> | null
-  where?: Prisma.TenantWhereInput
+  include?: Prisma.AnnouncementInclude<ExtArgs> | null
+  where?: Prisma.AnnouncementWhereInput
+  orderBy?: Prisma.AnnouncementOrderByWithRelationInput | Prisma.AnnouncementOrderByWithRelationInput[]
+  cursor?: Prisma.AnnouncementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AnnouncementScalarFieldEnum | Prisma.AnnouncementScalarFieldEnum[]
 }
 
 /**
- * User.sessions
+ * User.chatMessages
  */
-export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$chatMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Session
+   * Select specific fields to fetch from the ChatMessage
    */
-  select?: Prisma.SessionSelect<ExtArgs> | null
+  select?: Prisma.ChatMessageSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Session
+   * Omit specific fields from the ChatMessage
    */
-  omit?: Prisma.SessionOmit<ExtArgs> | null
+  omit?: Prisma.ChatMessageOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.SessionInclude<ExtArgs> | null
-  where?: Prisma.SessionWhereInput
-  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
-  cursor?: Prisma.SessionWhereUniqueInput
+  include?: Prisma.ChatMessageInclude<ExtArgs> | null
+  where?: Prisma.ChatMessageWhereInput
+  orderBy?: Prisma.ChatMessageOrderByWithRelationInput | Prisma.ChatMessageOrderByWithRelationInput[]
+  cursor?: Prisma.ChatMessageWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
+  distinct?: Prisma.ChatMessageScalarFieldEnum | Prisma.ChatMessageScalarFieldEnum[]
+}
+
+/**
+ * User.conductRecordsReported
+ */
+export type User$conductRecordsReportedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConductRecord
+   */
+  select?: Prisma.ConductRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ConductRecord
+   */
+  omit?: Prisma.ConductRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConductRecordInclude<ExtArgs> | null
+  where?: Prisma.ConductRecordWhereInput
+  orderBy?: Prisma.ConductRecordOrderByWithRelationInput | Prisma.ConductRecordOrderByWithRelationInput[]
+  cursor?: Prisma.ConductRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConductRecordScalarFieldEnum | Prisma.ConductRecordScalarFieldEnum[]
+}
+
+/**
+ * User.conversationParticipants
+ */
+export type User$conversationParticipantsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConversationParticipant
+   */
+  select?: Prisma.ConversationParticipantSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ConversationParticipant
+   */
+  omit?: Prisma.ConversationParticipantOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConversationParticipantInclude<ExtArgs> | null
+  where?: Prisma.ConversationParticipantWhereInput
+  orderBy?: Prisma.ConversationParticipantOrderByWithRelationInput | Prisma.ConversationParticipantOrderByWithRelationInput[]
+  cursor?: Prisma.ConversationParticipantWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConversationParticipantScalarFieldEnum | Prisma.ConversationParticipantScalarFieldEnum[]
+}
+
+/**
+ * User.receivedMessages
+ */
+export type User$receivedMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Message
+   */
+  select?: Prisma.MessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Message
+   */
+  omit?: Prisma.MessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageInclude<ExtArgs> | null
+  where?: Prisma.MessageWhereInput
+  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
+  cursor?: Prisma.MessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
+}
+
+/**
+ * User.sentMessages
+ */
+export type User$sentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Message
+   */
+  select?: Prisma.MessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Message
+   */
+  omit?: Prisma.MessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageInclude<ExtArgs> | null
+  where?: Prisma.MessageWhereInput
+  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
+  cursor?: Prisma.MessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
+}
+
+/**
+ * User.receivedNotifications
+ */
+export type User$receivedNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NotificationRecipient
+   */
+  select?: Prisma.NotificationRecipientSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NotificationRecipient
+   */
+  omit?: Prisma.NotificationRecipientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationRecipientInclude<ExtArgs> | null
+  where?: Prisma.NotificationRecipientWhereInput
+  orderBy?: Prisma.NotificationRecipientOrderByWithRelationInput | Prisma.NotificationRecipientOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationRecipientWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationRecipientScalarFieldEnum | Prisma.NotificationRecipientScalarFieldEnum[]
+}
+
+/**
+ * User.sentNotifications
+ */
+export type User$sentNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * User.parent
+ */
+export type User$parentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Parent
+   */
+  select?: Prisma.ParentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Parent
+   */
+  omit?: Prisma.ParentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ParentInclude<ExtArgs> | null
+  where?: Prisma.ParentWhereInput
+}
+
+/**
+ * User.pushTokens
+ */
+export type User$pushTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PushToken
+   */
+  select?: Prisma.PushTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PushToken
+   */
+  omit?: Prisma.PushTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PushTokenInclude<ExtArgs> | null
+  where?: Prisma.PushTokenWhereInput
+  orderBy?: Prisma.PushTokenOrderByWithRelationInput | Prisma.PushTokenOrderByWithRelationInput[]
+  cursor?: Prisma.PushTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PushTokenScalarFieldEnum | Prisma.PushTokenScalarFieldEnum[]
 }
 
 /**
@@ -3587,6 +4536,30 @@ export type User$refreshTokensArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.RefreshTokenScalarFieldEnum | Prisma.RefreshTokenScalarFieldEnum[]
+}
+
+/**
+ * User.sessions
+ */
+export type User$sessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Session
+   */
+  select?: Prisma.SessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Session
+   */
+  omit?: Prisma.SessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SessionInclude<ExtArgs> | null
+  where?: Prisma.SessionWhereInput
+  orderBy?: Prisma.SessionOrderByWithRelationInput | Prisma.SessionOrderByWithRelationInput[]
+  cursor?: Prisma.SessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SessionScalarFieldEnum | Prisma.SessionScalarFieldEnum[]
 }
 
 /**
@@ -3628,166 +4601,22 @@ export type User$teacherArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
- * User.parent
+ * User.tenant
  */
-export type User$parentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$tenantArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Parent
+   * Select specific fields to fetch from the Tenant
    */
-  select?: Prisma.ParentSelect<ExtArgs> | null
+  select?: Prisma.TenantSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Parent
+   * Omit specific fields from the Tenant
    */
-  omit?: Prisma.ParentOmit<ExtArgs> | null
+  omit?: Prisma.TenantOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ParentInclude<ExtArgs> | null
-  where?: Prisma.ParentWhereInput
-}
-
-/**
- * User.sentMessages
- */
-export type User$sentMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Message
-   */
-  select?: Prisma.MessageSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Message
-   */
-  omit?: Prisma.MessageOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MessageInclude<ExtArgs> | null
-  where?: Prisma.MessageWhereInput
-  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
-  cursor?: Prisma.MessageWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
-}
-
-/**
- * User.receivedMessages
- */
-export type User$receivedMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Message
-   */
-  select?: Prisma.MessageSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Message
-   */
-  omit?: Prisma.MessageOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MessageInclude<ExtArgs> | null
-  where?: Prisma.MessageWhereInput
-  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
-  cursor?: Prisma.MessageWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
-}
-
-/**
- * User.sentAnnouncements
- */
-export type User$sentAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Announcement
-   */
-  select?: Prisma.AnnouncementSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Announcement
-   */
-  omit?: Prisma.AnnouncementOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AnnouncementInclude<ExtArgs> | null
-  where?: Prisma.AnnouncementWhereInput
-  orderBy?: Prisma.AnnouncementOrderByWithRelationInput | Prisma.AnnouncementOrderByWithRelationInput[]
-  cursor?: Prisma.AnnouncementWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AnnouncementScalarFieldEnum | Prisma.AnnouncementScalarFieldEnum[]
-}
-
-/**
- * User.sentNotifications
- */
-export type User$sentNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Notification
-   */
-  select?: Prisma.NotificationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Notification
-   */
-  omit?: Prisma.NotificationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NotificationInclude<ExtArgs> | null
-  where?: Prisma.NotificationWhereInput
-  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
-  cursor?: Prisma.NotificationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
-}
-
-/**
- * User.receivedNotifications
- */
-export type User$receivedNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the NotificationRecipient
-   */
-  select?: Prisma.NotificationRecipientSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the NotificationRecipient
-   */
-  omit?: Prisma.NotificationRecipientOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NotificationRecipientInclude<ExtArgs> | null
-  where?: Prisma.NotificationRecipientWhereInput
-  orderBy?: Prisma.NotificationRecipientOrderByWithRelationInput | Prisma.NotificationRecipientOrderByWithRelationInput[]
-  cursor?: Prisma.NotificationRecipientWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NotificationRecipientScalarFieldEnum | Prisma.NotificationRecipientScalarFieldEnum[]
-}
-
-/**
- * User.conductRecordsReported
- */
-export type User$conductRecordsReportedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ConductRecord
-   */
-  select?: Prisma.ConductRecordSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ConductRecord
-   */
-  omit?: Prisma.ConductRecordOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ConductRecordInclude<ExtArgs> | null
-  where?: Prisma.ConductRecordWhereInput
-  orderBy?: Prisma.ConductRecordOrderByWithRelationInput | Prisma.ConductRecordOrderByWithRelationInput[]
-  cursor?: Prisma.ConductRecordWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ConductRecordScalarFieldEnum | Prisma.ConductRecordScalarFieldEnum[]
+  include?: Prisma.TenantInclude<ExtArgs> | null
+  where?: Prisma.TenantWhereInput
 }
 
 /**

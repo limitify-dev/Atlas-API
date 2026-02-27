@@ -202,8 +202,8 @@ export type DeviceLogWhereInput = {
   ipAddress?: Prisma.StringNullableFilter<"DeviceLog"> | string | null
   metadata?: Prisma.JsonNullableFilter<"DeviceLog">
   createdAt?: Prisma.DateTimeFilter<"DeviceLog"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type DeviceLogOrderByWithRelationInput = {
@@ -215,8 +215,8 @@ export type DeviceLogOrderByWithRelationInput = {
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   device?: Prisma.DeviceOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type DeviceLogWhereUniqueInput = Prisma.AtLeast<{
@@ -231,8 +231,8 @@ export type DeviceLogWhereUniqueInput = Prisma.AtLeast<{
   ipAddress?: Prisma.StringNullableFilter<"DeviceLog"> | string | null
   metadata?: Prisma.JsonNullableFilter<"DeviceLog">
   createdAt?: Prisma.DateTimeFilter<"DeviceLog"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   device?: Prisma.XOR<Prisma.DeviceScalarRelationFilter, Prisma.DeviceWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type DeviceLogOrderByWithAggregationInput = {
@@ -270,8 +270,8 @@ export type DeviceLogCreateInput = {
   ipAddress?: string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutDeviceLogsInput
   device: Prisma.DeviceCreateNestedOneWithoutLogsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutDeviceLogsInput
 }
 
 export type DeviceLogUncheckedCreateInput = {
@@ -292,8 +292,8 @@ export type DeviceLogUpdateInput = {
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeviceLogsNestedInput
   device?: Prisma.DeviceUpdateOneRequiredWithoutLogsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutDeviceLogsNestedInput
 }
 
 export type DeviceLogUncheckedUpdateInput = {
@@ -660,8 +660,8 @@ export type DeviceLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   ipAddress?: boolean
   metadata?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["deviceLog"]>
 
 export type DeviceLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -673,8 +673,8 @@ export type DeviceLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   ipAddress?: boolean
   metadata?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["deviceLog"]>
 
 export type DeviceLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -686,8 +686,8 @@ export type DeviceLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   ipAddress?: boolean
   metadata?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["deviceLog"]>
 
 export type DeviceLogSelectScalar = {
@@ -703,23 +703,23 @@ export type DeviceLogSelectScalar = {
 
 export type DeviceLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "deviceId" | "action" | "description" | "ipAddress" | "metadata" | "createdAt", ExtArgs["result"]["deviceLog"]>
 export type DeviceLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type DeviceLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type DeviceLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   device?: boolean | Prisma.DeviceDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $DeviceLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DeviceLog"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     device: Prisma.$DevicePayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1124,8 +1124,8 @@ readonly fields: DeviceLogFieldRefs;
  */
 export interface Prisma__DeviceLogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   device<T extends Prisma.DeviceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DeviceDefaultArgs<ExtArgs>>): Prisma.Prisma__DeviceClient<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

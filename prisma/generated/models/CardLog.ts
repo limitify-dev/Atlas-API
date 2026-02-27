@@ -206,8 +206,8 @@ export type CardLogWhereInput = {
   description?: Prisma.StringNullableFilter<"CardLog"> | string | null
   performedBy?: Prisma.StringNullableFilter<"CardLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CardLog"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   card?: Prisma.XOR<Prisma.CardScalarRelationFilter, Prisma.CardWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type CardLogOrderByWithRelationInput = {
@@ -219,8 +219,8 @@ export type CardLogOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   performedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   card?: Prisma.CardOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type CardLogWhereUniqueInput = Prisma.AtLeast<{
@@ -235,8 +235,8 @@ export type CardLogWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"CardLog"> | string | null
   performedBy?: Prisma.StringNullableFilter<"CardLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"CardLog"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   card?: Prisma.XOR<Prisma.CardScalarRelationFilter, Prisma.CardWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type CardLogOrderByWithAggregationInput = {
@@ -274,8 +274,8 @@ export type CardLogCreateInput = {
   description?: string | null
   performedBy?: string | null
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCardLogsInput
   card: Prisma.CardCreateNestedOneWithoutLogsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCardLogsInput
 }
 
 export type CardLogUncheckedCreateInput = {
@@ -296,8 +296,8 @@ export type CardLogUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   performedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardLogsNestedInput
   card?: Prisma.CardUpdateOneRequiredWithoutLogsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardLogsNestedInput
 }
 
 export type CardLogUncheckedUpdateInput = {
@@ -666,8 +666,8 @@ export type CardLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   description?: boolean
   performedBy?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cardLog"]>
 
 export type CardLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -679,8 +679,8 @@ export type CardLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   performedBy?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cardLog"]>
 
 export type CardLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -692,8 +692,8 @@ export type CardLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   performedBy?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cardLog"]>
 
 export type CardLogSelectScalar = {
@@ -709,23 +709,23 @@ export type CardLogSelectScalar = {
 
 export type CardLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "cardId" | "action" | "location" | "description" | "performedBy" | "createdAt", ExtArgs["result"]["cardLog"]>
 export type CardLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CardLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CardLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $CardLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CardLog"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     card: Prisma.$CardPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1130,8 +1130,8 @@ readonly fields: CardLogFieldRefs;
  */
 export interface Prisma__CardLogClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   card<T extends Prisma.CardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CardDefaultArgs<ExtArgs>>): Prisma.Prisma__CardClient<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

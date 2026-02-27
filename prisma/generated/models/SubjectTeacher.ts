@@ -174,8 +174,8 @@ export type SubjectTeacherWhereInput = {
   teacherId?: Prisma.StringFilter<"SubjectTeacher"> | string
   subjectId?: Prisma.StringFilter<"SubjectTeacher"> | string
   createdAt?: Prisma.DateTimeFilter<"SubjectTeacher"> | Date | string
-  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
+  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
 }
 
 export type SubjectTeacherOrderByWithRelationInput = {
@@ -183,8 +183,8 @@ export type SubjectTeacherOrderByWithRelationInput = {
   teacherId?: Prisma.SortOrder
   subjectId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  teacher?: Prisma.TeacherOrderByWithRelationInput
   subject?: Prisma.SubjectOrderByWithRelationInput
+  teacher?: Prisma.TeacherOrderByWithRelationInput
 }
 
 export type SubjectTeacherWhereUniqueInput = Prisma.AtLeast<{
@@ -196,8 +196,8 @@ export type SubjectTeacherWhereUniqueInput = Prisma.AtLeast<{
   teacherId?: Prisma.StringFilter<"SubjectTeacher"> | string
   subjectId?: Prisma.StringFilter<"SubjectTeacher"> | string
   createdAt?: Prisma.DateTimeFilter<"SubjectTeacher"> | Date | string
-  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>
+  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
 }, "id" | "teacherId_subjectId">
 
 export type SubjectTeacherOrderByWithAggregationInput = {
@@ -223,8 +223,8 @@ export type SubjectTeacherScalarWhereWithAggregatesInput = {
 export type SubjectTeacherCreateInput = {
   id?: string
   createdAt?: Date | string
-  teacher: Prisma.TeacherCreateNestedOneWithoutSubjectsInput
   subject: Prisma.SubjectCreateNestedOneWithoutTeachersInput
+  teacher: Prisma.TeacherCreateNestedOneWithoutSubjectsInput
 }
 
 export type SubjectTeacherUncheckedCreateInput = {
@@ -237,8 +237,8 @@ export type SubjectTeacherUncheckedCreateInput = {
 export type SubjectTeacherUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  teacher?: Prisma.TeacherUpdateOneRequiredWithoutSubjectsNestedInput
   subject?: Prisma.SubjectUpdateOneRequiredWithoutTeachersNestedInput
+  teacher?: Prisma.TeacherUpdateOneRequiredWithoutSubjectsNestedInput
 }
 
 export type SubjectTeacherUncheckedUpdateInput = {
@@ -528,8 +528,8 @@ export type SubjectTeacherSelect<ExtArgs extends runtime.Types.Extensions.Intern
   teacherId?: boolean
   subjectId?: boolean
   createdAt?: boolean
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -537,8 +537,8 @@ export type SubjectTeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   teacherId?: boolean
   subjectId?: boolean
   createdAt?: boolean
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -546,8 +546,8 @@ export type SubjectTeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   teacherId?: boolean
   subjectId?: boolean
   createdAt?: boolean
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subjectTeacher"]>
 
 export type SubjectTeacherSelectScalar = {
@@ -559,23 +559,23 @@ export type SubjectTeacherSelectScalar = {
 
 export type SubjectTeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "teacherId" | "subjectId" | "createdAt", ExtArgs["result"]["subjectTeacher"]>
 export type SubjectTeacherInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 export type SubjectTeacherIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 export type SubjectTeacherIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 
 export type $SubjectTeacherPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SubjectTeacher"
   objects: {
-    teacher: Prisma.$TeacherPayload<ExtArgs>
     subject: Prisma.$SubjectPayload<ExtArgs>
+    teacher: Prisma.$TeacherPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -976,8 +976,8 @@ readonly fields: SubjectTeacherFieldRefs;
  */
 export interface Prisma__SubjectTeacherClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>): Prisma.Prisma__SubjectClient<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

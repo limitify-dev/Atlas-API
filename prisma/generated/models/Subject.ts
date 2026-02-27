@@ -206,9 +206,9 @@ export type SubjectWhereInput = {
   gradeId?: Prisma.StringFilter<"Subject"> | string
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  grade?: Prisma.XOR<Prisma.GradeScalarRelationFilter, Prisma.GradeWhereInput>
   teachers?: Prisma.SubjectTeacherListRelationFilter
+  grade?: Prisma.XOR<Prisma.GradeScalarRelationFilter, Prisma.GradeWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type SubjectOrderByWithRelationInput = {
@@ -220,9 +220,9 @@ export type SubjectOrderByWithRelationInput = {
   gradeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  grade?: Prisma.GradeOrderByWithRelationInput
   teachers?: Prisma.SubjectTeacherOrderByRelationAggregateInput
+  grade?: Prisma.GradeOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type SubjectWhereUniqueInput = Prisma.AtLeast<{
@@ -238,9 +238,9 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   gradeId?: Prisma.StringFilter<"Subject"> | string
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  grade?: Prisma.XOR<Prisma.GradeScalarRelationFilter, Prisma.GradeWhereInput>
   teachers?: Prisma.SubjectTeacherListRelationFilter
+  grade?: Prisma.XOR<Prisma.GradeScalarRelationFilter, Prisma.GradeWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id" | "tenantId_code">
 
 export type SubjectOrderByWithAggregationInput = {
@@ -278,9 +278,9 @@ export type SubjectCreateInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
-  grade: Prisma.GradeCreateNestedOneWithoutSubjectsInput
   teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutSubjectInput
+  grade: Prisma.GradeCreateNestedOneWithoutSubjectsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
 }
 
 export type SubjectUncheckedCreateInput = {
@@ -302,9 +302,9 @@ export type SubjectUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
-  grade?: Prisma.GradeUpdateOneRequiredWithoutSubjectsNestedInput
   teachers?: Prisma.SubjectTeacherUpdateManyWithoutSubjectNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSubjectsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
 }
 
 export type SubjectUncheckedUpdateInput = {
@@ -508,8 +508,8 @@ export type SubjectCreateWithoutTenantInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade: Prisma.GradeCreateNestedOneWithoutSubjectsInput
   teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutSubjectInput
+  grade: Prisma.GradeCreateNestedOneWithoutSubjectsInput
 }
 
 export type SubjectUncheckedCreateWithoutTenantInput = {
@@ -570,8 +570,8 @@ export type SubjectCreateWithoutGradeInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
   teachers?: Prisma.SubjectTeacherCreateNestedManyWithoutSubjectInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
 }
 
 export type SubjectUncheckedCreateWithoutGradeInput = {
@@ -618,8 +618,8 @@ export type SubjectCreateWithoutTeachersInput = {
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
   grade: Prisma.GradeCreateNestedOneWithoutSubjectsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSubjectsInput
 }
 
 export type SubjectUncheckedCreateWithoutTeachersInput = {
@@ -656,8 +656,8 @@ export type SubjectUpdateWithoutTeachersInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
   grade?: Prisma.GradeUpdateOneRequiredWithoutSubjectsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutTeachersInput = {
@@ -688,8 +688,8 @@ export type SubjectUpdateWithoutTenantInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade?: Prisma.GradeUpdateOneRequiredWithoutSubjectsNestedInput
   teachers?: Prisma.SubjectTeacherUpdateManyWithoutSubjectNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSubjectsNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutTenantInput = {
@@ -730,8 +730,8 @@ export type SubjectUpdateWithoutGradeInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
   teachers?: Prisma.SubjectTeacherUpdateManyWithoutSubjectNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSubjectsNestedInput
 }
 
 export type SubjectUncheckedUpdateWithoutGradeInput = {
@@ -795,9 +795,9 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   gradeId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
   teachers?: boolean | Prisma.Subject$teachersArgs<ExtArgs>
+  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SubjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
 
@@ -810,8 +810,8 @@ export type SubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   gradeId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
 
 export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -823,8 +823,8 @@ export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   gradeId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
 
 export type SubjectSelectScalar = {
@@ -840,26 +840,26 @@ export type SubjectSelectScalar = {
 
 export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "code" | "description" | "gradeId" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
 export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
   teachers?: boolean | Prisma.Subject$teachersArgs<ExtArgs>
+  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SubjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SubjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type SubjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Subject"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    grade: Prisma.$GradePayload<ExtArgs>
     teachers: Prisma.$SubjectTeacherPayload<ExtArgs>[]
+    grade: Prisma.$GradePayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1264,9 +1264,9 @@ readonly fields: SubjectFieldRefs;
  */
 export interface Prisma__SubjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  grade<T extends Prisma.GradeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeDefaultArgs<ExtArgs>>): Prisma.Prisma__GradeClient<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   teachers<T extends Prisma.Subject$teachersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Subject$teachersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  grade<T extends Prisma.GradeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeDefaultArgs<ExtArgs>>): Prisma.Prisma__GradeClient<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

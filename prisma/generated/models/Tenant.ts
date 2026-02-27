@@ -42,7 +42,6 @@ export type TenantMinAggregateOutputType = {
   slug: string | null
   domain: string | null
   logo: string | null
-  brandColor: string | null
   address: string | null
   city: string | null
   state: string | null
@@ -51,7 +50,6 @@ export type TenantMinAggregateOutputType = {
   phone: string | null
   email: string | null
   website: string | null
-  timezone: string | null
   status: $Enums.TenantStatus | null
   subscriptionPlan: $Enums.SubscriptionPlan | null
   subscriptionStartDate: Date | null
@@ -60,6 +58,8 @@ export type TenantMinAggregateOutputType = {
   maxTeachers: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  timezone: string | null
+  brandColor: string | null
 }
 
 export type TenantMaxAggregateOutputType = {
@@ -68,7 +68,6 @@ export type TenantMaxAggregateOutputType = {
   slug: string | null
   domain: string | null
   logo: string | null
-  brandColor: string | null
   address: string | null
   city: string | null
   state: string | null
@@ -77,7 +76,6 @@ export type TenantMaxAggregateOutputType = {
   phone: string | null
   email: string | null
   website: string | null
-  timezone: string | null
   status: $Enums.TenantStatus | null
   subscriptionPlan: $Enums.SubscriptionPlan | null
   subscriptionStartDate: Date | null
@@ -86,6 +84,8 @@ export type TenantMaxAggregateOutputType = {
   maxTeachers: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  timezone: string | null
+  brandColor: string | null
 }
 
 export type TenantCountAggregateOutputType = {
@@ -94,7 +94,6 @@ export type TenantCountAggregateOutputType = {
   slug: number
   domain: number
   logo: number
-  brandColor: number
   address: number
   city: number
   state: number
@@ -103,7 +102,6 @@ export type TenantCountAggregateOutputType = {
   phone: number
   email: number
   website: number
-  timezone: number
   status: number
   subscriptionPlan: number
   subscriptionStartDate: number
@@ -113,6 +111,8 @@ export type TenantCountAggregateOutputType = {
   settings: number
   createdAt: number
   updatedAt: number
+  timezone: number
+  brandColor: number
   _all: number
 }
 
@@ -133,7 +133,6 @@ export type TenantMinAggregateInputType = {
   slug?: true
   domain?: true
   logo?: true
-  brandColor?: true
   address?: true
   city?: true
   state?: true
@@ -142,7 +141,6 @@ export type TenantMinAggregateInputType = {
   phone?: true
   email?: true
   website?: true
-  timezone?: true
   status?: true
   subscriptionPlan?: true
   subscriptionStartDate?: true
@@ -151,6 +149,8 @@ export type TenantMinAggregateInputType = {
   maxTeachers?: true
   createdAt?: true
   updatedAt?: true
+  timezone?: true
+  brandColor?: true
 }
 
 export type TenantMaxAggregateInputType = {
@@ -159,7 +159,6 @@ export type TenantMaxAggregateInputType = {
   slug?: true
   domain?: true
   logo?: true
-  brandColor?: true
   address?: true
   city?: true
   state?: true
@@ -168,7 +167,6 @@ export type TenantMaxAggregateInputType = {
   phone?: true
   email?: true
   website?: true
-  timezone?: true
   status?: true
   subscriptionPlan?: true
   subscriptionStartDate?: true
@@ -177,6 +175,8 @@ export type TenantMaxAggregateInputType = {
   maxTeachers?: true
   createdAt?: true
   updatedAt?: true
+  timezone?: true
+  brandColor?: true
 }
 
 export type TenantCountAggregateInputType = {
@@ -185,7 +185,6 @@ export type TenantCountAggregateInputType = {
   slug?: true
   domain?: true
   logo?: true
-  brandColor?: true
   address?: true
   city?: true
   state?: true
@@ -194,7 +193,6 @@ export type TenantCountAggregateInputType = {
   phone?: true
   email?: true
   website?: true
-  timezone?: true
   status?: true
   subscriptionPlan?: true
   subscriptionStartDate?: true
@@ -204,6 +202,8 @@ export type TenantCountAggregateInputType = {
   settings?: true
   createdAt?: true
   updatedAt?: true
+  timezone?: true
+  brandColor?: true
   _all?: true
 }
 
@@ -299,7 +299,6 @@ export type TenantGroupByOutputType = {
   slug: string
   domain: string | null
   logo: string | null
-  brandColor: string | null
   address: string | null
   city: string | null
   state: string | null
@@ -308,7 +307,6 @@ export type TenantGroupByOutputType = {
   phone: string | null
   email: string | null
   website: string | null
-  timezone: string
   status: $Enums.TenantStatus
   subscriptionPlan: $Enums.SubscriptionPlan
   subscriptionStartDate: Date | null
@@ -318,6 +316,8 @@ export type TenantGroupByOutputType = {
   settings: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
+  timezone: string
+  brandColor: string | null
   _count: TenantCountAggregateOutputType | null
   _avg: TenantAvgAggregateOutputType | null
   _sum: TenantSumAggregateOutputType | null
@@ -349,7 +349,6 @@ export type TenantWhereInput = {
   slug?: Prisma.StringFilter<"Tenant"> | string
   domain?: Prisma.StringNullableFilter<"Tenant"> | string | null
   logo?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  brandColor?: Prisma.StringNullableFilter<"Tenant"> | string | null
   address?: Prisma.StringNullableFilter<"Tenant"> | string | null
   city?: Prisma.StringNullableFilter<"Tenant"> | string | null
   state?: Prisma.StringNullableFilter<"Tenant"> | string | null
@@ -358,7 +357,6 @@ export type TenantWhereInput = {
   phone?: Prisma.StringNullableFilter<"Tenant"> | string | null
   email?: Prisma.StringNullableFilter<"Tenant"> | string | null
   website?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  timezone?: Prisma.StringFilter<"Tenant"> | string
   status?: Prisma.EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
@@ -368,37 +366,41 @@ export type TenantWhereInput = {
   settings?: Prisma.JsonNullableFilter<"Tenant">
   createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
-  users?: Prisma.UserListRelationFilter
-  students?: Prisma.StudentListRelationFilter
-  teachers?: Prisma.TeacherListRelationFilter
-  parents?: Prisma.ParentListRelationFilter
-  grades?: Prisma.GradeListRelationFilter
-  sections?: Prisma.SectionListRelationFilter
-  combinations?: Prisma.CombinationListRelationFilter
-  subjects?: Prisma.SubjectListRelationFilter
-  attendances?: Prisma.AttendanceListRelationFilter
-  teacherAttendances?: Prisma.TeacherAttendanceListRelationFilter
-  books?: Prisma.BookListRelationFilter
-  bookTransactions?: Prisma.BookTransactionListRelationFilter
-  buses?: Prisma.BusListRelationFilter
-  busRoutes?: Prisma.BusRouteListRelationFilter
-  transportAssignments?: Prisma.TransportAssignmentListRelationFilter
-  permissions?: Prisma.PermissionListRelationFilter
-  conductRecords?: Prisma.ConductRecordListRelationFilter
-  studentConductPoints?: Prisma.StudentConductPointsListRelationFilter
-  conductPointTransactions?: Prisma.ConductPointTransactionListRelationFilter
-  permissionUsages?: Prisma.PermissionUsageListRelationFilter
-  messages?: Prisma.MessageListRelationFilter
+  timezone?: Prisma.StringFilter<"Tenant"> | string
+  brandColor?: Prisma.StringNullableFilter<"Tenant"> | string | null
   announcements?: Prisma.AnnouncementListRelationFilter
-  notifications?: Prisma.NotificationListRelationFilter
-  inventoryItems?: Prisma.InventoryItemListRelationFilter
-  inventoryTransactions?: Prisma.InventoryTransactionListRelationFilter
-  events?: Prisma.EventListRelationFilter
-  cards?: Prisma.CardListRelationFilter
+  attendances?: Prisma.AttendanceListRelationFilter
+  bookCopies?: Prisma.BookCopyListRelationFilter
+  bookTransactions?: Prisma.BookTransactionListRelationFilter
+  books?: Prisma.BookListRelationFilter
+  busRoutes?: Prisma.BusRouteListRelationFilter
+  buses?: Prisma.BusListRelationFilter
   cardLogs?: Prisma.CardLogListRelationFilter
   cardPermissions?: Prisma.CardPermissionListRelationFilter
-  devices?: Prisma.DeviceListRelationFilter
+  cards?: Prisma.CardListRelationFilter
+  combinations?: Prisma.CombinationListRelationFilter
+  conductPointTransactions?: Prisma.ConductPointTransactionListRelationFilter
+  conductRecords?: Prisma.ConductRecordListRelationFilter
+  conversations?: Prisma.ConversationListRelationFilter
   deviceLogs?: Prisma.DeviceLogListRelationFilter
+  devices?: Prisma.DeviceListRelationFilter
+  events?: Prisma.EventListRelationFilter
+  grades?: Prisma.GradeListRelationFilter
+  inventoryItems?: Prisma.InventoryItemListRelationFilter
+  inventoryTransactions?: Prisma.InventoryTransactionListRelationFilter
+  messages?: Prisma.MessageListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  parents?: Prisma.ParentListRelationFilter
+  permissionUsages?: Prisma.PermissionUsageListRelationFilter
+  permissions?: Prisma.PermissionListRelationFilter
+  sections?: Prisma.SectionListRelationFilter
+  studentConductPoints?: Prisma.StudentConductPointsListRelationFilter
+  students?: Prisma.StudentListRelationFilter
+  subjects?: Prisma.SubjectListRelationFilter
+  teacherAttendances?: Prisma.TeacherAttendanceListRelationFilter
+  teachers?: Prisma.TeacherListRelationFilter
+  transportAssignments?: Prisma.TransportAssignmentListRelationFilter
+  users?: Prisma.UserListRelationFilter
 }
 
 export type TenantOrderByWithRelationInput = {
@@ -407,7 +409,6 @@ export type TenantOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrderInput | Prisma.SortOrder
   logo?: Prisma.SortOrderInput | Prisma.SortOrder
-  brandColor?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -416,7 +417,6 @@ export type TenantOrderByWithRelationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   website?: Prisma.SortOrderInput | Prisma.SortOrder
-  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -426,37 +426,41 @@ export type TenantOrderByWithRelationInput = {
   settings?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  users?: Prisma.UserOrderByRelationAggregateInput
-  students?: Prisma.StudentOrderByRelationAggregateInput
-  teachers?: Prisma.TeacherOrderByRelationAggregateInput
-  parents?: Prisma.ParentOrderByRelationAggregateInput
-  grades?: Prisma.GradeOrderByRelationAggregateInput
-  sections?: Prisma.SectionOrderByRelationAggregateInput
-  combinations?: Prisma.CombinationOrderByRelationAggregateInput
-  subjects?: Prisma.SubjectOrderByRelationAggregateInput
-  attendances?: Prisma.AttendanceOrderByRelationAggregateInput
-  teacherAttendances?: Prisma.TeacherAttendanceOrderByRelationAggregateInput
-  books?: Prisma.BookOrderByRelationAggregateInput
-  bookTransactions?: Prisma.BookTransactionOrderByRelationAggregateInput
-  buses?: Prisma.BusOrderByRelationAggregateInput
-  busRoutes?: Prisma.BusRouteOrderByRelationAggregateInput
-  transportAssignments?: Prisma.TransportAssignmentOrderByRelationAggregateInput
-  permissions?: Prisma.PermissionOrderByRelationAggregateInput
-  conductRecords?: Prisma.ConductRecordOrderByRelationAggregateInput
-  studentConductPoints?: Prisma.StudentConductPointsOrderByRelationAggregateInput
-  conductPointTransactions?: Prisma.ConductPointTransactionOrderByRelationAggregateInput
-  permissionUsages?: Prisma.PermissionUsageOrderByRelationAggregateInput
-  messages?: Prisma.MessageOrderByRelationAggregateInput
+  timezone?: Prisma.SortOrder
+  brandColor?: Prisma.SortOrderInput | Prisma.SortOrder
   announcements?: Prisma.AnnouncementOrderByRelationAggregateInput
-  notifications?: Prisma.NotificationOrderByRelationAggregateInput
-  inventoryItems?: Prisma.InventoryItemOrderByRelationAggregateInput
-  inventoryTransactions?: Prisma.InventoryTransactionOrderByRelationAggregateInput
-  events?: Prisma.EventOrderByRelationAggregateInput
-  cards?: Prisma.CardOrderByRelationAggregateInput
+  attendances?: Prisma.AttendanceOrderByRelationAggregateInput
+  bookCopies?: Prisma.BookCopyOrderByRelationAggregateInput
+  bookTransactions?: Prisma.BookTransactionOrderByRelationAggregateInput
+  books?: Prisma.BookOrderByRelationAggregateInput
+  busRoutes?: Prisma.BusRouteOrderByRelationAggregateInput
+  buses?: Prisma.BusOrderByRelationAggregateInput
   cardLogs?: Prisma.CardLogOrderByRelationAggregateInput
   cardPermissions?: Prisma.CardPermissionOrderByRelationAggregateInput
-  devices?: Prisma.DeviceOrderByRelationAggregateInput
+  cards?: Prisma.CardOrderByRelationAggregateInput
+  combinations?: Prisma.CombinationOrderByRelationAggregateInput
+  conductPointTransactions?: Prisma.ConductPointTransactionOrderByRelationAggregateInput
+  conductRecords?: Prisma.ConductRecordOrderByRelationAggregateInput
+  conversations?: Prisma.ConversationOrderByRelationAggregateInput
   deviceLogs?: Prisma.DeviceLogOrderByRelationAggregateInput
+  devices?: Prisma.DeviceOrderByRelationAggregateInput
+  events?: Prisma.EventOrderByRelationAggregateInput
+  grades?: Prisma.GradeOrderByRelationAggregateInput
+  inventoryItems?: Prisma.InventoryItemOrderByRelationAggregateInput
+  inventoryTransactions?: Prisma.InventoryTransactionOrderByRelationAggregateInput
+  messages?: Prisma.MessageOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
+  parents?: Prisma.ParentOrderByRelationAggregateInput
+  permissionUsages?: Prisma.PermissionUsageOrderByRelationAggregateInput
+  permissions?: Prisma.PermissionOrderByRelationAggregateInput
+  sections?: Prisma.SectionOrderByRelationAggregateInput
+  studentConductPoints?: Prisma.StudentConductPointsOrderByRelationAggregateInput
+  students?: Prisma.StudentOrderByRelationAggregateInput
+  subjects?: Prisma.SubjectOrderByRelationAggregateInput
+  teacherAttendances?: Prisma.TeacherAttendanceOrderByRelationAggregateInput
+  teachers?: Prisma.TeacherOrderByRelationAggregateInput
+  transportAssignments?: Prisma.TransportAssignmentOrderByRelationAggregateInput
+  users?: Prisma.UserOrderByRelationAggregateInput
 }
 
 export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -468,7 +472,6 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TenantWhereInput | Prisma.TenantWhereInput[]
   name?: Prisma.StringFilter<"Tenant"> | string
   logo?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  brandColor?: Prisma.StringNullableFilter<"Tenant"> | string | null
   address?: Prisma.StringNullableFilter<"Tenant"> | string | null
   city?: Prisma.StringNullableFilter<"Tenant"> | string | null
   state?: Prisma.StringNullableFilter<"Tenant"> | string | null
@@ -477,7 +480,6 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringNullableFilter<"Tenant"> | string | null
   email?: Prisma.StringNullableFilter<"Tenant"> | string | null
   website?: Prisma.StringNullableFilter<"Tenant"> | string | null
-  timezone?: Prisma.StringFilter<"Tenant"> | string
   status?: Prisma.EnumTenantStatusFilter<"Tenant"> | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
@@ -487,37 +489,41 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   settings?: Prisma.JsonNullableFilter<"Tenant">
   createdAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Tenant"> | Date | string
-  users?: Prisma.UserListRelationFilter
-  students?: Prisma.StudentListRelationFilter
-  teachers?: Prisma.TeacherListRelationFilter
-  parents?: Prisma.ParentListRelationFilter
-  grades?: Prisma.GradeListRelationFilter
-  sections?: Prisma.SectionListRelationFilter
-  combinations?: Prisma.CombinationListRelationFilter
-  subjects?: Prisma.SubjectListRelationFilter
-  attendances?: Prisma.AttendanceListRelationFilter
-  teacherAttendances?: Prisma.TeacherAttendanceListRelationFilter
-  books?: Prisma.BookListRelationFilter
-  bookTransactions?: Prisma.BookTransactionListRelationFilter
-  buses?: Prisma.BusListRelationFilter
-  busRoutes?: Prisma.BusRouteListRelationFilter
-  transportAssignments?: Prisma.TransportAssignmentListRelationFilter
-  permissions?: Prisma.PermissionListRelationFilter
-  conductRecords?: Prisma.ConductRecordListRelationFilter
-  studentConductPoints?: Prisma.StudentConductPointsListRelationFilter
-  conductPointTransactions?: Prisma.ConductPointTransactionListRelationFilter
-  permissionUsages?: Prisma.PermissionUsageListRelationFilter
-  messages?: Prisma.MessageListRelationFilter
+  timezone?: Prisma.StringFilter<"Tenant"> | string
+  brandColor?: Prisma.StringNullableFilter<"Tenant"> | string | null
   announcements?: Prisma.AnnouncementListRelationFilter
-  notifications?: Prisma.NotificationListRelationFilter
-  inventoryItems?: Prisma.InventoryItemListRelationFilter
-  inventoryTransactions?: Prisma.InventoryTransactionListRelationFilter
-  events?: Prisma.EventListRelationFilter
-  cards?: Prisma.CardListRelationFilter
+  attendances?: Prisma.AttendanceListRelationFilter
+  bookCopies?: Prisma.BookCopyListRelationFilter
+  bookTransactions?: Prisma.BookTransactionListRelationFilter
+  books?: Prisma.BookListRelationFilter
+  busRoutes?: Prisma.BusRouteListRelationFilter
+  buses?: Prisma.BusListRelationFilter
   cardLogs?: Prisma.CardLogListRelationFilter
   cardPermissions?: Prisma.CardPermissionListRelationFilter
-  devices?: Prisma.DeviceListRelationFilter
+  cards?: Prisma.CardListRelationFilter
+  combinations?: Prisma.CombinationListRelationFilter
+  conductPointTransactions?: Prisma.ConductPointTransactionListRelationFilter
+  conductRecords?: Prisma.ConductRecordListRelationFilter
+  conversations?: Prisma.ConversationListRelationFilter
   deviceLogs?: Prisma.DeviceLogListRelationFilter
+  devices?: Prisma.DeviceListRelationFilter
+  events?: Prisma.EventListRelationFilter
+  grades?: Prisma.GradeListRelationFilter
+  inventoryItems?: Prisma.InventoryItemListRelationFilter
+  inventoryTransactions?: Prisma.InventoryTransactionListRelationFilter
+  messages?: Prisma.MessageListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
+  parents?: Prisma.ParentListRelationFilter
+  permissionUsages?: Prisma.PermissionUsageListRelationFilter
+  permissions?: Prisma.PermissionListRelationFilter
+  sections?: Prisma.SectionListRelationFilter
+  studentConductPoints?: Prisma.StudentConductPointsListRelationFilter
+  students?: Prisma.StudentListRelationFilter
+  subjects?: Prisma.SubjectListRelationFilter
+  teacherAttendances?: Prisma.TeacherAttendanceListRelationFilter
+  teachers?: Prisma.TeacherListRelationFilter
+  transportAssignments?: Prisma.TransportAssignmentListRelationFilter
+  users?: Prisma.UserListRelationFilter
 }, "id" | "slug" | "domain">
 
 export type TenantOrderByWithAggregationInput = {
@@ -526,7 +532,6 @@ export type TenantOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrderInput | Prisma.SortOrder
   logo?: Prisma.SortOrderInput | Prisma.SortOrder
-  brandColor?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -535,7 +540,6 @@ export type TenantOrderByWithAggregationInput = {
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   website?: Prisma.SortOrderInput | Prisma.SortOrder
-  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -545,6 +549,8 @@ export type TenantOrderByWithAggregationInput = {
   settings?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  brandColor?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TenantCountOrderByAggregateInput
   _avg?: Prisma.TenantAvgOrderByAggregateInput
   _max?: Prisma.TenantMaxOrderByAggregateInput
@@ -561,7 +567,6 @@ export type TenantScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   domain?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   logo?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
-  brandColor?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   city?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   state?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
@@ -570,7 +575,6 @@ export type TenantScalarWhereWithAggregatesInput = {
   phone?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   website?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
-  timezone?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
   status?: Prisma.EnumTenantStatusWithAggregatesFilter<"Tenant"> | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanWithAggregatesFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
@@ -580,6 +584,8 @@ export type TenantScalarWhereWithAggregatesInput = {
   settings?: Prisma.JsonNullableWithAggregatesFilter<"Tenant">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Tenant"> | Date | string
+  timezone?: Prisma.StringWithAggregatesFilter<"Tenant"> | string
+  brandColor?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
 }
 
 export type TenantCreateInput = {
@@ -588,7 +594,6 @@ export type TenantCreateInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -597,7 +602,6 @@ export type TenantCreateInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -607,37 +611,41 @@ export type TenantCreateInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateInput = {
@@ -646,7 +654,6 @@ export type TenantUncheckedCreateInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -655,7 +662,6 @@ export type TenantUncheckedCreateInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -665,37 +671,41 @@ export type TenantUncheckedCreateInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUpdateInput = {
@@ -704,7 +714,6 @@ export type TenantUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -713,7 +722,6 @@ export type TenantUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -723,37 +731,41 @@ export type TenantUpdateInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateInput = {
@@ -762,7 +774,6 @@ export type TenantUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -771,7 +782,6 @@ export type TenantUncheckedUpdateInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -781,37 +791,41 @@ export type TenantUncheckedUpdateInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateManyInput = {
@@ -820,7 +834,6 @@ export type TenantCreateManyInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -829,7 +842,6 @@ export type TenantCreateManyInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -839,6 +851,8 @@ export type TenantCreateManyInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
 }
 
 export type TenantUpdateManyMutationInput = {
@@ -847,7 +861,6 @@ export type TenantUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -856,7 +869,6 @@ export type TenantUpdateManyMutationInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -866,6 +878,8 @@ export type TenantUpdateManyMutationInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TenantUncheckedUpdateManyInput = {
@@ -874,7 +888,6 @@ export type TenantUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -883,7 +896,6 @@ export type TenantUncheckedUpdateManyInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -893,6 +905,8 @@ export type TenantUncheckedUpdateManyInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TenantCountOrderByAggregateInput = {
@@ -901,7 +915,6 @@ export type TenantCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logo?: Prisma.SortOrder
-  brandColor?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -910,7 +923,6 @@ export type TenantCountOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   website?: Prisma.SortOrder
-  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
@@ -920,6 +932,8 @@ export type TenantCountOrderByAggregateInput = {
   settings?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  brandColor?: Prisma.SortOrder
 }
 
 export type TenantAvgOrderByAggregateInput = {
@@ -933,7 +947,6 @@ export type TenantMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logo?: Prisma.SortOrder
-  brandColor?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -942,7 +955,6 @@ export type TenantMaxOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   website?: Prisma.SortOrder
-  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
@@ -951,6 +963,8 @@ export type TenantMaxOrderByAggregateInput = {
   maxTeachers?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  brandColor?: Prisma.SortOrder
 }
 
 export type TenantMinOrderByAggregateInput = {
@@ -959,7 +973,6 @@ export type TenantMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   domain?: Prisma.SortOrder
   logo?: Prisma.SortOrder
-  brandColor?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -968,7 +981,6 @@ export type TenantMinOrderByAggregateInput = {
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   website?: Prisma.SortOrder
-  timezone?: Prisma.SortOrder
   status?: Prisma.SortOrder
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
@@ -977,6 +989,8 @@ export type TenantMinOrderByAggregateInput = {
   maxTeachers?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  timezone?: Prisma.SortOrder
+  brandColor?: Prisma.SortOrder
 }
 
 export type TenantSumOrderByAggregateInput = {
@@ -1182,6 +1196,20 @@ export type TenantUpdateOneRequiredWithoutBooksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutBooksInput, Prisma.TenantUpdateWithoutBooksInput>, Prisma.TenantUncheckedUpdateWithoutBooksInput>
 }
 
+export type TenantCreateNestedOneWithoutBookCopiesInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutBookCopiesInput, Prisma.TenantUncheckedCreateWithoutBookCopiesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutBookCopiesInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutBookCopiesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutBookCopiesInput, Prisma.TenantUncheckedCreateWithoutBookCopiesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutBookCopiesInput
+  upsert?: Prisma.TenantUpsertWithoutBookCopiesInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutBookCopiesInput, Prisma.TenantUpdateWithoutBookCopiesInput>, Prisma.TenantUncheckedUpdateWithoutBookCopiesInput>
+}
+
 export type TenantCreateNestedOneWithoutBookTransactionsInput = {
   create?: Prisma.XOR<Prisma.TenantCreateWithoutBookTransactionsInput, Prisma.TenantUncheckedCreateWithoutBookTransactionsInput>
   connectOrCreate?: Prisma.TenantCreateOrConnectWithoutBookTransactionsInput
@@ -1306,6 +1334,20 @@ export type TenantUpdateOneRequiredWithoutConductPointTransactionsNestedInput = 
   upsert?: Prisma.TenantUpsertWithoutConductPointTransactionsInput
   connect?: Prisma.TenantWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutConductPointTransactionsInput, Prisma.TenantUpdateWithoutConductPointTransactionsInput>, Prisma.TenantUncheckedUpdateWithoutConductPointTransactionsInput>
+}
+
+export type TenantCreateNestedOneWithoutConversationsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutConversationsInput, Prisma.TenantUncheckedCreateWithoutConversationsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutConversationsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutConversationsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutConversationsInput, Prisma.TenantUncheckedCreateWithoutConversationsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutConversationsInput
+  upsert?: Prisma.TenantUpsertWithoutConversationsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutConversationsInput, Prisma.TenantUpdateWithoutConversationsInput>, Prisma.TenantUncheckedUpdateWithoutConversationsInput>
 }
 
 export type TenantCreateNestedOneWithoutMessagesInput = {
@@ -1468,7 +1510,6 @@ export type TenantCreateWithoutUsersInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1477,7 +1518,6 @@ export type TenantCreateWithoutUsersInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1487,36 +1527,40 @@ export type TenantCreateWithoutUsersInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutUsersInput = {
@@ -1525,7 +1569,6 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1534,7 +1577,6 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1544,36 +1586,40 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutUsersInput = {
@@ -1598,7 +1644,6 @@ export type TenantUpdateWithoutUsersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1607,7 +1652,6 @@ export type TenantUpdateWithoutUsersInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1617,36 +1661,40 @@ export type TenantUpdateWithoutUsersInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -1655,7 +1703,6 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1664,7 +1711,6 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1674,36 +1720,40 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutStudentsInput = {
@@ -1712,7 +1762,6 @@ export type TenantCreateWithoutStudentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1721,7 +1770,6 @@ export type TenantCreateWithoutStudentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1731,36 +1779,40 @@ export type TenantCreateWithoutStudentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutStudentsInput = {
@@ -1769,7 +1821,6 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1778,7 +1829,6 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1788,36 +1838,40 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutStudentsInput = {
@@ -1842,7 +1896,6 @@ export type TenantUpdateWithoutStudentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1851,7 +1904,6 @@ export type TenantUpdateWithoutStudentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1861,36 +1913,40 @@ export type TenantUpdateWithoutStudentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutStudentsInput = {
@@ -1899,7 +1955,6 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1908,7 +1963,6 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1918,36 +1972,40 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutParentsInput = {
@@ -1956,7 +2014,6 @@ export type TenantCreateWithoutParentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -1965,7 +2022,6 @@ export type TenantCreateWithoutParentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -1975,36 +2031,40 @@ export type TenantCreateWithoutParentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutParentsInput = {
@@ -2013,7 +2073,6 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2022,7 +2081,6 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2032,36 +2090,40 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutParentsInput = {
@@ -2086,7 +2148,6 @@ export type TenantUpdateWithoutParentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2095,7 +2156,6 @@ export type TenantUpdateWithoutParentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2105,36 +2165,40 @@ export type TenantUpdateWithoutParentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutParentsInput = {
@@ -2143,7 +2207,6 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2152,7 +2215,6 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2162,36 +2224,40 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTeachersInput = {
@@ -2200,7 +2266,6 @@ export type TenantCreateWithoutTeachersInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2209,7 +2274,6 @@ export type TenantCreateWithoutTeachersInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2219,36 +2283,40 @@ export type TenantCreateWithoutTeachersInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTeachersInput = {
@@ -2257,7 +2325,6 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2266,7 +2333,6 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2276,36 +2342,40 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTeachersInput = {
@@ -2330,7 +2400,6 @@ export type TenantUpdateWithoutTeachersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2339,7 +2408,6 @@ export type TenantUpdateWithoutTeachersInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2349,36 +2417,40 @@ export type TenantUpdateWithoutTeachersInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTeachersInput = {
@@ -2387,7 +2459,6 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2396,7 +2467,6 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2406,36 +2476,40 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutGradesInput = {
@@ -2444,7 +2518,6 @@ export type TenantCreateWithoutGradesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2453,7 +2526,6 @@ export type TenantCreateWithoutGradesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2463,36 +2535,40 @@ export type TenantCreateWithoutGradesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutGradesInput = {
@@ -2501,7 +2577,6 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2510,7 +2585,6 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2520,36 +2594,40 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutGradesInput = {
@@ -2574,7 +2652,6 @@ export type TenantUpdateWithoutGradesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2583,7 +2660,6 @@ export type TenantUpdateWithoutGradesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2593,36 +2669,40 @@ export type TenantUpdateWithoutGradesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutGradesInput = {
@@ -2631,7 +2711,6 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2640,7 +2719,6 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2650,36 +2728,40 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCombinationsInput = {
@@ -2688,7 +2770,6 @@ export type TenantCreateWithoutCombinationsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2697,7 +2778,6 @@ export type TenantCreateWithoutCombinationsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2707,36 +2787,40 @@ export type TenantCreateWithoutCombinationsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCombinationsInput = {
@@ -2745,7 +2829,6 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2754,7 +2837,6 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2764,36 +2846,40 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCombinationsInput = {
@@ -2818,7 +2904,6 @@ export type TenantUpdateWithoutCombinationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2827,7 +2912,6 @@ export type TenantUpdateWithoutCombinationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2837,36 +2921,40 @@ export type TenantUpdateWithoutCombinationsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCombinationsInput = {
@@ -2875,7 +2963,6 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2884,7 +2971,6 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2894,36 +2980,40 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSectionsInput = {
@@ -2932,7 +3022,6 @@ export type TenantCreateWithoutSectionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2941,7 +3030,6 @@ export type TenantCreateWithoutSectionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -2951,36 +3039,40 @@ export type TenantCreateWithoutSectionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSectionsInput = {
@@ -2989,7 +3081,6 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -2998,7 +3089,6 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3008,36 +3098,40 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSectionsInput = {
@@ -3062,7 +3156,6 @@ export type TenantUpdateWithoutSectionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3071,7 +3164,6 @@ export type TenantUpdateWithoutSectionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3081,36 +3173,40 @@ export type TenantUpdateWithoutSectionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSectionsInput = {
@@ -3119,7 +3215,6 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3128,7 +3223,6 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3138,36 +3232,40 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSubjectsInput = {
@@ -3176,7 +3274,6 @@ export type TenantCreateWithoutSubjectsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3185,7 +3282,6 @@ export type TenantCreateWithoutSubjectsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3195,36 +3291,40 @@ export type TenantCreateWithoutSubjectsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSubjectsInput = {
@@ -3233,7 +3333,6 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3242,7 +3341,6 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3252,36 +3350,40 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSubjectsInput = {
@@ -3306,7 +3408,6 @@ export type TenantUpdateWithoutSubjectsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3315,7 +3416,6 @@ export type TenantUpdateWithoutSubjectsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3325,36 +3425,40 @@ export type TenantUpdateWithoutSubjectsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSubjectsInput = {
@@ -3363,7 +3467,6 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3372,7 +3475,6 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3382,36 +3484,40 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAttendancesInput = {
@@ -3420,7 +3526,6 @@ export type TenantCreateWithoutAttendancesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3429,7 +3534,6 @@ export type TenantCreateWithoutAttendancesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3439,36 +3543,40 @@ export type TenantCreateWithoutAttendancesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAttendancesInput = {
@@ -3477,7 +3585,6 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3486,7 +3593,6 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3496,36 +3602,40 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAttendancesInput = {
@@ -3550,7 +3660,6 @@ export type TenantUpdateWithoutAttendancesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3559,7 +3668,6 @@ export type TenantUpdateWithoutAttendancesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3569,36 +3677,40 @@ export type TenantUpdateWithoutAttendancesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAttendancesInput = {
@@ -3607,7 +3719,6 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3616,7 +3727,6 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3626,36 +3736,40 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTeacherAttendancesInput = {
@@ -3664,7 +3778,6 @@ export type TenantCreateWithoutTeacherAttendancesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3673,7 +3786,6 @@ export type TenantCreateWithoutTeacherAttendancesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3683,36 +3795,40 @@ export type TenantCreateWithoutTeacherAttendancesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
@@ -3721,7 +3837,6 @@ export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3730,7 +3845,6 @@ export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3740,36 +3854,40 @@ export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTeacherAttendancesInput = {
@@ -3794,7 +3912,6 @@ export type TenantUpdateWithoutTeacherAttendancesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3803,7 +3920,6 @@ export type TenantUpdateWithoutTeacherAttendancesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3813,36 +3929,40 @@ export type TenantUpdateWithoutTeacherAttendancesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
@@ -3851,7 +3971,6 @@ export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3860,7 +3979,6 @@ export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3870,36 +3988,40 @@ export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutBooksInput = {
@@ -3908,7 +4030,6 @@ export type TenantCreateWithoutBooksInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3917,7 +4038,6 @@ export type TenantCreateWithoutBooksInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3927,36 +4047,40 @@ export type TenantCreateWithoutBooksInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutBooksInput = {
@@ -3965,7 +4089,6 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -3974,7 +4097,6 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -3984,36 +4106,40 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutBooksInput = {
@@ -4038,7 +4164,6 @@ export type TenantUpdateWithoutBooksInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4047,7 +4172,6 @@ export type TenantUpdateWithoutBooksInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4057,36 +4181,40 @@ export type TenantUpdateWithoutBooksInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutBooksInput = {
@@ -4095,7 +4223,6 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4104,7 +4231,6 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4114,36 +4240,292 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutBookCopiesInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutBookCopiesInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutBookCopiesInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutBookCopiesInput, Prisma.TenantUncheckedCreateWithoutBookCopiesInput>
+}
+
+export type TenantUpsertWithoutBookCopiesInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutBookCopiesInput, Prisma.TenantUncheckedUpdateWithoutBookCopiesInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutBookCopiesInput, Prisma.TenantUncheckedCreateWithoutBookCopiesInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutBookCopiesInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutBookCopiesInput, Prisma.TenantUncheckedUpdateWithoutBookCopiesInput>
+}
+
+export type TenantUpdateWithoutBookCopiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutBookCopiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutBookTransactionsInput = {
@@ -4152,7 +4534,6 @@ export type TenantCreateWithoutBookTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4161,7 +4542,6 @@ export type TenantCreateWithoutBookTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4171,36 +4551,40 @@ export type TenantCreateWithoutBookTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutBookTransactionsInput = {
@@ -4209,7 +4593,6 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4218,7 +4601,6 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4228,36 +4610,40 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutBookTransactionsInput = {
@@ -4282,7 +4668,6 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4291,7 +4676,6 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4301,36 +4685,40 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
@@ -4339,7 +4727,6 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4348,7 +4735,6 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4358,36 +4744,40 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutBusesInput = {
@@ -4396,7 +4786,6 @@ export type TenantCreateWithoutBusesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4405,7 +4794,6 @@ export type TenantCreateWithoutBusesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4415,36 +4803,40 @@ export type TenantCreateWithoutBusesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutBusesInput = {
@@ -4453,7 +4845,6 @@ export type TenantUncheckedCreateWithoutBusesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4462,7 +4853,6 @@ export type TenantUncheckedCreateWithoutBusesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4472,36 +4862,40 @@ export type TenantUncheckedCreateWithoutBusesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutBusesInput = {
@@ -4526,7 +4920,6 @@ export type TenantUpdateWithoutBusesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4535,7 +4928,6 @@ export type TenantUpdateWithoutBusesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4545,36 +4937,40 @@ export type TenantUpdateWithoutBusesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutBusesInput = {
@@ -4583,7 +4979,6 @@ export type TenantUncheckedUpdateWithoutBusesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4592,7 +4987,6 @@ export type TenantUncheckedUpdateWithoutBusesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4602,36 +4996,40 @@ export type TenantUncheckedUpdateWithoutBusesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutBusRoutesInput = {
@@ -4640,7 +5038,6 @@ export type TenantCreateWithoutBusRoutesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4649,7 +5046,6 @@ export type TenantCreateWithoutBusRoutesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4659,36 +5055,40 @@ export type TenantCreateWithoutBusRoutesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutBusRoutesInput = {
@@ -4697,7 +5097,6 @@ export type TenantUncheckedCreateWithoutBusRoutesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4706,7 +5105,6 @@ export type TenantUncheckedCreateWithoutBusRoutesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4716,36 +5114,40 @@ export type TenantUncheckedCreateWithoutBusRoutesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutBusRoutesInput = {
@@ -4770,7 +5172,6 @@ export type TenantUpdateWithoutBusRoutesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4779,7 +5180,6 @@ export type TenantUpdateWithoutBusRoutesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4789,36 +5189,40 @@ export type TenantUpdateWithoutBusRoutesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutBusRoutesInput = {
@@ -4827,7 +5231,6 @@ export type TenantUncheckedUpdateWithoutBusRoutesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4836,7 +5239,6 @@ export type TenantUncheckedUpdateWithoutBusRoutesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4846,36 +5248,40 @@ export type TenantUncheckedUpdateWithoutBusRoutesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTransportAssignmentsInput = {
@@ -4884,7 +5290,6 @@ export type TenantCreateWithoutTransportAssignmentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4893,7 +5298,6 @@ export type TenantCreateWithoutTransportAssignmentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4903,36 +5307,40 @@ export type TenantCreateWithoutTransportAssignmentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTransportAssignmentsInput = {
@@ -4941,7 +5349,6 @@ export type TenantUncheckedCreateWithoutTransportAssignmentsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -4950,7 +5357,6 @@ export type TenantUncheckedCreateWithoutTransportAssignmentsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -4960,36 +5366,40 @@ export type TenantUncheckedCreateWithoutTransportAssignmentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTransportAssignmentsInput = {
@@ -5014,7 +5424,6 @@ export type TenantUpdateWithoutTransportAssignmentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5023,7 +5432,6 @@ export type TenantUpdateWithoutTransportAssignmentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5033,36 +5441,40 @@ export type TenantUpdateWithoutTransportAssignmentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTransportAssignmentsInput = {
@@ -5071,7 +5483,6 @@ export type TenantUncheckedUpdateWithoutTransportAssignmentsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5080,7 +5491,6 @@ export type TenantUncheckedUpdateWithoutTransportAssignmentsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5090,36 +5500,40 @@ export type TenantUncheckedUpdateWithoutTransportAssignmentsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPermissionsInput = {
@@ -5128,7 +5542,6 @@ export type TenantCreateWithoutPermissionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5137,7 +5550,6 @@ export type TenantCreateWithoutPermissionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5147,36 +5559,40 @@ export type TenantCreateWithoutPermissionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPermissionsInput = {
@@ -5185,7 +5601,6 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5194,7 +5609,6 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5204,36 +5618,40 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPermissionsInput = {
@@ -5258,7 +5676,6 @@ export type TenantUpdateWithoutPermissionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5267,7 +5684,6 @@ export type TenantUpdateWithoutPermissionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5277,36 +5693,40 @@ export type TenantUpdateWithoutPermissionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPermissionsInput = {
@@ -5315,7 +5735,6 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5324,7 +5743,6 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5334,36 +5752,40 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPermissionUsagesInput = {
@@ -5372,7 +5794,6 @@ export type TenantCreateWithoutPermissionUsagesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5381,7 +5802,6 @@ export type TenantCreateWithoutPermissionUsagesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5391,36 +5811,40 @@ export type TenantCreateWithoutPermissionUsagesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
@@ -5429,7 +5853,6 @@ export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5438,7 +5861,6 @@ export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5448,36 +5870,40 @@ export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPermissionUsagesInput = {
@@ -5502,7 +5928,6 @@ export type TenantUpdateWithoutPermissionUsagesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5511,7 +5936,6 @@ export type TenantUpdateWithoutPermissionUsagesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5521,36 +5945,40 @@ export type TenantUpdateWithoutPermissionUsagesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
@@ -5559,7 +5987,6 @@ export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5568,7 +5995,6 @@ export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5578,36 +6004,40 @@ export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConductRecordsInput = {
@@ -5616,7 +6046,6 @@ export type TenantCreateWithoutConductRecordsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5625,7 +6054,6 @@ export type TenantCreateWithoutConductRecordsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5635,36 +6063,40 @@ export type TenantCreateWithoutConductRecordsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConductRecordsInput = {
@@ -5673,7 +6105,6 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5682,7 +6113,6 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5692,36 +6122,40 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConductRecordsInput = {
@@ -5746,7 +6180,6 @@ export type TenantUpdateWithoutConductRecordsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5755,7 +6188,6 @@ export type TenantUpdateWithoutConductRecordsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5765,36 +6197,40 @@ export type TenantUpdateWithoutConductRecordsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConductRecordsInput = {
@@ -5803,7 +6239,6 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5812,7 +6247,6 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5822,36 +6256,40 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutStudentConductPointsInput = {
@@ -5860,7 +6298,6 @@ export type TenantCreateWithoutStudentConductPointsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5869,7 +6306,6 @@ export type TenantCreateWithoutStudentConductPointsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5879,36 +6315,40 @@ export type TenantCreateWithoutStudentConductPointsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
@@ -5917,7 +6357,6 @@ export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -5926,7 +6365,6 @@ export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -5936,36 +6374,40 @@ export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutStudentConductPointsInput = {
@@ -5990,7 +6432,6 @@ export type TenantUpdateWithoutStudentConductPointsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5999,7 +6440,6 @@ export type TenantUpdateWithoutStudentConductPointsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6009,36 +6449,40 @@ export type TenantUpdateWithoutStudentConductPointsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
@@ -6047,7 +6491,6 @@ export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6056,7 +6499,6 @@ export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6066,36 +6508,40 @@ export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConductPointTransactionsInput = {
@@ -6104,7 +6550,6 @@ export type TenantCreateWithoutConductPointTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6113,7 +6558,6 @@ export type TenantCreateWithoutConductPointTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6123,36 +6567,40 @@ export type TenantCreateWithoutConductPointTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
@@ -6161,7 +6609,6 @@ export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6170,7 +6617,6 @@ export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6180,36 +6626,40 @@ export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConductPointTransactionsInput = {
@@ -6234,7 +6684,6 @@ export type TenantUpdateWithoutConductPointTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6243,7 +6692,6 @@ export type TenantUpdateWithoutConductPointTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6253,36 +6701,40 @@ export type TenantUpdateWithoutConductPointTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
@@ -6291,7 +6743,6 @@ export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6300,7 +6751,6 @@ export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6310,36 +6760,292 @@ export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutConversationsInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutConversationsInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutConversationsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutConversationsInput, Prisma.TenantUncheckedCreateWithoutConversationsInput>
+}
+
+export type TenantUpsertWithoutConversationsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutConversationsInput, Prisma.TenantUncheckedUpdateWithoutConversationsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutConversationsInput, Prisma.TenantUncheckedCreateWithoutConversationsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutConversationsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutConversationsInput, Prisma.TenantUncheckedUpdateWithoutConversationsInput>
+}
+
+export type TenantUpdateWithoutConversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutConversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutMessagesInput = {
@@ -6348,7 +7054,6 @@ export type TenantCreateWithoutMessagesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6357,7 +7062,6 @@ export type TenantCreateWithoutMessagesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6367,36 +7071,40 @@ export type TenantCreateWithoutMessagesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutMessagesInput = {
@@ -6405,7 +7113,6 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6414,7 +7121,6 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6424,36 +7130,40 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutMessagesInput = {
@@ -6478,7 +7188,6 @@ export type TenantUpdateWithoutMessagesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6487,7 +7196,6 @@ export type TenantUpdateWithoutMessagesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6497,36 +7205,40 @@ export type TenantUpdateWithoutMessagesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutMessagesInput = {
@@ -6535,7 +7247,6 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6544,7 +7255,6 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6554,36 +7264,40 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAnnouncementsInput = {
@@ -6592,7 +7306,6 @@ export type TenantCreateWithoutAnnouncementsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6601,7 +7314,6 @@ export type TenantCreateWithoutAnnouncementsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6611,36 +7323,40 @@ export type TenantCreateWithoutAnnouncementsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
   busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAnnouncementsInput = {
@@ -6649,7 +7365,6 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6658,7 +7373,6 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6668,36 +7382,40 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAnnouncementsInput = {
@@ -6722,7 +7440,6 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6731,7 +7448,6 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6741,36 +7457,40 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
@@ -6779,7 +7499,6 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6788,7 +7507,6 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6798,36 +7516,40 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutNotificationsInput = {
@@ -6836,7 +7558,6 @@ export type TenantCreateWithoutNotificationsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6845,7 +7566,6 @@ export type TenantCreateWithoutNotificationsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6855,36 +7575,40 @@ export type TenantCreateWithoutNotificationsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -6893,7 +7617,6 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -6902,7 +7625,6 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -6912,36 +7634,40 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -6966,7 +7692,6 @@ export type TenantUpdateWithoutNotificationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6975,7 +7700,6 @@ export type TenantUpdateWithoutNotificationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6985,36 +7709,40 @@ export type TenantUpdateWithoutNotificationsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -7023,7 +7751,6 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7032,7 +7759,6 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7042,36 +7768,40 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutInventoryItemsInput = {
@@ -7080,7 +7810,6 @@ export type TenantCreateWithoutInventoryItemsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7089,7 +7818,6 @@ export type TenantCreateWithoutInventoryItemsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7099,36 +7827,40 @@ export type TenantCreateWithoutInventoryItemsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutInventoryItemsInput = {
@@ -7137,7 +7869,6 @@ export type TenantUncheckedCreateWithoutInventoryItemsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7146,7 +7877,6 @@ export type TenantUncheckedCreateWithoutInventoryItemsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7156,36 +7886,40 @@ export type TenantUncheckedCreateWithoutInventoryItemsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutInventoryItemsInput = {
@@ -7210,7 +7944,6 @@ export type TenantUpdateWithoutInventoryItemsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7219,7 +7952,6 @@ export type TenantUpdateWithoutInventoryItemsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7229,36 +7961,40 @@ export type TenantUpdateWithoutInventoryItemsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutInventoryItemsInput = {
@@ -7267,7 +8003,6 @@ export type TenantUncheckedUpdateWithoutInventoryItemsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7276,7 +8011,6 @@ export type TenantUncheckedUpdateWithoutInventoryItemsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7286,36 +8020,40 @@ export type TenantUncheckedUpdateWithoutInventoryItemsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutInventoryTransactionsInput = {
@@ -7324,7 +8062,6 @@ export type TenantCreateWithoutInventoryTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7333,7 +8070,6 @@ export type TenantCreateWithoutInventoryTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7343,36 +8079,40 @@ export type TenantCreateWithoutInventoryTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutInventoryTransactionsInput = {
@@ -7381,7 +8121,6 @@ export type TenantUncheckedCreateWithoutInventoryTransactionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7390,7 +8129,6 @@ export type TenantUncheckedCreateWithoutInventoryTransactionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7400,36 +8138,40 @@ export type TenantUncheckedCreateWithoutInventoryTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutInventoryTransactionsInput = {
@@ -7454,7 +8196,6 @@ export type TenantUpdateWithoutInventoryTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7463,7 +8204,6 @@ export type TenantUpdateWithoutInventoryTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7473,36 +8213,40 @@ export type TenantUpdateWithoutInventoryTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutInventoryTransactionsInput = {
@@ -7511,7 +8255,6 @@ export type TenantUncheckedUpdateWithoutInventoryTransactionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7520,7 +8263,6 @@ export type TenantUncheckedUpdateWithoutInventoryTransactionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7530,36 +8272,40 @@ export type TenantUncheckedUpdateWithoutInventoryTransactionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCardsInput = {
@@ -7568,7 +8314,6 @@ export type TenantCreateWithoutCardsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7577,7 +8322,6 @@ export type TenantCreateWithoutCardsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7587,36 +8331,40 @@ export type TenantCreateWithoutCardsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCardsInput = {
@@ -7625,7 +8373,6 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7634,7 +8381,6 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7644,36 +8390,40 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCardsInput = {
@@ -7698,7 +8448,6 @@ export type TenantUpdateWithoutCardsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7707,7 +8456,6 @@ export type TenantUpdateWithoutCardsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7717,36 +8465,40 @@ export type TenantUpdateWithoutCardsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCardsInput = {
@@ -7755,7 +8507,6 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7764,7 +8515,6 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7774,36 +8524,40 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCardLogsInput = {
@@ -7812,7 +8566,6 @@ export type TenantCreateWithoutCardLogsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7821,7 +8574,6 @@ export type TenantCreateWithoutCardLogsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7831,36 +8583,40 @@ export type TenantCreateWithoutCardLogsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
-  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
-  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCardLogsInput = {
@@ -7869,7 +8625,6 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -7878,7 +8633,6 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -7888,36 +8642,40 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
-  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
-  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCardLogsInput = {
@@ -7942,7 +8700,6 @@ export type TenantUpdateWithoutCardLogsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7951,7 +8708,6 @@ export type TenantUpdateWithoutCardLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7961,36 +8717,40 @@ export type TenantUpdateWithoutCardLogsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
-  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
-  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCardLogsInput = {
@@ -7999,7 +8759,6 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8008,7 +8767,6 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8018,36 +8776,40 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
-  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
-  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCardPermissionsInput = {
@@ -8056,7 +8818,6 @@ export type TenantCreateWithoutCardPermissionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8065,7 +8826,6 @@ export type TenantCreateWithoutCardPermissionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -8075,36 +8835,40 @@ export type TenantCreateWithoutCardPermissionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
   inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
-  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
-  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCardPermissionsInput = {
@@ -8113,7 +8877,6 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8122,7 +8885,6 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -8132,36 +8894,40 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
-  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
-  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCardPermissionsInput = {
@@ -8186,7 +8952,6 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8195,7 +8960,6 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8205,36 +8969,40 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
   inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
-  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
-  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
@@ -8243,7 +9011,6 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8252,7 +9019,6 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8262,36 +9028,40 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
   inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
-  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
-  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEventsInput = {
@@ -8300,7 +9070,6 @@ export type TenantCreateWithoutEventsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8309,7 +9078,6 @@ export type TenantCreateWithoutEventsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -8319,36 +9087,40 @@ export type TenantCreateWithoutEventsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEventsInput = {
@@ -8357,7 +9129,6 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8366,7 +9137,6 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -8376,36 +9146,40 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
-  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEventsInput = {
@@ -8430,7 +9204,6 @@ export type TenantUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8439,7 +9212,6 @@ export type TenantUpdateWithoutEventsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8449,36 +9221,40 @@ export type TenantUpdateWithoutEventsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEventsInput = {
@@ -8487,7 +9263,6 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8496,7 +9271,6 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8506,36 +9280,40 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
-  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDevicesInput = {
@@ -8544,7 +9322,6 @@ export type TenantCreateWithoutDevicesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8553,7 +9330,6 @@ export type TenantCreateWithoutDevicesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -8563,36 +9339,40 @@ export type TenantCreateWithoutDevicesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -8601,7 +9381,6 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8610,7 +9389,6 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -8620,36 +9398,40 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -8674,7 +9456,6 @@ export type TenantUpdateWithoutDevicesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8683,7 +9464,6 @@ export type TenantUpdateWithoutDevicesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8693,36 +9473,40 @@ export type TenantUpdateWithoutDevicesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -8731,7 +9515,6 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8740,7 +9523,6 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8750,36 +9532,40 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDeviceLogsInput = {
@@ -8788,7 +9574,6 @@ export type TenantCreateWithoutDeviceLogsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8797,7 +9582,6 @@ export type TenantCreateWithoutDeviceLogsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -8807,36 +9591,40 @@ export type TenantCreateWithoutDeviceLogsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDeviceLogsInput = {
@@ -8845,7 +9633,6 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   slug: string
   domain?: string | null
   logo?: string | null
-  brandColor?: string | null
   address?: string | null
   city?: string | null
   state?: string | null
@@ -8854,7 +9641,6 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   phone?: string | null
   email?: string | null
   website?: string | null
-  timezone?: string
   status?: $Enums.TenantStatus
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
@@ -8864,36 +9650,40 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
-  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
-  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
-  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
-  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
-  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
-  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
-  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
-  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
-  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
-  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
-  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
-  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  timezone?: string
+  brandColor?: string | null
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
-  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
-  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
-  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
-  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  busRoutes?: Prisma.BusRouteUncheckedCreateNestedManyWithoutTenantInput
+  buses?: Prisma.BusUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  inventoryItems?: Prisma.InventoryItemUncheckedCreateNestedManyWithoutTenantInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDeviceLogsInput = {
@@ -8918,7 +9708,6 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8927,7 +9716,6 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8937,36 +9725,40 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
@@ -8975,7 +9767,6 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8984,7 +9775,6 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  timezone?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8994,36 +9784,40 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
-  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
-  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
-  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
-  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
-  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
-  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
-  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
-  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
-  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
-  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
-  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
-  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
-  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
-  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
-  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
-  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
-  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
-  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
-  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  busRoutes?: Prisma.BusRouteUncheckedUpdateManyWithoutTenantNestedInput
+  buses?: Prisma.BusUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryItems?: Prisma.InventoryItemUncheckedUpdateManyWithoutTenantNestedInput
+  inventoryTransactions?: Prisma.InventoryTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  transportAssignments?: Prisma.TransportAssignmentUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 
@@ -9032,71 +9826,75 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
  */
 
 export type TenantCountOutputType = {
-  users: number
-  students: number
-  teachers: number
-  parents: number
-  grades: number
-  sections: number
-  combinations: number
-  subjects: number
-  attendances: number
-  teacherAttendances: number
-  books: number
-  bookTransactions: number
-  buses: number
-  busRoutes: number
-  transportAssignments: number
-  permissions: number
-  conductRecords: number
-  studentConductPoints: number
-  conductPointTransactions: number
-  permissionUsages: number
-  messages: number
   announcements: number
-  notifications: number
-  inventoryItems: number
-  inventoryTransactions: number
-  events: number
-  cards: number
+  attendances: number
+  bookCopies: number
+  bookTransactions: number
+  books: number
+  busRoutes: number
+  buses: number
   cardLogs: number
   cardPermissions: number
-  devices: number
+  cards: number
+  combinations: number
+  conductPointTransactions: number
+  conductRecords: number
+  conversations: number
   deviceLogs: number
+  devices: number
+  events: number
+  grades: number
+  inventoryItems: number
+  inventoryTransactions: number
+  messages: number
+  notifications: number
+  parents: number
+  permissionUsages: number
+  permissions: number
+  sections: number
+  studentConductPoints: number
+  students: number
+  subjects: number
+  teacherAttendances: number
+  teachers: number
+  transportAssignments: number
+  users: number
 }
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | TenantCountOutputTypeCountUsersArgs
-  students?: boolean | TenantCountOutputTypeCountStudentsArgs
-  teachers?: boolean | TenantCountOutputTypeCountTeachersArgs
-  parents?: boolean | TenantCountOutputTypeCountParentsArgs
-  grades?: boolean | TenantCountOutputTypeCountGradesArgs
-  sections?: boolean | TenantCountOutputTypeCountSectionsArgs
-  combinations?: boolean | TenantCountOutputTypeCountCombinationsArgs
-  subjects?: boolean | TenantCountOutputTypeCountSubjectsArgs
-  attendances?: boolean | TenantCountOutputTypeCountAttendancesArgs
-  teacherAttendances?: boolean | TenantCountOutputTypeCountTeacherAttendancesArgs
-  books?: boolean | TenantCountOutputTypeCountBooksArgs
-  bookTransactions?: boolean | TenantCountOutputTypeCountBookTransactionsArgs
-  buses?: boolean | TenantCountOutputTypeCountBusesArgs
-  busRoutes?: boolean | TenantCountOutputTypeCountBusRoutesArgs
-  transportAssignments?: boolean | TenantCountOutputTypeCountTransportAssignmentsArgs
-  permissions?: boolean | TenantCountOutputTypeCountPermissionsArgs
-  conductRecords?: boolean | TenantCountOutputTypeCountConductRecordsArgs
-  studentConductPoints?: boolean | TenantCountOutputTypeCountStudentConductPointsArgs
-  conductPointTransactions?: boolean | TenantCountOutputTypeCountConductPointTransactionsArgs
-  permissionUsages?: boolean | TenantCountOutputTypeCountPermissionUsagesArgs
-  messages?: boolean | TenantCountOutputTypeCountMessagesArgs
   announcements?: boolean | TenantCountOutputTypeCountAnnouncementsArgs
-  notifications?: boolean | TenantCountOutputTypeCountNotificationsArgs
-  inventoryItems?: boolean | TenantCountOutputTypeCountInventoryItemsArgs
-  inventoryTransactions?: boolean | TenantCountOutputTypeCountInventoryTransactionsArgs
-  events?: boolean | TenantCountOutputTypeCountEventsArgs
-  cards?: boolean | TenantCountOutputTypeCountCardsArgs
+  attendances?: boolean | TenantCountOutputTypeCountAttendancesArgs
+  bookCopies?: boolean | TenantCountOutputTypeCountBookCopiesArgs
+  bookTransactions?: boolean | TenantCountOutputTypeCountBookTransactionsArgs
+  books?: boolean | TenantCountOutputTypeCountBooksArgs
+  busRoutes?: boolean | TenantCountOutputTypeCountBusRoutesArgs
+  buses?: boolean | TenantCountOutputTypeCountBusesArgs
   cardLogs?: boolean | TenantCountOutputTypeCountCardLogsArgs
   cardPermissions?: boolean | TenantCountOutputTypeCountCardPermissionsArgs
-  devices?: boolean | TenantCountOutputTypeCountDevicesArgs
+  cards?: boolean | TenantCountOutputTypeCountCardsArgs
+  combinations?: boolean | TenantCountOutputTypeCountCombinationsArgs
+  conductPointTransactions?: boolean | TenantCountOutputTypeCountConductPointTransactionsArgs
+  conductRecords?: boolean | TenantCountOutputTypeCountConductRecordsArgs
+  conversations?: boolean | TenantCountOutputTypeCountConversationsArgs
   deviceLogs?: boolean | TenantCountOutputTypeCountDeviceLogsArgs
+  devices?: boolean | TenantCountOutputTypeCountDevicesArgs
+  events?: boolean | TenantCountOutputTypeCountEventsArgs
+  grades?: boolean | TenantCountOutputTypeCountGradesArgs
+  inventoryItems?: boolean | TenantCountOutputTypeCountInventoryItemsArgs
+  inventoryTransactions?: boolean | TenantCountOutputTypeCountInventoryTransactionsArgs
+  messages?: boolean | TenantCountOutputTypeCountMessagesArgs
+  notifications?: boolean | TenantCountOutputTypeCountNotificationsArgs
+  parents?: boolean | TenantCountOutputTypeCountParentsArgs
+  permissionUsages?: boolean | TenantCountOutputTypeCountPermissionUsagesArgs
+  permissions?: boolean | TenantCountOutputTypeCountPermissionsArgs
+  sections?: boolean | TenantCountOutputTypeCountSectionsArgs
+  studentConductPoints?: boolean | TenantCountOutputTypeCountStudentConductPointsArgs
+  students?: boolean | TenantCountOutputTypeCountStudentsArgs
+  subjects?: boolean | TenantCountOutputTypeCountSubjectsArgs
+  teacherAttendances?: boolean | TenantCountOutputTypeCountTeacherAttendancesArgs
+  teachers?: boolean | TenantCountOutputTypeCountTeachersArgs
+  transportAssignments?: boolean | TenantCountOutputTypeCountTransportAssignmentsArgs
+  users?: boolean | TenantCountOutputTypeCountUsersArgs
 }
 
 /**
@@ -9112,57 +9910,8 @@ export type TenantCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.UserWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StudentWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountTeachersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TeacherWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountParentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ParentWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.GradeWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountSectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SectionWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountCombinationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CombinationWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubjectWhereInput
+export type TenantCountOutputTypeCountAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnnouncementWhereInput
 }
 
 /**
@@ -9175,15 +9924,8 @@ export type TenantCountOutputTypeCountAttendancesArgs<ExtArgs extends runtime.Ty
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountTeacherAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TeacherAttendanceWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountBooksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BookWhereInput
+export type TenantCountOutputTypeCountBookCopiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookCopyWhereInput
 }
 
 /**
@@ -9196,8 +9938,8 @@ export type TenantCountOutputTypeCountBookTransactionsArgs<ExtArgs extends runti
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountBusesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BusWhereInput
+export type TenantCountOutputTypeCountBooksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookWhereInput
 }
 
 /**
@@ -9210,92 +9952,8 @@ export type TenantCountOutputTypeCountBusRoutesArgs<ExtArgs extends runtime.Type
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountTransportAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TransportAssignmentWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PermissionWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountConductRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ConductRecordWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountStudentConductPointsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StudentConductPointsWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountConductPointTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ConductPointTransactionWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountPermissionUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.PermissionUsageWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MessageWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.AnnouncementWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NotificationWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountInventoryItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InventoryItemWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountInventoryTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.InventoryTransactionWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.EventWhereInput
-}
-
-/**
- * TenantCountOutputType without action
- */
-export type TenantCountOutputTypeCountCardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CardWhereInput
+export type TenantCountOutputTypeCountBusesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BusWhereInput
 }
 
 /**
@@ -9315,8 +9973,36 @@ export type TenantCountOutputTypeCountCardPermissionsArgs<ExtArgs extends runtim
 /**
  * TenantCountOutputType without action
  */
-export type TenantCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.DeviceWhereInput
+export type TenantCountOutputTypeCountCardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountCombinationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CombinationWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountConductPointTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConductPointTransactionWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountConductRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConductRecordWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConversationWhereInput
 }
 
 /**
@@ -9326,6 +10012,132 @@ export type TenantCountOutputTypeCountDeviceLogsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.DeviceLogWhereInput
 }
 
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EventWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountGradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GradeWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountInventoryItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventoryItemWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountInventoryTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InventoryTransactionWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountMessagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MessageWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountParentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ParentWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountPermissionUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PermissionUsageWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PermissionWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountSectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SectionWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountStudentConductPointsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentConductPointsWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubjectWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTeacherAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeacherAttendanceWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTeachersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TeacherWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountTransportAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransportAssignmentWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserWhereInput
+}
+
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -9333,7 +10145,6 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   slug?: boolean
   domain?: boolean
   logo?: boolean
-  brandColor?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
@@ -9342,7 +10153,6 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   phone?: boolean
   email?: boolean
   website?: boolean
-  timezone?: boolean
   status?: boolean
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
@@ -9352,37 +10162,41 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   settings?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
-  students?: boolean | Prisma.Tenant$studentsArgs<ExtArgs>
-  teachers?: boolean | Prisma.Tenant$teachersArgs<ExtArgs>
-  parents?: boolean | Prisma.Tenant$parentsArgs<ExtArgs>
-  grades?: boolean | Prisma.Tenant$gradesArgs<ExtArgs>
-  sections?: boolean | Prisma.Tenant$sectionsArgs<ExtArgs>
-  combinations?: boolean | Prisma.Tenant$combinationsArgs<ExtArgs>
-  subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
-  attendances?: boolean | Prisma.Tenant$attendancesArgs<ExtArgs>
-  teacherAttendances?: boolean | Prisma.Tenant$teacherAttendancesArgs<ExtArgs>
-  books?: boolean | Prisma.Tenant$booksArgs<ExtArgs>
-  bookTransactions?: boolean | Prisma.Tenant$bookTransactionsArgs<ExtArgs>
-  buses?: boolean | Prisma.Tenant$busesArgs<ExtArgs>
-  busRoutes?: boolean | Prisma.Tenant$busRoutesArgs<ExtArgs>
-  transportAssignments?: boolean | Prisma.Tenant$transportAssignmentsArgs<ExtArgs>
-  permissions?: boolean | Prisma.Tenant$permissionsArgs<ExtArgs>
-  conductRecords?: boolean | Prisma.Tenant$conductRecordsArgs<ExtArgs>
-  studentConductPoints?: boolean | Prisma.Tenant$studentConductPointsArgs<ExtArgs>
-  conductPointTransactions?: boolean | Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>
-  permissionUsages?: boolean | Prisma.Tenant$permissionUsagesArgs<ExtArgs>
-  messages?: boolean | Prisma.Tenant$messagesArgs<ExtArgs>
+  timezone?: boolean
+  brandColor?: boolean
   announcements?: boolean | Prisma.Tenant$announcementsArgs<ExtArgs>
-  notifications?: boolean | Prisma.Tenant$notificationsArgs<ExtArgs>
-  inventoryItems?: boolean | Prisma.Tenant$inventoryItemsArgs<ExtArgs>
-  inventoryTransactions?: boolean | Prisma.Tenant$inventoryTransactionsArgs<ExtArgs>
-  events?: boolean | Prisma.Tenant$eventsArgs<ExtArgs>
-  cards?: boolean | Prisma.Tenant$cardsArgs<ExtArgs>
+  attendances?: boolean | Prisma.Tenant$attendancesArgs<ExtArgs>
+  bookCopies?: boolean | Prisma.Tenant$bookCopiesArgs<ExtArgs>
+  bookTransactions?: boolean | Prisma.Tenant$bookTransactionsArgs<ExtArgs>
+  books?: boolean | Prisma.Tenant$booksArgs<ExtArgs>
+  busRoutes?: boolean | Prisma.Tenant$busRoutesArgs<ExtArgs>
+  buses?: boolean | Prisma.Tenant$busesArgs<ExtArgs>
   cardLogs?: boolean | Prisma.Tenant$cardLogsArgs<ExtArgs>
   cardPermissions?: boolean | Prisma.Tenant$cardPermissionsArgs<ExtArgs>
-  devices?: boolean | Prisma.Tenant$devicesArgs<ExtArgs>
+  cards?: boolean | Prisma.Tenant$cardsArgs<ExtArgs>
+  combinations?: boolean | Prisma.Tenant$combinationsArgs<ExtArgs>
+  conductPointTransactions?: boolean | Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>
+  conductRecords?: boolean | Prisma.Tenant$conductRecordsArgs<ExtArgs>
+  conversations?: boolean | Prisma.Tenant$conversationsArgs<ExtArgs>
   deviceLogs?: boolean | Prisma.Tenant$deviceLogsArgs<ExtArgs>
+  devices?: boolean | Prisma.Tenant$devicesArgs<ExtArgs>
+  events?: boolean | Prisma.Tenant$eventsArgs<ExtArgs>
+  grades?: boolean | Prisma.Tenant$gradesArgs<ExtArgs>
+  inventoryItems?: boolean | Prisma.Tenant$inventoryItemsArgs<ExtArgs>
+  inventoryTransactions?: boolean | Prisma.Tenant$inventoryTransactionsArgs<ExtArgs>
+  messages?: boolean | Prisma.Tenant$messagesArgs<ExtArgs>
+  notifications?: boolean | Prisma.Tenant$notificationsArgs<ExtArgs>
+  parents?: boolean | Prisma.Tenant$parentsArgs<ExtArgs>
+  permissionUsages?: boolean | Prisma.Tenant$permissionUsagesArgs<ExtArgs>
+  permissions?: boolean | Prisma.Tenant$permissionsArgs<ExtArgs>
+  sections?: boolean | Prisma.Tenant$sectionsArgs<ExtArgs>
+  studentConductPoints?: boolean | Prisma.Tenant$studentConductPointsArgs<ExtArgs>
+  students?: boolean | Prisma.Tenant$studentsArgs<ExtArgs>
+  subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
+  teacherAttendances?: boolean | Prisma.Tenant$teacherAttendancesArgs<ExtArgs>
+  teachers?: boolean | Prisma.Tenant$teachersArgs<ExtArgs>
+  transportAssignments?: boolean | Prisma.Tenant$transportAssignmentsArgs<ExtArgs>
+  users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant"]>
 
@@ -9392,7 +10206,6 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   slug?: boolean
   domain?: boolean
   logo?: boolean
-  brandColor?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
@@ -9401,7 +10214,6 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   phone?: boolean
   email?: boolean
   website?: boolean
-  timezone?: boolean
   status?: boolean
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
@@ -9411,6 +10223,8 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   settings?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  timezone?: boolean
+  brandColor?: boolean
 }, ExtArgs["result"]["tenant"]>
 
 export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -9419,7 +10233,6 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   slug?: boolean
   domain?: boolean
   logo?: boolean
-  brandColor?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
@@ -9428,7 +10241,6 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   phone?: boolean
   email?: boolean
   website?: boolean
-  timezone?: boolean
   status?: boolean
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
@@ -9438,6 +10250,8 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   settings?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  timezone?: boolean
+  brandColor?: boolean
 }, ExtArgs["result"]["tenant"]>
 
 export type TenantSelectScalar = {
@@ -9446,7 +10260,6 @@ export type TenantSelectScalar = {
   slug?: boolean
   domain?: boolean
   logo?: boolean
-  brandColor?: boolean
   address?: boolean
   city?: boolean
   state?: boolean
@@ -9455,7 +10268,6 @@ export type TenantSelectScalar = {
   phone?: boolean
   email?: boolean
   website?: boolean
-  timezone?: boolean
   status?: boolean
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
@@ -9465,41 +10277,45 @@ export type TenantSelectScalar = {
   settings?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  timezone?: boolean
+  brandColor?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "brandColor" | "address" | "city" | "state" | "country" | "zipCode" | "phone" | "email" | "website" | "timezone" | "status" | "subscriptionPlan" | "subscriptionStartDate" | "subscriptionEndDate" | "maxStudents" | "maxTeachers" | "settings" | "createdAt" | "updatedAt", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "address" | "city" | "state" | "country" | "zipCode" | "phone" | "email" | "website" | "status" | "subscriptionPlan" | "subscriptionStartDate" | "subscriptionEndDate" | "maxStudents" | "maxTeachers" | "settings" | "createdAt" | "updatedAt" | "timezone" | "brandColor", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
-  students?: boolean | Prisma.Tenant$studentsArgs<ExtArgs>
-  teachers?: boolean | Prisma.Tenant$teachersArgs<ExtArgs>
-  parents?: boolean | Prisma.Tenant$parentsArgs<ExtArgs>
-  grades?: boolean | Prisma.Tenant$gradesArgs<ExtArgs>
-  sections?: boolean | Prisma.Tenant$sectionsArgs<ExtArgs>
-  combinations?: boolean | Prisma.Tenant$combinationsArgs<ExtArgs>
-  subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
-  attendances?: boolean | Prisma.Tenant$attendancesArgs<ExtArgs>
-  teacherAttendances?: boolean | Prisma.Tenant$teacherAttendancesArgs<ExtArgs>
-  books?: boolean | Prisma.Tenant$booksArgs<ExtArgs>
-  bookTransactions?: boolean | Prisma.Tenant$bookTransactionsArgs<ExtArgs>
-  buses?: boolean | Prisma.Tenant$busesArgs<ExtArgs>
-  busRoutes?: boolean | Prisma.Tenant$busRoutesArgs<ExtArgs>
-  transportAssignments?: boolean | Prisma.Tenant$transportAssignmentsArgs<ExtArgs>
-  permissions?: boolean | Prisma.Tenant$permissionsArgs<ExtArgs>
-  conductRecords?: boolean | Prisma.Tenant$conductRecordsArgs<ExtArgs>
-  studentConductPoints?: boolean | Prisma.Tenant$studentConductPointsArgs<ExtArgs>
-  conductPointTransactions?: boolean | Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>
-  permissionUsages?: boolean | Prisma.Tenant$permissionUsagesArgs<ExtArgs>
-  messages?: boolean | Prisma.Tenant$messagesArgs<ExtArgs>
   announcements?: boolean | Prisma.Tenant$announcementsArgs<ExtArgs>
-  notifications?: boolean | Prisma.Tenant$notificationsArgs<ExtArgs>
-  inventoryItems?: boolean | Prisma.Tenant$inventoryItemsArgs<ExtArgs>
-  inventoryTransactions?: boolean | Prisma.Tenant$inventoryTransactionsArgs<ExtArgs>
-  events?: boolean | Prisma.Tenant$eventsArgs<ExtArgs>
-  cards?: boolean | Prisma.Tenant$cardsArgs<ExtArgs>
+  attendances?: boolean | Prisma.Tenant$attendancesArgs<ExtArgs>
+  bookCopies?: boolean | Prisma.Tenant$bookCopiesArgs<ExtArgs>
+  bookTransactions?: boolean | Prisma.Tenant$bookTransactionsArgs<ExtArgs>
+  books?: boolean | Prisma.Tenant$booksArgs<ExtArgs>
+  busRoutes?: boolean | Prisma.Tenant$busRoutesArgs<ExtArgs>
+  buses?: boolean | Prisma.Tenant$busesArgs<ExtArgs>
   cardLogs?: boolean | Prisma.Tenant$cardLogsArgs<ExtArgs>
   cardPermissions?: boolean | Prisma.Tenant$cardPermissionsArgs<ExtArgs>
-  devices?: boolean | Prisma.Tenant$devicesArgs<ExtArgs>
+  cards?: boolean | Prisma.Tenant$cardsArgs<ExtArgs>
+  combinations?: boolean | Prisma.Tenant$combinationsArgs<ExtArgs>
+  conductPointTransactions?: boolean | Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>
+  conductRecords?: boolean | Prisma.Tenant$conductRecordsArgs<ExtArgs>
+  conversations?: boolean | Prisma.Tenant$conversationsArgs<ExtArgs>
   deviceLogs?: boolean | Prisma.Tenant$deviceLogsArgs<ExtArgs>
+  devices?: boolean | Prisma.Tenant$devicesArgs<ExtArgs>
+  events?: boolean | Prisma.Tenant$eventsArgs<ExtArgs>
+  grades?: boolean | Prisma.Tenant$gradesArgs<ExtArgs>
+  inventoryItems?: boolean | Prisma.Tenant$inventoryItemsArgs<ExtArgs>
+  inventoryTransactions?: boolean | Prisma.Tenant$inventoryTransactionsArgs<ExtArgs>
+  messages?: boolean | Prisma.Tenant$messagesArgs<ExtArgs>
+  notifications?: boolean | Prisma.Tenant$notificationsArgs<ExtArgs>
+  parents?: boolean | Prisma.Tenant$parentsArgs<ExtArgs>
+  permissionUsages?: boolean | Prisma.Tenant$permissionUsagesArgs<ExtArgs>
+  permissions?: boolean | Prisma.Tenant$permissionsArgs<ExtArgs>
+  sections?: boolean | Prisma.Tenant$sectionsArgs<ExtArgs>
+  studentConductPoints?: boolean | Prisma.Tenant$studentConductPointsArgs<ExtArgs>
+  students?: boolean | Prisma.Tenant$studentsArgs<ExtArgs>
+  subjects?: boolean | Prisma.Tenant$subjectsArgs<ExtArgs>
+  teacherAttendances?: boolean | Prisma.Tenant$teacherAttendancesArgs<ExtArgs>
+  teachers?: boolean | Prisma.Tenant$teachersArgs<ExtArgs>
+  transportAssignments?: boolean | Prisma.Tenant$transportAssignmentsArgs<ExtArgs>
+  users?: boolean | Prisma.Tenant$usersArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -9508,37 +10324,39 @@ export type TenantIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Tenant"
   objects: {
-    users: Prisma.$UserPayload<ExtArgs>[]
-    students: Prisma.$StudentPayload<ExtArgs>[]
-    teachers: Prisma.$TeacherPayload<ExtArgs>[]
-    parents: Prisma.$ParentPayload<ExtArgs>[]
-    grades: Prisma.$GradePayload<ExtArgs>[]
-    sections: Prisma.$SectionPayload<ExtArgs>[]
-    combinations: Prisma.$CombinationPayload<ExtArgs>[]
-    subjects: Prisma.$SubjectPayload<ExtArgs>[]
-    attendances: Prisma.$AttendancePayload<ExtArgs>[]
-    teacherAttendances: Prisma.$TeacherAttendancePayload<ExtArgs>[]
-    books: Prisma.$BookPayload<ExtArgs>[]
-    bookTransactions: Prisma.$BookTransactionPayload<ExtArgs>[]
-    buses: Prisma.$BusPayload<ExtArgs>[]
-    busRoutes: Prisma.$BusRoutePayload<ExtArgs>[]
-    transportAssignments: Prisma.$TransportAssignmentPayload<ExtArgs>[]
-    permissions: Prisma.$PermissionPayload<ExtArgs>[]
-    conductRecords: Prisma.$ConductRecordPayload<ExtArgs>[]
-    studentConductPoints: Prisma.$StudentConductPointsPayload<ExtArgs>[]
-    conductPointTransactions: Prisma.$ConductPointTransactionPayload<ExtArgs>[]
-    permissionUsages: Prisma.$PermissionUsagePayload<ExtArgs>[]
-    messages: Prisma.$MessagePayload<ExtArgs>[]
     announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
-    notifications: Prisma.$NotificationPayload<ExtArgs>[]
-    inventoryItems: Prisma.$InventoryItemPayload<ExtArgs>[]
-    inventoryTransactions: Prisma.$InventoryTransactionPayload<ExtArgs>[]
-    events: Prisma.$EventPayload<ExtArgs>[]
-    cards: Prisma.$CardPayload<ExtArgs>[]
+    attendances: Prisma.$AttendancePayload<ExtArgs>[]
+    bookCopies: Prisma.$BookCopyPayload<ExtArgs>[]
+    bookTransactions: Prisma.$BookTransactionPayload<ExtArgs>[]
+    books: Prisma.$BookPayload<ExtArgs>[]
+    busRoutes: Prisma.$BusRoutePayload<ExtArgs>[]
+    buses: Prisma.$BusPayload<ExtArgs>[]
     cardLogs: Prisma.$CardLogPayload<ExtArgs>[]
     cardPermissions: Prisma.$CardPermissionPayload<ExtArgs>[]
-    devices: Prisma.$DevicePayload<ExtArgs>[]
+    cards: Prisma.$CardPayload<ExtArgs>[]
+    combinations: Prisma.$CombinationPayload<ExtArgs>[]
+    conductPointTransactions: Prisma.$ConductPointTransactionPayload<ExtArgs>[]
+    conductRecords: Prisma.$ConductRecordPayload<ExtArgs>[]
+    conversations: Prisma.$ConversationPayload<ExtArgs>[]
     deviceLogs: Prisma.$DeviceLogPayload<ExtArgs>[]
+    devices: Prisma.$DevicePayload<ExtArgs>[]
+    events: Prisma.$EventPayload<ExtArgs>[]
+    grades: Prisma.$GradePayload<ExtArgs>[]
+    inventoryItems: Prisma.$InventoryItemPayload<ExtArgs>[]
+    inventoryTransactions: Prisma.$InventoryTransactionPayload<ExtArgs>[]
+    messages: Prisma.$MessagePayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
+    parents: Prisma.$ParentPayload<ExtArgs>[]
+    permissionUsages: Prisma.$PermissionUsagePayload<ExtArgs>[]
+    permissions: Prisma.$PermissionPayload<ExtArgs>[]
+    sections: Prisma.$SectionPayload<ExtArgs>[]
+    studentConductPoints: Prisma.$StudentConductPointsPayload<ExtArgs>[]
+    students: Prisma.$StudentPayload<ExtArgs>[]
+    subjects: Prisma.$SubjectPayload<ExtArgs>[]
+    teacherAttendances: Prisma.$TeacherAttendancePayload<ExtArgs>[]
+    teachers: Prisma.$TeacherPayload<ExtArgs>[]
+    transportAssignments: Prisma.$TransportAssignmentPayload<ExtArgs>[]
+    users: Prisma.$UserPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -9546,7 +10364,6 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     slug: string
     domain: string | null
     logo: string | null
-    brandColor: string | null
     address: string | null
     city: string | null
     state: string | null
@@ -9555,7 +10372,6 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     phone: string | null
     email: string | null
     website: string | null
-    timezone: string
     status: $Enums.TenantStatus
     subscriptionPlan: $Enums.SubscriptionPlan
     subscriptionStartDate: Date | null
@@ -9565,6 +10381,8 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     settings: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
+    timezone: string
+    brandColor: string | null
   }, ExtArgs["result"]["tenant"]>
   composites: {}
 }
@@ -9959,37 +10777,39 @@ readonly fields: TenantFieldRefs;
  */
 export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  users<T extends Prisma.Tenant$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  students<T extends Prisma.Tenant$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  teachers<T extends Prisma.Tenant$teachersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$teachersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  parents<T extends Prisma.Tenant$parentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$parentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  grades<T extends Prisma.Tenant$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  sections<T extends Prisma.Tenant$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  combinations<T extends Prisma.Tenant$combinationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$combinationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CombinationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  subjects<T extends Prisma.Tenant$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  attendances<T extends Prisma.Tenant$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  teacherAttendances<T extends Prisma.Tenant$teacherAttendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$teacherAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  books<T extends Prisma.Tenant$booksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$booksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  bookTransactions<T extends Prisma.Tenant$bookTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$bookTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  buses<T extends Prisma.Tenant$busesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$busesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  busRoutes<T extends Prisma.Tenant$busRoutesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$busRoutesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusRoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  transportAssignments<T extends Prisma.Tenant$transportAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$transportAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  permissions<T extends Prisma.Tenant$permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  conductRecords<T extends Prisma.Tenant$conductRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$conductRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  studentConductPoints<T extends Prisma.Tenant$studentConductPointsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$studentConductPointsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentConductPointsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  conductPointTransactions<T extends Prisma.Tenant$conductPointTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductPointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  permissionUsages<T extends Prisma.Tenant$permissionUsagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$permissionUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PermissionUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  messages<T extends Prisma.Tenant$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   announcements<T extends Prisma.Tenant$announcementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  notifications<T extends Prisma.Tenant$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  inventoryItems<T extends Prisma.Tenant$inventoryItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$inventoryItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  inventoryTransactions<T extends Prisma.Tenant$inventoryTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$inventoryTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  events<T extends Prisma.Tenant$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  cards<T extends Prisma.Tenant$cardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attendances<T extends Prisma.Tenant$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookCopies<T extends Prisma.Tenant$bookCopiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$bookCopiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookCopyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookTransactions<T extends Prisma.Tenant$bookTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$bookTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  books<T extends Prisma.Tenant$booksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$booksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  busRoutes<T extends Prisma.Tenant$busRoutesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$busRoutesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusRoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  buses<T extends Prisma.Tenant$busesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$busesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cardLogs<T extends Prisma.Tenant$cardLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$cardLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cardPermissions<T extends Prisma.Tenant$cardPermissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$cardPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  devices<T extends Prisma.Tenant$devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cards<T extends Prisma.Tenant$cardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  combinations<T extends Prisma.Tenant$combinationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$combinationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CombinationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conductPointTransactions<T extends Prisma.Tenant$conductPointTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductPointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conductRecords<T extends Prisma.Tenant$conductRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$conductRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conversations<T extends Prisma.Tenant$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   deviceLogs<T extends Prisma.Tenant$deviceLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$deviceLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  devices<T extends Prisma.Tenant$devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  events<T extends Prisma.Tenant$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  grades<T extends Prisma.Tenant$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inventoryItems<T extends Prisma.Tenant$inventoryItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$inventoryItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inventoryTransactions<T extends Prisma.Tenant$inventoryTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$inventoryTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  messages<T extends Prisma.Tenant$messagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Tenant$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  parents<T extends Prisma.Tenant$parentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$parentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  permissionUsages<T extends Prisma.Tenant$permissionUsagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$permissionUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PermissionUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  permissions<T extends Prisma.Tenant$permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sections<T extends Prisma.Tenant$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  studentConductPoints<T extends Prisma.Tenant$studentConductPointsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$studentConductPointsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentConductPointsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  students<T extends Prisma.Tenant$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subjects<T extends Prisma.Tenant$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  teacherAttendances<T extends Prisma.Tenant$teacherAttendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$teacherAttendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  teachers<T extends Prisma.Tenant$teachersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$teachersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transportAssignments<T extends Prisma.Tenant$transportAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$transportAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransportAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  users<T extends Prisma.Tenant$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10024,7 +10844,6 @@ export interface TenantFieldRefs {
   readonly slug: Prisma.FieldRef<"Tenant", 'String'>
   readonly domain: Prisma.FieldRef<"Tenant", 'String'>
   readonly logo: Prisma.FieldRef<"Tenant", 'String'>
-  readonly brandColor: Prisma.FieldRef<"Tenant", 'String'>
   readonly address: Prisma.FieldRef<"Tenant", 'String'>
   readonly city: Prisma.FieldRef<"Tenant", 'String'>
   readonly state: Prisma.FieldRef<"Tenant", 'String'>
@@ -10033,7 +10852,6 @@ export interface TenantFieldRefs {
   readonly phone: Prisma.FieldRef<"Tenant", 'String'>
   readonly email: Prisma.FieldRef<"Tenant", 'String'>
   readonly website: Prisma.FieldRef<"Tenant", 'String'>
-  readonly timezone: Prisma.FieldRef<"Tenant", 'String'>
   readonly status: Prisma.FieldRef<"Tenant", 'TenantStatus'>
   readonly subscriptionPlan: Prisma.FieldRef<"Tenant", 'SubscriptionPlan'>
   readonly subscriptionStartDate: Prisma.FieldRef<"Tenant", 'DateTime'>
@@ -10043,6 +10861,8 @@ export interface TenantFieldRefs {
   readonly settings: Prisma.FieldRef<"Tenant", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Tenant", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly timezone: Prisma.FieldRef<"Tenant", 'String'>
+  readonly brandColor: Prisma.FieldRef<"Tenant", 'String'>
 }
     
 
@@ -10431,195 +11251,27 @@ export type TenantDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Tenant.users
+ * Tenant.announcements
  */
-export type Tenant$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$announcementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the User
+   * Select specific fields to fetch from the Announcement
    */
-  select?: Prisma.UserSelect<ExtArgs> | null
+  select?: Prisma.AnnouncementSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the User
+   * Omit specific fields from the Announcement
    */
-  omit?: Prisma.UserOmit<ExtArgs> | null
+  omit?: Prisma.AnnouncementOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
-  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
-  cursor?: Prisma.UserWhereUniqueInput
+  include?: Prisma.AnnouncementInclude<ExtArgs> | null
+  where?: Prisma.AnnouncementWhereInput
+  orderBy?: Prisma.AnnouncementOrderByWithRelationInput | Prisma.AnnouncementOrderByWithRelationInput[]
+  cursor?: Prisma.AnnouncementWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
-}
-
-/**
- * Tenant.students
- */
-export type Tenant$studentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Student
-   */
-  select?: Prisma.StudentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Student
-   */
-  omit?: Prisma.StudentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StudentInclude<ExtArgs> | null
-  where?: Prisma.StudentWhereInput
-  orderBy?: Prisma.StudentOrderByWithRelationInput | Prisma.StudentOrderByWithRelationInput[]
-  cursor?: Prisma.StudentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.StudentScalarFieldEnum | Prisma.StudentScalarFieldEnum[]
-}
-
-/**
- * Tenant.teachers
- */
-export type Tenant$teachersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Teacher
-   */
-  select?: Prisma.TeacherSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Teacher
-   */
-  omit?: Prisma.TeacherOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TeacherInclude<ExtArgs> | null
-  where?: Prisma.TeacherWhereInput
-  orderBy?: Prisma.TeacherOrderByWithRelationInput | Prisma.TeacherOrderByWithRelationInput[]
-  cursor?: Prisma.TeacherWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TeacherScalarFieldEnum | Prisma.TeacherScalarFieldEnum[]
-}
-
-/**
- * Tenant.parents
- */
-export type Tenant$parentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Parent
-   */
-  select?: Prisma.ParentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Parent
-   */
-  omit?: Prisma.ParentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ParentInclude<ExtArgs> | null
-  where?: Prisma.ParentWhereInput
-  orderBy?: Prisma.ParentOrderByWithRelationInput | Prisma.ParentOrderByWithRelationInput[]
-  cursor?: Prisma.ParentWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ParentScalarFieldEnum | Prisma.ParentScalarFieldEnum[]
-}
-
-/**
- * Tenant.grades
- */
-export type Tenant$gradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Grade
-   */
-  select?: Prisma.GradeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Grade
-   */
-  omit?: Prisma.GradeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.GradeInclude<ExtArgs> | null
-  where?: Prisma.GradeWhereInput
-  orderBy?: Prisma.GradeOrderByWithRelationInput | Prisma.GradeOrderByWithRelationInput[]
-  cursor?: Prisma.GradeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.GradeScalarFieldEnum | Prisma.GradeScalarFieldEnum[]
-}
-
-/**
- * Tenant.sections
- */
-export type Tenant$sectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Section
-   */
-  select?: Prisma.SectionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Section
-   */
-  omit?: Prisma.SectionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SectionInclude<ExtArgs> | null
-  where?: Prisma.SectionWhereInput
-  orderBy?: Prisma.SectionOrderByWithRelationInput | Prisma.SectionOrderByWithRelationInput[]
-  cursor?: Prisma.SectionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SectionScalarFieldEnum | Prisma.SectionScalarFieldEnum[]
-}
-
-/**
- * Tenant.combinations
- */
-export type Tenant$combinationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Combination
-   */
-  select?: Prisma.CombinationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Combination
-   */
-  omit?: Prisma.CombinationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CombinationInclude<ExtArgs> | null
-  where?: Prisma.CombinationWhereInput
-  orderBy?: Prisma.CombinationOrderByWithRelationInput | Prisma.CombinationOrderByWithRelationInput[]
-  cursor?: Prisma.CombinationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CombinationScalarFieldEnum | Prisma.CombinationScalarFieldEnum[]
-}
-
-/**
- * Tenant.subjects
- */
-export type Tenant$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Subject
-   */
-  select?: Prisma.SubjectSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Subject
-   */
-  omit?: Prisma.SubjectOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubjectInclude<ExtArgs> | null
-  where?: Prisma.SubjectWhereInput
-  orderBy?: Prisma.SubjectOrderByWithRelationInput | Prisma.SubjectOrderByWithRelationInput[]
-  cursor?: Prisma.SubjectWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[]
+  distinct?: Prisma.AnnouncementScalarFieldEnum | Prisma.AnnouncementScalarFieldEnum[]
 }
 
 /**
@@ -10647,51 +11299,27 @@ export type Tenant$attendancesArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Tenant.teacherAttendances
+ * Tenant.bookCopies
  */
-export type Tenant$teacherAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$bookCopiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TeacherAttendance
+   * Select specific fields to fetch from the BookCopy
    */
-  select?: Prisma.TeacherAttendanceSelect<ExtArgs> | null
+  select?: Prisma.BookCopySelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TeacherAttendance
+   * Omit specific fields from the BookCopy
    */
-  omit?: Prisma.TeacherAttendanceOmit<ExtArgs> | null
+  omit?: Prisma.BookCopyOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TeacherAttendanceInclude<ExtArgs> | null
-  where?: Prisma.TeacherAttendanceWhereInput
-  orderBy?: Prisma.TeacherAttendanceOrderByWithRelationInput | Prisma.TeacherAttendanceOrderByWithRelationInput[]
-  cursor?: Prisma.TeacherAttendanceWhereUniqueInput
+  include?: Prisma.BookCopyInclude<ExtArgs> | null
+  where?: Prisma.BookCopyWhereInput
+  orderBy?: Prisma.BookCopyOrderByWithRelationInput | Prisma.BookCopyOrderByWithRelationInput[]
+  cursor?: Prisma.BookCopyWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TeacherAttendanceScalarFieldEnum | Prisma.TeacherAttendanceScalarFieldEnum[]
-}
-
-/**
- * Tenant.books
- */
-export type Tenant$booksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Book
-   */
-  select?: Prisma.BookSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Book
-   */
-  omit?: Prisma.BookOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BookInclude<ExtArgs> | null
-  where?: Prisma.BookWhereInput
-  orderBy?: Prisma.BookOrderByWithRelationInput | Prisma.BookOrderByWithRelationInput[]
-  cursor?: Prisma.BookWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BookScalarFieldEnum | Prisma.BookScalarFieldEnum[]
+  distinct?: Prisma.BookCopyScalarFieldEnum | Prisma.BookCopyScalarFieldEnum[]
 }
 
 /**
@@ -10719,27 +11347,27 @@ export type Tenant$bookTransactionsArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * Tenant.buses
+ * Tenant.books
  */
-export type Tenant$busesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$booksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Bus
+   * Select specific fields to fetch from the Book
    */
-  select?: Prisma.BusSelect<ExtArgs> | null
+  select?: Prisma.BookSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Bus
+   * Omit specific fields from the Book
    */
-  omit?: Prisma.BusOmit<ExtArgs> | null
+  omit?: Prisma.BookOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.BusInclude<ExtArgs> | null
-  where?: Prisma.BusWhereInput
-  orderBy?: Prisma.BusOrderByWithRelationInput | Prisma.BusOrderByWithRelationInput[]
-  cursor?: Prisma.BusWhereUniqueInput
+  include?: Prisma.BookInclude<ExtArgs> | null
+  where?: Prisma.BookWhereInput
+  orderBy?: Prisma.BookOrderByWithRelationInput | Prisma.BookOrderByWithRelationInput[]
+  cursor?: Prisma.BookWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.BusScalarFieldEnum | Prisma.BusScalarFieldEnum[]
+  distinct?: Prisma.BookScalarFieldEnum | Prisma.BookScalarFieldEnum[]
 }
 
 /**
@@ -10767,315 +11395,27 @@ export type Tenant$busRoutesArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Tenant.transportAssignments
+ * Tenant.buses
  */
-export type Tenant$transportAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$busesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TransportAssignment
+   * Select specific fields to fetch from the Bus
    */
-  select?: Prisma.TransportAssignmentSelect<ExtArgs> | null
+  select?: Prisma.BusSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TransportAssignment
+   * Omit specific fields from the Bus
    */
-  omit?: Prisma.TransportAssignmentOmit<ExtArgs> | null
+  omit?: Prisma.BusOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TransportAssignmentInclude<ExtArgs> | null
-  where?: Prisma.TransportAssignmentWhereInput
-  orderBy?: Prisma.TransportAssignmentOrderByWithRelationInput | Prisma.TransportAssignmentOrderByWithRelationInput[]
-  cursor?: Prisma.TransportAssignmentWhereUniqueInput
+  include?: Prisma.BusInclude<ExtArgs> | null
+  where?: Prisma.BusWhereInput
+  orderBy?: Prisma.BusOrderByWithRelationInput | Prisma.BusOrderByWithRelationInput[]
+  cursor?: Prisma.BusWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TransportAssignmentScalarFieldEnum | Prisma.TransportAssignmentScalarFieldEnum[]
-}
-
-/**
- * Tenant.permissions
- */
-export type Tenant$permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Permission
-   */
-  select?: Prisma.PermissionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Permission
-   */
-  omit?: Prisma.PermissionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PermissionInclude<ExtArgs> | null
-  where?: Prisma.PermissionWhereInput
-  orderBy?: Prisma.PermissionOrderByWithRelationInput | Prisma.PermissionOrderByWithRelationInput[]
-  cursor?: Prisma.PermissionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PermissionScalarFieldEnum | Prisma.PermissionScalarFieldEnum[]
-}
-
-/**
- * Tenant.conductRecords
- */
-export type Tenant$conductRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ConductRecord
-   */
-  select?: Prisma.ConductRecordSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ConductRecord
-   */
-  omit?: Prisma.ConductRecordOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ConductRecordInclude<ExtArgs> | null
-  where?: Prisma.ConductRecordWhereInput
-  orderBy?: Prisma.ConductRecordOrderByWithRelationInput | Prisma.ConductRecordOrderByWithRelationInput[]
-  cursor?: Prisma.ConductRecordWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ConductRecordScalarFieldEnum | Prisma.ConductRecordScalarFieldEnum[]
-}
-
-/**
- * Tenant.studentConductPoints
- */
-export type Tenant$studentConductPointsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the StudentConductPoints
-   */
-  select?: Prisma.StudentConductPointsSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the StudentConductPoints
-   */
-  omit?: Prisma.StudentConductPointsOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StudentConductPointsInclude<ExtArgs> | null
-  where?: Prisma.StudentConductPointsWhereInput
-  orderBy?: Prisma.StudentConductPointsOrderByWithRelationInput | Prisma.StudentConductPointsOrderByWithRelationInput[]
-  cursor?: Prisma.StudentConductPointsWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.StudentConductPointsScalarFieldEnum | Prisma.StudentConductPointsScalarFieldEnum[]
-}
-
-/**
- * Tenant.conductPointTransactions
- */
-export type Tenant$conductPointTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ConductPointTransaction
-   */
-  select?: Prisma.ConductPointTransactionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ConductPointTransaction
-   */
-  omit?: Prisma.ConductPointTransactionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ConductPointTransactionInclude<ExtArgs> | null
-  where?: Prisma.ConductPointTransactionWhereInput
-  orderBy?: Prisma.ConductPointTransactionOrderByWithRelationInput | Prisma.ConductPointTransactionOrderByWithRelationInput[]
-  cursor?: Prisma.ConductPointTransactionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ConductPointTransactionScalarFieldEnum | Prisma.ConductPointTransactionScalarFieldEnum[]
-}
-
-/**
- * Tenant.permissionUsages
- */
-export type Tenant$permissionUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PermissionUsage
-   */
-  select?: Prisma.PermissionUsageSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the PermissionUsage
-   */
-  omit?: Prisma.PermissionUsageOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PermissionUsageInclude<ExtArgs> | null
-  where?: Prisma.PermissionUsageWhereInput
-  orderBy?: Prisma.PermissionUsageOrderByWithRelationInput | Prisma.PermissionUsageOrderByWithRelationInput[]
-  cursor?: Prisma.PermissionUsageWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.PermissionUsageScalarFieldEnum | Prisma.PermissionUsageScalarFieldEnum[]
-}
-
-/**
- * Tenant.messages
- */
-export type Tenant$messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Message
-   */
-  select?: Prisma.MessageSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Message
-   */
-  omit?: Prisma.MessageOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MessageInclude<ExtArgs> | null
-  where?: Prisma.MessageWhereInput
-  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
-  cursor?: Prisma.MessageWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
-}
-
-/**
- * Tenant.announcements
- */
-export type Tenant$announcementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Announcement
-   */
-  select?: Prisma.AnnouncementSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Announcement
-   */
-  omit?: Prisma.AnnouncementOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.AnnouncementInclude<ExtArgs> | null
-  where?: Prisma.AnnouncementWhereInput
-  orderBy?: Prisma.AnnouncementOrderByWithRelationInput | Prisma.AnnouncementOrderByWithRelationInput[]
-  cursor?: Prisma.AnnouncementWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.AnnouncementScalarFieldEnum | Prisma.AnnouncementScalarFieldEnum[]
-}
-
-/**
- * Tenant.notifications
- */
-export type Tenant$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Notification
-   */
-  select?: Prisma.NotificationSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Notification
-   */
-  omit?: Prisma.NotificationOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NotificationInclude<ExtArgs> | null
-  where?: Prisma.NotificationWhereInput
-  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
-  cursor?: Prisma.NotificationWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
-}
-
-/**
- * Tenant.inventoryItems
- */
-export type Tenant$inventoryItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the InventoryItem
-   */
-  select?: Prisma.InventoryItemSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the InventoryItem
-   */
-  omit?: Prisma.InventoryItemOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InventoryItemInclude<ExtArgs> | null
-  where?: Prisma.InventoryItemWhereInput
-  orderBy?: Prisma.InventoryItemOrderByWithRelationInput | Prisma.InventoryItemOrderByWithRelationInput[]
-  cursor?: Prisma.InventoryItemWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InventoryItemScalarFieldEnum | Prisma.InventoryItemScalarFieldEnum[]
-}
-
-/**
- * Tenant.inventoryTransactions
- */
-export type Tenant$inventoryTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the InventoryTransaction
-   */
-  select?: Prisma.InventoryTransactionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the InventoryTransaction
-   */
-  omit?: Prisma.InventoryTransactionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.InventoryTransactionInclude<ExtArgs> | null
-  where?: Prisma.InventoryTransactionWhereInput
-  orderBy?: Prisma.InventoryTransactionOrderByWithRelationInput | Prisma.InventoryTransactionOrderByWithRelationInput[]
-  cursor?: Prisma.InventoryTransactionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.InventoryTransactionScalarFieldEnum | Prisma.InventoryTransactionScalarFieldEnum[]
-}
-
-/**
- * Tenant.events
- */
-export type Tenant$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Event
-   */
-  select?: Prisma.EventSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Event
-   */
-  omit?: Prisma.EventOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.EventInclude<ExtArgs> | null
-  where?: Prisma.EventWhereInput
-  orderBy?: Prisma.EventOrderByWithRelationInput | Prisma.EventOrderByWithRelationInput[]
-  cursor?: Prisma.EventWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.EventScalarFieldEnum | Prisma.EventScalarFieldEnum[]
-}
-
-/**
- * Tenant.cards
- */
-export type Tenant$cardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Card
-   */
-  select?: Prisma.CardSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Card
-   */
-  omit?: Prisma.CardOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CardInclude<ExtArgs> | null
-  where?: Prisma.CardWhereInput
-  orderBy?: Prisma.CardOrderByWithRelationInput | Prisma.CardOrderByWithRelationInput[]
-  cursor?: Prisma.CardWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
+  distinct?: Prisma.BusScalarFieldEnum | Prisma.BusScalarFieldEnum[]
 }
 
 /**
@@ -11127,27 +11467,123 @@ export type Tenant$cardPermissionsArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
- * Tenant.devices
+ * Tenant.cards
  */
-export type Tenant$devicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Tenant$cardsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Device
+   * Select specific fields to fetch from the Card
    */
-  select?: Prisma.DeviceSelect<ExtArgs> | null
+  select?: Prisma.CardSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Device
+   * Omit specific fields from the Card
    */
-  omit?: Prisma.DeviceOmit<ExtArgs> | null
+  omit?: Prisma.CardOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DeviceInclude<ExtArgs> | null
-  where?: Prisma.DeviceWhereInput
-  orderBy?: Prisma.DeviceOrderByWithRelationInput | Prisma.DeviceOrderByWithRelationInput[]
-  cursor?: Prisma.DeviceWhereUniqueInput
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
+  orderBy?: Prisma.CardOrderByWithRelationInput | Prisma.CardOrderByWithRelationInput[]
+  cursor?: Prisma.CardWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.DeviceScalarFieldEnum | Prisma.DeviceScalarFieldEnum[]
+  distinct?: Prisma.CardScalarFieldEnum | Prisma.CardScalarFieldEnum[]
+}
+
+/**
+ * Tenant.combinations
+ */
+export type Tenant$combinationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Combination
+   */
+  select?: Prisma.CombinationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Combination
+   */
+  omit?: Prisma.CombinationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CombinationInclude<ExtArgs> | null
+  where?: Prisma.CombinationWhereInput
+  orderBy?: Prisma.CombinationOrderByWithRelationInput | Prisma.CombinationOrderByWithRelationInput[]
+  cursor?: Prisma.CombinationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CombinationScalarFieldEnum | Prisma.CombinationScalarFieldEnum[]
+}
+
+/**
+ * Tenant.conductPointTransactions
+ */
+export type Tenant$conductPointTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConductPointTransaction
+   */
+  select?: Prisma.ConductPointTransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ConductPointTransaction
+   */
+  omit?: Prisma.ConductPointTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConductPointTransactionInclude<ExtArgs> | null
+  where?: Prisma.ConductPointTransactionWhereInput
+  orderBy?: Prisma.ConductPointTransactionOrderByWithRelationInput | Prisma.ConductPointTransactionOrderByWithRelationInput[]
+  cursor?: Prisma.ConductPointTransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConductPointTransactionScalarFieldEnum | Prisma.ConductPointTransactionScalarFieldEnum[]
+}
+
+/**
+ * Tenant.conductRecords
+ */
+export type Tenant$conductRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ConductRecord
+   */
+  select?: Prisma.ConductRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ConductRecord
+   */
+  omit?: Prisma.ConductRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConductRecordInclude<ExtArgs> | null
+  where?: Prisma.ConductRecordWhereInput
+  orderBy?: Prisma.ConductRecordOrderByWithRelationInput | Prisma.ConductRecordOrderByWithRelationInput[]
+  cursor?: Prisma.ConductRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConductRecordScalarFieldEnum | Prisma.ConductRecordScalarFieldEnum[]
+}
+
+/**
+ * Tenant.conversations
+ */
+export type Tenant$conversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Conversation
+   */
+  select?: Prisma.ConversationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Conversation
+   */
+  omit?: Prisma.ConversationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ConversationInclude<ExtArgs> | null
+  where?: Prisma.ConversationWhereInput
+  orderBy?: Prisma.ConversationOrderByWithRelationInput | Prisma.ConversationOrderByWithRelationInput[]
+  cursor?: Prisma.ConversationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ConversationScalarFieldEnum | Prisma.ConversationScalarFieldEnum[]
 }
 
 /**
@@ -11172,6 +11608,438 @@ export type Tenant$deviceLogsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.DeviceLogScalarFieldEnum | Prisma.DeviceLogScalarFieldEnum[]
+}
+
+/**
+ * Tenant.devices
+ */
+export type Tenant$devicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Device
+   */
+  select?: Prisma.DeviceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Device
+   */
+  omit?: Prisma.DeviceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceInclude<ExtArgs> | null
+  where?: Prisma.DeviceWhereInput
+  orderBy?: Prisma.DeviceOrderByWithRelationInput | Prisma.DeviceOrderByWithRelationInput[]
+  cursor?: Prisma.DeviceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeviceScalarFieldEnum | Prisma.DeviceScalarFieldEnum[]
+}
+
+/**
+ * Tenant.events
+ */
+export type Tenant$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Event
+   */
+  select?: Prisma.EventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Event
+   */
+  omit?: Prisma.EventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EventInclude<ExtArgs> | null
+  where?: Prisma.EventWhereInput
+  orderBy?: Prisma.EventOrderByWithRelationInput | Prisma.EventOrderByWithRelationInput[]
+  cursor?: Prisma.EventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EventScalarFieldEnum | Prisma.EventScalarFieldEnum[]
+}
+
+/**
+ * Tenant.grades
+ */
+export type Tenant$gradesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Grade
+   */
+  select?: Prisma.GradeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Grade
+   */
+  omit?: Prisma.GradeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GradeInclude<ExtArgs> | null
+  where?: Prisma.GradeWhereInput
+  orderBy?: Prisma.GradeOrderByWithRelationInput | Prisma.GradeOrderByWithRelationInput[]
+  cursor?: Prisma.GradeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GradeScalarFieldEnum | Prisma.GradeScalarFieldEnum[]
+}
+
+/**
+ * Tenant.inventoryItems
+ */
+export type Tenant$inventoryItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventoryItem
+   */
+  select?: Prisma.InventoryItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventoryItem
+   */
+  omit?: Prisma.InventoryItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventoryItemInclude<ExtArgs> | null
+  where?: Prisma.InventoryItemWhereInput
+  orderBy?: Prisma.InventoryItemOrderByWithRelationInput | Prisma.InventoryItemOrderByWithRelationInput[]
+  cursor?: Prisma.InventoryItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventoryItemScalarFieldEnum | Prisma.InventoryItemScalarFieldEnum[]
+}
+
+/**
+ * Tenant.inventoryTransactions
+ */
+export type Tenant$inventoryTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InventoryTransaction
+   */
+  select?: Prisma.InventoryTransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InventoryTransaction
+   */
+  omit?: Prisma.InventoryTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InventoryTransactionInclude<ExtArgs> | null
+  where?: Prisma.InventoryTransactionWhereInput
+  orderBy?: Prisma.InventoryTransactionOrderByWithRelationInput | Prisma.InventoryTransactionOrderByWithRelationInput[]
+  cursor?: Prisma.InventoryTransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InventoryTransactionScalarFieldEnum | Prisma.InventoryTransactionScalarFieldEnum[]
+}
+
+/**
+ * Tenant.messages
+ */
+export type Tenant$messagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Message
+   */
+  select?: Prisma.MessageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Message
+   */
+  omit?: Prisma.MessageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageInclude<ExtArgs> | null
+  where?: Prisma.MessageWhereInput
+  orderBy?: Prisma.MessageOrderByWithRelationInput | Prisma.MessageOrderByWithRelationInput[]
+  cursor?: Prisma.MessageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MessageScalarFieldEnum | Prisma.MessageScalarFieldEnum[]
+}
+
+/**
+ * Tenant.notifications
+ */
+export type Tenant$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
+}
+
+/**
+ * Tenant.parents
+ */
+export type Tenant$parentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Parent
+   */
+  select?: Prisma.ParentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Parent
+   */
+  omit?: Prisma.ParentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ParentInclude<ExtArgs> | null
+  where?: Prisma.ParentWhereInput
+  orderBy?: Prisma.ParentOrderByWithRelationInput | Prisma.ParentOrderByWithRelationInput[]
+  cursor?: Prisma.ParentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ParentScalarFieldEnum | Prisma.ParentScalarFieldEnum[]
+}
+
+/**
+ * Tenant.permissionUsages
+ */
+export type Tenant$permissionUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PermissionUsage
+   */
+  select?: Prisma.PermissionUsageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PermissionUsage
+   */
+  omit?: Prisma.PermissionUsageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PermissionUsageInclude<ExtArgs> | null
+  where?: Prisma.PermissionUsageWhereInput
+  orderBy?: Prisma.PermissionUsageOrderByWithRelationInput | Prisma.PermissionUsageOrderByWithRelationInput[]
+  cursor?: Prisma.PermissionUsageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PermissionUsageScalarFieldEnum | Prisma.PermissionUsageScalarFieldEnum[]
+}
+
+/**
+ * Tenant.permissions
+ */
+export type Tenant$permissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Permission
+   */
+  select?: Prisma.PermissionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Permission
+   */
+  omit?: Prisma.PermissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PermissionInclude<ExtArgs> | null
+  where?: Prisma.PermissionWhereInput
+  orderBy?: Prisma.PermissionOrderByWithRelationInput | Prisma.PermissionOrderByWithRelationInput[]
+  cursor?: Prisma.PermissionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PermissionScalarFieldEnum | Prisma.PermissionScalarFieldEnum[]
+}
+
+/**
+ * Tenant.sections
+ */
+export type Tenant$sectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Section
+   */
+  select?: Prisma.SectionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Section
+   */
+  omit?: Prisma.SectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SectionInclude<ExtArgs> | null
+  where?: Prisma.SectionWhereInput
+  orderBy?: Prisma.SectionOrderByWithRelationInput | Prisma.SectionOrderByWithRelationInput[]
+  cursor?: Prisma.SectionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SectionScalarFieldEnum | Prisma.SectionScalarFieldEnum[]
+}
+
+/**
+ * Tenant.studentConductPoints
+ */
+export type Tenant$studentConductPointsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudentConductPoints
+   */
+  select?: Prisma.StudentConductPointsSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudentConductPoints
+   */
+  omit?: Prisma.StudentConductPointsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentConductPointsInclude<ExtArgs> | null
+  where?: Prisma.StudentConductPointsWhereInput
+  orderBy?: Prisma.StudentConductPointsOrderByWithRelationInput | Prisma.StudentConductPointsOrderByWithRelationInput[]
+  cursor?: Prisma.StudentConductPointsWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentConductPointsScalarFieldEnum | Prisma.StudentConductPointsScalarFieldEnum[]
+}
+
+/**
+ * Tenant.students
+ */
+export type Tenant$studentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Student
+   */
+  select?: Prisma.StudentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Student
+   */
+  omit?: Prisma.StudentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentInclude<ExtArgs> | null
+  where?: Prisma.StudentWhereInput
+  orderBy?: Prisma.StudentOrderByWithRelationInput | Prisma.StudentOrderByWithRelationInput[]
+  cursor?: Prisma.StudentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudentScalarFieldEnum | Prisma.StudentScalarFieldEnum[]
+}
+
+/**
+ * Tenant.subjects
+ */
+export type Tenant$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Subject
+   */
+  select?: Prisma.SubjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Subject
+   */
+  omit?: Prisma.SubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectInclude<ExtArgs> | null
+  where?: Prisma.SubjectWhereInput
+  orderBy?: Prisma.SubjectOrderByWithRelationInput | Prisma.SubjectOrderByWithRelationInput[]
+  cursor?: Prisma.SubjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[]
+}
+
+/**
+ * Tenant.teacherAttendances
+ */
+export type Tenant$teacherAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TeacherAttendance
+   */
+  select?: Prisma.TeacherAttendanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TeacherAttendance
+   */
+  omit?: Prisma.TeacherAttendanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeacherAttendanceInclude<ExtArgs> | null
+  where?: Prisma.TeacherAttendanceWhereInput
+  orderBy?: Prisma.TeacherAttendanceOrderByWithRelationInput | Prisma.TeacherAttendanceOrderByWithRelationInput[]
+  cursor?: Prisma.TeacherAttendanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeacherAttendanceScalarFieldEnum | Prisma.TeacherAttendanceScalarFieldEnum[]
+}
+
+/**
+ * Tenant.teachers
+ */
+export type Tenant$teachersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Teacher
+   */
+  select?: Prisma.TeacherSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Teacher
+   */
+  omit?: Prisma.TeacherOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeacherInclude<ExtArgs> | null
+  where?: Prisma.TeacherWhereInput
+  orderBy?: Prisma.TeacherOrderByWithRelationInput | Prisma.TeacherOrderByWithRelationInput[]
+  cursor?: Prisma.TeacherWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TeacherScalarFieldEnum | Prisma.TeacherScalarFieldEnum[]
+}
+
+/**
+ * Tenant.transportAssignments
+ */
+export type Tenant$transportAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransportAssignment
+   */
+  select?: Prisma.TransportAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransportAssignment
+   */
+  omit?: Prisma.TransportAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransportAssignmentInclude<ExtArgs> | null
+  where?: Prisma.TransportAssignmentWhereInput
+  orderBy?: Prisma.TransportAssignmentOrderByWithRelationInput | Prisma.TransportAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.TransportAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransportAssignmentScalarFieldEnum | Prisma.TransportAssignmentScalarFieldEnum[]
+}
+
+/**
+ * Tenant.users
+ */
+export type Tenant$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
+  cursor?: Prisma.UserWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
 }
 
 /**

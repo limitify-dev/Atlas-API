@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { TransactionsController } from './transactions.controller';
-import { TransactionsService } from './transactions.service';
+import { BookTransactionsController } from './transactions.controller';
+import { BookTransactionsService } from './transactions.service';
+import { PushModule } from '../../communications/push/push.module';
 
 @Module({
-  controllers: [TransactionsController],
-  providers: [TransactionsService],
-  exports: [TransactionsService],
+  imports: [PushModule],
+  controllers: [BookTransactionsController],
+  providers: [BookTransactionsService],
+  exports: [BookTransactionsService],
 })
 export class BookTransactionsModule {}

@@ -39,12 +39,12 @@ export type SectionMinAggregateOutputType = {
   tenantId: string | null
   name: string | null
   gradeId: string | null
-  combinationId: string | null
-  division: string | null
   capacity: number | null
-  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  combinationId: string | null
+  division: string | null
+  isActive: boolean | null
 }
 
 export type SectionMaxAggregateOutputType = {
@@ -52,12 +52,12 @@ export type SectionMaxAggregateOutputType = {
   tenantId: string | null
   name: string | null
   gradeId: string | null
-  combinationId: string | null
-  division: string | null
   capacity: number | null
-  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  combinationId: string | null
+  division: string | null
+  isActive: boolean | null
 }
 
 export type SectionCountAggregateOutputType = {
@@ -65,12 +65,12 @@ export type SectionCountAggregateOutputType = {
   tenantId: number
   name: number
   gradeId: number
-  combinationId: number
-  division: number
   capacity: number
-  isActive: number
   createdAt: number
   updatedAt: number
+  combinationId: number
+  division: number
+  isActive: number
   _all: number
 }
 
@@ -88,12 +88,12 @@ export type SectionMinAggregateInputType = {
   tenantId?: true
   name?: true
   gradeId?: true
-  combinationId?: true
-  division?: true
   capacity?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
+  combinationId?: true
+  division?: true
+  isActive?: true
 }
 
 export type SectionMaxAggregateInputType = {
@@ -101,12 +101,12 @@ export type SectionMaxAggregateInputType = {
   tenantId?: true
   name?: true
   gradeId?: true
-  combinationId?: true
-  division?: true
   capacity?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
+  combinationId?: true
+  division?: true
+  isActive?: true
 }
 
 export type SectionCountAggregateInputType = {
@@ -114,12 +114,12 @@ export type SectionCountAggregateInputType = {
   tenantId?: true
   name?: true
   gradeId?: true
-  combinationId?: true
-  division?: true
   capacity?: true
-  isActive?: true
   createdAt?: true
   updatedAt?: true
+  combinationId?: true
+  division?: true
+  isActive?: true
   _all?: true
 }
 
@@ -214,12 +214,12 @@ export type SectionGroupByOutputType = {
   tenantId: string
   name: string
   gradeId: string
-  combinationId: string | null
-  division: string | null
   capacity: number
-  isActive: boolean
   createdAt: Date
   updatedAt: Date
+  combinationId: string | null
+  division: string | null
+  isActive: boolean
   _count: SectionCountAggregateOutputType | null
   _avg: SectionAvgAggregateOutputType | null
   _sum: SectionSumAggregateOutputType | null
@@ -250,17 +250,19 @@ export type SectionWhereInput = {
   tenantId?: Prisma.StringFilter<"Section"> | string
   name?: Prisma.StringFilter<"Section"> | string
   gradeId?: Prisma.StringFilter<"Section"> | string
-  combinationId?: Prisma.StringNullableFilter<"Section"> | string | null
-  division?: Prisma.StringNullableFilter<"Section"> | string | null
   capacity?: Prisma.IntFilter<"Section"> | number
-  isActive?: Prisma.BoolFilter<"Section"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Section"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Section"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  grade?: Prisma.XOR<Prisma.GradeScalarRelationFilter, Prisma.GradeWhereInput>
-  combination?: Prisma.XOR<Prisma.CombinationNullableScalarRelationFilter, Prisma.CombinationWhereInput> | null
-  students?: Prisma.StudentListRelationFilter
+  combinationId?: Prisma.StringNullableFilter<"Section"> | string | null
+  division?: Prisma.StringNullableFilter<"Section"> | string | null
+  isActive?: Prisma.BoolFilter<"Section"> | boolean
+  bookTransactions?: Prisma.BookTransactionListRelationFilter
   classes?: Prisma.ClassTeacherListRelationFilter
+  combination?: Prisma.XOR<Prisma.CombinationNullableScalarRelationFilter, Prisma.CombinationWhereInput> | null
+  grade?: Prisma.XOR<Prisma.GradeScalarRelationFilter, Prisma.GradeWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  students?: Prisma.StudentListRelationFilter
+  conversations?: Prisma.ConversationListRelationFilter
 }
 
 export type SectionOrderByWithRelationInput = {
@@ -268,17 +270,19 @@ export type SectionOrderByWithRelationInput = {
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   gradeId?: Prisma.SortOrder
-  combinationId?: Prisma.SortOrderInput | Prisma.SortOrder
-  division?: Prisma.SortOrderInput | Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  grade?: Prisma.GradeOrderByWithRelationInput
-  combination?: Prisma.CombinationOrderByWithRelationInput
-  students?: Prisma.StudentOrderByRelationAggregateInput
+  combinationId?: Prisma.SortOrderInput | Prisma.SortOrder
+  division?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
+  bookTransactions?: Prisma.BookTransactionOrderByRelationAggregateInput
   classes?: Prisma.ClassTeacherOrderByRelationAggregateInput
+  combination?: Prisma.CombinationOrderByWithRelationInput
+  grade?: Prisma.GradeOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
+  students?: Prisma.StudentOrderByRelationAggregateInput
+  conversations?: Prisma.ConversationOrderByRelationAggregateInput
 }
 
 export type SectionWhereUniqueInput = Prisma.AtLeast<{
@@ -290,17 +294,19 @@ export type SectionWhereUniqueInput = Prisma.AtLeast<{
   tenantId?: Prisma.StringFilter<"Section"> | string
   name?: Prisma.StringFilter<"Section"> | string
   gradeId?: Prisma.StringFilter<"Section"> | string
-  combinationId?: Prisma.StringNullableFilter<"Section"> | string | null
-  division?: Prisma.StringNullableFilter<"Section"> | string | null
   capacity?: Prisma.IntFilter<"Section"> | number
-  isActive?: Prisma.BoolFilter<"Section"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Section"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Section"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  grade?: Prisma.XOR<Prisma.GradeScalarRelationFilter, Prisma.GradeWhereInput>
-  combination?: Prisma.XOR<Prisma.CombinationNullableScalarRelationFilter, Prisma.CombinationWhereInput> | null
-  students?: Prisma.StudentListRelationFilter
+  combinationId?: Prisma.StringNullableFilter<"Section"> | string | null
+  division?: Prisma.StringNullableFilter<"Section"> | string | null
+  isActive?: Prisma.BoolFilter<"Section"> | boolean
+  bookTransactions?: Prisma.BookTransactionListRelationFilter
   classes?: Prisma.ClassTeacherListRelationFilter
+  combination?: Prisma.XOR<Prisma.CombinationNullableScalarRelationFilter, Prisma.CombinationWhereInput> | null
+  grade?: Prisma.XOR<Prisma.GradeScalarRelationFilter, Prisma.GradeWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  students?: Prisma.StudentListRelationFilter
+  conversations?: Prisma.ConversationListRelationFilter
 }, "id" | "tenantId_gradeId_name">
 
 export type SectionOrderByWithAggregationInput = {
@@ -308,12 +314,12 @@ export type SectionOrderByWithAggregationInput = {
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   gradeId?: Prisma.SortOrder
-  combinationId?: Prisma.SortOrderInput | Prisma.SortOrder
-  division?: Prisma.SortOrderInput | Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  combinationId?: Prisma.SortOrderInput | Prisma.SortOrder
+  division?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   _count?: Prisma.SectionCountOrderByAggregateInput
   _avg?: Prisma.SectionAvgOrderByAggregateInput
   _max?: Prisma.SectionMaxOrderByAggregateInput
@@ -329,27 +335,29 @@ export type SectionScalarWhereWithAggregatesInput = {
   tenantId?: Prisma.StringWithAggregatesFilter<"Section"> | string
   name?: Prisma.StringWithAggregatesFilter<"Section"> | string
   gradeId?: Prisma.StringWithAggregatesFilter<"Section"> | string
-  combinationId?: Prisma.StringNullableWithAggregatesFilter<"Section"> | string | null
-  division?: Prisma.StringNullableWithAggregatesFilter<"Section"> | string | null
   capacity?: Prisma.IntWithAggregatesFilter<"Section"> | number
-  isActive?: Prisma.BoolWithAggregatesFilter<"Section"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Section"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Section"> | Date | string
+  combinationId?: Prisma.StringNullableWithAggregatesFilter<"Section"> | string | null
+  division?: Prisma.StringNullableWithAggregatesFilter<"Section"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"Section"> | boolean
 }
 
 export type SectionCreateInput = {
   id?: string
   name: string
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
-  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
-  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
-  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherCreateNestedManyWithoutSectionInput
+  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
+  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateInput = {
@@ -357,29 +365,33 @@ export type SectionUncheckedCreateInput = {
   tenantId: string
   name: string
   gradeId: string
-  combinationId?: string | null
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
-  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
-  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
-  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUpdateManyWithoutSectionNestedInput
+  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
+  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateInput = {
@@ -387,14 +399,16 @@ export type SectionUncheckedUpdateInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   gradeId?: Prisma.StringFieldUpdateOperationsInput | string
-  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateManyInput = {
@@ -402,22 +416,22 @@ export type SectionCreateManyInput = {
   tenantId: string
   name: string
   gradeId: string
-  combinationId?: string | null
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
 }
 
 export type SectionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type SectionUncheckedUpdateManyInput = {
@@ -425,12 +439,12 @@ export type SectionUncheckedUpdateManyInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   gradeId?: Prisma.StringFieldUpdateOperationsInput | string
-  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type SectionListRelationFilter = {
@@ -459,12 +473,12 @@ export type SectionCountOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   gradeId?: Prisma.SortOrder
-  combinationId?: Prisma.SortOrder
-  division?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  combinationId?: Prisma.SortOrder
+  division?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type SectionAvgOrderByAggregateInput = {
@@ -476,12 +490,12 @@ export type SectionMaxOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   gradeId?: Prisma.SortOrder
-  combinationId?: Prisma.SortOrder
-  division?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  combinationId?: Prisma.SortOrder
+  division?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type SectionMinOrderByAggregateInput = {
@@ -489,16 +503,21 @@ export type SectionMinOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   gradeId?: Prisma.SortOrder
-  combinationId?: Prisma.SortOrder
-  division?: Prisma.SortOrder
   capacity?: Prisma.SortOrder
-  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  combinationId?: Prisma.SortOrder
+  division?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
 }
 
 export type SectionSumOrderByAggregateInput = {
   capacity?: Prisma.SortOrder
+}
+
+export type SectionNullableScalarRelationFilter = {
+  is?: Prisma.SectionWhereInput | null
+  isNot?: Prisma.SectionWhereInput | null
 }
 
 export type SectionCreateNestedManyWithoutTenantInput = {
@@ -655,32 +674,68 @@ export type SectionUpdateOneRequiredWithoutClassesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SectionUpdateToOneWithWhereWithoutClassesInput, Prisma.SectionUpdateWithoutClassesInput>, Prisma.SectionUncheckedUpdateWithoutClassesInput>
 }
 
+export type SectionCreateNestedOneWithoutBookTransactionsInput = {
+  create?: Prisma.XOR<Prisma.SectionCreateWithoutBookTransactionsInput, Prisma.SectionUncheckedCreateWithoutBookTransactionsInput>
+  connectOrCreate?: Prisma.SectionCreateOrConnectWithoutBookTransactionsInput
+  connect?: Prisma.SectionWhereUniqueInput
+}
+
+export type SectionUpdateOneWithoutBookTransactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.SectionCreateWithoutBookTransactionsInput, Prisma.SectionUncheckedCreateWithoutBookTransactionsInput>
+  connectOrCreate?: Prisma.SectionCreateOrConnectWithoutBookTransactionsInput
+  upsert?: Prisma.SectionUpsertWithoutBookTransactionsInput
+  disconnect?: Prisma.SectionWhereInput | boolean
+  delete?: Prisma.SectionWhereInput | boolean
+  connect?: Prisma.SectionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SectionUpdateToOneWithWhereWithoutBookTransactionsInput, Prisma.SectionUpdateWithoutBookTransactionsInput>, Prisma.SectionUncheckedUpdateWithoutBookTransactionsInput>
+}
+
+export type SectionCreateNestedOneWithoutConversationsInput = {
+  create?: Prisma.XOR<Prisma.SectionCreateWithoutConversationsInput, Prisma.SectionUncheckedCreateWithoutConversationsInput>
+  connectOrCreate?: Prisma.SectionCreateOrConnectWithoutConversationsInput
+  connect?: Prisma.SectionWhereUniqueInput
+}
+
+export type SectionUpdateOneWithoutConversationsNestedInput = {
+  create?: Prisma.XOR<Prisma.SectionCreateWithoutConversationsInput, Prisma.SectionUncheckedCreateWithoutConversationsInput>
+  connectOrCreate?: Prisma.SectionCreateOrConnectWithoutConversationsInput
+  upsert?: Prisma.SectionUpsertWithoutConversationsInput
+  disconnect?: Prisma.SectionWhereInput | boolean
+  delete?: Prisma.SectionWhereInput | boolean
+  connect?: Prisma.SectionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SectionUpdateToOneWithWhereWithoutConversationsInput, Prisma.SectionUpdateWithoutConversationsInput>, Prisma.SectionUncheckedUpdateWithoutConversationsInput>
+}
+
 export type SectionCreateWithoutTenantInput = {
   id?: string
   name: string
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
-  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
-  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherCreateNestedManyWithoutSectionInput
+  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutTenantInput = {
   id?: string
   name: string
   gradeId: string
-  combinationId?: string | null
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutTenantInput = {
@@ -717,26 +772,28 @@ export type SectionScalarWhereInput = {
   tenantId?: Prisma.StringFilter<"Section"> | string
   name?: Prisma.StringFilter<"Section"> | string
   gradeId?: Prisma.StringFilter<"Section"> | string
-  combinationId?: Prisma.StringNullableFilter<"Section"> | string | null
-  division?: Prisma.StringNullableFilter<"Section"> | string | null
   capacity?: Prisma.IntFilter<"Section"> | number
-  isActive?: Prisma.BoolFilter<"Section"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Section"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Section"> | Date | string
+  combinationId?: Prisma.StringNullableFilter<"Section"> | string | null
+  division?: Prisma.StringNullableFilter<"Section"> | string | null
+  isActive?: Prisma.BoolFilter<"Section"> | boolean
 }
 
 export type SectionCreateWithoutStudentsInput = {
   id?: string
   name: string
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
-  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
-  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherCreateNestedManyWithoutSectionInput
+  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutStudentsInput = {
@@ -744,13 +801,15 @@ export type SectionUncheckedCreateWithoutStudentsInput = {
   tenantId: string
   name: string
   gradeId: string
-  combinationId?: string | null
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutStudentsInput = {
@@ -772,15 +831,17 @@ export type SectionUpdateToOneWithWhereWithoutStudentsInput = {
 export type SectionUpdateWithoutStudentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
-  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
-  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUpdateManyWithoutSectionNestedInput
+  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutStudentsInput = {
@@ -788,41 +849,47 @@ export type SectionUncheckedUpdateWithoutStudentsInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   gradeId?: Prisma.StringFieldUpdateOperationsInput | string
-  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateWithoutGradeInput = {
   id?: string
   name: string
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
-  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
-  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherCreateNestedManyWithoutSectionInput
+  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
+  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutGradeInput = {
   id?: string
   tenantId: string
   name: string
-  combinationId?: string | null
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutGradeInput = {
@@ -854,15 +921,17 @@ export type SectionUpdateManyWithWhereWithoutGradeInput = {
 export type SectionCreateWithoutCombinationInput = {
   id?: string
   name: string
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
-  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
-  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherCreateNestedManyWithoutSectionInput
+  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
+  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutCombinationInput = {
@@ -870,13 +939,15 @@ export type SectionUncheckedCreateWithoutCombinationInput = {
   tenantId: string
   name: string
   gradeId: string
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutSectionInput
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutCombinationInput = {
@@ -908,15 +979,17 @@ export type SectionUpdateManyWithWhereWithoutCombinationInput = {
 export type SectionCreateWithoutClassesInput = {
   id?: string
   name: string
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
-  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutSectionInput
   combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutClassesInput = {
@@ -924,13 +997,15 @@ export type SectionUncheckedCreateWithoutClassesInput = {
   tenantId: string
   name: string
   gradeId: string
-  combinationId?: string | null
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutSectionInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutClassesInput = {
@@ -952,15 +1027,17 @@ export type SectionUpdateToOneWithWhereWithoutClassesInput = {
 export type SectionUpdateWithoutClassesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
-  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutSectionNestedInput
   combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutClassesInput = {
@@ -968,12 +1045,174 @@ export type SectionUncheckedUpdateWithoutClassesInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   gradeId?: Prisma.StringFieldUpdateOperationsInput | string
-  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutSectionNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
+}
+
+export type SectionCreateWithoutBookTransactionsInput = {
+  id?: string
+  name: string
+  capacity?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  division?: string | null
+  isActive?: boolean
+  classes?: Prisma.ClassTeacherCreateNestedManyWithoutSectionInput
+  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
+  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
+}
+
+export type SectionUncheckedCreateWithoutBookTransactionsInput = {
+  id?: string
+  tenantId: string
+  name: string
+  gradeId: string
+  capacity?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
+  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
+}
+
+export type SectionCreateOrConnectWithoutBookTransactionsInput = {
+  where: Prisma.SectionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SectionCreateWithoutBookTransactionsInput, Prisma.SectionUncheckedCreateWithoutBookTransactionsInput>
+}
+
+export type SectionUpsertWithoutBookTransactionsInput = {
+  update: Prisma.XOR<Prisma.SectionUpdateWithoutBookTransactionsInput, Prisma.SectionUncheckedUpdateWithoutBookTransactionsInput>
+  create: Prisma.XOR<Prisma.SectionCreateWithoutBookTransactionsInput, Prisma.SectionUncheckedCreateWithoutBookTransactionsInput>
+  where?: Prisma.SectionWhereInput
+}
+
+export type SectionUpdateToOneWithWhereWithoutBookTransactionsInput = {
+  where?: Prisma.SectionWhereInput
+  data: Prisma.XOR<Prisma.SectionUpdateWithoutBookTransactionsInput, Prisma.SectionUncheckedUpdateWithoutBookTransactionsInput>
+}
+
+export type SectionUpdateWithoutBookTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  classes?: Prisma.ClassTeacherUpdateManyWithoutSectionNestedInput
+  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
+  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
+}
+
+export type SectionUncheckedUpdateWithoutBookTransactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  gradeId?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
+}
+
+export type SectionCreateWithoutConversationsInput = {
+  id?: string
+  name: string
+  capacity?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutSectionInput
+  classes?: Prisma.ClassTeacherCreateNestedManyWithoutSectionInput
+  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
+  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+}
+
+export type SectionUncheckedCreateWithoutConversationsInput = {
+  id?: string
+  tenantId: string
+  name: string
+  gradeId: string
+  capacity?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutSectionInput
+  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+}
+
+export type SectionCreateOrConnectWithoutConversationsInput = {
+  where: Prisma.SectionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SectionCreateWithoutConversationsInput, Prisma.SectionUncheckedCreateWithoutConversationsInput>
+}
+
+export type SectionUpsertWithoutConversationsInput = {
+  update: Prisma.XOR<Prisma.SectionUpdateWithoutConversationsInput, Prisma.SectionUncheckedUpdateWithoutConversationsInput>
+  create: Prisma.XOR<Prisma.SectionCreateWithoutConversationsInput, Prisma.SectionUncheckedCreateWithoutConversationsInput>
+  where?: Prisma.SectionWhereInput
+}
+
+export type SectionUpdateToOneWithWhereWithoutConversationsInput = {
+  where?: Prisma.SectionWhereInput
+  data: Prisma.XOR<Prisma.SectionUpdateWithoutConversationsInput, Prisma.SectionUncheckedUpdateWithoutConversationsInput>
+}
+
+export type SectionUpdateWithoutConversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutSectionNestedInput
+  classes?: Prisma.ClassTeacherUpdateManyWithoutSectionNestedInput
+  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
+  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+}
+
+export type SectionUncheckedUpdateWithoutConversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  gradeId?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutSectionNestedInput
+  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
 }
 
@@ -981,104 +1220,112 @@ export type SectionCreateManyTenantInput = {
   id?: string
   name: string
   gradeId: string
-  combinationId?: string | null
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
 }
 
 export type SectionUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
-  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
-  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUpdateManyWithoutSectionNestedInput
+  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   gradeId?: Prisma.StringFieldUpdateOperationsInput | string
-  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   gradeId?: Prisma.StringFieldUpdateOperationsInput | string
-  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type SectionCreateManyGradeInput = {
   id?: string
   tenantId: string
   name: string
-  combinationId?: string | null
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
 }
 
 export type SectionUpdateWithoutGradeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
-  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
-  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUpdateManyWithoutSectionNestedInput
+  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
+  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutGradeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutGradeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type SectionCreateManyCombinationInput = {
@@ -1086,25 +1333,27 @@ export type SectionCreateManyCombinationInput = {
   tenantId: string
   name: string
   gradeId: string
-  division?: string | null
   capacity?: number
-  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  division?: string | null
+  isActive?: boolean
 }
 
 export type SectionUpdateWithoutCombinationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
-  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
-  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUpdateManyWithoutSectionNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
+  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutCombinationInput = {
@@ -1112,13 +1361,15 @@ export type SectionUncheckedUpdateWithoutCombinationInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   gradeId?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutSectionNestedInput
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutCombinationInput = {
@@ -1126,11 +1377,11 @@ export type SectionUncheckedUpdateManyWithoutCombinationInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   gradeId?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   capacity?: Prisma.IntFieldUpdateOperationsInput | number
-  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -1139,13 +1390,17 @@ export type SectionUncheckedUpdateManyWithoutCombinationInput = {
  */
 
 export type SectionCountOutputType = {
-  students: number
+  bookTransactions: number
   classes: number
+  students: number
+  conversations: number
 }
 
 export type SectionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  students?: boolean | SectionCountOutputTypeCountStudentsArgs
+  bookTransactions?: boolean | SectionCountOutputTypeCountBookTransactionsArgs
   classes?: boolean | SectionCountOutputTypeCountClassesArgs
+  students?: boolean | SectionCountOutputTypeCountStudentsArgs
+  conversations?: boolean | SectionCountOutputTypeCountConversationsArgs
 }
 
 /**
@@ -1161,8 +1416,8 @@ export type SectionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * SectionCountOutputType without action
  */
-export type SectionCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StudentWhereInput
+export type SectionCountOutputTypeCountBookTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookTransactionWhereInput
 }
 
 /**
@@ -1172,23 +1427,39 @@ export type SectionCountOutputTypeCountClassesArgs<ExtArgs extends runtime.Types
   where?: Prisma.ClassTeacherWhereInput
 }
 
+/**
+ * SectionCountOutputType without action
+ */
+export type SectionCountOutputTypeCountStudentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudentWhereInput
+}
+
+/**
+ * SectionCountOutputType without action
+ */
+export type SectionCountOutputTypeCountConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConversationWhereInput
+}
+
 
 export type SectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
   name?: boolean
   gradeId?: boolean
-  combinationId?: boolean
-  division?: boolean
   capacity?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
-  combination?: boolean | Prisma.Section$combinationArgs<ExtArgs>
-  students?: boolean | Prisma.Section$studentsArgs<ExtArgs>
+  combinationId?: boolean
+  division?: boolean
+  isActive?: boolean
+  bookTransactions?: boolean | Prisma.Section$bookTransactionsArgs<ExtArgs>
   classes?: boolean | Prisma.Section$classesArgs<ExtArgs>
+  combination?: boolean | Prisma.Section$combinationArgs<ExtArgs>
+  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  students?: boolean | Prisma.Section$studentsArgs<ExtArgs>
+  conversations?: boolean | Prisma.Section$conversationsArgs<ExtArgs>
   _count?: boolean | Prisma.SectionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["section"]>
 
@@ -1197,15 +1468,15 @@ export type SectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tenantId?: boolean
   name?: boolean
   gradeId?: boolean
-  combinationId?: boolean
-  division?: boolean
   capacity?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  combinationId?: boolean
+  division?: boolean
+  isActive?: boolean
   combination?: boolean | Prisma.Section$combinationArgs<ExtArgs>
+  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["section"]>
 
 export type SectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1213,15 +1484,15 @@ export type SectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tenantId?: boolean
   name?: boolean
   gradeId?: boolean
-  combinationId?: boolean
-  division?: boolean
   capacity?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  combinationId?: boolean
+  division?: boolean
+  isActive?: boolean
   combination?: boolean | Prisma.Section$combinationArgs<ExtArgs>
+  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["section"]>
 
 export type SectionSelectScalar = {
@@ -1229,54 +1500,58 @@ export type SectionSelectScalar = {
   tenantId?: boolean
   name?: boolean
   gradeId?: boolean
-  combinationId?: boolean
-  division?: boolean
   capacity?: boolean
-  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  combinationId?: boolean
+  division?: boolean
+  isActive?: boolean
 }
 
-export type SectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "gradeId" | "combinationId" | "division" | "capacity" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["section"]>
+export type SectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "gradeId" | "capacity" | "createdAt" | "updatedAt" | "combinationId" | "division" | "isActive", ExtArgs["result"]["section"]>
 export type SectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
-  combination?: boolean | Prisma.Section$combinationArgs<ExtArgs>
-  students?: boolean | Prisma.Section$studentsArgs<ExtArgs>
+  bookTransactions?: boolean | Prisma.Section$bookTransactionsArgs<ExtArgs>
   classes?: boolean | Prisma.Section$classesArgs<ExtArgs>
+  combination?: boolean | Prisma.Section$combinationArgs<ExtArgs>
+  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  students?: boolean | Prisma.Section$studentsArgs<ExtArgs>
+  conversations?: boolean | Prisma.Section$conversationsArgs<ExtArgs>
   _count?: boolean | Prisma.SectionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
   combination?: boolean | Prisma.Section$combinationArgs<ExtArgs>
+  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type SectionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
   combination?: boolean | Prisma.Section$combinationArgs<ExtArgs>
+  grade?: boolean | Prisma.GradeDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $SectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Section"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    grade: Prisma.$GradePayload<ExtArgs>
-    combination: Prisma.$CombinationPayload<ExtArgs> | null
-    students: Prisma.$StudentPayload<ExtArgs>[]
+    bookTransactions: Prisma.$BookTransactionPayload<ExtArgs>[]
     classes: Prisma.$ClassTeacherPayload<ExtArgs>[]
+    combination: Prisma.$CombinationPayload<ExtArgs> | null
+    grade: Prisma.$GradePayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
+    students: Prisma.$StudentPayload<ExtArgs>[]
+    conversations: Prisma.$ConversationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
     name: string
     gradeId: string
-    combinationId: string | null
-    division: string | null
     capacity: number
-    isActive: boolean
     createdAt: Date
     updatedAt: Date
+    combinationId: string | null
+    division: string | null
+    isActive: boolean
   }, ExtArgs["result"]["section"]>
   composites: {}
 }
@@ -1671,11 +1946,13 @@ readonly fields: SectionFieldRefs;
  */
 export interface Prisma__SectionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  grade<T extends Prisma.GradeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeDefaultArgs<ExtArgs>>): Prisma.Prisma__GradeClient<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  combination<T extends Prisma.Section$combinationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$combinationArgs<ExtArgs>>): Prisma.Prisma__CombinationClient<runtime.Types.Result.GetResult<Prisma.$CombinationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  students<T extends Prisma.Section$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookTransactions<T extends Prisma.Section$bookTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$bookTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   classes<T extends Prisma.Section$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  combination<T extends Prisma.Section$combinationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$combinationArgs<ExtArgs>>): Prisma.Prisma__CombinationClient<runtime.Types.Result.GetResult<Prisma.$CombinationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  grade<T extends Prisma.GradeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GradeDefaultArgs<ExtArgs>>): Prisma.Prisma__GradeClient<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  students<T extends Prisma.Section$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conversations<T extends Prisma.Section$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1709,12 +1986,12 @@ export interface SectionFieldRefs {
   readonly tenantId: Prisma.FieldRef<"Section", 'String'>
   readonly name: Prisma.FieldRef<"Section", 'String'>
   readonly gradeId: Prisma.FieldRef<"Section", 'String'>
-  readonly combinationId: Prisma.FieldRef<"Section", 'String'>
-  readonly division: Prisma.FieldRef<"Section", 'String'>
   readonly capacity: Prisma.FieldRef<"Section", 'Int'>
-  readonly isActive: Prisma.FieldRef<"Section", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Section", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Section", 'DateTime'>
+  readonly combinationId: Prisma.FieldRef<"Section", 'String'>
+  readonly division: Prisma.FieldRef<"Section", 'String'>
+  readonly isActive: Prisma.FieldRef<"Section", 'Boolean'>
 }
     
 
@@ -2111,6 +2388,54 @@ export type SectionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Section.bookTransactions
+ */
+export type Section$bookTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BookTransaction
+   */
+  select?: Prisma.BookTransactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BookTransaction
+   */
+  omit?: Prisma.BookTransactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookTransactionInclude<ExtArgs> | null
+  where?: Prisma.BookTransactionWhereInput
+  orderBy?: Prisma.BookTransactionOrderByWithRelationInput | Prisma.BookTransactionOrderByWithRelationInput[]
+  cursor?: Prisma.BookTransactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookTransactionScalarFieldEnum | Prisma.BookTransactionScalarFieldEnum[]
+}
+
+/**
+ * Section.classes
+ */
+export type Section$classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClassTeacher
+   */
+  select?: Prisma.ClassTeacherSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClassTeacher
+   */
+  omit?: Prisma.ClassTeacherOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClassTeacherInclude<ExtArgs> | null
+  where?: Prisma.ClassTeacherWhereInput
+  orderBy?: Prisma.ClassTeacherOrderByWithRelationInput | Prisma.ClassTeacherOrderByWithRelationInput[]
+  cursor?: Prisma.ClassTeacherWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClassTeacherScalarFieldEnum | Prisma.ClassTeacherScalarFieldEnum[]
+}
+
+/**
  * Section.combination
  */
 export type Section$combinationArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2154,27 +2479,27 @@ export type Section$studentsArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Section.classes
+ * Section.conversations
  */
-export type Section$classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Section$conversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ClassTeacher
+   * Select specific fields to fetch from the Conversation
    */
-  select?: Prisma.ClassTeacherSelect<ExtArgs> | null
+  select?: Prisma.ConversationSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ClassTeacher
+   * Omit specific fields from the Conversation
    */
-  omit?: Prisma.ClassTeacherOmit<ExtArgs> | null
+  omit?: Prisma.ConversationOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ClassTeacherInclude<ExtArgs> | null
-  where?: Prisma.ClassTeacherWhereInput
-  orderBy?: Prisma.ClassTeacherOrderByWithRelationInput | Prisma.ClassTeacherOrderByWithRelationInput[]
-  cursor?: Prisma.ClassTeacherWhereUniqueInput
+  include?: Prisma.ConversationInclude<ExtArgs> | null
+  where?: Prisma.ConversationWhereInput
+  orderBy?: Prisma.ConversationOrderByWithRelationInput | Prisma.ConversationOrderByWithRelationInput[]
+  cursor?: Prisma.ConversationWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ClassTeacherScalarFieldEnum | Prisma.ClassTeacherScalarFieldEnum[]
+  distinct?: Prisma.ConversationScalarFieldEnum | Prisma.ConversationScalarFieldEnum[]
 }
 
 /**

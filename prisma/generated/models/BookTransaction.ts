@@ -46,6 +46,8 @@ export type BookTransactionMinAggregateOutputType = {
   remarks: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  bookCopyId: string | null
+  sectionId: string | null
 }
 
 export type BookTransactionMaxAggregateOutputType = {
@@ -60,6 +62,8 @@ export type BookTransactionMaxAggregateOutputType = {
   remarks: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  bookCopyId: string | null
+  sectionId: string | null
 }
 
 export type BookTransactionCountAggregateOutputType = {
@@ -74,6 +78,8 @@ export type BookTransactionCountAggregateOutputType = {
   remarks: number
   createdAt: number
   updatedAt: number
+  bookCopyId: number
+  sectionId: number
   _all: number
 }
 
@@ -98,6 +104,8 @@ export type BookTransactionMinAggregateInputType = {
   remarks?: true
   createdAt?: true
   updatedAt?: true
+  bookCopyId?: true
+  sectionId?: true
 }
 
 export type BookTransactionMaxAggregateInputType = {
@@ -112,6 +120,8 @@ export type BookTransactionMaxAggregateInputType = {
   remarks?: true
   createdAt?: true
   updatedAt?: true
+  bookCopyId?: true
+  sectionId?: true
 }
 
 export type BookTransactionCountAggregateInputType = {
@@ -126,6 +136,8 @@ export type BookTransactionCountAggregateInputType = {
   remarks?: true
   createdAt?: true
   updatedAt?: true
+  bookCopyId?: true
+  sectionId?: true
   _all?: true
 }
 
@@ -219,7 +231,7 @@ export type BookTransactionGroupByOutputType = {
   id: string
   tenantId: string
   bookId: string
-  studentId: string
+  studentId: string | null
   issueDate: Date
   dueDate: Date
   returnDate: Date | null
@@ -227,6 +239,8 @@ export type BookTransactionGroupByOutputType = {
   remarks: string | null
   createdAt: Date
   updatedAt: Date
+  bookCopyId: string | null
+  sectionId: string | null
   _count: BookTransactionCountAggregateOutputType | null
   _avg: BookTransactionAvgAggregateOutputType | null
   _sum: BookTransactionSumAggregateOutputType | null
@@ -256,7 +270,7 @@ export type BookTransactionWhereInput = {
   id?: Prisma.StringFilter<"BookTransaction"> | string
   tenantId?: Prisma.StringFilter<"BookTransaction"> | string
   bookId?: Prisma.StringFilter<"BookTransaction"> | string
-  studentId?: Prisma.StringFilter<"BookTransaction"> | string
+  studentId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
   issueDate?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   dueDate?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   returnDate?: Prisma.DateTimeNullableFilter<"BookTransaction"> | Date | string | null
@@ -264,16 +278,20 @@ export type BookTransactionWhereInput = {
   remarks?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  bookCopyId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
+  sectionId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
+  bookCopy?: Prisma.XOR<Prisma.BookCopyNullableScalarRelationFilter, Prisma.BookCopyWhereInput> | null
   book?: Prisma.XOR<Prisma.BookScalarRelationFilter, Prisma.BookWhereInput>
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  section?: Prisma.XOR<Prisma.SectionNullableScalarRelationFilter, Prisma.SectionWhereInput> | null
+  student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type BookTransactionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrderInput | Prisma.SortOrder
   issueDate?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -281,9 +299,13 @@ export type BookTransactionOrderByWithRelationInput = {
   remarks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
+  bookCopyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sectionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  bookCopy?: Prisma.BookCopyOrderByWithRelationInput
   book?: Prisma.BookOrderByWithRelationInput
+  section?: Prisma.SectionOrderByWithRelationInput
   student?: Prisma.StudentOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type BookTransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -293,7 +315,7 @@ export type BookTransactionWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BookTransactionWhereInput | Prisma.BookTransactionWhereInput[]
   tenantId?: Prisma.StringFilter<"BookTransaction"> | string
   bookId?: Prisma.StringFilter<"BookTransaction"> | string
-  studentId?: Prisma.StringFilter<"BookTransaction"> | string
+  studentId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
   issueDate?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   dueDate?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   returnDate?: Prisma.DateTimeNullableFilter<"BookTransaction"> | Date | string | null
@@ -301,16 +323,20 @@ export type BookTransactionWhereUniqueInput = Prisma.AtLeast<{
   remarks?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
+  bookCopyId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
+  sectionId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
+  bookCopy?: Prisma.XOR<Prisma.BookCopyNullableScalarRelationFilter, Prisma.BookCopyWhereInput> | null
   book?: Prisma.XOR<Prisma.BookScalarRelationFilter, Prisma.BookWhereInput>
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  section?: Prisma.XOR<Prisma.SectionNullableScalarRelationFilter, Prisma.SectionWhereInput> | null
+  student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type BookTransactionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   bookId?: Prisma.SortOrder
-  studentId?: Prisma.SortOrder
+  studentId?: Prisma.SortOrderInput | Prisma.SortOrder
   issueDate?: Prisma.SortOrder
   dueDate?: Prisma.SortOrder
   returnDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -318,6 +344,8 @@ export type BookTransactionOrderByWithAggregationInput = {
   remarks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  bookCopyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sectionId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.BookTransactionCountOrderByAggregateInput
   _avg?: Prisma.BookTransactionAvgOrderByAggregateInput
   _max?: Prisma.BookTransactionMaxOrderByAggregateInput
@@ -332,7 +360,7 @@ export type BookTransactionScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"BookTransaction"> | string
   tenantId?: Prisma.StringWithAggregatesFilter<"BookTransaction"> | string
   bookId?: Prisma.StringWithAggregatesFilter<"BookTransaction"> | string
-  studentId?: Prisma.StringWithAggregatesFilter<"BookTransaction"> | string
+  studentId?: Prisma.StringNullableWithAggregatesFilter<"BookTransaction"> | string | null
   issueDate?: Prisma.DateTimeWithAggregatesFilter<"BookTransaction"> | Date | string
   dueDate?: Prisma.DateTimeWithAggregatesFilter<"BookTransaction"> | Date | string
   returnDate?: Prisma.DateTimeNullableWithAggregatesFilter<"BookTransaction"> | Date | string | null
@@ -340,6 +368,8 @@ export type BookTransactionScalarWhereWithAggregatesInput = {
   remarks?: Prisma.StringNullableWithAggregatesFilter<"BookTransaction"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BookTransaction"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BookTransaction"> | Date | string
+  bookCopyId?: Prisma.StringNullableWithAggregatesFilter<"BookTransaction"> | string | null
+  sectionId?: Prisma.StringNullableWithAggregatesFilter<"BookTransaction"> | string | null
 }
 
 export type BookTransactionCreateInput = {
@@ -351,16 +381,18 @@ export type BookTransactionCreateInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutBookTransactionsInput
+  bookCopy?: Prisma.BookCopyCreateNestedOneWithoutTransactionsInput
   book: Prisma.BookCreateNestedOneWithoutTransactionsInput
-  student: Prisma.StudentCreateNestedOneWithoutBorrowedBooksInput
+  section?: Prisma.SectionCreateNestedOneWithoutBookTransactionsInput
+  student?: Prisma.StudentCreateNestedOneWithoutBorrowedBooksInput
+  tenant: Prisma.TenantCreateNestedOneWithoutBookTransactionsInput
 }
 
 export type BookTransactionUncheckedCreateInput = {
   id?: string
   tenantId: string
   bookId: string
-  studentId: string
+  studentId?: string | null
   issueDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -368,6 +400,8 @@ export type BookTransactionUncheckedCreateInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopyId?: string | null
+  sectionId?: string | null
 }
 
 export type BookTransactionUpdateInput = {
@@ -379,16 +413,18 @@ export type BookTransactionUpdateInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutBookTransactionsNestedInput
+  bookCopy?: Prisma.BookCopyUpdateOneWithoutTransactionsNestedInput
   book?: Prisma.BookUpdateOneRequiredWithoutTransactionsNestedInput
-  student?: Prisma.StudentUpdateOneRequiredWithoutBorrowedBooksNestedInput
+  section?: Prisma.SectionUpdateOneWithoutBookTransactionsNestedInput
+  student?: Prisma.StudentUpdateOneWithoutBorrowedBooksNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutBookTransactionsNestedInput
 }
 
 export type BookTransactionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -396,13 +432,15 @@ export type BookTransactionUncheckedUpdateInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BookTransactionCreateManyInput = {
   id?: string
   tenantId: string
   bookId: string
-  studentId: string
+  studentId?: string | null
   issueDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -410,6 +448,8 @@ export type BookTransactionCreateManyInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopyId?: string | null
+  sectionId?: string | null
 }
 
 export type BookTransactionUpdateManyMutationInput = {
@@ -427,7 +467,7 @@ export type BookTransactionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -435,6 +475,8 @@ export type BookTransactionUncheckedUpdateManyInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BookTransactionListRelationFilter = {
@@ -459,6 +501,8 @@ export type BookTransactionCountOrderByAggregateInput = {
   remarks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  bookCopyId?: Prisma.SortOrder
+  sectionId?: Prisma.SortOrder
 }
 
 export type BookTransactionAvgOrderByAggregateInput = {
@@ -477,6 +521,8 @@ export type BookTransactionMaxOrderByAggregateInput = {
   remarks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  bookCopyId?: Prisma.SortOrder
+  sectionId?: Prisma.SortOrder
 }
 
 export type BookTransactionMinOrderByAggregateInput = {
@@ -491,6 +537,8 @@ export type BookTransactionMinOrderByAggregateInput = {
   remarks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  bookCopyId?: Prisma.SortOrder
+  sectionId?: Prisma.SortOrder
 }
 
 export type BookTransactionSumOrderByAggregateInput = {
@@ -581,6 +629,48 @@ export type BookTransactionUncheckedUpdateManyWithoutStudentNestedInput = {
   deleteMany?: Prisma.BookTransactionScalarWhereInput | Prisma.BookTransactionScalarWhereInput[]
 }
 
+export type BookTransactionCreateNestedManyWithoutSectionInput = {
+  create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutSectionInput, Prisma.BookTransactionUncheckedCreateWithoutSectionInput> | Prisma.BookTransactionCreateWithoutSectionInput[] | Prisma.BookTransactionUncheckedCreateWithoutSectionInput[]
+  connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutSectionInput | Prisma.BookTransactionCreateOrConnectWithoutSectionInput[]
+  createMany?: Prisma.BookTransactionCreateManySectionInputEnvelope
+  connect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+}
+
+export type BookTransactionUncheckedCreateNestedManyWithoutSectionInput = {
+  create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutSectionInput, Prisma.BookTransactionUncheckedCreateWithoutSectionInput> | Prisma.BookTransactionCreateWithoutSectionInput[] | Prisma.BookTransactionUncheckedCreateWithoutSectionInput[]
+  connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutSectionInput | Prisma.BookTransactionCreateOrConnectWithoutSectionInput[]
+  createMany?: Prisma.BookTransactionCreateManySectionInputEnvelope
+  connect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+}
+
+export type BookTransactionUpdateManyWithoutSectionNestedInput = {
+  create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutSectionInput, Prisma.BookTransactionUncheckedCreateWithoutSectionInput> | Prisma.BookTransactionCreateWithoutSectionInput[] | Prisma.BookTransactionUncheckedCreateWithoutSectionInput[]
+  connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutSectionInput | Prisma.BookTransactionCreateOrConnectWithoutSectionInput[]
+  upsert?: Prisma.BookTransactionUpsertWithWhereUniqueWithoutSectionInput | Prisma.BookTransactionUpsertWithWhereUniqueWithoutSectionInput[]
+  createMany?: Prisma.BookTransactionCreateManySectionInputEnvelope
+  set?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  disconnect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  delete?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  connect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  update?: Prisma.BookTransactionUpdateWithWhereUniqueWithoutSectionInput | Prisma.BookTransactionUpdateWithWhereUniqueWithoutSectionInput[]
+  updateMany?: Prisma.BookTransactionUpdateManyWithWhereWithoutSectionInput | Prisma.BookTransactionUpdateManyWithWhereWithoutSectionInput[]
+  deleteMany?: Prisma.BookTransactionScalarWhereInput | Prisma.BookTransactionScalarWhereInput[]
+}
+
+export type BookTransactionUncheckedUpdateManyWithoutSectionNestedInput = {
+  create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutSectionInput, Prisma.BookTransactionUncheckedCreateWithoutSectionInput> | Prisma.BookTransactionCreateWithoutSectionInput[] | Prisma.BookTransactionUncheckedCreateWithoutSectionInput[]
+  connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutSectionInput | Prisma.BookTransactionCreateOrConnectWithoutSectionInput[]
+  upsert?: Prisma.BookTransactionUpsertWithWhereUniqueWithoutSectionInput | Prisma.BookTransactionUpsertWithWhereUniqueWithoutSectionInput[]
+  createMany?: Prisma.BookTransactionCreateManySectionInputEnvelope
+  set?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  disconnect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  delete?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  connect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  update?: Prisma.BookTransactionUpdateWithWhereUniqueWithoutSectionInput | Prisma.BookTransactionUpdateWithWhereUniqueWithoutSectionInput[]
+  updateMany?: Prisma.BookTransactionUpdateManyWithWhereWithoutSectionInput | Prisma.BookTransactionUpdateManyWithWhereWithoutSectionInput[]
+  deleteMany?: Prisma.BookTransactionScalarWhereInput | Prisma.BookTransactionScalarWhereInput[]
+}
+
 export type BookTransactionCreateNestedManyWithoutBookInput = {
   create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutBookInput, Prisma.BookTransactionUncheckedCreateWithoutBookInput> | Prisma.BookTransactionCreateWithoutBookInput[] | Prisma.BookTransactionUncheckedCreateWithoutBookInput[]
   connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutBookInput | Prisma.BookTransactionCreateOrConnectWithoutBookInput[]
@@ -623,6 +713,48 @@ export type BookTransactionUncheckedUpdateManyWithoutBookNestedInput = {
   deleteMany?: Prisma.BookTransactionScalarWhereInput | Prisma.BookTransactionScalarWhereInput[]
 }
 
+export type BookTransactionCreateNestedManyWithoutBookCopyInput = {
+  create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutBookCopyInput, Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput> | Prisma.BookTransactionCreateWithoutBookCopyInput[] | Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput[]
+  connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutBookCopyInput | Prisma.BookTransactionCreateOrConnectWithoutBookCopyInput[]
+  createMany?: Prisma.BookTransactionCreateManyBookCopyInputEnvelope
+  connect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+}
+
+export type BookTransactionUncheckedCreateNestedManyWithoutBookCopyInput = {
+  create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutBookCopyInput, Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput> | Prisma.BookTransactionCreateWithoutBookCopyInput[] | Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput[]
+  connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutBookCopyInput | Prisma.BookTransactionCreateOrConnectWithoutBookCopyInput[]
+  createMany?: Prisma.BookTransactionCreateManyBookCopyInputEnvelope
+  connect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+}
+
+export type BookTransactionUpdateManyWithoutBookCopyNestedInput = {
+  create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutBookCopyInput, Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput> | Prisma.BookTransactionCreateWithoutBookCopyInput[] | Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput[]
+  connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutBookCopyInput | Prisma.BookTransactionCreateOrConnectWithoutBookCopyInput[]
+  upsert?: Prisma.BookTransactionUpsertWithWhereUniqueWithoutBookCopyInput | Prisma.BookTransactionUpsertWithWhereUniqueWithoutBookCopyInput[]
+  createMany?: Prisma.BookTransactionCreateManyBookCopyInputEnvelope
+  set?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  disconnect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  delete?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  connect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  update?: Prisma.BookTransactionUpdateWithWhereUniqueWithoutBookCopyInput | Prisma.BookTransactionUpdateWithWhereUniqueWithoutBookCopyInput[]
+  updateMany?: Prisma.BookTransactionUpdateManyWithWhereWithoutBookCopyInput | Prisma.BookTransactionUpdateManyWithWhereWithoutBookCopyInput[]
+  deleteMany?: Prisma.BookTransactionScalarWhereInput | Prisma.BookTransactionScalarWhereInput[]
+}
+
+export type BookTransactionUncheckedUpdateManyWithoutBookCopyNestedInput = {
+  create?: Prisma.XOR<Prisma.BookTransactionCreateWithoutBookCopyInput, Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput> | Prisma.BookTransactionCreateWithoutBookCopyInput[] | Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput[]
+  connectOrCreate?: Prisma.BookTransactionCreateOrConnectWithoutBookCopyInput | Prisma.BookTransactionCreateOrConnectWithoutBookCopyInput[]
+  upsert?: Prisma.BookTransactionUpsertWithWhereUniqueWithoutBookCopyInput | Prisma.BookTransactionUpsertWithWhereUniqueWithoutBookCopyInput[]
+  createMany?: Prisma.BookTransactionCreateManyBookCopyInputEnvelope
+  set?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  disconnect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  delete?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  connect?: Prisma.BookTransactionWhereUniqueInput | Prisma.BookTransactionWhereUniqueInput[]
+  update?: Prisma.BookTransactionUpdateWithWhereUniqueWithoutBookCopyInput | Prisma.BookTransactionUpdateWithWhereUniqueWithoutBookCopyInput[]
+  updateMany?: Prisma.BookTransactionUpdateManyWithWhereWithoutBookCopyInput | Prisma.BookTransactionUpdateManyWithWhereWithoutBookCopyInput[]
+  deleteMany?: Prisma.BookTransactionScalarWhereInput | Prisma.BookTransactionScalarWhereInput[]
+}
+
 export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -640,14 +772,16 @@ export type BookTransactionCreateWithoutTenantInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopy?: Prisma.BookCopyCreateNestedOneWithoutTransactionsInput
   book: Prisma.BookCreateNestedOneWithoutTransactionsInput
-  student: Prisma.StudentCreateNestedOneWithoutBorrowedBooksInput
+  section?: Prisma.SectionCreateNestedOneWithoutBookTransactionsInput
+  student?: Prisma.StudentCreateNestedOneWithoutBorrowedBooksInput
 }
 
 export type BookTransactionUncheckedCreateWithoutTenantInput = {
   id?: string
   bookId: string
-  studentId: string
+  studentId?: string | null
   issueDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -655,6 +789,8 @@ export type BookTransactionUncheckedCreateWithoutTenantInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopyId?: string | null
+  sectionId?: string | null
 }
 
 export type BookTransactionCreateOrConnectWithoutTenantInput = {
@@ -690,7 +826,7 @@ export type BookTransactionScalarWhereInput = {
   id?: Prisma.StringFilter<"BookTransaction"> | string
   tenantId?: Prisma.StringFilter<"BookTransaction"> | string
   bookId?: Prisma.StringFilter<"BookTransaction"> | string
-  studentId?: Prisma.StringFilter<"BookTransaction"> | string
+  studentId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
   issueDate?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   dueDate?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   returnDate?: Prisma.DateTimeNullableFilter<"BookTransaction"> | Date | string | null
@@ -698,6 +834,8 @@ export type BookTransactionScalarWhereInput = {
   remarks?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BookTransaction"> | Date | string
+  bookCopyId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
+  sectionId?: Prisma.StringNullableFilter<"BookTransaction"> | string | null
 }
 
 export type BookTransactionCreateWithoutStudentInput = {
@@ -709,8 +847,10 @@ export type BookTransactionCreateWithoutStudentInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutBookTransactionsInput
+  bookCopy?: Prisma.BookCopyCreateNestedOneWithoutTransactionsInput
   book: Prisma.BookCreateNestedOneWithoutTransactionsInput
+  section?: Prisma.SectionCreateNestedOneWithoutBookTransactionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutBookTransactionsInput
 }
 
 export type BookTransactionUncheckedCreateWithoutStudentInput = {
@@ -724,6 +864,8 @@ export type BookTransactionUncheckedCreateWithoutStudentInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopyId?: string | null
+  sectionId?: string | null
 }
 
 export type BookTransactionCreateOrConnectWithoutStudentInput = {
@@ -752,6 +894,62 @@ export type BookTransactionUpdateManyWithWhereWithoutStudentInput = {
   data: Prisma.XOR<Prisma.BookTransactionUpdateManyMutationInput, Prisma.BookTransactionUncheckedUpdateManyWithoutStudentInput>
 }
 
+export type BookTransactionCreateWithoutSectionInput = {
+  id?: string
+  issueDate?: Date | string
+  dueDate: Date | string
+  returnDate?: Date | string | null
+  fine?: number | null
+  remarks?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bookCopy?: Prisma.BookCopyCreateNestedOneWithoutTransactionsInput
+  book: Prisma.BookCreateNestedOneWithoutTransactionsInput
+  student?: Prisma.StudentCreateNestedOneWithoutBorrowedBooksInput
+  tenant: Prisma.TenantCreateNestedOneWithoutBookTransactionsInput
+}
+
+export type BookTransactionUncheckedCreateWithoutSectionInput = {
+  id?: string
+  tenantId: string
+  bookId: string
+  studentId?: string | null
+  issueDate?: Date | string
+  dueDate: Date | string
+  returnDate?: Date | string | null
+  fine?: number | null
+  remarks?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bookCopyId?: string | null
+}
+
+export type BookTransactionCreateOrConnectWithoutSectionInput = {
+  where: Prisma.BookTransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookTransactionCreateWithoutSectionInput, Prisma.BookTransactionUncheckedCreateWithoutSectionInput>
+}
+
+export type BookTransactionCreateManySectionInputEnvelope = {
+  data: Prisma.BookTransactionCreateManySectionInput | Prisma.BookTransactionCreateManySectionInput[]
+  skipDuplicates?: boolean
+}
+
+export type BookTransactionUpsertWithWhereUniqueWithoutSectionInput = {
+  where: Prisma.BookTransactionWhereUniqueInput
+  update: Prisma.XOR<Prisma.BookTransactionUpdateWithoutSectionInput, Prisma.BookTransactionUncheckedUpdateWithoutSectionInput>
+  create: Prisma.XOR<Prisma.BookTransactionCreateWithoutSectionInput, Prisma.BookTransactionUncheckedCreateWithoutSectionInput>
+}
+
+export type BookTransactionUpdateWithWhereUniqueWithoutSectionInput = {
+  where: Prisma.BookTransactionWhereUniqueInput
+  data: Prisma.XOR<Prisma.BookTransactionUpdateWithoutSectionInput, Prisma.BookTransactionUncheckedUpdateWithoutSectionInput>
+}
+
+export type BookTransactionUpdateManyWithWhereWithoutSectionInput = {
+  where: Prisma.BookTransactionScalarWhereInput
+  data: Prisma.XOR<Prisma.BookTransactionUpdateManyMutationInput, Prisma.BookTransactionUncheckedUpdateManyWithoutSectionInput>
+}
+
 export type BookTransactionCreateWithoutBookInput = {
   id?: string
   issueDate?: Date | string
@@ -761,14 +959,16 @@ export type BookTransactionCreateWithoutBookInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopy?: Prisma.BookCopyCreateNestedOneWithoutTransactionsInput
+  section?: Prisma.SectionCreateNestedOneWithoutBookTransactionsInput
+  student?: Prisma.StudentCreateNestedOneWithoutBorrowedBooksInput
   tenant: Prisma.TenantCreateNestedOneWithoutBookTransactionsInput
-  student: Prisma.StudentCreateNestedOneWithoutBorrowedBooksInput
 }
 
 export type BookTransactionUncheckedCreateWithoutBookInput = {
   id?: string
   tenantId: string
-  studentId: string
+  studentId?: string | null
   issueDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -776,6 +976,8 @@ export type BookTransactionUncheckedCreateWithoutBookInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopyId?: string | null
+  sectionId?: string | null
 }
 
 export type BookTransactionCreateOrConnectWithoutBookInput = {
@@ -804,10 +1006,8 @@ export type BookTransactionUpdateManyWithWhereWithoutBookInput = {
   data: Prisma.XOR<Prisma.BookTransactionUpdateManyMutationInput, Prisma.BookTransactionUncheckedUpdateManyWithoutBookInput>
 }
 
-export type BookTransactionCreateManyTenantInput = {
+export type BookTransactionCreateWithoutBookCopyInput = {
   id?: string
-  bookId: string
-  studentId: string
   issueDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -815,6 +1015,66 @@ export type BookTransactionCreateManyTenantInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  book: Prisma.BookCreateNestedOneWithoutTransactionsInput
+  section?: Prisma.SectionCreateNestedOneWithoutBookTransactionsInput
+  student?: Prisma.StudentCreateNestedOneWithoutBorrowedBooksInput
+  tenant: Prisma.TenantCreateNestedOneWithoutBookTransactionsInput
+}
+
+export type BookTransactionUncheckedCreateWithoutBookCopyInput = {
+  id?: string
+  tenantId: string
+  bookId: string
+  studentId?: string | null
+  issueDate?: Date | string
+  dueDate: Date | string
+  returnDate?: Date | string | null
+  fine?: number | null
+  remarks?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sectionId?: string | null
+}
+
+export type BookTransactionCreateOrConnectWithoutBookCopyInput = {
+  where: Prisma.BookTransactionWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookTransactionCreateWithoutBookCopyInput, Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput>
+}
+
+export type BookTransactionCreateManyBookCopyInputEnvelope = {
+  data: Prisma.BookTransactionCreateManyBookCopyInput | Prisma.BookTransactionCreateManyBookCopyInput[]
+  skipDuplicates?: boolean
+}
+
+export type BookTransactionUpsertWithWhereUniqueWithoutBookCopyInput = {
+  where: Prisma.BookTransactionWhereUniqueInput
+  update: Prisma.XOR<Prisma.BookTransactionUpdateWithoutBookCopyInput, Prisma.BookTransactionUncheckedUpdateWithoutBookCopyInput>
+  create: Prisma.XOR<Prisma.BookTransactionCreateWithoutBookCopyInput, Prisma.BookTransactionUncheckedCreateWithoutBookCopyInput>
+}
+
+export type BookTransactionUpdateWithWhereUniqueWithoutBookCopyInput = {
+  where: Prisma.BookTransactionWhereUniqueInput
+  data: Prisma.XOR<Prisma.BookTransactionUpdateWithoutBookCopyInput, Prisma.BookTransactionUncheckedUpdateWithoutBookCopyInput>
+}
+
+export type BookTransactionUpdateManyWithWhereWithoutBookCopyInput = {
+  where: Prisma.BookTransactionScalarWhereInput
+  data: Prisma.XOR<Prisma.BookTransactionUpdateManyMutationInput, Prisma.BookTransactionUncheckedUpdateManyWithoutBookCopyInput>
+}
+
+export type BookTransactionCreateManyTenantInput = {
+  id?: string
+  bookId: string
+  studentId?: string | null
+  issueDate?: Date | string
+  dueDate: Date | string
+  returnDate?: Date | string | null
+  fine?: number | null
+  remarks?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bookCopyId?: string | null
+  sectionId?: string | null
 }
 
 export type BookTransactionUpdateWithoutTenantInput = {
@@ -826,14 +1086,16 @@ export type BookTransactionUpdateWithoutTenantInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopy?: Prisma.BookCopyUpdateOneWithoutTransactionsNestedInput
   book?: Prisma.BookUpdateOneRequiredWithoutTransactionsNestedInput
-  student?: Prisma.StudentUpdateOneRequiredWithoutBorrowedBooksNestedInput
+  section?: Prisma.SectionUpdateOneWithoutBookTransactionsNestedInput
+  student?: Prisma.StudentUpdateOneWithoutBorrowedBooksNestedInput
 }
 
 export type BookTransactionUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -841,12 +1103,14 @@ export type BookTransactionUncheckedUpdateWithoutTenantInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BookTransactionUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   bookId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -854,6 +1118,8 @@ export type BookTransactionUncheckedUpdateManyWithoutTenantInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BookTransactionCreateManyStudentInput = {
@@ -867,6 +1133,8 @@ export type BookTransactionCreateManyStudentInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopyId?: string | null
+  sectionId?: string | null
 }
 
 export type BookTransactionUpdateWithoutStudentInput = {
@@ -878,8 +1146,10 @@ export type BookTransactionUpdateWithoutStudentInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutBookTransactionsNestedInput
+  bookCopy?: Prisma.BookCopyUpdateOneWithoutTransactionsNestedInput
   book?: Prisma.BookUpdateOneRequiredWithoutTransactionsNestedInput
+  section?: Prisma.SectionUpdateOneWithoutBookTransactionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutBookTransactionsNestedInput
 }
 
 export type BookTransactionUncheckedUpdateWithoutStudentInput = {
@@ -893,6 +1163,8 @@ export type BookTransactionUncheckedUpdateWithoutStudentInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BookTransactionUncheckedUpdateManyWithoutStudentInput = {
@@ -906,12 +1178,15 @@ export type BookTransactionUncheckedUpdateManyWithoutStudentInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type BookTransactionCreateManyBookInput = {
+export type BookTransactionCreateManySectionInput = {
   id?: string
   tenantId: string
-  studentId: string
+  bookId: string
+  studentId?: string | null
   issueDate?: Date | string
   dueDate: Date | string
   returnDate?: Date | string | null
@@ -919,6 +1194,67 @@ export type BookTransactionCreateManyBookInput = {
   remarks?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  bookCopyId?: string | null
+}
+
+export type BookTransactionUpdateWithoutSectionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fine?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopy?: Prisma.BookCopyUpdateOneWithoutTransactionsNestedInput
+  book?: Prisma.BookUpdateOneRequiredWithoutTransactionsNestedInput
+  student?: Prisma.StudentUpdateOneWithoutBorrowedBooksNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutBookTransactionsNestedInput
+}
+
+export type BookTransactionUncheckedUpdateWithoutSectionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  bookId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fine?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type BookTransactionUncheckedUpdateManyWithoutSectionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  bookId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fine?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type BookTransactionCreateManyBookInput = {
+  id?: string
+  tenantId: string
+  studentId?: string | null
+  issueDate?: Date | string
+  dueDate: Date | string
+  returnDate?: Date | string | null
+  fine?: number | null
+  remarks?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  bookCopyId?: string | null
+  sectionId?: string | null
 }
 
 export type BookTransactionUpdateWithoutBookInput = {
@@ -930,14 +1266,16 @@ export type BookTransactionUpdateWithoutBookInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopy?: Prisma.BookCopyUpdateOneWithoutTransactionsNestedInput
+  section?: Prisma.SectionUpdateOneWithoutBookTransactionsNestedInput
+  student?: Prisma.StudentUpdateOneWithoutBorrowedBooksNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutBookTransactionsNestedInput
-  student?: Prisma.StudentUpdateOneRequiredWithoutBorrowedBooksNestedInput
 }
 
 export type BookTransactionUncheckedUpdateWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -945,12 +1283,14 @@ export type BookTransactionUncheckedUpdateWithoutBookInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BookTransactionUncheckedUpdateManyWithoutBookInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  studentId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -958,6 +1298,68 @@ export type BookTransactionUncheckedUpdateManyWithoutBookInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookCopyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type BookTransactionCreateManyBookCopyInput = {
+  id?: string
+  tenantId: string
+  bookId: string
+  studentId?: string | null
+  issueDate?: Date | string
+  dueDate: Date | string
+  returnDate?: Date | string | null
+  fine?: number | null
+  remarks?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sectionId?: string | null
+}
+
+export type BookTransactionUpdateWithoutBookCopyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fine?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  book?: Prisma.BookUpdateOneRequiredWithoutTransactionsNestedInput
+  section?: Prisma.SectionUpdateOneWithoutBookTransactionsNestedInput
+  student?: Prisma.StudentUpdateOneWithoutBorrowedBooksNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutBookTransactionsNestedInput
+}
+
+export type BookTransactionUncheckedUpdateWithoutBookCopyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  bookId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fine?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type BookTransactionUncheckedUpdateManyWithoutBookCopyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  bookId?: Prisma.StringFieldUpdateOperationsInput | string
+  studentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  issueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  dueDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  returnDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  fine?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sectionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -974,9 +1376,13 @@ export type BookTransactionSelect<ExtArgs extends runtime.Types.Extensions.Inter
   remarks?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  bookCopyId?: boolean
+  sectionId?: boolean
+  bookCopy?: boolean | Prisma.BookTransaction$bookCopyArgs<ExtArgs>
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  section?: boolean | Prisma.BookTransaction$sectionArgs<ExtArgs>
+  student?: boolean | Prisma.BookTransaction$studentArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bookTransaction"]>
 
 export type BookTransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -991,9 +1397,13 @@ export type BookTransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   remarks?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  bookCopyId?: boolean
+  sectionId?: boolean
+  bookCopy?: boolean | Prisma.BookTransaction$bookCopyArgs<ExtArgs>
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  section?: boolean | Prisma.BookTransaction$sectionArgs<ExtArgs>
+  student?: boolean | Prisma.BookTransaction$studentArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bookTransaction"]>
 
 export type BookTransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1008,9 +1418,13 @@ export type BookTransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   remarks?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  bookCopyId?: boolean
+  sectionId?: boolean
+  bookCopy?: boolean | Prisma.BookTransaction$bookCopyArgs<ExtArgs>
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  section?: boolean | Prisma.BookTransaction$sectionArgs<ExtArgs>
+  student?: boolean | Prisma.BookTransaction$studentArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bookTransaction"]>
 
 export type BookTransactionSelectScalar = {
@@ -1025,37 +1439,47 @@ export type BookTransactionSelectScalar = {
   remarks?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  bookCopyId?: boolean
+  sectionId?: boolean
 }
 
-export type BookTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "bookId" | "studentId" | "issueDate" | "dueDate" | "returnDate" | "fine" | "remarks" | "createdAt" | "updatedAt", ExtArgs["result"]["bookTransaction"]>
+export type BookTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "bookId" | "studentId" | "issueDate" | "dueDate" | "returnDate" | "fine" | "remarks" | "createdAt" | "updatedAt" | "bookCopyId" | "sectionId", ExtArgs["result"]["bookTransaction"]>
 export type BookTransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  bookCopy?: boolean | Prisma.BookTransaction$bookCopyArgs<ExtArgs>
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  section?: boolean | Prisma.BookTransaction$sectionArgs<ExtArgs>
+  student?: boolean | Prisma.BookTransaction$studentArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type BookTransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  bookCopy?: boolean | Prisma.BookTransaction$bookCopyArgs<ExtArgs>
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  section?: boolean | Prisma.BookTransaction$sectionArgs<ExtArgs>
+  student?: boolean | Prisma.BookTransaction$studentArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type BookTransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  bookCopy?: boolean | Prisma.BookTransaction$bookCopyArgs<ExtArgs>
   book?: boolean | Prisma.BookDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  section?: boolean | Prisma.BookTransaction$sectionArgs<ExtArgs>
+  student?: boolean | Prisma.BookTransaction$studentArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $BookTransactionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "BookTransaction"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
+    bookCopy: Prisma.$BookCopyPayload<ExtArgs> | null
     book: Prisma.$BookPayload<ExtArgs>
-    student: Prisma.$StudentPayload<ExtArgs>
+    section: Prisma.$SectionPayload<ExtArgs> | null
+    student: Prisma.$StudentPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
     bookId: string
-    studentId: string
+    studentId: string | null
     issueDate: Date
     dueDate: Date
     returnDate: Date | null
@@ -1063,6 +1487,8 @@ export type $BookTransactionPayload<ExtArgs extends runtime.Types.Extensions.Int
     remarks: string | null
     createdAt: Date
     updatedAt: Date
+    bookCopyId: string | null
+    sectionId: string | null
   }, ExtArgs["result"]["bookTransaction"]>
   composites: {}
 }
@@ -1457,9 +1883,11 @@ readonly fields: BookTransactionFieldRefs;
  */
 export interface Prisma__BookTransactionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  bookCopy<T extends Prisma.BookTransaction$bookCopyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BookTransaction$bookCopyArgs<ExtArgs>>): Prisma.Prisma__BookCopyClient<runtime.Types.Result.GetResult<Prisma.$BookCopyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   book<T extends Prisma.BookDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BookDefaultArgs<ExtArgs>>): Prisma.Prisma__BookClient<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  section<T extends Prisma.BookTransaction$sectionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BookTransaction$sectionArgs<ExtArgs>>): Prisma.Prisma__SectionClient<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  student<T extends Prisma.BookTransaction$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BookTransaction$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1500,6 +1928,8 @@ export interface BookTransactionFieldRefs {
   readonly remarks: Prisma.FieldRef<"BookTransaction", 'String'>
   readonly createdAt: Prisma.FieldRef<"BookTransaction", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"BookTransaction", 'DateTime'>
+  readonly bookCopyId: Prisma.FieldRef<"BookTransaction", 'String'>
+  readonly sectionId: Prisma.FieldRef<"BookTransaction", 'String'>
 }
     
 
@@ -1893,6 +2323,63 @@ export type BookTransactionDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many BookTransactions to delete.
    */
   limit?: number
+}
+
+/**
+ * BookTransaction.bookCopy
+ */
+export type BookTransaction$bookCopyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BookCopy
+   */
+  select?: Prisma.BookCopySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BookCopy
+   */
+  omit?: Prisma.BookCopyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookCopyInclude<ExtArgs> | null
+  where?: Prisma.BookCopyWhereInput
+}
+
+/**
+ * BookTransaction.section
+ */
+export type BookTransaction$sectionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Section
+   */
+  select?: Prisma.SectionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Section
+   */
+  omit?: Prisma.SectionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SectionInclude<ExtArgs> | null
+  where?: Prisma.SectionWhereInput
+}
+
+/**
+ * BookTransaction.student
+ */
+export type BookTransaction$studentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Student
+   */
+  select?: Prisma.StudentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Student
+   */
+  omit?: Prisma.StudentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentInclude<ExtArgs> | null
+  where?: Prisma.StudentWhereInput
 }
 
 /**

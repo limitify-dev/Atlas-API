@@ -224,9 +224,9 @@ export type StudentConductPointsWhereInput = {
   currentPoints?: Prisma.IntFilter<"StudentConductPoints"> | number
   lastUpdatedAt?: Prisma.DateTimeFilter<"StudentConductPoints"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"StudentConductPoints"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   transactions?: Prisma.ConductPointTransactionListRelationFilter
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type StudentConductPointsOrderByWithRelationInput = {
@@ -236,9 +236,9 @@ export type StudentConductPointsOrderByWithRelationInput = {
   currentPoints?: Prisma.SortOrder
   lastUpdatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  student?: Prisma.StudentOrderByWithRelationInput
   transactions?: Prisma.ConductPointTransactionOrderByRelationAggregateInput
+  student?: Prisma.StudentOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type StudentConductPointsWhereUniqueInput = Prisma.AtLeast<{
@@ -251,9 +251,9 @@ export type StudentConductPointsWhereUniqueInput = Prisma.AtLeast<{
   currentPoints?: Prisma.IntFilter<"StudentConductPoints"> | number
   lastUpdatedAt?: Prisma.DateTimeFilter<"StudentConductPoints"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"StudentConductPoints"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   transactions?: Prisma.ConductPointTransactionListRelationFilter
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id" | "studentId">
 
 export type StudentConductPointsOrderByWithAggregationInput = {
@@ -287,9 +287,9 @@ export type StudentConductPointsCreateInput = {
   currentPoints?: number
   lastUpdatedAt?: Date | string
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutStudentConductPointsInput
-  student: Prisma.StudentCreateNestedOneWithoutConductPointsInput
   transactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutStudentConductPointsInput
+  student: Prisma.StudentCreateNestedOneWithoutConductPointsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutStudentConductPointsInput
 }
 
 export type StudentConductPointsUncheckedCreateInput = {
@@ -307,9 +307,9 @@ export type StudentConductPointsUpdateInput = {
   currentPoints?: Prisma.IntFieldUpdateOperationsInput | number
   lastUpdatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutStudentConductPointsNestedInput
-  student?: Prisma.StudentUpdateOneRequiredWithoutConductPointsNestedInput
   transactions?: Prisma.ConductPointTransactionUpdateManyWithoutStudentConductPointsNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutConductPointsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutStudentConductPointsNestedInput
 }
 
 export type StudentConductPointsUncheckedUpdateInput = {
@@ -495,8 +495,8 @@ export type StudentConductPointsCreateWithoutTenantInput = {
   currentPoints?: number
   lastUpdatedAt?: Date | string
   createdAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutConductPointsInput
   transactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutStudentConductPointsInput
+  student: Prisma.StudentCreateNestedOneWithoutConductPointsInput
 }
 
 export type StudentConductPointsUncheckedCreateWithoutTenantInput = {
@@ -551,8 +551,8 @@ export type StudentConductPointsCreateWithoutStudentInput = {
   currentPoints?: number
   lastUpdatedAt?: Date | string
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutStudentConductPointsInput
   transactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutStudentConductPointsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutStudentConductPointsInput
 }
 
 export type StudentConductPointsUncheckedCreateWithoutStudentInput = {
@@ -585,8 +585,8 @@ export type StudentConductPointsUpdateWithoutStudentInput = {
   currentPoints?: Prisma.IntFieldUpdateOperationsInput | number
   lastUpdatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutStudentConductPointsNestedInput
   transactions?: Prisma.ConductPointTransactionUpdateManyWithoutStudentConductPointsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutStudentConductPointsNestedInput
 }
 
 export type StudentConductPointsUncheckedUpdateWithoutStudentInput = {
@@ -603,8 +603,8 @@ export type StudentConductPointsCreateWithoutTransactionsInput = {
   currentPoints?: number
   lastUpdatedAt?: Date | string
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutStudentConductPointsInput
   student: Prisma.StudentCreateNestedOneWithoutConductPointsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutStudentConductPointsInput
 }
 
 export type StudentConductPointsUncheckedCreateWithoutTransactionsInput = {
@@ -637,8 +637,8 @@ export type StudentConductPointsUpdateWithoutTransactionsInput = {
   currentPoints?: Prisma.IntFieldUpdateOperationsInput | number
   lastUpdatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutStudentConductPointsNestedInput
   student?: Prisma.StudentUpdateOneRequiredWithoutConductPointsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutStudentConductPointsNestedInput
 }
 
 export type StudentConductPointsUncheckedUpdateWithoutTransactionsInput = {
@@ -663,8 +663,8 @@ export type StudentConductPointsUpdateWithoutTenantInput = {
   currentPoints?: Prisma.IntFieldUpdateOperationsInput | number
   lastUpdatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutConductPointsNestedInput
   transactions?: Prisma.ConductPointTransactionUpdateManyWithoutStudentConductPointsNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutConductPointsNestedInput
 }
 
 export type StudentConductPointsUncheckedUpdateWithoutTenantInput = {
@@ -722,9 +722,9 @@ export type StudentConductPointsSelect<ExtArgs extends runtime.Types.Extensions.
   currentPoints?: boolean
   lastUpdatedAt?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   transactions?: boolean | Prisma.StudentConductPoints$transactionsArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.StudentConductPointsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentConductPoints"]>
 
@@ -735,8 +735,8 @@ export type StudentConductPointsSelectCreateManyAndReturn<ExtArgs extends runtim
   currentPoints?: boolean
   lastUpdatedAt?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentConductPoints"]>
 
 export type StudentConductPointsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -746,8 +746,8 @@ export type StudentConductPointsSelectUpdateManyAndReturn<ExtArgs extends runtim
   currentPoints?: boolean
   lastUpdatedAt?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentConductPoints"]>
 
 export type StudentConductPointsSelectScalar = {
@@ -761,26 +761,26 @@ export type StudentConductPointsSelectScalar = {
 
 export type StudentConductPointsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "studentId" | "currentPoints" | "lastUpdatedAt" | "createdAt", ExtArgs["result"]["studentConductPoints"]>
 export type StudentConductPointsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   transactions?: boolean | Prisma.StudentConductPoints$transactionsArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.StudentConductPointsCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type StudentConductPointsIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type StudentConductPointsIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $StudentConductPointsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudentConductPoints"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    student: Prisma.$StudentPayload<ExtArgs>
     transactions: Prisma.$ConductPointTransactionPayload<ExtArgs>[]
+    student: Prisma.$StudentPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1183,9 +1183,9 @@ readonly fields: StudentConductPointsFieldRefs;
  */
 export interface Prisma__StudentConductPointsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   transactions<T extends Prisma.StudentConductPoints$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentConductPoints$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductPointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

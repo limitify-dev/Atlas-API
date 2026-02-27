@@ -28,76 +28,76 @@ export type PermissionMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
   studentId: string | null
-  permissionType: $Enums.PermissionType | null
   requestDate: Date | null
-  title: string | null
-  reason: string | null
   fromDate: Date | null
   toDate: Date | null
-  fromTime: string | null
-  toTime: string | null
+  reason: string | null
   status: $Enums.PermissionStatus | null
-  requestedBy: $Enums.PermissionRequestedBy | null
-  requestedById: string | null
   approvedBy: string | null
   approvedAt: Date | null
   remarks: string | null
-  qrCode: string | null
-  qrCodeUsed: boolean | null
-  usedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  fromTime: string | null
+  permissionType: $Enums.PermissionType | null
+  qrCode: string | null
+  qrCodeUsed: boolean | null
+  requestedBy: $Enums.PermissionRequestedBy | null
+  requestedById: string | null
+  title: string | null
+  toTime: string | null
+  usedAt: Date | null
 }
 
 export type PermissionMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
   studentId: string | null
-  permissionType: $Enums.PermissionType | null
   requestDate: Date | null
-  title: string | null
-  reason: string | null
   fromDate: Date | null
   toDate: Date | null
-  fromTime: string | null
-  toTime: string | null
+  reason: string | null
   status: $Enums.PermissionStatus | null
-  requestedBy: $Enums.PermissionRequestedBy | null
-  requestedById: string | null
   approvedBy: string | null
   approvedAt: Date | null
   remarks: string | null
-  qrCode: string | null
-  qrCodeUsed: boolean | null
-  usedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  fromTime: string | null
+  permissionType: $Enums.PermissionType | null
+  qrCode: string | null
+  qrCodeUsed: boolean | null
+  requestedBy: $Enums.PermissionRequestedBy | null
+  requestedById: string | null
+  title: string | null
+  toTime: string | null
+  usedAt: Date | null
 }
 
 export type PermissionCountAggregateOutputType = {
   id: number
   tenantId: number
   studentId: number
-  permissionType: number
   requestDate: number
-  title: number
-  reason: number
   fromDate: number
   toDate: number
-  fromTime: number
-  toTime: number
-  schedule: number
+  reason: number
   status: number
-  requestedBy: number
-  requestedById: number
   approvedBy: number
   approvedAt: number
   remarks: number
-  qrCode: number
-  qrCodeUsed: number
-  usedAt: number
   createdAt: number
   updatedAt: number
+  fromTime: number
+  permissionType: number
+  qrCode: number
+  qrCodeUsed: number
+  requestedBy: number
+  requestedById: number
+  schedule: number
+  title: number
+  toTime: number
+  usedAt: number
   _all: number
 }
 
@@ -106,76 +106,76 @@ export type PermissionMinAggregateInputType = {
   id?: true
   tenantId?: true
   studentId?: true
-  permissionType?: true
   requestDate?: true
-  title?: true
-  reason?: true
   fromDate?: true
   toDate?: true
-  fromTime?: true
-  toTime?: true
+  reason?: true
   status?: true
-  requestedBy?: true
-  requestedById?: true
   approvedBy?: true
   approvedAt?: true
   remarks?: true
-  qrCode?: true
-  qrCodeUsed?: true
-  usedAt?: true
   createdAt?: true
   updatedAt?: true
+  fromTime?: true
+  permissionType?: true
+  qrCode?: true
+  qrCodeUsed?: true
+  requestedBy?: true
+  requestedById?: true
+  title?: true
+  toTime?: true
+  usedAt?: true
 }
 
 export type PermissionMaxAggregateInputType = {
   id?: true
   tenantId?: true
   studentId?: true
-  permissionType?: true
   requestDate?: true
-  title?: true
-  reason?: true
   fromDate?: true
   toDate?: true
-  fromTime?: true
-  toTime?: true
+  reason?: true
   status?: true
-  requestedBy?: true
-  requestedById?: true
   approvedBy?: true
   approvedAt?: true
   remarks?: true
-  qrCode?: true
-  qrCodeUsed?: true
-  usedAt?: true
   createdAt?: true
   updatedAt?: true
+  fromTime?: true
+  permissionType?: true
+  qrCode?: true
+  qrCodeUsed?: true
+  requestedBy?: true
+  requestedById?: true
+  title?: true
+  toTime?: true
+  usedAt?: true
 }
 
 export type PermissionCountAggregateInputType = {
   id?: true
   tenantId?: true
   studentId?: true
-  permissionType?: true
   requestDate?: true
-  title?: true
-  reason?: true
   fromDate?: true
   toDate?: true
-  fromTime?: true
-  toTime?: true
-  schedule?: true
+  reason?: true
   status?: true
-  requestedBy?: true
-  requestedById?: true
   approvedBy?: true
   approvedAt?: true
   remarks?: true
-  qrCode?: true
-  qrCodeUsed?: true
-  usedAt?: true
   createdAt?: true
   updatedAt?: true
+  fromTime?: true
+  permissionType?: true
+  qrCode?: true
+  qrCodeUsed?: true
+  requestedBy?: true
+  requestedById?: true
+  schedule?: true
+  title?: true
+  toTime?: true
+  usedAt?: true
   _all?: true
 }
 
@@ -255,26 +255,26 @@ export type PermissionGroupByOutputType = {
   id: string
   tenantId: string
   studentId: string
-  permissionType: $Enums.PermissionType
   requestDate: Date
-  title: string | null
-  reason: string
   fromDate: Date
   toDate: Date
-  fromTime: string | null
-  toTime: string | null
-  schedule: runtime.JsonValue | null
+  reason: string
   status: $Enums.PermissionStatus
-  requestedBy: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy: string | null
   approvedAt: Date | null
   remarks: string | null
-  qrCode: string | null
-  qrCodeUsed: boolean
-  usedAt: Date | null
   createdAt: Date
   updatedAt: Date
+  fromTime: string | null
+  permissionType: $Enums.PermissionType
+  qrCode: string | null
+  qrCodeUsed: boolean
+  requestedBy: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule: runtime.JsonValue | null
+  title: string | null
+  toTime: string | null
+  usedAt: Date | null
   _count: PermissionCountAggregateOutputType | null
   _min: PermissionMinAggregateOutputType | null
   _max: PermissionMaxAggregateOutputType | null
@@ -302,58 +302,58 @@ export type PermissionWhereInput = {
   id?: Prisma.StringFilter<"Permission"> | string
   tenantId?: Prisma.StringFilter<"Permission"> | string
   studentId?: Prisma.StringFilter<"Permission"> | string
-  permissionType?: Prisma.EnumPermissionTypeFilter<"Permission"> | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
-  title?: Prisma.StringNullableFilter<"Permission"> | string | null
-  reason?: Prisma.StringFilter<"Permission"> | string
   fromDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
   toDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
-  fromTime?: Prisma.StringNullableFilter<"Permission"> | string | null
-  toTime?: Prisma.StringNullableFilter<"Permission"> | string | null
-  schedule?: Prisma.JsonNullableFilter<"Permission">
+  reason?: Prisma.StringFilter<"Permission"> | string
   status?: Prisma.EnumPermissionStatusFilter<"Permission"> | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFilter<"Permission"> | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFilter<"Permission"> | string
   approvedBy?: Prisma.StringNullableFilter<"Permission"> | string | null
   approvedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
   remarks?: Prisma.StringNullableFilter<"Permission"> | string | null
-  qrCode?: Prisma.StringNullableFilter<"Permission"> | string | null
-  qrCodeUsed?: Prisma.BoolFilter<"Permission"> | boolean
-  usedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Permission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Permission"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  fromTime?: Prisma.StringNullableFilter<"Permission"> | string | null
+  permissionType?: Prisma.EnumPermissionTypeFilter<"Permission"> | $Enums.PermissionType
+  qrCode?: Prisma.StringNullableFilter<"Permission"> | string | null
+  qrCodeUsed?: Prisma.BoolFilter<"Permission"> | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFilter<"Permission"> | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFilter<"Permission"> | string
+  schedule?: Prisma.JsonNullableFilter<"Permission">
+  title?: Prisma.StringNullableFilter<"Permission"> | string | null
+  toTime?: Prisma.StringNullableFilter<"Permission"> | string | null
+  usedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
   usages?: Prisma.PermissionUsageListRelationFilter
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type PermissionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
-  permissionType?: Prisma.SortOrder
   requestDate?: Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
-  reason?: Prisma.SortOrder
   fromDate?: Prisma.SortOrder
   toDate?: Prisma.SortOrder
-  fromTime?: Prisma.SortOrderInput | Prisma.SortOrder
-  toTime?: Prisma.SortOrderInput | Prisma.SortOrder
-  schedule?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  requestedBy?: Prisma.SortOrder
-  requestedById?: Prisma.SortOrder
   approvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   remarks?: Prisma.SortOrderInput | Prisma.SortOrder
-  qrCode?: Prisma.SortOrderInput | Prisma.SortOrder
-  qrCodeUsed?: Prisma.SortOrder
-  usedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  student?: Prisma.StudentOrderByWithRelationInput
+  fromTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  permissionType?: Prisma.SortOrder
+  qrCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  qrCodeUsed?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
+  requestedById?: Prisma.SortOrder
+  schedule?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  toTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  usedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   usages?: Prisma.PermissionUsageOrderByRelationAggregateInput
+  student?: Prisma.StudentOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type PermissionWhereUniqueInput = Prisma.AtLeast<{
@@ -363,55 +363,55 @@ export type PermissionWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PermissionWhereInput | Prisma.PermissionWhereInput[]
   tenantId?: Prisma.StringFilter<"Permission"> | string
   studentId?: Prisma.StringFilter<"Permission"> | string
-  permissionType?: Prisma.EnumPermissionTypeFilter<"Permission"> | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
-  title?: Prisma.StringNullableFilter<"Permission"> | string | null
-  reason?: Prisma.StringFilter<"Permission"> | string
   fromDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
   toDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
-  fromTime?: Prisma.StringNullableFilter<"Permission"> | string | null
-  toTime?: Prisma.StringNullableFilter<"Permission"> | string | null
-  schedule?: Prisma.JsonNullableFilter<"Permission">
+  reason?: Prisma.StringFilter<"Permission"> | string
   status?: Prisma.EnumPermissionStatusFilter<"Permission"> | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFilter<"Permission"> | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFilter<"Permission"> | string
   approvedBy?: Prisma.StringNullableFilter<"Permission"> | string | null
   approvedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
   remarks?: Prisma.StringNullableFilter<"Permission"> | string | null
-  qrCode?: Prisma.StringNullableFilter<"Permission"> | string | null
-  qrCodeUsed?: Prisma.BoolFilter<"Permission"> | boolean
-  usedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Permission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Permission"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  fromTime?: Prisma.StringNullableFilter<"Permission"> | string | null
+  permissionType?: Prisma.EnumPermissionTypeFilter<"Permission"> | $Enums.PermissionType
+  qrCode?: Prisma.StringNullableFilter<"Permission"> | string | null
+  qrCodeUsed?: Prisma.BoolFilter<"Permission"> | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFilter<"Permission"> | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFilter<"Permission"> | string
+  schedule?: Prisma.JsonNullableFilter<"Permission">
+  title?: Prisma.StringNullableFilter<"Permission"> | string | null
+  toTime?: Prisma.StringNullableFilter<"Permission"> | string | null
+  usedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
   usages?: Prisma.PermissionUsageListRelationFilter
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type PermissionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
-  permissionType?: Prisma.SortOrder
   requestDate?: Prisma.SortOrder
-  title?: Prisma.SortOrderInput | Prisma.SortOrder
-  reason?: Prisma.SortOrder
   fromDate?: Prisma.SortOrder
   toDate?: Prisma.SortOrder
-  fromTime?: Prisma.SortOrderInput | Prisma.SortOrder
-  toTime?: Prisma.SortOrderInput | Prisma.SortOrder
-  schedule?: Prisma.SortOrderInput | Prisma.SortOrder
+  reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  requestedBy?: Prisma.SortOrder
-  requestedById?: Prisma.SortOrder
   approvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   remarks?: Prisma.SortOrderInput | Prisma.SortOrder
-  qrCode?: Prisma.SortOrderInput | Prisma.SortOrder
-  qrCodeUsed?: Prisma.SortOrder
-  usedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  fromTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  permissionType?: Prisma.SortOrder
+  qrCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  qrCodeUsed?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
+  requestedById?: Prisma.SortOrder
+  schedule?: Prisma.SortOrderInput | Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
+  toTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  usedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PermissionCountOrderByAggregateInput
   _max?: Prisma.PermissionMaxOrderByAggregateInput
   _min?: Prisma.PermissionMinOrderByAggregateInput
@@ -424,133 +424,133 @@ export type PermissionScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Permission"> | string
   tenantId?: Prisma.StringWithAggregatesFilter<"Permission"> | string
   studentId?: Prisma.StringWithAggregatesFilter<"Permission"> | string
-  permissionType?: Prisma.EnumPermissionTypeWithAggregatesFilter<"Permission"> | $Enums.PermissionType
   requestDate?: Prisma.DateTimeWithAggregatesFilter<"Permission"> | Date | string
-  title?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
-  reason?: Prisma.StringWithAggregatesFilter<"Permission"> | string
   fromDate?: Prisma.DateTimeWithAggregatesFilter<"Permission"> | Date | string
   toDate?: Prisma.DateTimeWithAggregatesFilter<"Permission"> | Date | string
-  fromTime?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
-  toTime?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
-  schedule?: Prisma.JsonNullableWithAggregatesFilter<"Permission">
+  reason?: Prisma.StringWithAggregatesFilter<"Permission"> | string
   status?: Prisma.EnumPermissionStatusWithAggregatesFilter<"Permission"> | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByWithAggregatesFilter<"Permission"> | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringWithAggregatesFilter<"Permission"> | string
   approvedBy?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
   approvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Permission"> | Date | string | null
   remarks?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
-  qrCode?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
-  qrCodeUsed?: Prisma.BoolWithAggregatesFilter<"Permission"> | boolean
-  usedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Permission"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Permission"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Permission"> | Date | string
+  fromTime?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
+  permissionType?: Prisma.EnumPermissionTypeWithAggregatesFilter<"Permission"> | $Enums.PermissionType
+  qrCode?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
+  qrCodeUsed?: Prisma.BoolWithAggregatesFilter<"Permission"> | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByWithAggregatesFilter<"Permission"> | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringWithAggregatesFilter<"Permission"> | string
+  schedule?: Prisma.JsonNullableWithAggregatesFilter<"Permission">
+  title?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
+  toTime?: Prisma.StringNullableWithAggregatesFilter<"Permission"> | string | null
+  usedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Permission"> | Date | string | null
 }
 
 export type PermissionCreateInput = {
   id?: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutPermissionsInput
-  student: Prisma.StudentCreateNestedOneWithoutPermissionsInput
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
   usages?: Prisma.PermissionUsageCreateNestedManyWithoutPermissionInput
+  student: Prisma.StudentCreateNestedOneWithoutPermissionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPermissionsInput
 }
 
 export type PermissionUncheckedCreateInput = {
   id?: string
   tenantId: string
   studentId: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
   usages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutPermissionInput
 }
 
 export type PermissionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermissionsNestedInput
-  student?: Prisma.StudentUpdateOneRequiredWithoutPermissionsNestedInput
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usages?: Prisma.PermissionUsageUpdateManyWithoutPermissionNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutPermissionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermissionsNestedInput
 }
 
 export type PermissionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutPermissionNestedInput
 }
 
@@ -558,76 +558,76 @@ export type PermissionCreateManyInput = {
   id?: string
   tenantId: string
   studentId: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
 }
 
 export type PermissionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PermissionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PermissionListRelationFilter = {
@@ -644,76 +644,76 @@ export type PermissionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
-  permissionType?: Prisma.SortOrder
   requestDate?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  reason?: Prisma.SortOrder
   fromDate?: Prisma.SortOrder
   toDate?: Prisma.SortOrder
-  fromTime?: Prisma.SortOrder
-  toTime?: Prisma.SortOrder
-  schedule?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  requestedBy?: Prisma.SortOrder
-  requestedById?: Prisma.SortOrder
   approvedBy?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
   remarks?: Prisma.SortOrder
-  qrCode?: Prisma.SortOrder
-  qrCodeUsed?: Prisma.SortOrder
-  usedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  fromTime?: Prisma.SortOrder
+  permissionType?: Prisma.SortOrder
+  qrCode?: Prisma.SortOrder
+  qrCodeUsed?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
+  requestedById?: Prisma.SortOrder
+  schedule?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  toTime?: Prisma.SortOrder
+  usedAt?: Prisma.SortOrder
 }
 
 export type PermissionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
-  permissionType?: Prisma.SortOrder
   requestDate?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  reason?: Prisma.SortOrder
   fromDate?: Prisma.SortOrder
   toDate?: Prisma.SortOrder
-  fromTime?: Prisma.SortOrder
-  toTime?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  requestedBy?: Prisma.SortOrder
-  requestedById?: Prisma.SortOrder
   approvedBy?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
   remarks?: Prisma.SortOrder
-  qrCode?: Prisma.SortOrder
-  qrCodeUsed?: Prisma.SortOrder
-  usedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  fromTime?: Prisma.SortOrder
+  permissionType?: Prisma.SortOrder
+  qrCode?: Prisma.SortOrder
+  qrCodeUsed?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
+  requestedById?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  toTime?: Prisma.SortOrder
+  usedAt?: Prisma.SortOrder
 }
 
 export type PermissionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   studentId?: Prisma.SortOrder
-  permissionType?: Prisma.SortOrder
   requestDate?: Prisma.SortOrder
-  title?: Prisma.SortOrder
-  reason?: Prisma.SortOrder
   fromDate?: Prisma.SortOrder
   toDate?: Prisma.SortOrder
-  fromTime?: Prisma.SortOrder
-  toTime?: Prisma.SortOrder
+  reason?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  requestedBy?: Prisma.SortOrder
-  requestedById?: Prisma.SortOrder
   approvedBy?: Prisma.SortOrder
   approvedAt?: Prisma.SortOrder
   remarks?: Prisma.SortOrder
-  qrCode?: Prisma.SortOrder
-  qrCodeUsed?: Prisma.SortOrder
-  usedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  fromTime?: Prisma.SortOrder
+  permissionType?: Prisma.SortOrder
+  qrCode?: Prisma.SortOrder
+  qrCodeUsed?: Prisma.SortOrder
+  requestedBy?: Prisma.SortOrder
+  requestedById?: Prisma.SortOrder
+  title?: Prisma.SortOrder
+  toTime?: Prisma.SortOrder
+  usedAt?: Prisma.SortOrder
 }
 
 export type PermissionScalarRelationFilter = {
@@ -805,12 +805,12 @@ export type PermissionUncheckedUpdateManyWithoutStudentNestedInput = {
   deleteMany?: Prisma.PermissionScalarWhereInput | Prisma.PermissionScalarWhereInput[]
 }
 
-export type EnumPermissionTypeFieldUpdateOperationsInput = {
-  set?: $Enums.PermissionType
-}
-
 export type EnumPermissionStatusFieldUpdateOperationsInput = {
   set?: $Enums.PermissionStatus
+}
+
+export type EnumPermissionTypeFieldUpdateOperationsInput = {
+  set?: $Enums.PermissionType
 }
 
 export type EnumPermissionRequestedByFieldUpdateOperationsInput = {
@@ -833,53 +833,53 @@ export type PermissionUpdateOneRequiredWithoutUsagesNestedInput = {
 
 export type PermissionCreateWithoutTenantInput = {
   id?: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutPermissionsInput
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
   usages?: Prisma.PermissionUsageCreateNestedManyWithoutPermissionInput
+  student: Prisma.StudentCreateNestedOneWithoutPermissionsInput
 }
 
 export type PermissionUncheckedCreateWithoutTenantInput = {
   id?: string
   studentId: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
   usages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutPermissionInput
 }
 
@@ -916,77 +916,77 @@ export type PermissionScalarWhereInput = {
   id?: Prisma.StringFilter<"Permission"> | string
   tenantId?: Prisma.StringFilter<"Permission"> | string
   studentId?: Prisma.StringFilter<"Permission"> | string
-  permissionType?: Prisma.EnumPermissionTypeFilter<"Permission"> | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
-  title?: Prisma.StringNullableFilter<"Permission"> | string | null
-  reason?: Prisma.StringFilter<"Permission"> | string
   fromDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
   toDate?: Prisma.DateTimeFilter<"Permission"> | Date | string
-  fromTime?: Prisma.StringNullableFilter<"Permission"> | string | null
-  toTime?: Prisma.StringNullableFilter<"Permission"> | string | null
-  schedule?: Prisma.JsonNullableFilter<"Permission">
+  reason?: Prisma.StringFilter<"Permission"> | string
   status?: Prisma.EnumPermissionStatusFilter<"Permission"> | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFilter<"Permission"> | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFilter<"Permission"> | string
   approvedBy?: Prisma.StringNullableFilter<"Permission"> | string | null
   approvedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
   remarks?: Prisma.StringNullableFilter<"Permission"> | string | null
-  qrCode?: Prisma.StringNullableFilter<"Permission"> | string | null
-  qrCodeUsed?: Prisma.BoolFilter<"Permission"> | boolean
-  usedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Permission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Permission"> | Date | string
+  fromTime?: Prisma.StringNullableFilter<"Permission"> | string | null
+  permissionType?: Prisma.EnumPermissionTypeFilter<"Permission"> | $Enums.PermissionType
+  qrCode?: Prisma.StringNullableFilter<"Permission"> | string | null
+  qrCodeUsed?: Prisma.BoolFilter<"Permission"> | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFilter<"Permission"> | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFilter<"Permission"> | string
+  schedule?: Prisma.JsonNullableFilter<"Permission">
+  title?: Prisma.StringNullableFilter<"Permission"> | string | null
+  toTime?: Prisma.StringNullableFilter<"Permission"> | string | null
+  usedAt?: Prisma.DateTimeNullableFilter<"Permission"> | Date | string | null
 }
 
 export type PermissionCreateWithoutStudentInput = {
   id?: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutPermissionsInput
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
   usages?: Prisma.PermissionUsageCreateNestedManyWithoutPermissionInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPermissionsInput
 }
 
 export type PermissionUncheckedCreateWithoutStudentInput = {
   id?: string
   tenantId: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
   usages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutPermissionInput
 }
 
@@ -1018,54 +1018,54 @@ export type PermissionUpdateManyWithWhereWithoutStudentInput = {
 
 export type PermissionCreateWithoutUsagesInput = {
   id?: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutPermissionsInput
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
   student: Prisma.StudentCreateNestedOneWithoutPermissionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutPermissionsInput
 }
 
 export type PermissionUncheckedCreateWithoutUsagesInput = {
   id?: string
   tenantId: string
   studentId: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
 }
 
 export type PermissionCreateOrConnectWithoutUsagesInput = {
@@ -1086,258 +1086,258 @@ export type PermissionUpdateToOneWithWhereWithoutUsagesInput = {
 
 export type PermissionUpdateWithoutUsagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermissionsNestedInput
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   student?: Prisma.StudentUpdateOneRequiredWithoutPermissionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermissionsNestedInput
 }
 
 export type PermissionUncheckedUpdateWithoutUsagesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PermissionCreateManyTenantInput = {
   id?: string
   studentId: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
 }
 
 export type PermissionUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutPermissionsNestedInput
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usages?: Prisma.PermissionUsageUpdateManyWithoutPermissionNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutPermissionsNestedInput
 }
 
 export type PermissionUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutPermissionNestedInput
 }
 
 export type PermissionUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   studentId?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type PermissionCreateManyStudentInput = {
   id?: string
   tenantId: string
-  permissionType?: $Enums.PermissionType
   requestDate?: Date | string
-  title?: string | null
-  reason: string
   fromDate: Date | string
   toDate: Date | string
-  fromTime?: string | null
-  toTime?: string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason: string
   status?: $Enums.PermissionStatus
-  requestedBy?: $Enums.PermissionRequestedBy
-  requestedById: string
   approvedBy?: string | null
   approvedAt?: Date | string | null
   remarks?: string | null
-  qrCode?: string | null
-  qrCodeUsed?: boolean
-  usedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  fromTime?: string | null
+  permissionType?: $Enums.PermissionType
+  qrCode?: string | null
+  qrCodeUsed?: boolean
+  requestedBy?: $Enums.PermissionRequestedBy
+  requestedById: string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: string | null
+  toTime?: string | null
+  usedAt?: Date | string | null
 }
 
 export type PermissionUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermissionsNestedInput
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usages?: Prisma.PermissionUsageUpdateManyWithoutPermissionNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutPermissionsNestedInput
 }
 
 export type PermissionUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutPermissionNestedInput
 }
 
 export type PermissionUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
-  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
   requestDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reason?: Prisma.StringFieldUpdateOperationsInput | string
   fromDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   toDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  reason?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumPermissionStatusFieldUpdateOperationsInput | $Enums.PermissionStatus
-  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
-  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
   approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  fromTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  permissionType?: Prisma.EnumPermissionTypeFieldUpdateOperationsInput | $Enums.PermissionType
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qrCodeUsed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  requestedBy?: Prisma.EnumPermissionRequestedByFieldUpdateOperationsInput | $Enums.PermissionRequestedBy
+  requestedById?: Prisma.StringFieldUpdateOperationsInput | string
+  schedule?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  toTime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1375,29 +1375,29 @@ export type PermissionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   id?: boolean
   tenantId?: boolean
   studentId?: boolean
-  permissionType?: boolean
   requestDate?: boolean
-  title?: boolean
-  reason?: boolean
   fromDate?: boolean
   toDate?: boolean
-  fromTime?: boolean
-  toTime?: boolean
-  schedule?: boolean
+  reason?: boolean
   status?: boolean
-  requestedBy?: boolean
-  requestedById?: boolean
   approvedBy?: boolean
   approvedAt?: boolean
   remarks?: boolean
-  qrCode?: boolean
-  qrCodeUsed?: boolean
-  usedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  fromTime?: boolean
+  permissionType?: boolean
+  qrCode?: boolean
+  qrCodeUsed?: boolean
+  requestedBy?: boolean
+  requestedById?: boolean
+  schedule?: boolean
+  title?: boolean
+  toTime?: boolean
+  usedAt?: boolean
   usages?: boolean | Prisma.Permission$usagesArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.PermissionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permission"]>
 
@@ -1405,131 +1405,131 @@ export type PermissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   id?: boolean
   tenantId?: boolean
   studentId?: boolean
-  permissionType?: boolean
   requestDate?: boolean
-  title?: boolean
-  reason?: boolean
   fromDate?: boolean
   toDate?: boolean
-  fromTime?: boolean
-  toTime?: boolean
-  schedule?: boolean
+  reason?: boolean
   status?: boolean
-  requestedBy?: boolean
-  requestedById?: boolean
   approvedBy?: boolean
   approvedAt?: boolean
   remarks?: boolean
-  qrCode?: boolean
-  qrCodeUsed?: boolean
-  usedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  fromTime?: boolean
+  permissionType?: boolean
+  qrCode?: boolean
+  qrCodeUsed?: boolean
+  requestedBy?: boolean
+  requestedById?: boolean
+  schedule?: boolean
+  title?: boolean
+  toTime?: boolean
+  usedAt?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permission"]>
 
 export type PermissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   tenantId?: boolean
   studentId?: boolean
-  permissionType?: boolean
   requestDate?: boolean
-  title?: boolean
-  reason?: boolean
   fromDate?: boolean
   toDate?: boolean
-  fromTime?: boolean
-  toTime?: boolean
-  schedule?: boolean
+  reason?: boolean
   status?: boolean
-  requestedBy?: boolean
-  requestedById?: boolean
   approvedBy?: boolean
   approvedAt?: boolean
   remarks?: boolean
-  qrCode?: boolean
-  qrCodeUsed?: boolean
-  usedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
+  fromTime?: boolean
+  permissionType?: boolean
+  qrCode?: boolean
+  qrCodeUsed?: boolean
+  requestedBy?: boolean
+  requestedById?: boolean
+  schedule?: boolean
+  title?: boolean
+  toTime?: boolean
+  usedAt?: boolean
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["permission"]>
 
 export type PermissionSelectScalar = {
   id?: boolean
   tenantId?: boolean
   studentId?: boolean
-  permissionType?: boolean
   requestDate?: boolean
-  title?: boolean
-  reason?: boolean
   fromDate?: boolean
   toDate?: boolean
-  fromTime?: boolean
-  toTime?: boolean
-  schedule?: boolean
+  reason?: boolean
   status?: boolean
-  requestedBy?: boolean
-  requestedById?: boolean
   approvedBy?: boolean
   approvedAt?: boolean
   remarks?: boolean
-  qrCode?: boolean
-  qrCodeUsed?: boolean
-  usedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  fromTime?: boolean
+  permissionType?: boolean
+  qrCode?: boolean
+  qrCodeUsed?: boolean
+  requestedBy?: boolean
+  requestedById?: boolean
+  schedule?: boolean
+  title?: boolean
+  toTime?: boolean
+  usedAt?: boolean
 }
 
-export type PermissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "studentId" | "permissionType" | "requestDate" | "title" | "reason" | "fromDate" | "toDate" | "fromTime" | "toTime" | "schedule" | "status" | "requestedBy" | "requestedById" | "approvedBy" | "approvedAt" | "remarks" | "qrCode" | "qrCodeUsed" | "usedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["permission"]>
+export type PermissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "studentId" | "requestDate" | "fromDate" | "toDate" | "reason" | "status" | "approvedBy" | "approvedAt" | "remarks" | "createdAt" | "updatedAt" | "fromTime" | "permissionType" | "qrCode" | "qrCodeUsed" | "requestedBy" | "requestedById" | "schedule" | "title" | "toTime" | "usedAt", ExtArgs["result"]["permission"]>
 export type PermissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   usages?: boolean | Prisma.Permission$usagesArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.PermissionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PermissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type PermissionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $PermissionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Permission"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    student: Prisma.$StudentPayload<ExtArgs>
     usages: Prisma.$PermissionUsagePayload<ExtArgs>[]
+    student: Prisma.$StudentPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     tenantId: string
     studentId: string
-    permissionType: $Enums.PermissionType
     requestDate: Date
-    title: string | null
-    reason: string
     fromDate: Date
     toDate: Date
-    fromTime: string | null
-    toTime: string | null
-    schedule: runtime.JsonValue | null
+    reason: string
     status: $Enums.PermissionStatus
-    requestedBy: $Enums.PermissionRequestedBy
-    requestedById: string
     approvedBy: string | null
     approvedAt: Date | null
     remarks: string | null
-    qrCode: string | null
-    qrCodeUsed: boolean
-    usedAt: Date | null
     createdAt: Date
     updatedAt: Date
+    fromTime: string | null
+    permissionType: $Enums.PermissionType
+    qrCode: string | null
+    qrCodeUsed: boolean
+    requestedBy: $Enums.PermissionRequestedBy
+    requestedById: string
+    schedule: runtime.JsonValue | null
+    title: string | null
+    toTime: string | null
+    usedAt: Date | null
   }, ExtArgs["result"]["permission"]>
   composites: {}
 }
@@ -1924,9 +1924,9 @@ readonly fields: PermissionFieldRefs;
  */
 export interface Prisma__PermissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   usages<T extends Prisma.Permission$usagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Permission$usagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PermissionUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1959,26 +1959,26 @@ export interface PermissionFieldRefs {
   readonly id: Prisma.FieldRef<"Permission", 'String'>
   readonly tenantId: Prisma.FieldRef<"Permission", 'String'>
   readonly studentId: Prisma.FieldRef<"Permission", 'String'>
-  readonly permissionType: Prisma.FieldRef<"Permission", 'PermissionType'>
   readonly requestDate: Prisma.FieldRef<"Permission", 'DateTime'>
-  readonly title: Prisma.FieldRef<"Permission", 'String'>
-  readonly reason: Prisma.FieldRef<"Permission", 'String'>
   readonly fromDate: Prisma.FieldRef<"Permission", 'DateTime'>
   readonly toDate: Prisma.FieldRef<"Permission", 'DateTime'>
-  readonly fromTime: Prisma.FieldRef<"Permission", 'String'>
-  readonly toTime: Prisma.FieldRef<"Permission", 'String'>
-  readonly schedule: Prisma.FieldRef<"Permission", 'Json'>
+  readonly reason: Prisma.FieldRef<"Permission", 'String'>
   readonly status: Prisma.FieldRef<"Permission", 'PermissionStatus'>
-  readonly requestedBy: Prisma.FieldRef<"Permission", 'PermissionRequestedBy'>
-  readonly requestedById: Prisma.FieldRef<"Permission", 'String'>
   readonly approvedBy: Prisma.FieldRef<"Permission", 'String'>
   readonly approvedAt: Prisma.FieldRef<"Permission", 'DateTime'>
   readonly remarks: Prisma.FieldRef<"Permission", 'String'>
-  readonly qrCode: Prisma.FieldRef<"Permission", 'String'>
-  readonly qrCodeUsed: Prisma.FieldRef<"Permission", 'Boolean'>
-  readonly usedAt: Prisma.FieldRef<"Permission", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Permission", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Permission", 'DateTime'>
+  readonly fromTime: Prisma.FieldRef<"Permission", 'String'>
+  readonly permissionType: Prisma.FieldRef<"Permission", 'PermissionType'>
+  readonly qrCode: Prisma.FieldRef<"Permission", 'String'>
+  readonly qrCodeUsed: Prisma.FieldRef<"Permission", 'Boolean'>
+  readonly requestedBy: Prisma.FieldRef<"Permission", 'PermissionRequestedBy'>
+  readonly requestedById: Prisma.FieldRef<"Permission", 'String'>
+  readonly schedule: Prisma.FieldRef<"Permission", 'Json'>
+  readonly title: Prisma.FieldRef<"Permission", 'String'>
+  readonly toTime: Prisma.FieldRef<"Permission", 'String'>
+  readonly usedAt: Prisma.FieldRef<"Permission", 'DateTime'>
 }
     
 

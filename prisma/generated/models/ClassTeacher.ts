@@ -182,8 +182,8 @@ export type ClassTeacherWhereInput = {
   sectionId?: Prisma.StringFilter<"ClassTeacher"> | string
   isPrimary?: Prisma.BoolFilter<"ClassTeacher"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ClassTeacher"> | Date | string
-  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   section?: Prisma.XOR<Prisma.SectionScalarRelationFilter, Prisma.SectionWhereInput>
+  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
 }
 
 export type ClassTeacherOrderByWithRelationInput = {
@@ -192,8 +192,8 @@ export type ClassTeacherOrderByWithRelationInput = {
   sectionId?: Prisma.SortOrder
   isPrimary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  teacher?: Prisma.TeacherOrderByWithRelationInput
   section?: Prisma.SectionOrderByWithRelationInput
+  teacher?: Prisma.TeacherOrderByWithRelationInput
 }
 
 export type ClassTeacherWhereUniqueInput = Prisma.AtLeast<{
@@ -206,8 +206,8 @@ export type ClassTeacherWhereUniqueInput = Prisma.AtLeast<{
   sectionId?: Prisma.StringFilter<"ClassTeacher"> | string
   isPrimary?: Prisma.BoolFilter<"ClassTeacher"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ClassTeacher"> | Date | string
-  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
   section?: Prisma.XOR<Prisma.SectionScalarRelationFilter, Prisma.SectionWhereInput>
+  teacher?: Prisma.XOR<Prisma.TeacherScalarRelationFilter, Prisma.TeacherWhereInput>
 }, "id" | "teacherId_sectionId">
 
 export type ClassTeacherOrderByWithAggregationInput = {
@@ -236,8 +236,8 @@ export type ClassTeacherCreateInput = {
   id?: string
   isPrimary?: boolean
   createdAt?: Date | string
-  teacher: Prisma.TeacherCreateNestedOneWithoutClassesInput
   section: Prisma.SectionCreateNestedOneWithoutClassesInput
+  teacher: Prisma.TeacherCreateNestedOneWithoutClassesInput
 }
 
 export type ClassTeacherUncheckedCreateInput = {
@@ -252,8 +252,8 @@ export type ClassTeacherUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  teacher?: Prisma.TeacherUpdateOneRequiredWithoutClassesNestedInput
   section?: Prisma.SectionUpdateOneRequiredWithoutClassesNestedInput
+  teacher?: Prisma.TeacherUpdateOneRequiredWithoutClassesNestedInput
 }
 
 export type ClassTeacherUncheckedUpdateInput = {
@@ -564,8 +564,8 @@ export type ClassTeacherSelect<ExtArgs extends runtime.Types.Extensions.Internal
   sectionId?: boolean
   isPrimary?: boolean
   createdAt?: boolean
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["classTeacher"]>
 
 export type ClassTeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -574,8 +574,8 @@ export type ClassTeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   sectionId?: boolean
   isPrimary?: boolean
   createdAt?: boolean
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["classTeacher"]>
 
 export type ClassTeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -584,8 +584,8 @@ export type ClassTeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   sectionId?: boolean
   isPrimary?: boolean
   createdAt?: boolean
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["classTeacher"]>
 
 export type ClassTeacherSelectScalar = {
@@ -598,23 +598,23 @@ export type ClassTeacherSelectScalar = {
 
 export type ClassTeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "teacherId" | "sectionId" | "isPrimary" | "createdAt", ExtArgs["result"]["classTeacher"]>
 export type ClassTeacherInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 export type ClassTeacherIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 export type ClassTeacherIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
+  teacher?: boolean | Prisma.TeacherDefaultArgs<ExtArgs>
 }
 
 export type $ClassTeacherPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ClassTeacher"
   objects: {
-    teacher: Prisma.$TeacherPayload<ExtArgs>
     section: Prisma.$SectionPayload<ExtArgs>
+    teacher: Prisma.$TeacherPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1016,8 +1016,8 @@ readonly fields: ClassTeacherFieldRefs;
  */
 export interface Prisma__ClassTeacherClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   section<T extends Prisma.SectionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SectionDefaultArgs<ExtArgs>>): Prisma.Prisma__SectionClient<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  teacher<T extends Prisma.TeacherDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeacherDefaultArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -1,6 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Gender } from '../../../prisma/generated/client';
-import { IsString, IsEmail, IsEnum, IsDateString, IsOptional, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsEnum,
+  IsDateString,
+  IsOptional,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class CreateStudentDto {
   @ApiProperty({
@@ -164,4 +171,50 @@ export class CreateStudentDto {
   @IsString()
   @IsOptional()
   occupation?: string;
+
+  // Second Parent Information (Optional)
+  @ApiProperty({
+    description: 'Second Parent/Guardian name',
+    example: 'John Doe',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  parent2Name?: string;
+
+  @ApiProperty({
+    description: 'Second Parent email',
+    example: 'john.doe@email.com',
+    required: false,
+  })
+  @IsEmail()
+  @IsOptional()
+  parent2Email?: string;
+
+  @ApiProperty({
+    description: 'Second Parent phone',
+    example: '+1234567890',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  parent2Phone?: string;
+
+  @ApiProperty({
+    description: 'Relationship with student',
+    example: 'Father',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  parent2Relationship?: string;
+
+  @ApiProperty({
+    description: 'Second Parent occupation',
+    example: 'Doctor',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  parent2Occupation?: string;
 }

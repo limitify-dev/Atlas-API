@@ -1,4 +1,24 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: atlas-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-atlas}
+      POSTGRES_USER: ${POSTGRES_USER:-atlas}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-atlas}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-atlas} -d ${POSTGRES_DB:-atlas}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - atlas-network
+
   # ============================================
   # Development API Service
   # ============================================
@@ -21,18 +41,45 @@ services:
     environment:
       PORT: ${PORT:-4000}
       NODE_ENV: development
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-atlas}:${POSTGRES_PASSWORD:-atlas}@postgres:5432/${POSTGRES_DB:-atlas}?schema=public}
       SUPABASE_URL: ${SUPABASE_URL}
       SUPABASE_KEY: ${SUPABASE_KEY}
+      REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
 
     env_file:
       - .env
 
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
     # Override CMD to run in dev mode with hot-reload
-    command: npm run start:dev
+    command: sh -c "npx prisma migrate deploy && npm run start:dev"
 
     networks:
       - atlas-network
+
+  # ============================================
+  # Redis (for BullMQ queues and Socket.io)
+  # ============================================
+  redis:
+    image: redis:7-alpine
+    container_name: atlas-redis-dev
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - atlas-network
+
+volumes:
+  postgres-data:
+  redis-data:
 
 networks:
   atlas-network:

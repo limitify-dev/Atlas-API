@@ -218,4 +218,44 @@ export class AuthController {
   ): Promise<{ message: string }> {
     return this.authService.resetPassword(body.token, body.newPassword);
   }
+
+  @Post('change-default-password')
+  @ApiOperation({
+    summary: 'Change default parent password',
+    description:
+      'Allows a parent still using the default password to set a new password before first use.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Password updated successfully',
+    schema: {
+      type: 'object',
+      properties: {
+        message: {
+          type: 'string',
+          example: 'Password updated successfully. Please sign in with your new password.',
+        },
+      },
+    },
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid payload or password does not meet requirements',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid credentials',
+  })
+  async changeDefaultPassword(
+    @Body()
+    body: {
+      identifier: string;
+      currentPassword: string;
+      newPassword: string;
+    },
+  ): Promise<{ message: string }> {
+    return this.authService.changeDefaultPassword(
+      body.identifier,
+      body.currentPassword,
+      body.newPassword,
+    );
+  }
 }

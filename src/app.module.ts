@@ -27,9 +27,12 @@ import { DeviceModule } from './device/device.module';
 import { SystemLogsModule } from './system-logs/system-logs.module';
 import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { BullModule } from '@nestjs/bullmq';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { RedisModule } from './common/redis/redis.module';
+import { SupabaseModule } from './common/supabase/supabase.module';
 
 @Module({
   imports: [
@@ -37,6 +40,17 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
       isGlobal: true, // Makes env vars available everywhere
     }),
     ScheduleModule.forRoot(),
+    BullModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        connection: {
+          host: configService.get('REDIS_HOST', 'localhost'),
+          port: configService.get('REDIS_PORT', 6379),
+        },
+      }),
+    }),
+    RedisModule,
+    SupabaseModule,
     PrismaModule,
     EmailModule,
     AuthModule,

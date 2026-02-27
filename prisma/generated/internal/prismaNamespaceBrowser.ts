@@ -68,6 +68,7 @@ export const ModelName = {
   Attendance: 'Attendance',
   TeacherAttendance: 'TeacherAttendance',
   Book: 'Book',
+  BookCopy: 'BookCopy',
   BookTransaction: 'BookTransaction',
   Bus: 'Bus',
   BusRoute: 'BusRoute',
@@ -77,6 +78,10 @@ export const ModelName = {
   ConductRecord: 'ConductRecord',
   StudentConductPoints: 'StudentConductPoints',
   ConductPointTransaction: 'ConductPointTransaction',
+  Conversation: 'Conversation',
+  ConversationParticipant: 'ConversationParticipant',
+  ChatMessage: 'ChatMessage',
+  PushToken: 'PushToken',
   Message: 'Message',
   Announcement: 'Announcement',
   Notification: 'Notification',
@@ -114,7 +119,6 @@ export const TenantScalarFieldEnum = {
   slug: 'slug',
   domain: 'domain',
   logo: 'logo',
-  brandColor: 'brandColor',
   address: 'address',
   city: 'city',
   state: 'state',
@@ -123,7 +127,6 @@ export const TenantScalarFieldEnum = {
   phone: 'phone',
   email: 'email',
   website: 'website',
-  timezone: 'timezone',
   status: 'status',
   subscriptionPlan: 'subscriptionPlan',
   subscriptionStartDate: 'subscriptionStartDate',
@@ -132,7 +135,9 @@ export const TenantScalarFieldEnum = {
   maxTeachers: 'maxTeachers',
   settings: 'settings',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  timezone: 'timezone',
+  brandColor: 'brandColor'
 } as const
 
 export type TenantScalarFieldEnum = (typeof TenantScalarFieldEnum)[keyof typeof TenantScalarFieldEnum]
@@ -143,7 +148,6 @@ export const UserScalarFieldEnum = {
   tenantId: 'tenantId',
   email: 'email',
   name: 'name',
-  username: 'username',
   password: 'password',
   phone: 'phone',
   avatar: 'avatar',
@@ -153,7 +157,9 @@ export const UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  lastLoginAt: 'lastLoginAt'
+  lastLoginAt: 'lastLoginAt',
+  passwordChangedAt: 'passwordChangedAt',
+  username: 'username'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -191,8 +197,6 @@ export const StudentScalarFieldEnum = {
   studentId: 'studentId',
   firstName: 'firstName',
   lastName: 'lastName',
-  email: 'email',
-  phone: 'phone',
   dateOfBirth: 'dateOfBirth',
   gender: 'gender',
   bloodGroup: 'bloodGroup',
@@ -204,7 +208,9 @@ export const StudentScalarFieldEnum = {
   gradeId: 'gradeId',
   sectionId: 'sectionId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  email: 'email',
+  phone: 'phone'
 } as const
 
 export type StudentScalarFieldEnum = (typeof StudentScalarFieldEnum)[keyof typeof StudentScalarFieldEnum]
@@ -244,14 +250,14 @@ export const TeacherScalarFieldEnum = {
   firstName: 'firstName',
   lastName: 'lastName',
   dateOfBirth: 'dateOfBirth',
-  photoUrl: 'photoUrl',
   gender: 'gender',
   qualification: 'qualification',
   specialization: 'specialization',
-  department: 'department',
   joiningDate: 'joiningDate',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  department: 'department',
+  photoUrl: 'photoUrl'
 } as const
 
 export type TeacherScalarFieldEnum = (typeof TeacherScalarFieldEnum)[keyof typeof TeacherScalarFieldEnum]
@@ -261,13 +267,13 @@ export const GradeScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   name: 'name',
-  code: 'code',
   level: 'level',
-  schoolLevel: 'schoolLevel',
-  educationLevel: 'educationLevel',
   description: 'description',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  code: 'code',
+  schoolLevel: 'schoolLevel',
+  educationLevel: 'educationLevel'
 } as const
 
 export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof GradeScalarFieldEnum]
@@ -293,12 +299,12 @@ export const SectionScalarFieldEnum = {
   tenantId: 'tenantId',
   name: 'name',
   gradeId: 'gradeId',
+  capacity: 'capacity',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   combinationId: 'combinationId',
   division: 'division',
-  capacity: 'capacity',
-  isActive: 'isActive',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  isActive: 'isActive'
 } as const
 
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
@@ -344,10 +350,10 @@ export const AttendanceScalarFieldEnum = {
   tenantId: 'tenantId',
   studentId: 'studentId',
   status: 'status',
-  checkInTime: 'checkInTime',
   remarks: 'remarks',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  checkInTime: 'checkInTime'
 } as const
 
 export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
@@ -383,10 +389,25 @@ export const BookScalarFieldEnum = {
   imageUrl: 'imageUrl',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  price: 'price'
 } as const
 
 export type BookScalarFieldEnum = (typeof BookScalarFieldEnum)[keyof typeof BookScalarFieldEnum]
+
+
+export const BookCopyScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  bookId: 'bookId',
+  code: 'code',
+  shelf: 'shelf',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BookCopyScalarFieldEnum = (typeof BookCopyScalarFieldEnum)[keyof typeof BookCopyScalarFieldEnum]
 
 
 export const BookTransactionScalarFieldEnum = {
@@ -400,7 +421,9 @@ export const BookTransactionScalarFieldEnum = {
   fine: 'fine',
   remarks: 'remarks',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  bookCopyId: 'bookCopyId',
+  sectionId: 'sectionId'
 } as const
 
 export type BookTransactionScalarFieldEnum = (typeof BookTransactionScalarFieldEnum)[keyof typeof BookTransactionScalarFieldEnum]
@@ -458,26 +481,26 @@ export const PermissionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
   studentId: 'studentId',
-  permissionType: 'permissionType',
   requestDate: 'requestDate',
-  title: 'title',
-  reason: 'reason',
   fromDate: 'fromDate',
   toDate: 'toDate',
-  fromTime: 'fromTime',
-  toTime: 'toTime',
-  schedule: 'schedule',
+  reason: 'reason',
   status: 'status',
-  requestedBy: 'requestedBy',
-  requestedById: 'requestedById',
   approvedBy: 'approvedBy',
   approvedAt: 'approvedAt',
   remarks: 'remarks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  fromTime: 'fromTime',
+  permissionType: 'permissionType',
   qrCode: 'qrCode',
   qrCodeUsed: 'qrCodeUsed',
-  usedAt: 'usedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  requestedBy: 'requestedBy',
+  requestedById: 'requestedById',
+  schedule: 'schedule',
+  title: 'title',
+  toTime: 'toTime',
+  usedAt: 'usedAt'
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
@@ -504,16 +527,16 @@ export const ConductRecordScalarFieldEnum = {
   description: 'description',
   date: 'date',
   reportedBy: 'reportedBy',
-  reportedByUserId: 'reportedByUserId',
   severity: 'severity',
-  pointsDeducted: 'pointsDeducted',
-  incidentStatus: 'incidentStatus',
   actionTaken: 'actionTaken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  incidentStatus: 'incidentStatus',
+  pointsDeducted: 'pointsDeducted',
   resolutionNotes: 'resolutionNotes',
   resolvedAt: 'resolvedAt',
   resolvedBy: 'resolvedBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  reportedByUserId: 'reportedByUserId'
 } as const
 
 export type ConductRecordScalarFieldEnum = (typeof ConductRecordScalarFieldEnum)[keyof typeof ConductRecordScalarFieldEnum]
@@ -548,6 +571,66 @@ export const ConductPointTransactionScalarFieldEnum = {
 export type ConductPointTransactionScalarFieldEnum = (typeof ConductPointTransactionScalarFieldEnum)[keyof typeof ConductPointTransactionScalarFieldEnum]
 
 
+export const ConversationScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  type: 'type',
+  name: 'name',
+  description: 'description',
+  avatar: 'avatar',
+  sectionId: 'sectionId',
+  createdBy: 'createdBy',
+  isReadOnly: 'isReadOnly',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  status: 'status',
+  lastMessageAt: 'lastMessageAt'
+} as const
+
+export type ConversationScalarFieldEnum = (typeof ConversationScalarFieldEnum)[keyof typeof ConversationScalarFieldEnum]
+
+
+export const ConversationParticipantScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt',
+  lastReadAt: 'lastReadAt',
+  isMuted: 'isMuted'
+} as const
+
+export type ConversationParticipantScalarFieldEnum = (typeof ConversationParticipantScalarFieldEnum)[keyof typeof ConversationParticipantScalarFieldEnum]
+
+
+export const ChatMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  senderId: 'senderId',
+  content: 'content',
+  type: 'type',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
+
+
+export const PushTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  platform: 'platform',
+  deviceId: 'deviceId',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PushTokenScalarFieldEnum = (typeof PushTokenScalarFieldEnum)[keyof typeof PushTokenScalarFieldEnum]
+
+
 export const MessageScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -568,10 +651,17 @@ export const AnnouncementScalarFieldEnum = {
   tenantId: 'tenantId',
   title: 'title',
   content: 'content',
+  imageUrl: 'imageUrl',
+  ctaLabel: 'ctaLabel',
+  ctaType: 'ctaType',
+  ctaUrl: 'ctaUrl',
   priority: 'priority',
   publishedBy: 'publishedBy',
   publishedAt: 'publishedAt',
   expiresAt: 'expiresAt',
+  isPinned: 'isPinned',
+  audience: 'audience',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -37,6 +37,46 @@ wait_for_postgres() {
     exit 1
 }
 
+# Function to wait for Redis to be ready
+wait_for_redis() {
+    echo "Waiting for Redis to be ready..."
+
+    # Prefer REDIS_HOST/REDIS_PORT; fallback to REDIS_URL parsing
+    REDIS_CHECK_HOST="${REDIS_HOST}"
+    REDIS_CHECK_PORT="${REDIS_PORT}"
+
+    if [ -z "$REDIS_CHECK_HOST" ] || [ -z "$REDIS_CHECK_PORT" ]; then
+        REDIS_CHECK_HOST=$(echo $REDIS_URL | sed -n 's#redis://\([^:/]*\).*#\1#p')
+        REDIS_CHECK_PORT=$(echo $REDIS_URL | sed -n 's#redis://[^:]*:\([0-9]*\).*#\1#p')
+    fi
+
+    if [ -z "$REDIS_CHECK_HOST" ]; then
+        REDIS_CHECK_HOST="localhost"
+    fi
+    if [ -z "$REDIS_CHECK_PORT" ]; then
+        REDIS_CHECK_PORT="6379"
+    fi
+
+    echo "Checking redis at $REDIS_CHECK_HOST:$REDIS_CHECK_PORT..."
+
+    max_attempts=30
+    attempt=0
+
+    while [ $attempt -lt $max_attempts ]; do
+        if nc -z "$REDIS_CHECK_HOST" "$REDIS_CHECK_PORT" 2>/dev/null; then
+            echo "Redis is ready!"
+            return 0
+        fi
+
+        attempt=$((attempt + 1))
+        echo "Attempt $attempt/$max_attempts - Redis not ready yet..."
+        sleep 2
+    done
+
+    echo "Redis is not available after $max_attempts attempts"
+    exit 1
+}
+
 # Function to run Prisma migrations
 run_migrations() {
     echo "Running Prisma migrations..."
@@ -65,7 +105,10 @@ generate_prisma_client() {
 main() {
     # Wait for database to be ready
     wait_for_postgres
-    
+
+    # Wait for redis to be ready
+    wait_for_redis
+
     # Run migrations
     run_migrations
     

@@ -32,14 +32,14 @@ export type TeacherMinAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   dateOfBirth: Date | null
-  photoUrl: string | null
   gender: $Enums.Gender | null
   qualification: string | null
   specialization: string | null
-  department: string | null
   joiningDate: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  department: string | null
+  photoUrl: string | null
 }
 
 export type TeacherMaxAggregateOutputType = {
@@ -50,14 +50,14 @@ export type TeacherMaxAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   dateOfBirth: Date | null
-  photoUrl: string | null
   gender: $Enums.Gender | null
   qualification: string | null
   specialization: string | null
-  department: string | null
   joiningDate: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  department: string | null
+  photoUrl: string | null
 }
 
 export type TeacherCountAggregateOutputType = {
@@ -68,14 +68,14 @@ export type TeacherCountAggregateOutputType = {
   firstName: number
   lastName: number
   dateOfBirth: number
-  photoUrl: number
   gender: number
   qualification: number
   specialization: number
-  department: number
   joiningDate: number
   createdAt: number
   updatedAt: number
+  department: number
+  photoUrl: number
   _all: number
 }
 
@@ -88,14 +88,14 @@ export type TeacherMinAggregateInputType = {
   firstName?: true
   lastName?: true
   dateOfBirth?: true
-  photoUrl?: true
   gender?: true
   qualification?: true
   specialization?: true
-  department?: true
   joiningDate?: true
   createdAt?: true
   updatedAt?: true
+  department?: true
+  photoUrl?: true
 }
 
 export type TeacherMaxAggregateInputType = {
@@ -106,14 +106,14 @@ export type TeacherMaxAggregateInputType = {
   firstName?: true
   lastName?: true
   dateOfBirth?: true
-  photoUrl?: true
   gender?: true
   qualification?: true
   specialization?: true
-  department?: true
   joiningDate?: true
   createdAt?: true
   updatedAt?: true
+  department?: true
+  photoUrl?: true
 }
 
 export type TeacherCountAggregateInputType = {
@@ -124,14 +124,14 @@ export type TeacherCountAggregateInputType = {
   firstName?: true
   lastName?: true
   dateOfBirth?: true
-  photoUrl?: true
   gender?: true
   qualification?: true
   specialization?: true
-  department?: true
   joiningDate?: true
   createdAt?: true
   updatedAt?: true
+  department?: true
+  photoUrl?: true
   _all?: true
 }
 
@@ -215,14 +215,14 @@ export type TeacherGroupByOutputType = {
   firstName: string
   lastName: string
   dateOfBirth: Date | null
-  photoUrl: string | null
   gender: $Enums.Gender | null
   qualification: string | null
   specialization: string | null
-  department: string | null
   joiningDate: Date
   createdAt: Date
   updatedAt: Date
+  department: string | null
+  photoUrl: string | null
   _count: TeacherCountAggregateOutputType | null
   _min: TeacherMinAggregateOutputType | null
   _max: TeacherMaxAggregateOutputType | null
@@ -254,21 +254,21 @@ export type TeacherWhereInput = {
   firstName?: Prisma.StringFilter<"Teacher"> | string
   lastName?: Prisma.StringFilter<"Teacher"> | string
   dateOfBirth?: Prisma.DateTimeNullableFilter<"Teacher"> | Date | string | null
-  photoUrl?: Prisma.StringNullableFilter<"Teacher"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"Teacher"> | $Enums.Gender | null
   qualification?: Prisma.StringNullableFilter<"Teacher"> | string | null
   specialization?: Prisma.StringNullableFilter<"Teacher"> | string | null
-  department?: Prisma.StringNullableFilter<"Teacher"> | string | null
   joiningDate?: Prisma.DateTimeFilter<"Teacher"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Teacher"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Teacher"> | Date | string
+  department?: Prisma.StringNullableFilter<"Teacher"> | string | null
+  photoUrl?: Prisma.StringNullableFilter<"Teacher"> | string | null
+  card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
+  classes?: Prisma.ClassTeacherListRelationFilter
+  conductRecords?: Prisma.ConductRecordListRelationFilter
+  subjects?: Prisma.SubjectTeacherListRelationFilter
+  attendances?: Prisma.TeacherAttendanceListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  classes?: Prisma.ClassTeacherListRelationFilter
-  subjects?: Prisma.SubjectTeacherListRelationFilter
-  conductRecords?: Prisma.ConductRecordListRelationFilter
-  attendances?: Prisma.TeacherAttendanceListRelationFilter
-  card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
 }
 
 export type TeacherOrderByWithRelationInput = {
@@ -279,21 +279,21 @@ export type TeacherOrderByWithRelationInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
-  photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
   qualification?: Prisma.SortOrderInput | Prisma.SortOrder
   specialization?: Prisma.SortOrderInput | Prisma.SortOrder
-  department?: Prisma.SortOrderInput | Prisma.SortOrder
   joiningDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  department?: Prisma.SortOrderInput | Prisma.SortOrder
+  photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  card?: Prisma.CardOrderByWithRelationInput
+  classes?: Prisma.ClassTeacherOrderByRelationAggregateInput
+  conductRecords?: Prisma.ConductRecordOrderByRelationAggregateInput
+  subjects?: Prisma.SubjectTeacherOrderByRelationAggregateInput
+  attendances?: Prisma.TeacherAttendanceOrderByRelationAggregateInput
   tenant?: Prisma.TenantOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  classes?: Prisma.ClassTeacherOrderByRelationAggregateInput
-  subjects?: Prisma.SubjectTeacherOrderByRelationAggregateInput
-  conductRecords?: Prisma.ConductRecordOrderByRelationAggregateInput
-  attendances?: Prisma.TeacherAttendanceOrderByRelationAggregateInput
-  card?: Prisma.CardOrderByWithRelationInput
 }
 
 export type TeacherWhereUniqueInput = Prisma.AtLeast<{
@@ -308,21 +308,21 @@ export type TeacherWhereUniqueInput = Prisma.AtLeast<{
   firstName?: Prisma.StringFilter<"Teacher"> | string
   lastName?: Prisma.StringFilter<"Teacher"> | string
   dateOfBirth?: Prisma.DateTimeNullableFilter<"Teacher"> | Date | string | null
-  photoUrl?: Prisma.StringNullableFilter<"Teacher"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"Teacher"> | $Enums.Gender | null
   qualification?: Prisma.StringNullableFilter<"Teacher"> | string | null
   specialization?: Prisma.StringNullableFilter<"Teacher"> | string | null
-  department?: Prisma.StringNullableFilter<"Teacher"> | string | null
   joiningDate?: Prisma.DateTimeFilter<"Teacher"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Teacher"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Teacher"> | Date | string
+  department?: Prisma.StringNullableFilter<"Teacher"> | string | null
+  photoUrl?: Prisma.StringNullableFilter<"Teacher"> | string | null
+  card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
+  classes?: Prisma.ClassTeacherListRelationFilter
+  conductRecords?: Prisma.ConductRecordListRelationFilter
+  subjects?: Prisma.SubjectTeacherListRelationFilter
+  attendances?: Prisma.TeacherAttendanceListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  classes?: Prisma.ClassTeacherListRelationFilter
-  subjects?: Prisma.SubjectTeacherListRelationFilter
-  conductRecords?: Prisma.ConductRecordListRelationFilter
-  attendances?: Prisma.TeacherAttendanceListRelationFilter
-  card?: Prisma.XOR<Prisma.CardNullableScalarRelationFilter, Prisma.CardWhereInput> | null
 }, "id" | "userId" | "tenantId_teacherId">
 
 export type TeacherOrderByWithAggregationInput = {
@@ -333,14 +333,14 @@ export type TeacherOrderByWithAggregationInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrderInput | Prisma.SortOrder
-  photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   gender?: Prisma.SortOrderInput | Prisma.SortOrder
   qualification?: Prisma.SortOrderInput | Prisma.SortOrder
   specialization?: Prisma.SortOrderInput | Prisma.SortOrder
-  department?: Prisma.SortOrderInput | Prisma.SortOrder
   joiningDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  department?: Prisma.SortOrderInput | Prisma.SortOrder
+  photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TeacherCountOrderByAggregateInput
   _max?: Prisma.TeacherMaxOrderByAggregateInput
   _min?: Prisma.TeacherMinOrderByAggregateInput
@@ -357,14 +357,14 @@ export type TeacherScalarWhereWithAggregatesInput = {
   firstName?: Prisma.StringWithAggregatesFilter<"Teacher"> | string
   lastName?: Prisma.StringWithAggregatesFilter<"Teacher"> | string
   dateOfBirth?: Prisma.DateTimeNullableWithAggregatesFilter<"Teacher"> | Date | string | null
-  photoUrl?: Prisma.StringNullableWithAggregatesFilter<"Teacher"> | string | null
   gender?: Prisma.EnumGenderNullableWithAggregatesFilter<"Teacher"> | $Enums.Gender | null
   qualification?: Prisma.StringNullableWithAggregatesFilter<"Teacher"> | string | null
   specialization?: Prisma.StringNullableWithAggregatesFilter<"Teacher"> | string | null
-  department?: Prisma.StringNullableWithAggregatesFilter<"Teacher"> | string | null
   joiningDate?: Prisma.DateTimeWithAggregatesFilter<"Teacher"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Teacher"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Teacher"> | Date | string
+  department?: Prisma.StringNullableWithAggregatesFilter<"Teacher"> | string | null
+  photoUrl?: Prisma.StringNullableWithAggregatesFilter<"Teacher"> | string | null
 }
 
 export type TeacherCreateInput = {
@@ -373,21 +373,21 @@ export type TeacherCreateInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
+  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
+  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
   user: Prisma.UserCreateNestedOneWithoutTeacherInput
-  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
-  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
 }
 
 export type TeacherUncheckedCreateInput = {
@@ -398,19 +398,19 @@ export type TeacherUncheckedCreateInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
   card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
+  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type TeacherUpdateInput = {
@@ -419,21 +419,21 @@ export type TeacherUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
+  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
-  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
-  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
 }
 
 export type TeacherUncheckedUpdateInput = {
@@ -444,19 +444,19 @@ export type TeacherUncheckedUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
+  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type TeacherCreateManyInput = {
@@ -467,14 +467,14 @@ export type TeacherCreateManyInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
 }
 
 export type TeacherUpdateManyMutationInput = {
@@ -483,14 +483,14 @@ export type TeacherUpdateManyMutationInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TeacherUncheckedUpdateManyInput = {
@@ -501,14 +501,14 @@ export type TeacherUncheckedUpdateManyInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TeacherListRelationFilter = {
@@ -539,14 +539,14 @@ export type TeacherCountOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
-  photoUrl?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   qualification?: Prisma.SortOrder
   specialization?: Prisma.SortOrder
-  department?: Prisma.SortOrder
   joiningDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  photoUrl?: Prisma.SortOrder
 }
 
 export type TeacherMaxOrderByAggregateInput = {
@@ -557,14 +557,14 @@ export type TeacherMaxOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
-  photoUrl?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   qualification?: Prisma.SortOrder
   specialization?: Prisma.SortOrder
-  department?: Prisma.SortOrder
   joiningDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  photoUrl?: Prisma.SortOrder
 }
 
 export type TeacherMinOrderByAggregateInput = {
@@ -575,14 +575,14 @@ export type TeacherMinOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   dateOfBirth?: Prisma.SortOrder
-  photoUrl?: Prisma.SortOrder
   gender?: Prisma.SortOrder
   qualification?: Prisma.SortOrder
   specialization?: Prisma.SortOrder
-  department?: Prisma.SortOrder
   joiningDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  department?: Prisma.SortOrder
+  photoUrl?: Prisma.SortOrder
 }
 
 export type TeacherScalarRelationFilter = {
@@ -748,20 +748,20 @@ export type TeacherCreateWithoutTenantInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTeacherInput
-  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
   card?: Prisma.CardCreateNestedOneWithoutTeacherInput
+  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
+  user: Prisma.UserCreateNestedOneWithoutTeacherInput
 }
 
 export type TeacherUncheckedCreateWithoutTenantInput = {
@@ -771,19 +771,19 @@ export type TeacherUncheckedCreateWithoutTenantInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
   card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
+  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type TeacherCreateOrConnectWithoutTenantInput = {
@@ -823,14 +823,14 @@ export type TeacherScalarWhereInput = {
   firstName?: Prisma.StringFilter<"Teacher"> | string
   lastName?: Prisma.StringFilter<"Teacher"> | string
   dateOfBirth?: Prisma.DateTimeNullableFilter<"Teacher"> | Date | string | null
-  photoUrl?: Prisma.StringNullableFilter<"Teacher"> | string | null
   gender?: Prisma.EnumGenderNullableFilter<"Teacher"> | $Enums.Gender | null
   qualification?: Prisma.StringNullableFilter<"Teacher"> | string | null
   specialization?: Prisma.StringNullableFilter<"Teacher"> | string | null
-  department?: Prisma.StringNullableFilter<"Teacher"> | string | null
   joiningDate?: Prisma.DateTimeFilter<"Teacher"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"Teacher"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Teacher"> | Date | string
+  department?: Prisma.StringNullableFilter<"Teacher"> | string | null
+  photoUrl?: Prisma.StringNullableFilter<"Teacher"> | string | null
 }
 
 export type TeacherCreateWithoutUserInput = {
@@ -839,20 +839,20 @@ export type TeacherCreateWithoutUserInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
-  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
   card?: Prisma.CardCreateNestedOneWithoutTeacherInput
+  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
 }
 
 export type TeacherUncheckedCreateWithoutUserInput = {
@@ -862,19 +862,19 @@ export type TeacherUncheckedCreateWithoutUserInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
   card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
+  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type TeacherCreateOrConnectWithoutUserInput = {
@@ -899,20 +899,20 @@ export type TeacherUpdateWithoutUserInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
-  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
+  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
 }
 
 export type TeacherUncheckedUpdateWithoutUserInput = {
@@ -922,19 +922,19 @@ export type TeacherUncheckedUpdateWithoutUserInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
+  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type TeacherCreateWithoutClassesInput = {
@@ -943,20 +943,20 @@ export type TeacherCreateWithoutClassesInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
+  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
   user: Prisma.UserCreateNestedOneWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
-  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
 }
 
 export type TeacherUncheckedCreateWithoutClassesInput = {
@@ -967,18 +967,18 @@ export type TeacherUncheckedCreateWithoutClassesInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
   card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type TeacherCreateOrConnectWithoutClassesInput = {
@@ -1003,20 +1003,20 @@ export type TeacherUpdateWithoutClassesInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
-  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
 }
 
 export type TeacherUncheckedUpdateWithoutClassesInput = {
@@ -1027,18 +1027,18 @@ export type TeacherUncheckedUpdateWithoutClassesInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type TeacherCreateWithoutSubjectsInput = {
@@ -1047,20 +1047,20 @@ export type TeacherCreateWithoutSubjectsInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
-  user: Prisma.UserCreateNestedOneWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
+  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
   classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
   attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
-  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
+  user: Prisma.UserCreateNestedOneWithoutTeacherInput
 }
 
 export type TeacherUncheckedCreateWithoutSubjectsInput = {
@@ -1071,18 +1071,18 @@ export type TeacherUncheckedCreateWithoutSubjectsInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
+  card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
   attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
-  card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
 }
 
 export type TeacherCreateOrConnectWithoutSubjectsInput = {
@@ -1107,20 +1107,20 @@ export type TeacherUpdateWithoutSubjectsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
   classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
   attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
-  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
 }
 
 export type TeacherUncheckedUpdateWithoutSubjectsInput = {
@@ -1131,18 +1131,18 @@ export type TeacherUncheckedUpdateWithoutSubjectsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
   attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
-  card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
 }
 
 export type TeacherCreateWithoutAttendancesInput = {
@@ -1151,20 +1151,20 @@ export type TeacherCreateWithoutAttendancesInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
+  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
+  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
   tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
   user: Prisma.UserCreateNestedOneWithoutTeacherInput
-  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
-  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
 }
 
 export type TeacherUncheckedCreateWithoutAttendancesInput = {
@@ -1175,18 +1175,18 @@ export type TeacherUncheckedCreateWithoutAttendancesInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
   card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
+  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
 }
 
 export type TeacherCreateOrConnectWithoutAttendancesInput = {
@@ -1211,20 +1211,20 @@ export type TeacherUpdateWithoutAttendancesInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
+  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
-  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
-  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
 }
 
 export type TeacherUncheckedUpdateWithoutAttendancesInput = {
@@ -1235,18 +1235,18 @@ export type TeacherUncheckedUpdateWithoutAttendancesInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
+  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type TeacherCreateWithoutConductRecordsInput = {
@@ -1255,20 +1255,20 @@ export type TeacherCreateWithoutConductRecordsInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
-  user: Prisma.UserCreateNestedOneWithoutTeacherInput
+  department?: string | null
+  photoUrl?: string | null
+  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
   classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
   subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
   attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
-  card?: Prisma.CardCreateNestedOneWithoutTeacherInput
+  tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
+  user: Prisma.UserCreateNestedOneWithoutTeacherInput
 }
 
 export type TeacherUncheckedCreateWithoutConductRecordsInput = {
@@ -1279,18 +1279,18 @@ export type TeacherUncheckedCreateWithoutConductRecordsInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
+  card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
   subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
   attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
-  card?: Prisma.CardUncheckedCreateNestedOneWithoutTeacherInput
 }
 
 export type TeacherCreateOrConnectWithoutConductRecordsInput = {
@@ -1315,20 +1315,20 @@ export type TeacherUpdateWithoutConductRecordsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
   classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
   subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
   attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
-  card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
 }
 
 export type TeacherUncheckedUpdateWithoutConductRecordsInput = {
@@ -1339,18 +1339,18 @@ export type TeacherUncheckedUpdateWithoutConductRecordsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
   subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
   attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
-  card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
 }
 
 export type TeacherCreateWithoutCardInput = {
@@ -1359,20 +1359,20 @@ export type TeacherCreateWithoutCardInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
+  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
+  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
   tenant: Prisma.TenantCreateNestedOneWithoutTeachersInput
   user: Prisma.UserCreateNestedOneWithoutTeacherInput
-  classes?: Prisma.ClassTeacherCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherCreateNestedManyWithoutTeacherInput
-  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTeacherInput
-  attendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTeacherInput
 }
 
 export type TeacherUncheckedCreateWithoutCardInput = {
@@ -1383,17 +1383,17 @@ export type TeacherUncheckedCreateWithoutCardInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutTeacherInput
-  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTeacherInput
+  subjects?: Prisma.SubjectTeacherUncheckedCreateNestedManyWithoutTeacherInput
   attendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTeacherInput
 }
 
@@ -1419,20 +1419,20 @@ export type TeacherUpdateWithoutCardInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutTeachersNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
-  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
 }
 
 export type TeacherUncheckedUpdateWithoutCardInput = {
@@ -1443,17 +1443,17 @@ export type TeacherUncheckedUpdateWithoutCardInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
   attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
@@ -1464,14 +1464,14 @@ export type TeacherCreateManyTenantInput = {
   firstName: string
   lastName: string
   dateOfBirth?: Date | string | null
-  photoUrl?: string | null
   gender?: $Enums.Gender | null
   qualification?: string | null
   specialization?: string | null
-  department?: string | null
   joiningDate: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  department?: string | null
+  photoUrl?: string | null
 }
 
 export type TeacherUpdateWithoutTenantInput = {
@@ -1480,20 +1480,20 @@ export type TeacherUpdateWithoutTenantInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
-  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   card?: Prisma.CardUpdateOneWithoutTeacherNestedInput
+  classes?: Prisma.ClassTeacherUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUpdateManyWithoutTeacherNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTeacherNestedInput
 }
 
 export type TeacherUncheckedUpdateWithoutTenantInput = {
@@ -1503,19 +1503,19 @@ export type TeacherUncheckedUpdateWithoutTenantInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
-  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
-  attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   card?: Prisma.CardUncheckedUpdateOneWithoutTeacherNestedInput
+  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTeacherNestedInput
+  subjects?: Prisma.SubjectTeacherUncheckedUpdateManyWithoutTeacherNestedInput
+  attendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTeacherNestedInput
 }
 
 export type TeacherUncheckedUpdateManyWithoutTenantInput = {
@@ -1525,14 +1525,14 @@ export type TeacherUncheckedUpdateManyWithoutTenantInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   dateOfBirth?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gender?: Prisma.NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
   qualification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   specialization?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   joiningDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1542,15 +1542,15 @@ export type TeacherUncheckedUpdateManyWithoutTenantInput = {
 
 export type TeacherCountOutputType = {
   classes: number
-  subjects: number
   conductRecords: number
+  subjects: number
   attendances: number
 }
 
 export type TeacherCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   classes?: boolean | TeacherCountOutputTypeCountClassesArgs
-  subjects?: boolean | TeacherCountOutputTypeCountSubjectsArgs
   conductRecords?: boolean | TeacherCountOutputTypeCountConductRecordsArgs
+  subjects?: boolean | TeacherCountOutputTypeCountSubjectsArgs
   attendances?: boolean | TeacherCountOutputTypeCountAttendancesArgs
 }
 
@@ -1574,15 +1574,15 @@ export type TeacherCountOutputTypeCountClassesArgs<ExtArgs extends runtime.Types
 /**
  * TeacherCountOutputType without action
  */
-export type TeacherCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubjectTeacherWhereInput
+export type TeacherCountOutputTypeCountConductRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ConductRecordWhereInput
 }
 
 /**
  * TeacherCountOutputType without action
  */
-export type TeacherCountOutputTypeCountConductRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ConductRecordWhereInput
+export type TeacherCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubjectTeacherWhereInput
 }
 
 /**
@@ -1601,21 +1601,21 @@ export type TeacherSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   firstName?: boolean
   lastName?: boolean
   dateOfBirth?: boolean
-  photoUrl?: boolean
   gender?: boolean
   qualification?: boolean
   specialization?: boolean
-  department?: boolean
   joiningDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  department?: boolean
+  photoUrl?: boolean
+  card?: boolean | Prisma.Teacher$cardArgs<ExtArgs>
+  classes?: boolean | Prisma.Teacher$classesArgs<ExtArgs>
+  conductRecords?: boolean | Prisma.Teacher$conductRecordsArgs<ExtArgs>
+  subjects?: boolean | Prisma.Teacher$subjectsArgs<ExtArgs>
+  attendances?: boolean | Prisma.Teacher$attendancesArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  classes?: boolean | Prisma.Teacher$classesArgs<ExtArgs>
-  subjects?: boolean | Prisma.Teacher$subjectsArgs<ExtArgs>
-  conductRecords?: boolean | Prisma.Teacher$conductRecordsArgs<ExtArgs>
-  attendances?: boolean | Prisma.Teacher$attendancesArgs<ExtArgs>
-  card?: boolean | Prisma.Teacher$cardArgs<ExtArgs>
   _count?: boolean | Prisma.TeacherCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacher"]>
 
@@ -1627,14 +1627,14 @@ export type TeacherSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   firstName?: boolean
   lastName?: boolean
   dateOfBirth?: boolean
-  photoUrl?: boolean
   gender?: boolean
   qualification?: boolean
   specialization?: boolean
-  department?: boolean
   joiningDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  department?: boolean
+  photoUrl?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacher"]>
@@ -1647,14 +1647,14 @@ export type TeacherSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   firstName?: boolean
   lastName?: boolean
   dateOfBirth?: boolean
-  photoUrl?: boolean
   gender?: boolean
   qualification?: boolean
   specialization?: boolean
-  department?: boolean
   joiningDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  department?: boolean
+  photoUrl?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teacher"]>
@@ -1667,25 +1667,25 @@ export type TeacherSelectScalar = {
   firstName?: boolean
   lastName?: boolean
   dateOfBirth?: boolean
-  photoUrl?: boolean
   gender?: boolean
   qualification?: boolean
   specialization?: boolean
-  department?: boolean
   joiningDate?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  department?: boolean
+  photoUrl?: boolean
 }
 
-export type TeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "userId" | "teacherId" | "firstName" | "lastName" | "dateOfBirth" | "photoUrl" | "gender" | "qualification" | "specialization" | "department" | "joiningDate" | "createdAt" | "updatedAt", ExtArgs["result"]["teacher"]>
+export type TeacherOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "userId" | "teacherId" | "firstName" | "lastName" | "dateOfBirth" | "gender" | "qualification" | "specialization" | "joiningDate" | "createdAt" | "updatedAt" | "department" | "photoUrl", ExtArgs["result"]["teacher"]>
 export type TeacherInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  card?: boolean | Prisma.Teacher$cardArgs<ExtArgs>
+  classes?: boolean | Prisma.Teacher$classesArgs<ExtArgs>
+  conductRecords?: boolean | Prisma.Teacher$conductRecordsArgs<ExtArgs>
+  subjects?: boolean | Prisma.Teacher$subjectsArgs<ExtArgs>
+  attendances?: boolean | Prisma.Teacher$attendancesArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  classes?: boolean | Prisma.Teacher$classesArgs<ExtArgs>
-  subjects?: boolean | Prisma.Teacher$subjectsArgs<ExtArgs>
-  conductRecords?: boolean | Prisma.Teacher$conductRecordsArgs<ExtArgs>
-  attendances?: boolean | Prisma.Teacher$attendancesArgs<ExtArgs>
-  card?: boolean | Prisma.Teacher$cardArgs<ExtArgs>
   _count?: boolean | Prisma.TeacherCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TeacherIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1700,13 +1700,13 @@ export type TeacherIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
 export type $TeacherPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Teacher"
   objects: {
+    card: Prisma.$CardPayload<ExtArgs> | null
+    classes: Prisma.$ClassTeacherPayload<ExtArgs>[]
+    conductRecords: Prisma.$ConductRecordPayload<ExtArgs>[]
+    subjects: Prisma.$SubjectTeacherPayload<ExtArgs>[]
+    attendances: Prisma.$TeacherAttendancePayload<ExtArgs>[]
     tenant: Prisma.$TenantPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
-    classes: Prisma.$ClassTeacherPayload<ExtArgs>[]
-    subjects: Prisma.$SubjectTeacherPayload<ExtArgs>[]
-    conductRecords: Prisma.$ConductRecordPayload<ExtArgs>[]
-    attendances: Prisma.$TeacherAttendancePayload<ExtArgs>[]
-    card: Prisma.$CardPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1716,14 +1716,14 @@ export type $TeacherPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     firstName: string
     lastName: string
     dateOfBirth: Date | null
-    photoUrl: string | null
     gender: $Enums.Gender | null
     qualification: string | null
     specialization: string | null
-    department: string | null
     joiningDate: Date
     createdAt: Date
     updatedAt: Date
+    department: string | null
+    photoUrl: string | null
   }, ExtArgs["result"]["teacher"]>
   composites: {}
 }
@@ -2118,13 +2118,13 @@ readonly fields: TeacherFieldRefs;
  */
 export interface Prisma__TeacherClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  card<T extends Prisma.Teacher$cardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$cardArgs<ExtArgs>>): Prisma.Prisma__CardClient<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  classes<T extends Prisma.Teacher$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  conductRecords<T extends Prisma.Teacher$conductRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$conductRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subjects<T extends Prisma.Teacher$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attendances<T extends Prisma.Teacher$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  classes<T extends Prisma.Teacher$classesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$classesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClassTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  subjects<T extends Prisma.Teacher$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectTeacherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  conductRecords<T extends Prisma.Teacher$conductRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$conductRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  attendances<T extends Prisma.Teacher$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeacherAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  card<T extends Prisma.Teacher$cardArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Teacher$cardArgs<ExtArgs>>): Prisma.Prisma__CardClient<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2161,14 +2161,14 @@ export interface TeacherFieldRefs {
   readonly firstName: Prisma.FieldRef<"Teacher", 'String'>
   readonly lastName: Prisma.FieldRef<"Teacher", 'String'>
   readonly dateOfBirth: Prisma.FieldRef<"Teacher", 'DateTime'>
-  readonly photoUrl: Prisma.FieldRef<"Teacher", 'String'>
   readonly gender: Prisma.FieldRef<"Teacher", 'Gender'>
   readonly qualification: Prisma.FieldRef<"Teacher", 'String'>
   readonly specialization: Prisma.FieldRef<"Teacher", 'String'>
-  readonly department: Prisma.FieldRef<"Teacher", 'String'>
   readonly joiningDate: Prisma.FieldRef<"Teacher", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Teacher", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Teacher", 'DateTime'>
+  readonly department: Prisma.FieldRef<"Teacher", 'String'>
+  readonly photoUrl: Prisma.FieldRef<"Teacher", 'String'>
 }
     
 
@@ -2565,6 +2565,25 @@ export type TeacherDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Teacher.card
+ */
+export type Teacher$cardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Card
+   */
+  select?: Prisma.CardSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Card
+   */
+  omit?: Prisma.CardOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardInclude<ExtArgs> | null
+  where?: Prisma.CardWhereInput
+}
+
+/**
  * Teacher.classes
  */
 export type Teacher$classesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2586,30 +2605,6 @@ export type Teacher$classesArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.ClassTeacherScalarFieldEnum | Prisma.ClassTeacherScalarFieldEnum[]
-}
-
-/**
- * Teacher.subjects
- */
-export type Teacher$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SubjectTeacher
-   */
-  select?: Prisma.SubjectTeacherSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the SubjectTeacher
-   */
-  omit?: Prisma.SubjectTeacherOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubjectTeacherInclude<ExtArgs> | null
-  where?: Prisma.SubjectTeacherWhereInput
-  orderBy?: Prisma.SubjectTeacherOrderByWithRelationInput | Prisma.SubjectTeacherOrderByWithRelationInput[]
-  cursor?: Prisma.SubjectTeacherWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubjectTeacherScalarFieldEnum | Prisma.SubjectTeacherScalarFieldEnum[]
 }
 
 /**
@@ -2637,6 +2632,30 @@ export type Teacher$conductRecordsArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * Teacher.subjects
+ */
+export type Teacher$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubjectTeacher
+   */
+  select?: Prisma.SubjectTeacherSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubjectTeacher
+   */
+  omit?: Prisma.SubjectTeacherOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectTeacherInclude<ExtArgs> | null
+  where?: Prisma.SubjectTeacherWhereInput
+  orderBy?: Prisma.SubjectTeacherOrderByWithRelationInput | Prisma.SubjectTeacherOrderByWithRelationInput[]
+  cursor?: Prisma.SubjectTeacherWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubjectTeacherScalarFieldEnum | Prisma.SubjectTeacherScalarFieldEnum[]
+}
+
+/**
  * Teacher.attendances
  */
 export type Teacher$attendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2658,25 +2677,6 @@ export type Teacher$attendancesArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.TeacherAttendanceScalarFieldEnum | Prisma.TeacherAttendanceScalarFieldEnum[]
-}
-
-/**
- * Teacher.card
- */
-export type Teacher$cardArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Card
-   */
-  select?: Prisma.CardSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Card
-   */
-  omit?: Prisma.CardOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CardInclude<ExtArgs> | null
-  where?: Prisma.CardWhereInput
 }
 
 /**

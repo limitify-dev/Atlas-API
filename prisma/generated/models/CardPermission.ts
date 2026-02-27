@@ -214,8 +214,8 @@ export type CardPermissionWhereInput = {
   validUntil?: Prisma.DateTimeNullableFilter<"CardPermission"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CardPermission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CardPermission"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   card?: Prisma.XOR<Prisma.CardScalarRelationFilter, Prisma.CardWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type CardPermissionOrderByWithRelationInput = {
@@ -228,8 +228,8 @@ export type CardPermissionOrderByWithRelationInput = {
   validUntil?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   card?: Prisma.CardOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type CardPermissionWhereUniqueInput = Prisma.AtLeast<{
@@ -245,8 +245,8 @@ export type CardPermissionWhereUniqueInput = Prisma.AtLeast<{
   validUntil?: Prisma.DateTimeNullableFilter<"CardPermission"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"CardPermission"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CardPermission"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   card?: Prisma.XOR<Prisma.CardScalarRelationFilter, Prisma.CardWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type CardPermissionOrderByWithAggregationInput = {
@@ -287,8 +287,8 @@ export type CardPermissionCreateInput = {
   validUntil?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCardPermissionsInput
   card: Prisma.CardCreateNestedOneWithoutPermissionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCardPermissionsInput
 }
 
 export type CardPermissionUncheckedCreateInput = {
@@ -311,8 +311,8 @@ export type CardPermissionUpdateInput = {
   validUntil?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardPermissionsNestedInput
   card?: Prisma.CardUpdateOneRequiredWithoutPermissionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardPermissionsNestedInput
 }
 
 export type CardPermissionUncheckedUpdateInput = {
@@ -702,8 +702,8 @@ export type CardPermissionSelect<ExtArgs extends runtime.Types.Extensions.Intern
   validUntil?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cardPermission"]>
 
 export type CardPermissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -716,8 +716,8 @@ export type CardPermissionSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   validUntil?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cardPermission"]>
 
 export type CardPermissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -730,8 +730,8 @@ export type CardPermissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   validUntil?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cardPermission"]>
 
 export type CardPermissionSelectScalar = {
@@ -748,23 +748,23 @@ export type CardPermissionSelectScalar = {
 
 export type CardPermissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "cardId" | "permission" | "isGranted" | "validFrom" | "validUntil" | "createdAt" | "updatedAt", ExtArgs["result"]["cardPermission"]>
 export type CardPermissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CardPermissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CardPermissionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   card?: boolean | Prisma.CardDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $CardPermissionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CardPermission"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     card: Prisma.$CardPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1170,8 +1170,8 @@ readonly fields: CardPermissionFieldRefs;
  */
 export interface Prisma__CardPermissionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   card<T extends Prisma.CardDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CardDefaultArgs<ExtArgs>>): Prisma.Prisma__CardClient<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

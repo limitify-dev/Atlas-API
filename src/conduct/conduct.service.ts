@@ -536,7 +536,9 @@ export class ConductService {
       });
     }
 
-    const newPoints = Math.min(100, pointsRecord!.currentPoints + dto.points);
+    const pointsBefore = pointsRecord!.currentPoints;
+    const newPoints = Math.min(100, pointsBefore + dto.points);
+    const appliedChange = newPoints - pointsBefore;
 
     await this.prisma.$transaction([
       this.prisma.studentConductPoints.update({
@@ -551,8 +553,8 @@ export class ConductService {
           tenantId,
           studentConductPointsId: pointsRecord!.id,
           transactionType: PointTransactionType.ADDITION,
-          pointsChange: dto.points,
-          pointsBefore: pointsRecord!.currentPoints,
+          pointsChange: appliedChange,
+          pointsBefore,
           pointsAfter: newPoints,
           reason: dto.reason,
           recordedBy: recordedById,
@@ -763,7 +765,9 @@ export class ConductService {
       });
     }
 
-    const newPoints = Math.max(0, pointsRecord!.currentPoints - points);
+    const pointsBefore = pointsRecord!.currentPoints;
+    const newPoints = Math.max(0, pointsBefore - points);
+    const appliedChange = newPoints - pointsBefore;
 
     await this.prisma.$transaction([
       this.prisma.studentConductPoints.update({
@@ -779,8 +783,8 @@ export class ConductService {
           studentConductPointsId: pointsRecord!.id,
           conductRecordId,
           transactionType: PointTransactionType.DEDUCTION,
-          pointsChange: -points,
-          pointsBefore: pointsRecord!.currentPoints,
+          pointsChange: appliedChange,
+          pointsBefore,
           pointsAfter: newPoints,
           reason,
           recordedBy: recordedById,

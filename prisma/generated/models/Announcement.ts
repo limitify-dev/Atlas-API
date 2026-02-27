@@ -29,10 +29,17 @@ export type AnnouncementMinAggregateOutputType = {
   tenantId: string | null
   title: string | null
   content: string | null
+  imageUrl: string | null
+  ctaLabel: string | null
+  ctaType: string | null
+  ctaUrl: string | null
   priority: string | null
   publishedBy: string | null
   publishedAt: Date | null
   expiresAt: Date | null
+  isPinned: boolean | null
+  audience: string | null
+  status: $Enums.AnnouncementStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,10 +49,17 @@ export type AnnouncementMaxAggregateOutputType = {
   tenantId: string | null
   title: string | null
   content: string | null
+  imageUrl: string | null
+  ctaLabel: string | null
+  ctaType: string | null
+  ctaUrl: string | null
   priority: string | null
   publishedBy: string | null
   publishedAt: Date | null
   expiresAt: Date | null
+  isPinned: boolean | null
+  audience: string | null
+  status: $Enums.AnnouncementStatus | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -55,10 +69,17 @@ export type AnnouncementCountAggregateOutputType = {
   tenantId: number
   title: number
   content: number
+  imageUrl: number
+  ctaLabel: number
+  ctaType: number
+  ctaUrl: number
   priority: number
   publishedBy: number
   publishedAt: number
   expiresAt: number
+  isPinned: number
+  audience: number
+  status: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,10 +91,17 @@ export type AnnouncementMinAggregateInputType = {
   tenantId?: true
   title?: true
   content?: true
+  imageUrl?: true
+  ctaLabel?: true
+  ctaType?: true
+  ctaUrl?: true
   priority?: true
   publishedBy?: true
   publishedAt?: true
   expiresAt?: true
+  isPinned?: true
+  audience?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -83,10 +111,17 @@ export type AnnouncementMaxAggregateInputType = {
   tenantId?: true
   title?: true
   content?: true
+  imageUrl?: true
+  ctaLabel?: true
+  ctaType?: true
+  ctaUrl?: true
   priority?: true
   publishedBy?: true
   publishedAt?: true
   expiresAt?: true
+  isPinned?: true
+  audience?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -96,10 +131,17 @@ export type AnnouncementCountAggregateInputType = {
   tenantId?: true
   title?: true
   content?: true
+  imageUrl?: true
+  ctaLabel?: true
+  ctaType?: true
+  ctaUrl?: true
   priority?: true
   publishedBy?: true
   publishedAt?: true
   expiresAt?: true
+  isPinned?: true
+  audience?: true
+  status?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -182,10 +224,17 @@ export type AnnouncementGroupByOutputType = {
   tenantId: string
   title: string
   content: string
+  imageUrl: string | null
+  ctaLabel: string | null
+  ctaType: string | null
+  ctaUrl: string | null
   priority: string
   publishedBy: string
   publishedAt: Date
   expiresAt: Date | null
+  isPinned: boolean
+  audience: string
+  status: $Enums.AnnouncementStatus
   createdAt: Date
   updatedAt: Date
   _count: AnnouncementCountAggregateOutputType | null
@@ -216,14 +265,21 @@ export type AnnouncementWhereInput = {
   tenantId?: Prisma.StringFilter<"Announcement"> | string
   title?: Prisma.StringFilter<"Announcement"> | string
   content?: Prisma.StringFilter<"Announcement"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaLabel?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaType?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   priority?: Prisma.StringFilter<"Announcement"> | string
   publishedBy?: Prisma.StringFilter<"Announcement"> | string
   publishedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
+  isPinned?: Prisma.BoolFilter<"Announcement"> | boolean
+  audience?: Prisma.StringFilter<"Announcement"> | string
+  status?: Prisma.EnumAnnouncementStatusFilter<"Announcement"> | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   publisher?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   recipients?: Prisma.NotificationRecipientListRelationFilter
 }
 
@@ -232,14 +288,21 @@ export type AnnouncementOrderByWithRelationInput = {
   tenantId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaType?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   publisher?: Prisma.UserOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
   recipients?: Prisma.NotificationRecipientOrderByRelationAggregateInput
 }
 
@@ -251,14 +314,21 @@ export type AnnouncementWhereUniqueInput = Prisma.AtLeast<{
   tenantId?: Prisma.StringFilter<"Announcement"> | string
   title?: Prisma.StringFilter<"Announcement"> | string
   content?: Prisma.StringFilter<"Announcement"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaLabel?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaType?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   priority?: Prisma.StringFilter<"Announcement"> | string
   publishedBy?: Prisma.StringFilter<"Announcement"> | string
   publishedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
+  isPinned?: Prisma.BoolFilter<"Announcement"> | boolean
+  audience?: Prisma.StringFilter<"Announcement"> | string
+  status?: Prisma.EnumAnnouncementStatusFilter<"Announcement"> | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   publisher?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   recipients?: Prisma.NotificationRecipientListRelationFilter
 }, "id">
 
@@ -267,10 +337,17 @@ export type AnnouncementOrderByWithAggregationInput = {
   tenantId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaType?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   priority?: Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.AnnouncementCountOrderByAggregateInput
@@ -286,10 +363,17 @@ export type AnnouncementScalarWhereWithAggregatesInput = {
   tenantId?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
   title?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
   content?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
+  imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Announcement"> | string | null
+  ctaLabel?: Prisma.StringNullableWithAggregatesFilter<"Announcement"> | string | null
+  ctaType?: Prisma.StringNullableWithAggregatesFilter<"Announcement"> | string | null
+  ctaUrl?: Prisma.StringNullableWithAggregatesFilter<"Announcement"> | string | null
   priority?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
   publishedBy?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
   publishedAt?: Prisma.DateTimeWithAggregatesFilter<"Announcement"> | Date | string
   expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Announcement"> | Date | string | null
+  isPinned?: Prisma.BoolWithAggregatesFilter<"Announcement"> | boolean
+  audience?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
+  status?: Prisma.EnumAnnouncementStatusWithAggregatesFilter<"Announcement"> | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Announcement"> | Date | string
 }
@@ -298,13 +382,20 @@ export type AnnouncementCreateInput = {
   id?: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutAnnouncementsInput
   publisher: Prisma.UserCreateNestedOneWithoutSentAnnouncementsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutAnnouncementsInput
   recipients?: Prisma.NotificationRecipientCreateNestedManyWithoutAnnouncementInput
 }
 
@@ -313,10 +404,17 @@ export type AnnouncementUncheckedCreateInput = {
   tenantId: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedBy: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   recipients?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutAnnouncementInput
@@ -326,13 +424,20 @@ export type AnnouncementUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnnouncementsNestedInput
   publisher?: Prisma.UserUpdateOneRequiredWithoutSentAnnouncementsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnnouncementsNestedInput
   recipients?: Prisma.NotificationRecipientUpdateManyWithoutAnnouncementNestedInput
 }
 
@@ -341,10 +446,17 @@ export type AnnouncementUncheckedUpdateInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipients?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutAnnouncementNestedInput
@@ -355,10 +467,17 @@ export type AnnouncementCreateManyInput = {
   tenantId: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedBy: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -367,9 +486,16 @@ export type AnnouncementUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -379,10 +505,17 @@ export type AnnouncementUncheckedUpdateManyInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -402,10 +535,17 @@ export type AnnouncementCountOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaType?: Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -415,10 +555,17 @@ export type AnnouncementMaxOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaType?: Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -428,10 +575,17 @@ export type AnnouncementMinOrderByAggregateInput = {
   tenantId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  imageUrl?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaType?: Prisma.SortOrder
+  ctaUrl?: Prisma.SortOrder
   priority?: Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
+  isPinned?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -525,6 +679,10 @@ export type AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput = {
   deleteMany?: Prisma.AnnouncementScalarWhereInput | Prisma.AnnouncementScalarWhereInput[]
 }
 
+export type EnumAnnouncementStatusFieldUpdateOperationsInput = {
+  set?: $Enums.AnnouncementStatus
+}
+
 export type AnnouncementCreateNestedOneWithoutRecipientsInput = {
   create?: Prisma.XOR<Prisma.AnnouncementCreateWithoutRecipientsInput, Prisma.AnnouncementUncheckedCreateWithoutRecipientsInput>
   connectOrCreate?: Prisma.AnnouncementCreateOrConnectWithoutRecipientsInput
@@ -545,9 +703,16 @@ export type AnnouncementCreateWithoutTenantInput = {
   id?: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   publisher: Prisma.UserCreateNestedOneWithoutSentAnnouncementsInput
@@ -558,10 +723,17 @@ export type AnnouncementUncheckedCreateWithoutTenantInput = {
   id?: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedBy: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   recipients?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutAnnouncementInput
@@ -601,10 +773,17 @@ export type AnnouncementScalarWhereInput = {
   tenantId?: Prisma.StringFilter<"Announcement"> | string
   title?: Prisma.StringFilter<"Announcement"> | string
   content?: Prisma.StringFilter<"Announcement"> | string
+  imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaLabel?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaType?: Prisma.StringNullableFilter<"Announcement"> | string | null
+  ctaUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   priority?: Prisma.StringFilter<"Announcement"> | string
   publishedBy?: Prisma.StringFilter<"Announcement"> | string
   publishedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   expiresAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
+  isPinned?: Prisma.BoolFilter<"Announcement"> | boolean
+  audience?: Prisma.StringFilter<"Announcement"> | string
+  status?: Prisma.EnumAnnouncementStatusFilter<"Announcement"> | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
 }
@@ -613,9 +792,16 @@ export type AnnouncementCreateWithoutPublisherInput = {
   id?: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutAnnouncementsInput
@@ -627,9 +813,16 @@ export type AnnouncementUncheckedCreateWithoutPublisherInput = {
   tenantId: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   recipients?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutAnnouncementInput
@@ -665,13 +858,20 @@ export type AnnouncementCreateWithoutRecipientsInput = {
   id?: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutAnnouncementsInput
   publisher: Prisma.UserCreateNestedOneWithoutSentAnnouncementsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutAnnouncementsInput
 }
 
 export type AnnouncementUncheckedCreateWithoutRecipientsInput = {
@@ -679,10 +879,17 @@ export type AnnouncementUncheckedCreateWithoutRecipientsInput = {
   tenantId: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedBy: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -707,13 +914,20 @@ export type AnnouncementUpdateWithoutRecipientsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnnouncementsNestedInput
   publisher?: Prisma.UserUpdateOneRequiredWithoutSentAnnouncementsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutAnnouncementsNestedInput
 }
 
 export type AnnouncementUncheckedUpdateWithoutRecipientsInput = {
@@ -721,10 +935,17 @@ export type AnnouncementUncheckedUpdateWithoutRecipientsInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -733,10 +954,17 @@ export type AnnouncementCreateManyTenantInput = {
   id?: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedBy: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -745,9 +973,16 @@ export type AnnouncementUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   publisher?: Prisma.UserUpdateOneRequiredWithoutSentAnnouncementsNestedInput
@@ -758,10 +993,17 @@ export type AnnouncementUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipients?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutAnnouncementNestedInput
@@ -771,10 +1013,17 @@ export type AnnouncementUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -784,9 +1033,16 @@ export type AnnouncementCreateManyPublisherInput = {
   tenantId: string
   title: string
   content: string
+  imageUrl?: string | null
+  ctaLabel?: string | null
+  ctaType?: string | null
+  ctaUrl?: string | null
   priority?: string
   publishedAt?: Date | string
   expiresAt?: Date | string | null
+  isPinned?: boolean
+  audience?: string
+  status?: $Enums.AnnouncementStatus
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -795,9 +1051,16 @@ export type AnnouncementUpdateWithoutPublisherInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutAnnouncementsNestedInput
@@ -809,9 +1072,16 @@ export type AnnouncementUncheckedUpdateWithoutPublisherInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   recipients?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutAnnouncementNestedInput
@@ -822,9 +1092,16 @@ export type AnnouncementUncheckedUpdateManyWithoutPublisherInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isPinned?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumAnnouncementStatusFieldUpdateOperationsInput | $Enums.AnnouncementStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -865,14 +1142,21 @@ export type AnnouncementSelect<ExtArgs extends runtime.Types.Extensions.Internal
   tenantId?: boolean
   title?: boolean
   content?: boolean
+  imageUrl?: boolean
+  ctaLabel?: boolean
+  ctaType?: boolean
+  ctaUrl?: boolean
   priority?: boolean
   publishedBy?: boolean
   publishedAt?: boolean
   expiresAt?: boolean
+  isPinned?: boolean
+  audience?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   publisher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   recipients?: boolean | Prisma.Announcement$recipientsArgs<ExtArgs>
   _count?: boolean | Prisma.AnnouncementCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["announcement"]>
@@ -882,14 +1166,21 @@ export type AnnouncementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   tenantId?: boolean
   title?: boolean
   content?: boolean
+  imageUrl?: boolean
+  ctaLabel?: boolean
+  ctaType?: boolean
+  ctaUrl?: boolean
   priority?: boolean
   publishedBy?: boolean
   publishedAt?: boolean
   expiresAt?: boolean
+  isPinned?: boolean
+  audience?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   publisher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["announcement"]>
 
 export type AnnouncementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -897,14 +1188,21 @@ export type AnnouncementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   tenantId?: boolean
   title?: boolean
   content?: boolean
+  imageUrl?: boolean
+  ctaLabel?: boolean
+  ctaType?: boolean
+  ctaUrl?: boolean
   priority?: boolean
   publishedBy?: boolean
   publishedAt?: boolean
   expiresAt?: boolean
+  isPinned?: boolean
+  audience?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   publisher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["announcement"]>
 
 export type AnnouncementSelectScalar = {
@@ -912,35 +1210,42 @@ export type AnnouncementSelectScalar = {
   tenantId?: boolean
   title?: boolean
   content?: boolean
+  imageUrl?: boolean
+  ctaLabel?: boolean
+  ctaType?: boolean
+  ctaUrl?: boolean
   priority?: boolean
   publishedBy?: boolean
   publishedAt?: boolean
   expiresAt?: boolean
+  isPinned?: boolean
+  audience?: boolean
+  status?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "title" | "content" | "priority" | "publishedBy" | "publishedAt" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["announcement"]>
+export type AnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "title" | "content" | "imageUrl" | "ctaLabel" | "ctaType" | "ctaUrl" | "priority" | "publishedBy" | "publishedAt" | "expiresAt" | "isPinned" | "audience" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["announcement"]>
 export type AnnouncementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   publisher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   recipients?: boolean | Prisma.Announcement$recipientsArgs<ExtArgs>
   _count?: boolean | Prisma.AnnouncementCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AnnouncementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   publisher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type AnnouncementIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   publisher?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $AnnouncementPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Announcement"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     publisher: Prisma.$UserPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
     recipients: Prisma.$NotificationRecipientPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -948,10 +1253,17 @@ export type $AnnouncementPayload<ExtArgs extends runtime.Types.Extensions.Intern
     tenantId: string
     title: string
     content: string
+    imageUrl: string | null
+    ctaLabel: string | null
+    ctaType: string | null
+    ctaUrl: string | null
     priority: string
     publishedBy: string
     publishedAt: Date
     expiresAt: Date | null
+    isPinned: boolean
+    audience: string
+    status: $Enums.AnnouncementStatus
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["announcement"]>
@@ -1348,8 +1660,8 @@ readonly fields: AnnouncementFieldRefs;
  */
 export interface Prisma__AnnouncementClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   publisher<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   recipients<T extends Prisma.Announcement$recipientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Announcement$recipientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationRecipientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1384,10 +1696,17 @@ export interface AnnouncementFieldRefs {
   readonly tenantId: Prisma.FieldRef<"Announcement", 'String'>
   readonly title: Prisma.FieldRef<"Announcement", 'String'>
   readonly content: Prisma.FieldRef<"Announcement", 'String'>
+  readonly imageUrl: Prisma.FieldRef<"Announcement", 'String'>
+  readonly ctaLabel: Prisma.FieldRef<"Announcement", 'String'>
+  readonly ctaType: Prisma.FieldRef<"Announcement", 'String'>
+  readonly ctaUrl: Prisma.FieldRef<"Announcement", 'String'>
   readonly priority: Prisma.FieldRef<"Announcement", 'String'>
   readonly publishedBy: Prisma.FieldRef<"Announcement", 'String'>
   readonly publishedAt: Prisma.FieldRef<"Announcement", 'DateTime'>
   readonly expiresAt: Prisma.FieldRef<"Announcement", 'DateTime'>
+  readonly isPinned: Prisma.FieldRef<"Announcement", 'Boolean'>
+  readonly audience: Prisma.FieldRef<"Announcement", 'String'>
+  readonly status: Prisma.FieldRef<"Announcement", 'AnnouncementStatus'>
   readonly createdAt: Prisma.FieldRef<"Announcement", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Announcement", 'DateTime'>
 }

@@ -182,8 +182,8 @@ export type StudentParentWhereInput = {
   parentId?: Prisma.StringFilter<"StudentParent"> | string
   isPrimary?: Prisma.BoolFilter<"StudentParent"> | boolean
   createdAt?: Prisma.DateTimeFilter<"StudentParent"> | Date | string
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   parent?: Prisma.XOR<Prisma.ParentScalarRelationFilter, Prisma.ParentWhereInput>
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
 }
 
 export type StudentParentOrderByWithRelationInput = {
@@ -192,8 +192,8 @@ export type StudentParentOrderByWithRelationInput = {
   parentId?: Prisma.SortOrder
   isPrimary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  student?: Prisma.StudentOrderByWithRelationInput
   parent?: Prisma.ParentOrderByWithRelationInput
+  student?: Prisma.StudentOrderByWithRelationInput
 }
 
 export type StudentParentWhereUniqueInput = Prisma.AtLeast<{
@@ -206,8 +206,8 @@ export type StudentParentWhereUniqueInput = Prisma.AtLeast<{
   parentId?: Prisma.StringFilter<"StudentParent"> | string
   isPrimary?: Prisma.BoolFilter<"StudentParent"> | boolean
   createdAt?: Prisma.DateTimeFilter<"StudentParent"> | Date | string
-  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
   parent?: Prisma.XOR<Prisma.ParentScalarRelationFilter, Prisma.ParentWhereInput>
+  student?: Prisma.XOR<Prisma.StudentScalarRelationFilter, Prisma.StudentWhereInput>
 }, "id" | "studentId_parentId">
 
 export type StudentParentOrderByWithAggregationInput = {
@@ -236,8 +236,8 @@ export type StudentParentCreateInput = {
   id?: string
   isPrimary?: boolean
   createdAt?: Date | string
-  student: Prisma.StudentCreateNestedOneWithoutParentsInput
   parent: Prisma.ParentCreateNestedOneWithoutChildrenInput
+  student: Prisma.StudentCreateNestedOneWithoutParentsInput
 }
 
 export type StudentParentUncheckedCreateInput = {
@@ -252,8 +252,8 @@ export type StudentParentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneRequiredWithoutParentsNestedInput
   parent?: Prisma.ParentUpdateOneRequiredWithoutChildrenNestedInput
+  student?: Prisma.StudentUpdateOneRequiredWithoutParentsNestedInput
 }
 
 export type StudentParentUncheckedUpdateInput = {
@@ -564,8 +564,8 @@ export type StudentParentSelect<ExtArgs extends runtime.Types.Extensions.Interna
   parentId?: boolean
   isPrimary?: boolean
   createdAt?: boolean
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.ParentDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentParent"]>
 
 export type StudentParentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -574,8 +574,8 @@ export type StudentParentSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   parentId?: boolean
   isPrimary?: boolean
   createdAt?: boolean
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.ParentDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentParent"]>
 
 export type StudentParentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -584,8 +584,8 @@ export type StudentParentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   parentId?: boolean
   isPrimary?: boolean
   createdAt?: boolean
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.ParentDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studentParent"]>
 
 export type StudentParentSelectScalar = {
@@ -598,23 +598,23 @@ export type StudentParentSelectScalar = {
 
 export type StudentParentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "studentId" | "parentId" | "isPrimary" | "createdAt", ExtArgs["result"]["studentParent"]>
 export type StudentParentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.ParentDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 export type StudentParentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.ParentDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 export type StudentParentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
   parent?: boolean | Prisma.ParentDefaultArgs<ExtArgs>
+  student?: boolean | Prisma.StudentDefaultArgs<ExtArgs>
 }
 
 export type $StudentParentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudentParent"
   objects: {
-    student: Prisma.$StudentPayload<ExtArgs>
     parent: Prisma.$ParentPayload<ExtArgs>
+    student: Prisma.$StudentPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1016,8 +1016,8 @@ readonly fields: StudentParentFieldRefs;
  */
 export interface Prisma__StudentParentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   parent<T extends Prisma.ParentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ParentDefaultArgs<ExtArgs>>): Prisma.Prisma__ParentClient<runtime.Types.Result.GetResult<Prisma.$ParentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  student<T extends Prisma.StudentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudentDefaultArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

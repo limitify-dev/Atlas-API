@@ -246,11 +246,11 @@ export type CardWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   studentId?: Prisma.StringNullableFilter<"Card"> | string | null
   teacherId?: Prisma.StringNullableFilter<"Card"> | string | null
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
-  teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
   logs?: Prisma.CardLogListRelationFilter
   permissions?: Prisma.CardPermissionListRelationFilter
+  student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
+  teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type CardOrderByWithRelationInput = {
@@ -267,11 +267,11 @@ export type CardOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   studentId?: Prisma.SortOrderInput | Prisma.SortOrder
   teacherId?: Prisma.SortOrderInput | Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
-  student?: Prisma.StudentOrderByWithRelationInput
-  teacher?: Prisma.TeacherOrderByWithRelationInput
   logs?: Prisma.CardLogOrderByRelationAggregateInput
   permissions?: Prisma.CardPermissionOrderByRelationAggregateInput
+  student?: Prisma.StudentOrderByWithRelationInput
+  teacher?: Prisma.TeacherOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type CardWhereUniqueInput = Prisma.AtLeast<{
@@ -292,11 +292,11 @@ export type CardWhereUniqueInput = Prisma.AtLeast<{
   notes?: Prisma.StringNullableFilter<"Card"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Card"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Card"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
-  student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
-  teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
   logs?: Prisma.CardLogListRelationFilter
   permissions?: Prisma.CardPermissionListRelationFilter
+  student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
+  teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id" | "studentId" | "teacherId" | "tenantId_cardNumber">
 
 export type CardOrderByWithAggregationInput = {
@@ -348,11 +348,11 @@ export type CardCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
-  student?: Prisma.StudentCreateNestedOneWithoutCardInput
-  teacher?: Prisma.TeacherCreateNestedOneWithoutCardInput
   logs?: Prisma.CardLogCreateNestedManyWithoutCardInput
   permissions?: Prisma.CardPermissionCreateNestedManyWithoutCardInput
+  student?: Prisma.StudentCreateNestedOneWithoutCardInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutCardInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
 }
 
 export type CardUncheckedCreateInput = {
@@ -384,11 +384,11 @@ export type CardUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
-  student?: Prisma.StudentUpdateOneWithoutCardNestedInput
-  teacher?: Prisma.TeacherUpdateOneWithoutCardNestedInput
   logs?: Prisma.CardLogUpdateManyWithoutCardNestedInput
   permissions?: Prisma.CardPermissionUpdateManyWithoutCardNestedInput
+  student?: Prisma.StudentUpdateOneWithoutCardNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutCardNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
 }
 
 export type CardUncheckedUpdateInput = {
@@ -680,10 +680,10 @@ export type CardCreateWithoutTenantInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  student?: Prisma.StudentCreateNestedOneWithoutCardInput
-  teacher?: Prisma.TeacherCreateNestedOneWithoutCardInput
   logs?: Prisma.CardLogCreateNestedManyWithoutCardInput
   permissions?: Prisma.CardPermissionCreateNestedManyWithoutCardInput
+  student?: Prisma.StudentCreateNestedOneWithoutCardInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutCardInput
 }
 
 export type CardUncheckedCreateWithoutTenantInput = {
@@ -759,10 +759,10 @@ export type CardCreateWithoutStudentInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
-  teacher?: Prisma.TeacherCreateNestedOneWithoutCardInput
   logs?: Prisma.CardLogCreateNestedManyWithoutCardInput
   permissions?: Prisma.CardPermissionCreateNestedManyWithoutCardInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutCardInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
 }
 
 export type CardUncheckedCreateWithoutStudentInput = {
@@ -809,10 +809,10 @@ export type CardUpdateWithoutStudentInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
-  teacher?: Prisma.TeacherUpdateOneWithoutCardNestedInput
   logs?: Prisma.CardLogUpdateManyWithoutCardNestedInput
   permissions?: Prisma.CardPermissionUpdateManyWithoutCardNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutCardNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
 }
 
 export type CardUncheckedUpdateWithoutStudentInput = {
@@ -843,10 +843,10 @@ export type CardCreateWithoutTeacherInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
-  student?: Prisma.StudentCreateNestedOneWithoutCardInput
   logs?: Prisma.CardLogCreateNestedManyWithoutCardInput
   permissions?: Prisma.CardPermissionCreateNestedManyWithoutCardInput
+  student?: Prisma.StudentCreateNestedOneWithoutCardInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
 }
 
 export type CardUncheckedCreateWithoutTeacherInput = {
@@ -893,10 +893,10 @@ export type CardUpdateWithoutTeacherInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
-  student?: Prisma.StudentUpdateOneWithoutCardNestedInput
   logs?: Prisma.CardLogUpdateManyWithoutCardNestedInput
   permissions?: Prisma.CardPermissionUpdateManyWithoutCardNestedInput
+  student?: Prisma.StudentUpdateOneWithoutCardNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
 }
 
 export type CardUncheckedUpdateWithoutTeacherInput = {
@@ -927,10 +927,10 @@ export type CardCreateWithoutLogsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
+  permissions?: Prisma.CardPermissionCreateNestedManyWithoutCardInput
   student?: Prisma.StudentCreateNestedOneWithoutCardInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutCardInput
-  permissions?: Prisma.CardPermissionCreateNestedManyWithoutCardInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
 }
 
 export type CardUncheckedCreateWithoutLogsInput = {
@@ -977,10 +977,10 @@ export type CardUpdateWithoutLogsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
+  permissions?: Prisma.CardPermissionUpdateManyWithoutCardNestedInput
   student?: Prisma.StudentUpdateOneWithoutCardNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutCardNestedInput
-  permissions?: Prisma.CardPermissionUpdateManyWithoutCardNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
 }
 
 export type CardUncheckedUpdateWithoutLogsInput = {
@@ -1011,10 +1011,10 @@ export type CardCreateWithoutPermissionsInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
+  logs?: Prisma.CardLogCreateNestedManyWithoutCardInput
   student?: Prisma.StudentCreateNestedOneWithoutCardInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutCardInput
-  logs?: Prisma.CardLogCreateNestedManyWithoutCardInput
+  tenant: Prisma.TenantCreateNestedOneWithoutCardsInput
 }
 
 export type CardUncheckedCreateWithoutPermissionsInput = {
@@ -1061,10 +1061,10 @@ export type CardUpdateWithoutPermissionsInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
+  logs?: Prisma.CardLogUpdateManyWithoutCardNestedInput
   student?: Prisma.StudentUpdateOneWithoutCardNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutCardNestedInput
-  logs?: Prisma.CardLogUpdateManyWithoutCardNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutCardsNestedInput
 }
 
 export type CardUncheckedUpdateWithoutPermissionsInput = {
@@ -1110,10 +1110,10 @@ export type CardUpdateWithoutTenantInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  student?: Prisma.StudentUpdateOneWithoutCardNestedInput
-  teacher?: Prisma.TeacherUpdateOneWithoutCardNestedInput
   logs?: Prisma.CardLogUpdateManyWithoutCardNestedInput
   permissions?: Prisma.CardPermissionUpdateManyWithoutCardNestedInput
+  student?: Prisma.StudentUpdateOneWithoutCardNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutCardNestedInput
 }
 
 export type CardUncheckedUpdateWithoutTenantInput = {
@@ -1202,11 +1202,11 @@ export type CardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   studentId?: boolean
   teacherId?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.Card$studentArgs<ExtArgs>
-  teacher?: boolean | Prisma.Card$teacherArgs<ExtArgs>
   logs?: boolean | Prisma.Card$logsArgs<ExtArgs>
   permissions?: boolean | Prisma.Card$permissionsArgs<ExtArgs>
+  student?: boolean | Prisma.Card$studentArgs<ExtArgs>
+  teacher?: boolean | Prisma.Card$teacherArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CardCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["card"]>
 
@@ -1224,9 +1224,9 @@ export type CardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   updatedAt?: boolean
   studentId?: boolean
   teacherId?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.Card$studentArgs<ExtArgs>
   teacher?: boolean | Prisma.Card$teacherArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["card"]>
 
 export type CardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1243,9 +1243,9 @@ export type CardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   updatedAt?: boolean
   studentId?: boolean
   teacherId?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.Card$studentArgs<ExtArgs>
   teacher?: boolean | Prisma.Card$teacherArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["card"]>
 
 export type CardSelectScalar = {
@@ -1266,32 +1266,32 @@ export type CardSelectScalar = {
 
 export type CardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "cardNumber" | "cardType" | "status" | "issuedDate" | "expiryDate" | "lastUsedAt" | "notes" | "createdAt" | "updatedAt" | "studentId" | "teacherId", ExtArgs["result"]["card"]>
 export type CardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
-  student?: boolean | Prisma.Card$studentArgs<ExtArgs>
-  teacher?: boolean | Prisma.Card$teacherArgs<ExtArgs>
   logs?: boolean | Prisma.Card$logsArgs<ExtArgs>
   permissions?: boolean | Prisma.Card$permissionsArgs<ExtArgs>
+  student?: boolean | Prisma.Card$studentArgs<ExtArgs>
+  teacher?: boolean | Prisma.Card$teacherArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.CardCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CardIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.Card$studentArgs<ExtArgs>
   teacher?: boolean | Prisma.Card$teacherArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type CardIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   student?: boolean | Prisma.Card$studentArgs<ExtArgs>
   teacher?: boolean | Prisma.Card$teacherArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $CardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Card"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
-    student: Prisma.$StudentPayload<ExtArgs> | null
-    teacher: Prisma.$TeacherPayload<ExtArgs> | null
     logs: Prisma.$CardLogPayload<ExtArgs>[]
     permissions: Prisma.$CardPermissionPayload<ExtArgs>[]
+    student: Prisma.$StudentPayload<ExtArgs> | null
+    teacher: Prisma.$TeacherPayload<ExtArgs> | null
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1701,11 +1701,11 @@ readonly fields: CardFieldRefs;
  */
 export interface Prisma__CardClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  student<T extends Prisma.Card$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  teacher<T extends Prisma.Card$teacherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$teacherArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   logs<T extends Prisma.Card$logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   permissions<T extends Prisma.Card$permissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  student<T extends Prisma.Card$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  teacher<T extends Prisma.Card$teacherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Card$teacherArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2144,44 +2144,6 @@ export type CardDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * Card.student
- */
-export type Card$studentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Student
-   */
-  select?: Prisma.StudentSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Student
-   */
-  omit?: Prisma.StudentOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.StudentInclude<ExtArgs> | null
-  where?: Prisma.StudentWhereInput
-}
-
-/**
- * Card.teacher
- */
-export type Card$teacherArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Teacher
-   */
-  select?: Prisma.TeacherSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Teacher
-   */
-  omit?: Prisma.TeacherOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TeacherInclude<ExtArgs> | null
-  where?: Prisma.TeacherWhereInput
-}
-
-/**
  * Card.logs
  */
 export type Card$logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2227,6 +2189,44 @@ export type Card$permissionsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.CardPermissionScalarFieldEnum | Prisma.CardPermissionScalarFieldEnum[]
+}
+
+/**
+ * Card.student
+ */
+export type Card$studentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Student
+   */
+  select?: Prisma.StudentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Student
+   */
+  omit?: Prisma.StudentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudentInclude<ExtArgs> | null
+  where?: Prisma.StudentWhereInput
+}
+
+/**
+ * Card.teacher
+ */
+export type Card$teacherArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Teacher
+   */
+  select?: Prisma.TeacherSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Teacher
+   */
+  omit?: Prisma.TeacherOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeacherInclude<ExtArgs> | null
+  where?: Prisma.TeacherWhereInput
 }
 
 /**

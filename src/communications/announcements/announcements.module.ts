@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AnnouncementsController } from './announcements.controller';
 import { AnnouncementsService } from './announcements.service';
+import { PushModule } from '../push/push.module';
 
 @Module({
+  imports: [PushModule],
   controllers: [AnnouncementsController],
   providers: [AnnouncementsService],
   exports: [AnnouncementsService],

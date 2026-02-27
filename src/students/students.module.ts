@@ -13,7 +13,7 @@ import { jwtConstants } from '../auth/constant';
     }),
   ],
   controllers: [StudentsController],
-  providers: [StudentsService, SupabaseService],
+  providers: [StudentsService],
   exports: [StudentsService],
 })
 export class StudentsModule {}

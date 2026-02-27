@@ -41,7 +41,7 @@ RUN npm run build
 FROM node:22-alpine AS production
 
 # Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache dumb-init netcat-openbsd
 
 WORKDIR /app
 
@@ -55,6 +55,7 @@ COPY prisma ./prisma/
 
 # Install only production dependencies
 RUN npm ci --only=production && \
+    npm install --no-save prisma@7.1.0 && \
     npm cache clean --force
 
 # Copy built application from builder stage

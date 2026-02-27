@@ -240,8 +240,8 @@ export type InventoryTransactionWhereInput = {
   remarks?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
   createdBy?: Prisma.StringFilter<"InventoryTransaction"> | string
   createdAt?: Prisma.DateTimeFilter<"InventoryTransaction"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   item?: Prisma.XOR<Prisma.InventoryItemScalarRelationFilter, Prisma.InventoryItemWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
 export type InventoryTransactionOrderByWithRelationInput = {
@@ -253,8 +253,8 @@ export type InventoryTransactionOrderByWithRelationInput = {
   remarks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  tenant?: Prisma.TenantOrderByWithRelationInput
   item?: Prisma.InventoryItemOrderByWithRelationInput
+  tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
 export type InventoryTransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -269,8 +269,8 @@ export type InventoryTransactionWhereUniqueInput = Prisma.AtLeast<{
   remarks?: Prisma.StringNullableFilter<"InventoryTransaction"> | string | null
   createdBy?: Prisma.StringFilter<"InventoryTransaction"> | string
   createdAt?: Prisma.DateTimeFilter<"InventoryTransaction"> | Date | string
-  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   item?: Prisma.XOR<Prisma.InventoryItemScalarRelationFilter, Prisma.InventoryItemWhereInput>
+  tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id">
 
 export type InventoryTransactionOrderByWithAggregationInput = {
@@ -310,8 +310,8 @@ export type InventoryTransactionCreateInput = {
   remarks?: string | null
   createdBy: string
   createdAt?: Date | string
-  tenant: Prisma.TenantCreateNestedOneWithoutInventoryTransactionsInput
   item: Prisma.InventoryItemCreateNestedOneWithoutTransactionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutInventoryTransactionsInput
 }
 
 export type InventoryTransactionUncheckedCreateInput = {
@@ -332,8 +332,8 @@ export type InventoryTransactionUpdateInput = {
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tenant?: Prisma.TenantUpdateOneRequiredWithoutInventoryTransactionsNestedInput
   item?: Prisma.InventoryItemUpdateOneRequiredWithoutTransactionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutInventoryTransactionsNestedInput
 }
 
 export type InventoryTransactionUncheckedUpdateInput = {
@@ -710,8 +710,8 @@ export type InventoryTransactionSelect<ExtArgs extends runtime.Types.Extensions.
   remarks?: boolean
   createdBy?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   item?: boolean | Prisma.InventoryItemDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryTransaction"]>
 
 export type InventoryTransactionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -723,8 +723,8 @@ export type InventoryTransactionSelectCreateManyAndReturn<ExtArgs extends runtim
   remarks?: boolean
   createdBy?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   item?: boolean | Prisma.InventoryItemDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryTransaction"]>
 
 export type InventoryTransactionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -736,8 +736,8 @@ export type InventoryTransactionSelectUpdateManyAndReturn<ExtArgs extends runtim
   remarks?: boolean
   createdBy?: boolean
   createdAt?: boolean
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   item?: boolean | Prisma.InventoryItemDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["inventoryTransaction"]>
 
 export type InventoryTransactionSelectScalar = {
@@ -753,23 +753,23 @@ export type InventoryTransactionSelectScalar = {
 
 export type InventoryTransactionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "itemId" | "type" | "quantity" | "remarks" | "createdBy" | "createdAt", ExtArgs["result"]["inventoryTransaction"]>
 export type InventoryTransactionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   item?: boolean | Prisma.InventoryItemDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type InventoryTransactionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   item?: boolean | Prisma.InventoryItemDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 export type InventoryTransactionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   item?: boolean | Prisma.InventoryItemDefaultArgs<ExtArgs>
+  tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
 
 export type $InventoryTransactionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InventoryTransaction"
   objects: {
-    tenant: Prisma.$TenantPayload<ExtArgs>
     item: Prisma.$InventoryItemPayload<ExtArgs>
+    tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1174,8 +1174,8 @@ readonly fields: InventoryTransactionFieldRefs;
  */
 export interface Prisma__InventoryTransactionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   item<T extends Prisma.InventoryItemDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InventoryItemDefaultArgs<ExtArgs>>): Prisma.Prisma__InventoryItemClient<runtime.Types.Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

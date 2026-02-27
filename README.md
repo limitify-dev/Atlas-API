@@ -31,7 +31,6 @@
 
 - [Docker](https://docs.docker.com/get-docker/) (v20.10+)
 - [Docker Compose](https://docs.docker.com/compose/install/) (v2.0+)
-- External PostgreSQL database
 
 ### Quick Start with Docker
 
@@ -43,19 +42,19 @@
 2. **Configure environment variables**
    ```bash
    cp .env.example .env
-   # Edit .env with your actual configuration
+   # Edit .env with your actual configuration (Supabase required)
    ```
 
 3. **Build and run with Docker Compose**
    
    **Production mode:**
    ```bash
-   docker-compose up -d
+   docker compose up -d --build
    ```
    
    **Development mode (with hot-reload):**
    ```bash
-   docker-compose -f docker-compose.dev.yml up
+   docker compose -f docker-compose.dev.yml up --build
    ```
 
 4. **Access the API**
@@ -69,22 +68,22 @@
 docker build -t atlas-api:latest .
 
 # Run container (production)
-docker-compose up -d
+docker compose up -d --build
 
 # View logs
-docker-compose logs -f api
+docker compose logs -f api
 
 # Stop containers
-docker-compose down
+docker compose down
 
 # Rebuild and restart
-docker-compose up -d --build
+docker compose up -d --build
 
 # Run Prisma migrations manually
-docker-compose exec api npx prisma migrate deploy
+docker compose exec api npx prisma migrate deploy
 
 # Access container shell
-docker-compose exec api sh
+docker compose exec api sh
 ```
 
 ### Environment Variables
@@ -98,12 +97,17 @@ Required environment variables (see `.env.example` for template):
 | `SUPABASE_URL` | Supabase project URL | `https://xxx.supabase.co` |
 | `SUPABASE_KEY` | Supabase API key | `your-key` |
 | `NODE_ENV` | Environment | `production` or `development` |
+| `REDIS_URL` | Redis connection URL | `redis://redis:6379` |
+| `POSTGRES_DB` | PostgreSQL DB name | `atlas` |
+| `POSTGRES_USER` | PostgreSQL user | `atlas` |
+| `POSTGRES_PASSWORD` | PostgreSQL password | `atlas` |
 
 ### Docker Architecture
 
 - **Multi-stage build** for optimized image size
 - **Node.js 22 Alpine** base image
 - **Automatic Prisma migrations** on container startup
+- **Bundled PostgreSQL and Redis** in Docker Compose
 - **Health checks** for container monitoring
 - **Non-root user** for security
 - **Hot-reload support** in development mode

@@ -1,35 +1,45 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import {
   CreateNotificationDto,
   NotificationTargetType,
   NotificationFiltersDto,
 } from './dto/create-notification.dto';
+import { PushService } from '../push/push.service';
 
 @Injectable()
 export class NotificationsService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(NotificationsService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly pushService: PushService,
+  ) {}
 
   /**
    * Create a platform notification and distribute to recipients
    */
-  async createNotification(data: CreateNotificationDto, senderId: string) {
+  async createNotification(data: CreateNotificationDto, senderId: string, senderTenantId?: string) {
     // Determine recipients based on target type
     let recipientUserIds: string[] = [];
 
     switch (data.targetType) {
       case NotificationTargetType.ALL:
         const allUsers = await this.prisma.user.findMany({
-          where: { status: 'ACTIVE' },
+          where: {
+            status: 'ACTIVE',
+            ...(senderTenantId ? { tenantId: senderTenantId } : {}),
+          },
           select: { id: true },
         });
         recipientUserIds = allUsers.map((u) => u.id);
         break;
 
       case NotificationTargetType.TENANT:
-        if (data.targetId) {
+        const tenantIdForQuery = data.targetId || senderTenantId;
+        if (tenantIdForQuery) {
           const tenantUsers = await this.prisma.user.findMany({
-            where: { tenantId: data.targetId, status: 'ACTIVE' },
+            where: { tenantId: tenantIdForQuery, status: 'ACTIVE' },
             select: { id: true },
           });
           recipientUserIds = tenantUsers.map((u) => u.id);
@@ -39,7 +49,11 @@ export class NotificationsService {
       case NotificationTargetType.ROLE:
         if (data.targetId) {
           const roleUsers = await this.prisma.user.findMany({
-            where: { role: data.targetId as any, status: 'ACTIVE' },
+            where: {
+              role: data.targetId as any,
+              status: 'ACTIVE',
+              ...(senderTenantId ? { tenantId: senderTenantId } : {}),
+            },
             select: { id: true },
           });
           recipientUserIds = roleUsers.map((u) => u.id);
@@ -49,7 +63,11 @@ export class NotificationsService {
       case NotificationTargetType.USER_TYPE:
         if (data.targetId) {
           const typeUsers = await this.prisma.user.findMany({
-            where: { userType: data.targetId as any, status: 'ACTIVE' },
+            where: {
+              userType: data.targetId as any,
+              status: 'ACTIVE',
+              ...(senderTenantId ? { tenantId: senderTenantId } : {}),
+            },
             select: { id: true },
           });
           recipientUserIds = typeUsers.map((u) => u.id);
@@ -57,21 +75,38 @@ export class NotificationsService {
         break;
 
       case NotificationTargetType.USER:
-        if (data.targetId) {
-          recipientUserIds = [data.targetId];
-        } else if (data.targetIds) {
-          recipientUserIds = data.targetIds;
+        if (data.targetId || data.targetIds?.length) {
+          const requestedIds = data.targetId
+            ? [data.targetId]
+            : (data.targetIds ?? []);
+          const users = await this.prisma.user.findMany({
+            where: {
+              id: { in: requestedIds },
+              ...(senderTenantId ? { tenantId: senderTenantId } : {}),
+            },
+            select: { id: true },
+          });
+          recipientUserIds = users.map((u) => u.id);
         }
         break;
     }
 
+    // Always include the sender so they can see their own notification
+    recipientUserIds.push(senderId);
+    const uniqueRecipientIds = Array.from(new Set(recipientUserIds));
+
+    const recipients = await this.prisma.user.findMany({
+      where: { id: { in: uniqueRecipientIds } },
+      select: { id: true, tenantId: true },
+    });
+
     // Create notifications for each recipient
     const notifications = await Promise.all(
-      recipientUserIds.map((userId) =>
+      recipients.map((recipient) =>
         this.prisma.notification.create({
           data: {
-            tenantId: data.targetId!,
-            userId,
+            tenantId: recipient.tenantId || senderTenantId || '',
+            userId: recipient.id,
             title: data.title,
             message: data.message,
             type: data.type || 'GENERAL',
@@ -98,9 +133,20 @@ export class NotificationsService {
       ),
     );
 
+    // Send push notifications to all recipients (fire-and-forget)
+    const recipientIds = recipients.map((r) => r.id);
+    this.pushService
+      .sendToUsers(recipientIds, data.title, data.message, {
+        type: data.type || 'GENERAL',
+        notificationIds: notifications.map((n) => n.id),
+      })
+      .catch((err) =>
+        this.logger.warn(`Push notifications failed: ${err.message}`),
+      );
+
     return {
       success: true,
-      recipientCount: recipientUserIds.length,
+      recipientCount: recipients.length,
       notificationIds: notifications.map((n) => n.id),
     };
   }
@@ -109,12 +155,13 @@ export class NotificationsService {
    * Get all notifications with filters (for admin)
    */
   async getNotifications(
+    tenantId: string,
     filters: NotificationFiltersDto,
     page: number = 1,
     limit: number = 50,
   ) {
     const skip = (page - 1) * limit;
-    const where: any = {};
+    const where: any = { tenantId };
 
     if (filters.type) {
       where.type = filters.type;
@@ -201,7 +248,7 @@ export class NotificationsService {
   /**
    * Get notification statistics
    */
-  async getNotificationStats() {
+  async getNotificationStats(tenantId: string) {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const last7Days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -214,19 +261,22 @@ export class NotificationsService {
       readRecipients,
       byType,
     ] = await Promise.all([
-      this.prisma.notification.count(),
+      this.prisma.notification.count({ where: { tenantId } }),
       this.prisma.notification.count({
-        where: { createdAt: { gte: today } },
+        where: { tenantId, createdAt: { gte: today } },
       }),
       this.prisma.notification.count({
-        where: { createdAt: { gte: last7Days } },
+        where: { tenantId, createdAt: { gte: last7Days } },
       }),
-      this.prisma.notificationRecipient.count(),
       this.prisma.notificationRecipient.count({
-        where: { isRead: true },
+        where: { notification: { tenantId } },
+      }),
+      this.prisma.notificationRecipient.count({
+        where: { isRead: true, notification: { tenantId } },
       }),
       this.prisma.notification.groupBy({
         by: ['type'],
+        where: { tenantId },
         _count: { id: true },
       }),
     ]);
@@ -332,9 +382,9 @@ export class NotificationsService {
   /**
    * Delete a notification
    */
-  async deleteNotification(id: string) {
-    const notification = await this.prisma.notification.findUnique({
-      where: { id },
+  async deleteNotification(id: string, tenantId: string) {
+    const notification = await this.prisma.notification.findFirst({
+      where: { id, tenantId },
     });
 
     if (!notification) {
@@ -349,6 +399,36 @@ export class NotificationsService {
     return this.prisma.notification.delete({
       where: { id },
     });
+  }
+
+  /**
+   * Dismiss a notification for a user (deletes their recipient record)
+   */
+  async dismissNotification(recipientId: string, userId: string) {
+    const recipient = await this.prisma.notificationRecipient.findFirst({
+      where: { id: recipientId, userId },
+    });
+
+    if (!recipient) {
+      throw new NotFoundException('Notification not found');
+    }
+
+    await this.prisma.notificationRecipient.delete({
+      where: { id: recipientId },
+    });
+
+    return { success: true };
+  }
+
+  /**
+   * Clear all notifications for a user (marks all as read and deletes recipient records)
+   */
+  async clearAllNotifications(userId: string) {
+    const result = await this.prisma.notificationRecipient.deleteMany({
+      where: { userId },
+    });
+
+    return { cleared: result.count };
   }
 
   /**

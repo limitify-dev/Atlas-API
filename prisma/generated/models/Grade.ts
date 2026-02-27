@@ -38,39 +38,39 @@ export type GradeMinAggregateOutputType = {
   id: string | null
   tenantId: string | null
   name: string | null
-  code: string | null
   level: number | null
-  schoolLevel: $Enums.SchoolLevel | null
-  educationLevel: $Enums.EducationLevel | null
   description: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  code: string | null
+  schoolLevel: $Enums.SchoolLevel | null
+  educationLevel: $Enums.EducationLevel | null
 }
 
 export type GradeMaxAggregateOutputType = {
   id: string | null
   tenantId: string | null
   name: string | null
-  code: string | null
   level: number | null
-  schoolLevel: $Enums.SchoolLevel | null
-  educationLevel: $Enums.EducationLevel | null
   description: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  code: string | null
+  schoolLevel: $Enums.SchoolLevel | null
+  educationLevel: $Enums.EducationLevel | null
 }
 
 export type GradeCountAggregateOutputType = {
   id: number
   tenantId: number
   name: number
-  code: number
   level: number
-  schoolLevel: number
-  educationLevel: number
   description: number
   createdAt: number
   updatedAt: number
+  code: number
+  schoolLevel: number
+  educationLevel: number
   _all: number
 }
 
@@ -87,39 +87,39 @@ export type GradeMinAggregateInputType = {
   id?: true
   tenantId?: true
   name?: true
-  code?: true
   level?: true
-  schoolLevel?: true
-  educationLevel?: true
   description?: true
   createdAt?: true
   updatedAt?: true
+  code?: true
+  schoolLevel?: true
+  educationLevel?: true
 }
 
 export type GradeMaxAggregateInputType = {
   id?: true
   tenantId?: true
   name?: true
-  code?: true
   level?: true
-  schoolLevel?: true
-  educationLevel?: true
   description?: true
   createdAt?: true
   updatedAt?: true
+  code?: true
+  schoolLevel?: true
+  educationLevel?: true
 }
 
 export type GradeCountAggregateInputType = {
   id?: true
   tenantId?: true
   name?: true
-  code?: true
   level?: true
-  schoolLevel?: true
-  educationLevel?: true
   description?: true
   createdAt?: true
   updatedAt?: true
+  code?: true
+  schoolLevel?: true
+  educationLevel?: true
   _all?: true
 }
 
@@ -213,13 +213,13 @@ export type GradeGroupByOutputType = {
   id: string
   tenantId: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description: string | null
   createdAt: Date
   updatedAt: Date
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   _count: GradeCountAggregateOutputType | null
   _avg: GradeAvgAggregateOutputType | null
   _sum: GradeSumAggregateOutputType | null
@@ -249,13 +249,13 @@ export type GradeWhereInput = {
   id?: Prisma.StringFilter<"Grade"> | string
   tenantId?: Prisma.StringFilter<"Grade"> | string
   name?: Prisma.StringFilter<"Grade"> | string
-  code?: Prisma.StringFilter<"Grade"> | string
   level?: Prisma.IntFilter<"Grade"> | number
-  schoolLevel?: Prisma.EnumSchoolLevelFilter<"Grade"> | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFilter<"Grade"> | $Enums.EducationLevel
   description?: Prisma.StringNullableFilter<"Grade"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
+  code?: Prisma.StringFilter<"Grade"> | string
+  schoolLevel?: Prisma.EnumSchoolLevelFilter<"Grade"> | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFilter<"Grade"> | $Enums.EducationLevel
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   sections?: Prisma.SectionListRelationFilter
   students?: Prisma.StudentListRelationFilter
@@ -266,13 +266,13 @@ export type GradeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  schoolLevel?: Prisma.SortOrder
-  educationLevel?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  schoolLevel?: Prisma.SortOrder
+  educationLevel?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
   sections?: Prisma.SectionOrderByRelationAggregateInput
   students?: Prisma.StudentOrderByRelationAggregateInput
@@ -287,13 +287,13 @@ export type GradeWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.GradeWhereInput | Prisma.GradeWhereInput[]
   tenantId?: Prisma.StringFilter<"Grade"> | string
   name?: Prisma.StringFilter<"Grade"> | string
-  code?: Prisma.StringFilter<"Grade"> | string
   level?: Prisma.IntFilter<"Grade"> | number
-  schoolLevel?: Prisma.EnumSchoolLevelFilter<"Grade"> | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFilter<"Grade"> | $Enums.EducationLevel
   description?: Prisma.StringNullableFilter<"Grade"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
+  code?: Prisma.StringFilter<"Grade"> | string
+  schoolLevel?: Prisma.EnumSchoolLevelFilter<"Grade"> | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFilter<"Grade"> | $Enums.EducationLevel
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
   sections?: Prisma.SectionListRelationFilter
   students?: Prisma.StudentListRelationFilter
@@ -304,13 +304,13 @@ export type GradeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  schoolLevel?: Prisma.SortOrder
-  educationLevel?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  schoolLevel?: Prisma.SortOrder
+  educationLevel?: Prisma.SortOrder
   _count?: Prisma.GradeCountOrderByAggregateInput
   _avg?: Prisma.GradeAvgOrderByAggregateInput
   _max?: Prisma.GradeMaxOrderByAggregateInput
@@ -325,25 +325,25 @@ export type GradeScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Grade"> | string
   tenantId?: Prisma.StringWithAggregatesFilter<"Grade"> | string
   name?: Prisma.StringWithAggregatesFilter<"Grade"> | string
-  code?: Prisma.StringWithAggregatesFilter<"Grade"> | string
   level?: Prisma.IntWithAggregatesFilter<"Grade"> | number
-  schoolLevel?: Prisma.EnumSchoolLevelWithAggregatesFilter<"Grade"> | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelWithAggregatesFilter<"Grade"> | $Enums.EducationLevel
   description?: Prisma.StringNullableWithAggregatesFilter<"Grade"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Grade"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Grade"> | Date | string
+  code?: Prisma.StringWithAggregatesFilter<"Grade"> | string
+  schoolLevel?: Prisma.EnumSchoolLevelWithAggregatesFilter<"Grade"> | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelWithAggregatesFilter<"Grade"> | $Enums.EducationLevel
 }
 
 export type GradeCreateInput = {
   id?: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   tenant: Prisma.TenantCreateNestedOneWithoutGradesInput
   sections?: Prisma.SectionCreateNestedManyWithoutGradeInput
   students?: Prisma.StudentCreateNestedManyWithoutGradeInput
@@ -354,13 +354,13 @@ export type GradeUncheckedCreateInput = {
   id?: string
   tenantId: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutGradeInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutGradeInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGradeInput
@@ -369,13 +369,13 @@ export type GradeUncheckedCreateInput = {
 export type GradeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   tenant?: Prisma.TenantUpdateOneRequiredWithoutGradesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutGradeNestedInput
   students?: Prisma.StudentUpdateManyWithoutGradeNestedInput
@@ -386,13 +386,13 @@ export type GradeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   sections?: Prisma.SectionUncheckedUpdateManyWithoutGradeNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutGradeNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGradeNestedInput
@@ -402,38 +402,38 @@ export type GradeCreateManyInput = {
   id?: string
   tenantId: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
 }
 
 export type GradeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
 }
 
 export type GradeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
 }
 
 export type GradeListRelationFilter = {
@@ -460,13 +460,13 @@ export type GradeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  schoolLevel?: Prisma.SortOrder
-  educationLevel?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  schoolLevel?: Prisma.SortOrder
+  educationLevel?: Prisma.SortOrder
 }
 
 export type GradeAvgOrderByAggregateInput = {
@@ -477,26 +477,26 @@ export type GradeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  schoolLevel?: Prisma.SortOrder
-  educationLevel?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  schoolLevel?: Prisma.SortOrder
+  educationLevel?: Prisma.SortOrder
 }
 
 export type GradeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   tenantId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  code?: Prisma.SortOrder
   level?: Prisma.SortOrder
-  schoolLevel?: Prisma.SortOrder
-  educationLevel?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  code?: Prisma.SortOrder
+  schoolLevel?: Prisma.SortOrder
+  educationLevel?: Prisma.SortOrder
 }
 
 export type GradeSumOrderByAggregateInput = {
@@ -598,13 +598,13 @@ export type GradeUpdateOneRequiredWithoutSubjectsNestedInput = {
 export type GradeCreateWithoutTenantInput = {
   id?: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   sections?: Prisma.SectionCreateNestedManyWithoutGradeInput
   students?: Prisma.StudentCreateNestedManyWithoutGradeInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutGradeInput
@@ -613,13 +613,13 @@ export type GradeCreateWithoutTenantInput = {
 export type GradeUncheckedCreateWithoutTenantInput = {
   id?: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutGradeInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutGradeInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGradeInput
@@ -658,25 +658,25 @@ export type GradeScalarWhereInput = {
   id?: Prisma.StringFilter<"Grade"> | string
   tenantId?: Prisma.StringFilter<"Grade"> | string
   name?: Prisma.StringFilter<"Grade"> | string
-  code?: Prisma.StringFilter<"Grade"> | string
   level?: Prisma.IntFilter<"Grade"> | number
-  schoolLevel?: Prisma.EnumSchoolLevelFilter<"Grade"> | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFilter<"Grade"> | $Enums.EducationLevel
   description?: Prisma.StringNullableFilter<"Grade"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Grade"> | Date | string
+  code?: Prisma.StringFilter<"Grade"> | string
+  schoolLevel?: Prisma.EnumSchoolLevelFilter<"Grade"> | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFilter<"Grade"> | $Enums.EducationLevel
 }
 
 export type GradeCreateWithoutStudentsInput = {
   id?: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   tenant: Prisma.TenantCreateNestedOneWithoutGradesInput
   sections?: Prisma.SectionCreateNestedManyWithoutGradeInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutGradeInput
@@ -686,13 +686,13 @@ export type GradeUncheckedCreateWithoutStudentsInput = {
   id?: string
   tenantId: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutGradeInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGradeInput
 }
@@ -716,13 +716,13 @@ export type GradeUpdateToOneWithWhereWithoutStudentsInput = {
 export type GradeUpdateWithoutStudentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   tenant?: Prisma.TenantUpdateOneRequiredWithoutGradesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutGradeNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutGradeNestedInput
@@ -732,13 +732,13 @@ export type GradeUncheckedUpdateWithoutStudentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   sections?: Prisma.SectionUncheckedUpdateManyWithoutGradeNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGradeNestedInput
 }
@@ -746,13 +746,13 @@ export type GradeUncheckedUpdateWithoutStudentsInput = {
 export type GradeCreateWithoutSectionsInput = {
   id?: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   tenant: Prisma.TenantCreateNestedOneWithoutGradesInput
   students?: Prisma.StudentCreateNestedManyWithoutGradeInput
   subjects?: Prisma.SubjectCreateNestedManyWithoutGradeInput
@@ -762,13 +762,13 @@ export type GradeUncheckedCreateWithoutSectionsInput = {
   id?: string
   tenantId: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutGradeInput
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutGradeInput
 }
@@ -792,13 +792,13 @@ export type GradeUpdateToOneWithWhereWithoutSectionsInput = {
 export type GradeUpdateWithoutSectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   tenant?: Prisma.TenantUpdateOneRequiredWithoutGradesNestedInput
   students?: Prisma.StudentUpdateManyWithoutGradeNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutGradeNestedInput
@@ -808,13 +808,13 @@ export type GradeUncheckedUpdateWithoutSectionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   students?: Prisma.StudentUncheckedUpdateManyWithoutGradeNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGradeNestedInput
 }
@@ -822,13 +822,13 @@ export type GradeUncheckedUpdateWithoutSectionsInput = {
 export type GradeCreateWithoutSubjectsInput = {
   id?: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   tenant: Prisma.TenantCreateNestedOneWithoutGradesInput
   sections?: Prisma.SectionCreateNestedManyWithoutGradeInput
   students?: Prisma.StudentCreateNestedManyWithoutGradeInput
@@ -838,13 +838,13 @@ export type GradeUncheckedCreateWithoutSubjectsInput = {
   id?: string
   tenantId: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutGradeInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutGradeInput
 }
@@ -868,13 +868,13 @@ export type GradeUpdateToOneWithWhereWithoutSubjectsInput = {
 export type GradeUpdateWithoutSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   tenant?: Prisma.TenantUpdateOneRequiredWithoutGradesNestedInput
   sections?: Prisma.SectionUpdateManyWithoutGradeNestedInput
   students?: Prisma.StudentUpdateManyWithoutGradeNestedInput
@@ -884,13 +884,13 @@ export type GradeUncheckedUpdateWithoutSubjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   sections?: Prisma.SectionUncheckedUpdateManyWithoutGradeNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutGradeNestedInput
 }
@@ -898,25 +898,25 @@ export type GradeUncheckedUpdateWithoutSubjectsInput = {
 export type GradeCreateManyTenantInput = {
   id?: string
   name: string
-  code: string
   level: number
-  schoolLevel: $Enums.SchoolLevel
-  educationLevel: $Enums.EducationLevel
   description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  code: string
+  schoolLevel: $Enums.SchoolLevel
+  educationLevel: $Enums.EducationLevel
 }
 
 export type GradeUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   sections?: Prisma.SectionUpdateManyWithoutGradeNestedInput
   students?: Prisma.StudentUpdateManyWithoutGradeNestedInput
   subjects?: Prisma.SubjectUpdateManyWithoutGradeNestedInput
@@ -925,13 +925,13 @@ export type GradeUpdateWithoutTenantInput = {
 export type GradeUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   sections?: Prisma.SectionUncheckedUpdateManyWithoutGradeNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutGradeNestedInput
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutGradeNestedInput
@@ -940,13 +940,13 @@ export type GradeUncheckedUpdateWithoutTenantInput = {
 export type GradeUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
   level?: Prisma.IntFieldUpdateOperationsInput | number
-  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
-  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  schoolLevel?: Prisma.EnumSchoolLevelFieldUpdateOperationsInput | $Enums.SchoolLevel
+  educationLevel?: Prisma.EnumEducationLevelFieldUpdateOperationsInput | $Enums.EducationLevel
 }
 
 
@@ -1002,13 +1002,13 @@ export type GradeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   tenantId?: boolean
   name?: boolean
-  code?: boolean
   level?: boolean
-  schoolLevel?: boolean
-  educationLevel?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  code?: boolean
+  schoolLevel?: boolean
+  educationLevel?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   sections?: boolean | Prisma.Grade$sectionsArgs<ExtArgs>
   students?: boolean | Prisma.Grade$studentsArgs<ExtArgs>
@@ -1020,13 +1020,13 @@ export type GradeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   tenantId?: boolean
   name?: boolean
-  code?: boolean
   level?: boolean
-  schoolLevel?: boolean
-  educationLevel?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  code?: boolean
+  schoolLevel?: boolean
+  educationLevel?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["grade"]>
 
@@ -1034,13 +1034,13 @@ export type GradeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   id?: boolean
   tenantId?: boolean
   name?: boolean
-  code?: boolean
   level?: boolean
-  schoolLevel?: boolean
-  educationLevel?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  code?: boolean
+  schoolLevel?: boolean
+  educationLevel?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["grade"]>
 
@@ -1048,16 +1048,16 @@ export type GradeSelectScalar = {
   id?: boolean
   tenantId?: boolean
   name?: boolean
-  code?: boolean
   level?: boolean
-  schoolLevel?: boolean
-  educationLevel?: boolean
   description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  code?: boolean
+  schoolLevel?: boolean
+  educationLevel?: boolean
 }
 
-export type GradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "code" | "level" | "schoolLevel" | "educationLevel" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["grade"]>
+export type GradeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "level" | "description" | "createdAt" | "updatedAt" | "code" | "schoolLevel" | "educationLevel", ExtArgs["result"]["grade"]>
 export type GradeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   sections?: boolean | Prisma.Grade$sectionsArgs<ExtArgs>
@@ -1084,13 +1084,13 @@ export type $GradePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     id: string
     tenantId: string
     name: string
-    code: string
     level: number
-    schoolLevel: $Enums.SchoolLevel
-    educationLevel: $Enums.EducationLevel
     description: string | null
     createdAt: Date
     updatedAt: Date
+    code: string
+    schoolLevel: $Enums.SchoolLevel
+    educationLevel: $Enums.EducationLevel
   }, ExtArgs["result"]["grade"]>
   composites: {}
 }
@@ -1521,13 +1521,13 @@ export interface GradeFieldRefs {
   readonly id: Prisma.FieldRef<"Grade", 'String'>
   readonly tenantId: Prisma.FieldRef<"Grade", 'String'>
   readonly name: Prisma.FieldRef<"Grade", 'String'>
-  readonly code: Prisma.FieldRef<"Grade", 'String'>
   readonly level: Prisma.FieldRef<"Grade", 'Int'>
-  readonly schoolLevel: Prisma.FieldRef<"Grade", 'SchoolLevel'>
-  readonly educationLevel: Prisma.FieldRef<"Grade", 'EducationLevel'>
   readonly description: Prisma.FieldRef<"Grade", 'String'>
   readonly createdAt: Prisma.FieldRef<"Grade", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Grade", 'DateTime'>
+  readonly code: Prisma.FieldRef<"Grade", 'String'>
+  readonly schoolLevel: Prisma.FieldRef<"Grade", 'SchoolLevel'>
+  readonly educationLevel: Prisma.FieldRef<"Grade", 'EducationLevel'>
 }
     
 

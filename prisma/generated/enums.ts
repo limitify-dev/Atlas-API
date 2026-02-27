@@ -12,12 +12,12 @@
 export const Role = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
+  USER: 'USER',
   DOS: 'DOS',
   DM: 'DM',
   TEACHER: 'TEACHER',
   STUDENT: 'STUDENT',
-  PARENT: 'PARENT',
-  USER: 'USER'
+  PARENT: 'PARENT'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -161,22 +161,75 @@ export type PointTransactionType = (typeof PointTransactionType)[keyof typeof Po
 
 
 export const SchoolLevel = {
-  NURSERY: 'NURSERY',
   PRIMARY: 'PRIMARY',
-  SENIOR: 'SENIOR'
+  SENIOR: 'SENIOR',
+  NURSERY: 'NURSERY'
 } as const
 
 export type SchoolLevel = (typeof SchoolLevel)[keyof typeof SchoolLevel]
 
 
 export const EducationLevel = {
-  NURSERY: 'NURSERY',
-  PRIMARY: 'PRIMARY',
   ORDINARY: 'ORDINARY',
-  ADVANCED: 'ADVANCED'
+  ADVANCED: 'ADVANCED',
+  NURSERY: 'NURSERY',
+  PRIMARY: 'PRIMARY'
 } as const
 
 export type EducationLevel = (typeof EducationLevel)[keyof typeof EducationLevel]
+
+
+export const ConversationStatus = {
+  ACTIVE: 'ACTIVE',
+  ARCHIVED: 'ARCHIVED',
+  BLOCKED: 'BLOCKED'
+} as const
+
+export type ConversationStatus = (typeof ConversationStatus)[keyof typeof ConversationStatus]
+
+
+export const ConversationType = {
+  DIRECT: 'DIRECT',
+  GROUP: 'GROUP',
+  CHANNEL: 'CHANNEL'
+} as const
+
+export type ConversationType = (typeof ConversationType)[keyof typeof ConversationType]
+
+
+export const ConversationRole = {
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER'
+} as const
+
+export type ConversationRole = (typeof ConversationRole)[keyof typeof ConversationRole]
+
+
+export const AnnouncementStatus = {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  DRAFT: 'DRAFT'
+} as const
+
+export type AnnouncementStatus = (typeof AnnouncementStatus)[keyof typeof AnnouncementStatus]
+
+
+export const MessageType = {
+  TEXT: 'TEXT',
+  IMAGE: 'IMAGE',
+  FILE: 'FILE',
+  SYSTEM: 'SYSTEM'
+} as const
+
+export type MessageType = (typeof MessageType)[keyof typeof MessageType]
+
+
+export const PushPlatform = {
+  EXPO: 'EXPO',
+  FCM_WEB: 'FCM_WEB'
+} as const
+
+export type PushPlatform = (typeof PushPlatform)[keyof typeof PushPlatform]
 
 
 export const CardStatus = {

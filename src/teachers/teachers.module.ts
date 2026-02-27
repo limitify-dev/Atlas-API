@@ -7,7 +7,7 @@ import { SupabaseService } from 'src/common/supabase/supabase.service';
 @Module({
   imports: [PrismaModule],
   controllers: [TeachersController],
-  providers: [TeachersService,SupabaseService],
+  providers: [TeachersService],
   exports: [TeachersService],
 })
 export class TeachersModule {}

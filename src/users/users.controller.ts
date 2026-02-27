@@ -9,11 +9,17 @@ import {
   Query,
   UseGuards,
   ForbiddenException,
+  UseInterceptors,
+  UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  FileTypeValidator,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiTags,
   ApiOperation,
-  ApiBearerAuth, 
+  ApiBearerAuth,
   ApiResponse,
 } from '@nestjs/swagger';
 import { UsersService } from './users.service';
@@ -80,6 +86,13 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @CurrentUser() user: any,
   ) {
+    // Role-based protection: Students cannot update their own profiles
+    if (user.role === Role.STUDENT) {
+      throw new ForbiddenException(
+        'Student profiles can only be updated by administrators',
+      );
+    }
+
     // Users can only update their own profile unless they're admin
     if (
       user.userId !== id &&
@@ -89,6 +102,41 @@ export class UsersController {
       throw new ForbiddenException('You can only update your own profile');
     }
     return this.usersService.update(id, updateUserDto);
+  }
+
+  @Patch(':id/avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({ summary: 'Update user avatar' })
+  @ApiResponse({ status: 200, description: 'Avatar updated successfully' })
+  updateAvatar(
+    @Param('id') id: string,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 }), // 5MB
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @CurrentUser() user: any,
+  ) {
+    // Role-based protection: Students cannot update their own profiles
+    if (user.role === Role.STUDENT) {
+      throw new ForbiddenException(
+        'Student profiles can only be updated by administrators',
+      );
+    }
+
+    // Users can only update their own profile unless they're admin
+    if (
+      user.userId !== id &&
+      user.role !== Role.ADMIN &&
+      user.role !== Role.SUPER_ADMIN
+    ) {
+      throw new ForbiddenException('You can only update your own profile');
+    }
+    return this.usersService.updateAvatar(id, file);
   }
 
   @Delete(':id')

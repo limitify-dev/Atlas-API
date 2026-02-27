@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AttendanceStatus } from '@prisma/client';
+import { AttendanceStatus } from '../../prisma/generated/client';
 
 export interface DateRange {
   startDate: Date;

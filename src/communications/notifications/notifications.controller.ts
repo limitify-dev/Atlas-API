@@ -25,30 +25,32 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   /**
-   * Create a new notification (SUPER_ADMIN only)
+   * Create a new notification (SUPER_ADMIN, ADMIN, DOS, DM)
    */
   @Post()
   @UseGuards(RolesGuard)
-  @Roles('SUPER_ADMIN')
+  @Roles('SUPER_ADMIN', 'ADMIN', 'DOS', 'DM')
   async createNotification(
     @Body() data: CreateNotificationDto,
     @Request() req: any,
   ) {
-    return this.notificationsService.createNotification(data, req.user.id);
+    return this.notificationsService.createNotification(data, req.user.id, req.user.tenantId);
   }
 
   /**
-   * Get all notifications with filters (SUPER_ADMIN only)
+   * Get all notifications with filters (SUPER_ADMIN, ADMIN, DOS, DM)
    */
   @Get()
   @UseGuards(RolesGuard)
-  @Roles('SUPER_ADMIN')
+  @Roles('SUPER_ADMIN', 'ADMIN', 'DOS', 'DM')
   async getNotifications(
+    @Request() req: any,
     @Query() filters: NotificationFiltersDto,
     @Query('page') page?: string,
     @Query('limit') limit?: string,
   ) {
     return this.notificationsService.getNotifications(
+      req.user.tenantId,
       filters,
       page ? parseInt(page, 10) : 1,
       limit ? parseInt(limit, 10) : 50,
@@ -56,13 +58,13 @@ export class NotificationsController {
   }
 
   /**
-   * Get notification statistics (SUPER_ADMIN only)
+   * Get notification statistics (SUPER_ADMIN, ADMIN, DOS, DM)
    */
   @Get('stats')
   @UseGuards(RolesGuard)
-  @Roles('SUPER_ADMIN')
-  async getStats() {
-    return this.notificationsService.getNotificationStats();
+  @Roles('SUPER_ADMIN', 'ADMIN', 'DOS', 'DM')
+  async getStats(@Request() req: any) {
+    return this.notificationsService.getNotificationStats(req.user.tenantId);
   }
 
   /**
@@ -105,12 +107,28 @@ export class NotificationsController {
   }
 
   /**
-   * Delete a notification (SUPER_ADMIN only)
+   * Clear all notifications for the current user
+   */
+  @Delete('clear-all')
+  async clearAllNotifications(@Request() req: any) {
+    return this.notificationsService.clearAllNotifications(req.user.id);
+  }
+
+  /**
+   * Dismiss a notification for the current user
+   */
+  @Delete(':id/dismiss')
+  async dismissNotification(@Param('id') id: string, @Request() req: any) {
+    return this.notificationsService.dismissNotification(id, req.user.id);
+  }
+
+  /**
+   * Delete a notification (SUPER_ADMIN, ADMIN, DOS, DM)
    */
   @Delete(':id')
   @UseGuards(RolesGuard)
-  @Roles('SUPER_ADMIN')
-  async deleteNotification(@Param('id') id: string) {
-    return this.notificationsService.deleteNotification(id);
+  @Roles('SUPER_ADMIN', 'ADMIN', 'DOS', 'DM')
+  async deleteNotification(@Param('id') id: string, @Request() req: any) {
+    return this.notificationsService.deleteNotification(id, req.user.tenantId);
   }
 }
