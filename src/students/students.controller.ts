@@ -14,6 +14,7 @@ import {
   UploadedFile,
   Res,
   StreamableFile,
+  BadRequestException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -139,6 +140,9 @@ export class StudentsController {
     page: number;
     limit: number;
   }> {
+    if (!user?.tenantId) {
+      throw new BadRequestException('Tenant ID is missing from user context. Please log in again.');
+    }
     return this.studentsService.findAll(queryDto, user.tenantId);
   }
 
