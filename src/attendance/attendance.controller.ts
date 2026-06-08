@@ -509,11 +509,11 @@ export class AttendanceController {
   @Get('stats')
   @UseGuards(JwtAuthGuard)
   async getAttendanceStats(
-    @Request() req: AuthUser,
+    @CurrentAuthUser() user: CurrentAuthUser,
     @Query('tenantId') tenantId: string,
     @Query('date') date?: string,
   ) {
-    const effectiveTenantId = tenantId || req.user.tenantId;
+    const effectiveTenantId = tenantId || user.tenantId;
     if (!effectiveTenantId) {
       throw new Error('Tenant ID is required');
     }
