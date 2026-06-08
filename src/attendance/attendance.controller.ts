@@ -9,7 +9,7 @@ import {
   Request,
   Res,
 } from '@nestjs/common';
-import { AuthUser as CurrentAuthUser } from '../auth/decorators/current-user.decorator';
+import { CurrentUser, AuthUser as CurrentAuthUser } from '../auth/decorators/current-user.decorator';
 import {
   ApiTags,
   ApiOperation,
@@ -509,7 +509,7 @@ export class AttendanceController {
   @Get('stats')
   @UseGuards(JwtAuthGuard)
   async getAttendanceStats(
-    @CurrentAuthUser() user: CurrentAuthUser,
+    @CurrentUser() user: CurrentAuthUser,
     @Query('tenantId') tenantId: string,
     @Query('date') date?: string,
   ) {
