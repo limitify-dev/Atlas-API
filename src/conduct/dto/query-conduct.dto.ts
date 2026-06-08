@@ -1,6 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ConductType, IncidentStatus } from '../../../prisma/generated/client';
-import { IsOptional, IsString, IsEnum, IsInt, Min, IsDateString } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsEnum,
+  IsInt,
+  Min,
+  IsDateString,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class QueryConductRecordsDto {

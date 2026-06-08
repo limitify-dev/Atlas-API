@@ -15,10 +15,11 @@ export class UserDto {
   tenantId: string | null;
 
   @ApiProperty({
-    description: 'User email address',
+    description: 'User email address (null for phone-only accounts)',
     example: 'john.doe@example.com',
+    nullable: true,
   })
-  email: string;
+  email: string | null;
 
   @ApiProperty({
     description: 'User full name',
@@ -44,7 +45,7 @@ export class UserDto {
     example: 'https://example.com/avatar.jpg',
     nullable: true,
   })
-  avatar: string | null;
+  avatar?: string | null;
 
   @ApiProperty({
     description: 'User role',
@@ -59,14 +60,14 @@ export class UserDto {
     example: 'STUDENT',
     nullable: true,
   })
-  userType: string | null;
+  userType?: string | null;
 
   @ApiProperty({
     description: 'Account status',
     enum: ['ACTIVE', 'INACTIVE', 'PENDING', 'SUSPENDED'],
     example: 'ACTIVE',
   })
-  status: string;
+  status: string | null;
 
   @ApiProperty({
     description: 'Email verification status',
@@ -79,6 +80,34 @@ export class UserDto {
     example: '2025-12-05T10:30:00.000Z',
   })
   createdAt: Date;
+
+  @ApiProperty({
+    description: 'User timezone',
+    example: 'UTC',
+    nullable: true,
+  })
+  timezone?: string | null;
+
+  @ApiProperty({
+    description: 'School name',
+    example: 'Springfield High School',
+    nullable: true,
+  })
+  schoolName?: string | null;
+
+  @ApiProperty({
+    description: 'School logo URL',
+    example: 'https://example.com/logo.png',
+    nullable: true,
+  })
+  schoolLogo?: string | null;
+
+  @ApiProperty({
+    description: 'Brand color',
+    example: '#1e40af',
+    nullable: true,
+  })
+  brandColor?: string | null;
 }
 
 export class AuthResponseDto {

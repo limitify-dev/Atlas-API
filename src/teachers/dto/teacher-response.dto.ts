@@ -19,7 +19,7 @@ export class TeacherResponseDto {
 
   @ApiProperty({ required: false })
   phone?: string;
-  
+
   @ApiProperty({
     description: 'Photo URL',
     example: 'https://example.com/photo.jpg',

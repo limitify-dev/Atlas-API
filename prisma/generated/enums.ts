@@ -9,6 +9,31 @@
 * 🟢 You can import this file directly.
 */
 
+export const OnboardingMode = {
+  OTP: 'OTP',
+  PASSWORD: 'PASSWORD'
+} as const
+
+export type OnboardingMode = (typeof OnboardingMode)[keyof typeof OnboardingMode]
+
+
+export const InviteStatus = {
+  PENDING: 'PENDING',
+  CLAIMED: 'CLAIMED',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type InviteStatus = (typeof InviteStatus)[keyof typeof InviteStatus]
+
+
+export const OtpPurpose = {
+  LOGIN: 'LOGIN',
+  ONBOARDING: 'ONBOARDING'
+} as const
+
+export type OtpPurpose = (typeof OtpPurpose)[keyof typeof OtpPurpose]
+
+
 export const Role = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
@@ -17,7 +42,8 @@ export const Role = {
   DM: 'DM',
   TEACHER: 'TEACHER',
   STUDENT: 'STUDENT',
-  PARENT: 'PARENT'
+  PARENT: 'PARENT',
+  STAFF: 'STAFF'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -264,6 +290,34 @@ export const DeviceStatus = {
 export type DeviceStatus = (typeof DeviceStatus)[keyof typeof DeviceStatus]
 
 
+export const AcademicRecordStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+} as const
+
+export type AcademicRecordStatus = (typeof AcademicRecordStatus)[keyof typeof AcademicRecordStatus]
+
+
+export const AssignmentResultStatus = {
+  PENDING: 'PENDING',
+  GRADED: 'GRADED',
+  MISSING: 'MISSING'
+} as const
+
+export type AssignmentResultStatus = (typeof AssignmentResultStatus)[keyof typeof AssignmentResultStatus]
+
+
+export const ConsultationStatus = {
+  SCHEDULED: 'SCHEDULED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED',
+  NO_SHOW: 'NO_SHOW'
+} as const
+
+export type ConsultationStatus = (typeof ConsultationStatus)[keyof typeof ConsultationStatus]
+
+
 export const DeviceType = {
   EDGE_DEVICE: 'EDGE_DEVICE',
   BIOMETRIC_SCANNER: 'BIOMETRIC_SCANNER',
@@ -283,3 +337,57 @@ export const LogLevel = {
 } as const
 
 export type LogLevel = (typeof LogLevel)[keyof typeof LogLevel]
+
+
+export const InvoiceStatus = {
+  UNPAID: 'UNPAID',
+  PENDING_VERIFICATION: 'PENDING_VERIFICATION',
+  PAID: 'PAID',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
+
+
+export const PaymentSubmissionStatus = {
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type PaymentSubmissionStatus = (typeof PaymentSubmissionStatus)[keyof typeof PaymentSubmissionStatus]
+
+
+export const PaymentPromiseStatus = {
+  ACTIVE: 'ACTIVE',
+  FULFILLED: 'FULFILLED',
+  OVERDUE: 'OVERDUE'
+} as const
+
+export type PaymentPromiseStatus = (typeof PaymentPromiseStatus)[keyof typeof PaymentPromiseStatus]
+
+
+export const AcademicWindowType = {
+  TERM: 'TERM',
+  EXAM: 'EXAM',
+  GRADE_SUBMISSION: 'GRADE_SUBMISSION',
+  REPORT_PUBLICATION: 'REPORT_PUBLICATION',
+  ENROLLMENT: 'ENROLLMENT',
+  HOLIDAY: 'HOLIDAY',
+  CONSULTATION: 'CONSULTATION',
+  ASSIGNMENT: 'ASSIGNMENT',
+  CUSTOM: 'CUSTOM'
+} as const
+
+export type AcademicWindowType = (typeof AcademicWindowType)[keyof typeof AcademicWindowType]
+
+
+export const AcademicWindowStatus = {
+  DRAFT: 'DRAFT',
+  ACTIVE: 'ACTIVE',
+  CLOSED: 'CLOSED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type AcademicWindowStatus = (typeof AcademicWindowStatus)[keyof typeof AcademicWindowStatus]

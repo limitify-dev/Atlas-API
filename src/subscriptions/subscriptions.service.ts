@@ -143,10 +143,10 @@ export class SubscriptionsService {
           subscriptionEndDate: data.subscriptionEndDate,
         }),
         ...(data.maxStudents !== undefined && {
-          maxStudents: data.maxStudents,
+          maxStudents: Number(data.maxStudents),
         }),
         ...(data.maxTeachers !== undefined && {
-          maxTeachers: data.maxTeachers,
+          maxTeachers: Number(data.maxTeachers),
         }),
         ...(data.status && { status: data.status }),
       },

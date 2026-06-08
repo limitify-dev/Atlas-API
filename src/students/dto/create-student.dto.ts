@@ -105,12 +105,21 @@ export class CreateStudentDto {
   gradeId: string;
 
   @ApiProperty({
-    description: 'Section ID',
+    description: 'Section (classroom) ID',
     example: 'uuid-section-id',
   })
   @IsString()
   @IsNotEmpty()
   sectionId: string;
+
+  @ApiProperty({
+    description: 'Promotion (cohort) ID — optional, auto-stamped from section if not provided',
+    example: 'uuid-promotion-id',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  promotionId?: string;
 
   @ApiProperty({
     description: 'Admission date',

@@ -27,7 +27,6 @@ import {
   QueryPermissionsDto,
   PermissionResponseDto,
   PermissionListResponseDto,
-  PermissionQrDataDto,
   PermissionStatsDto,
   ApprovePermissionDto,
   RejectPermissionDto,
@@ -38,7 +37,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../prisma/generated/client';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../auth/decorators/current-user.decorator';
 import { DeviceApiKeyGuard } from '../device/guards/device-api-key.guard';
 
 @ApiTags('Permissions')
@@ -66,13 +68,13 @@ export class PermissionsController {
   })
   async create(
     @Body() createPermissionDto: CreatePermissionDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<PermissionResponseDto> {
     return this.permissionsService.create(
       createPermissionDto,
       user.tenantId,
       user.id,
-      user.role,
+      user.role as Role,
     );
   }
 
@@ -88,7 +90,7 @@ export class PermissionsController {
   })
   async findAll(
     @Query() query: QueryPermissionsDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<PermissionListResponseDto> {
     return this.permissionsService.findAll(user.tenantId, query);
   }
@@ -103,7 +105,7 @@ export class PermissionsController {
     description: 'Statistics retrieved successfully',
     type: PermissionStatsDto,
   })
-  async getStats(@CurrentUser() user: any): Promise<PermissionStatsDto> {
+  async getStats(@CurrentUser() user: AuthUser): Promise<PermissionStatsDto> {
     return this.permissionsService.getStats(user.tenantId);
   }
 
@@ -119,9 +121,12 @@ export class PermissionsController {
   })
   async checkActivePermission(
     @Param('studentId') studentId: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<{ hasPermission: boolean; permission?: any }> {
-    return this.permissionsService.checkActivePermission(studentId, user.tenantId);
+    return this.permissionsService.checkActivePermission(
+      studentId,
+      user.tenantId,
+    );
   }
 
   @Get(':id')
@@ -141,11 +146,10 @@ export class PermissionsController {
   })
   async findOne(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<PermissionResponseDto> {
     return this.permissionsService.findOne(id, user.tenantId);
   }
-
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -169,9 +173,13 @@ export class PermissionsController {
   async update(
     @Param('id') id: string,
     @Body() updatePermissionDto: UpdatePermissionDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<PermissionResponseDto> {
-    return this.permissionsService.update(id, updatePermissionDto, user.tenantId);
+    return this.permissionsService.update(
+      id,
+      updatePermissionDto,
+      user.tenantId,
+    );
   }
 
   @Delete(':id')
@@ -191,7 +199,7 @@ export class PermissionsController {
   })
   async remove(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<void> {
     return this.permissionsService.remove(id, user.tenantId);
   }
@@ -214,9 +222,14 @@ export class PermissionsController {
   async approve(
     @Param('id') id: string,
     @Body() dto: ApprovePermissionDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<PermissionResponseDto> {
-    return this.permissionsService.approve(id, user.tenantId, user.id, dto.remarks);
+    return this.permissionsService.approve(
+      id,
+      user.tenantId,
+      user.id,
+      dto.remarks,
+    );
   }
 
   @Post(':id/reject')
@@ -237,9 +250,14 @@ export class PermissionsController {
   async reject(
     @Param('id') id: string,
     @Body() dto: RejectPermissionDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<PermissionResponseDto> {
-    return this.permissionsService.reject(id, user.tenantId, user.id, dto.remarks);
+    return this.permissionsService.reject(
+      id,
+      user.tenantId,
+      user.id,
+      dto.remarks,
+    );
   }
 
   // =====================================

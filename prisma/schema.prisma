@@ -52,13 +52,21 @@ model Tenant {
   grades                   Grade[]
   inventoryItems           InventoryItem[]
   inventoryTransactions    InventoryTransaction[]
+  academicTimelines        AcademicTimeline[]
+  invoices                 Invoice[]
   messages                 Message[]
+  promotions               Promotion[]
   notifications            Notification[]
   parents                  Parent[]
+  invites                  Invite[]
+  paymentPromises          PaymentPromise[]
+  paymentSubmissions       PaymentSubmission[]
   permissionUsages         PermissionUsage[]
   permissions              Permission[]
   sections                 Section[]
+  staff                    Staff[]
   studentConductPoints     StudentConductPoints[]
+  studentGrades            StudentGrade[]
   students                 Student[]
   subjects                 Subject[]
   teacherAttendances       TeacherAttendance[]
@@ -75,7 +83,7 @@ model Tenant {
 model User {
   id                       String                    @id @default(uuid())
   tenantId                 String?
-  email                    String                    @unique
+  email                    String?                   @unique
   name                     String
   password                 String
   phone                    String?                   @unique
@@ -101,6 +109,7 @@ model User {
   pushTokens               PushToken[]
   refreshTokens            RefreshToken[]
   sessions                 Session[]
+  staff                    Staff?
   student                  Student?
   teacher                  Teacher?
   tenant                   Tenant?                   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -161,6 +170,7 @@ model Student {
   admissionDate       DateTime
   gradeId             String
   sectionId           String
+  promotionId         String?
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   email               String?
@@ -169,10 +179,13 @@ model Student {
   borrowedBooks       BookTransaction[]
   card                Card?
   conductRecords      ConductRecord[]
+  invoices            Invoice[]
   permissions         Permission[]
   conductPoints       StudentConductPoints?
   parents             StudentParent[]
+  studentGrades       StudentGrade[]
   grade               Grade                 @relation(fields: [gradeId], references: [id])
+  promotion           Promotion?            @relation(fields: [promotionId], references: [id])
   section             Section               @relation(fields: [sectionId], references: [id])
   tenant              Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user                User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -184,6 +197,7 @@ model Student {
   @@index([studentId])
   @@index([gradeId])
   @@index([sectionId])
+  @@index([promotionId])
   @@map("students")
 }
 
@@ -300,6 +314,7 @@ model Section {
   tenantId         String
   name             String
   gradeId          String
+  promotionId      String?
   capacity         Int               @default(40)
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -310,6 +325,7 @@ model Section {
   classes          ClassTeacher[]
   combination      Combination?      @relation(fields: [combinationId], references: [id])
   grade            Grade             @relation(fields: [gradeId], references: [id], onDelete: Cascade)
+  promotion        Promotion?        @relation(fields: [promotionId], references: [id])
   tenant           Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   students         Student[]
   conversations    Conversation[]
@@ -318,21 +334,23 @@ model Section {
   @@index([tenantId])
   @@index([gradeId])
   @@index([combinationId])
+  @@index([promotionId])
   @@map("sections")
 }
 
 model Subject {
-  id          String           @id @default(uuid())
-  tenantId    String
-  name        String
-  code        String
-  description String?
-  gradeId     String
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  teachers    SubjectTeacher[]
-  grade       Grade            @relation(fields: [gradeId], references: [id], onDelete: Cascade)
-  tenant      Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id            String           @id @default(uuid())
+  tenantId      String
+  name          String
+  code          String
+  description   String?
+  gradeId       String
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  studentGrades StudentGrade[]
+  teachers      SubjectTeacher[]
+  grade         Grade            @relation(fields: [gradeId], references: [id], onDelete: Cascade)
+  tenant        Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -967,6 +985,148 @@ model Event {
   @@map("events")
 }
 
+model AcademicExam {
+  id          String               @id @default(uuid())
+  tenantId    String
+  title       String
+  description String?
+  term        String?
+  examDate    DateTime
+  gradeId     String
+  sectionId   String?
+  subjectId   String?
+  status      AcademicRecordStatus @default(DRAFT)
+  createdBy   String
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  @@index([tenantId])
+  @@index([gradeId])
+  @@index([sectionId])
+  @@index([subjectId])
+  @@index([examDate])
+  @@map("academic_exams")
+}
+
+model AcademicAssignment {
+  id          String               @id @default(uuid())
+  tenantId    String
+  courseId    String?
+  title       String
+  description String?
+  term        String?
+  dueDate     DateTime
+  gradeId     String
+  sectionId   String?
+  subjectId   String?
+  maxScore    Float                @default(100)
+  status      AcademicRecordStatus @default(DRAFT)
+  createdBy   String
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  @@index([tenantId])
+  @@index([courseId])
+  @@index([gradeId])
+  @@index([sectionId])
+  @@index([subjectId])
+  @@index([dueDate])
+  @@map("academic_assignments")
+}
+
+model AcademicCourse {
+  id          String               @id @default(uuid())
+  tenantId    String
+  teacherId   String
+  sectionId   String
+  subjectId   String
+  title       String
+  code        String?
+  term        String?
+  description String?
+  status      AcademicRecordStatus @default(DRAFT)
+  createdBy   String
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@index([teacherId])
+  @@index([sectionId])
+  @@index([subjectId])
+  @@index([status])
+  @@map("academic_courses")
+}
+
+model AcademicAssignmentResult {
+  id           String                 @id @default(uuid())
+  tenantId     String
+  assignmentId String
+  studentId    String
+  score        Float?
+  remarks      String?
+  submittedAt  DateTime?
+  gradedAt     DateTime?
+  status       AssignmentResultStatus @default(PENDING)
+  createdBy    String
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  @@unique([assignmentId, studentId])
+  @@index([tenantId])
+  @@index([assignmentId])
+  @@index([studentId])
+  @@map("academic_assignment_results")
+}
+
+model AcademicReportCard {
+  id           String               @id @default(uuid())
+  tenantId     String
+  studentId    String
+  term         String
+  overallScore Float?
+  grade        String?
+  remarks      String?
+  publishedAt  DateTime?
+  publishedBy  String
+  status       AcademicRecordStatus @default(DRAFT)
+  metadata     Json?
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  @@unique([tenantId, studentId, term])
+  @@index([tenantId])
+  @@index([studentId])
+  @@index([term])
+  @@map("academic_report_cards")
+}
+
+model ConsultationBooking {
+  id               String             @id @default(uuid())
+  tenantId         String
+  consultationDate DateTime
+  startTime        String
+  endTime          String
+  studentId        String
+  teacherId        String
+  parentId         String?
+  sectionId        String?
+  location         String?
+  announcementId   String?
+  notes            String?
+  status           ConsultationStatus @default(SCHEDULED)
+  createdBy        String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  @@index([tenantId])
+  @@index([consultationDate])
+  @@index([teacherId])
+  @@index([studentId])
+  @@index([parentId])
+  @@map("consultation_bookings")
+}
+
 model Device {
   id          String       @id @default(uuid())
   tenantId    String
@@ -1037,15 +1197,246 @@ model SystemLog {
   @@map("system_logs")
 }
 
+// ─── NEW MODELS ──────────────────────────────────────────────────────────────
+
+model AcademicTimeline {
+  id           String               @id @default(uuid())
+  tenantId     String
+  name         String               // e.g. "Term 1 Grade Submission Window"
+  type         AcademicWindowType
+  academicYear String               // e.g. "2024-2025"
+  term         String?              // e.g. "T1", "T2", "S1" — null = applies to full year
+  startDate    DateTime
+  endDate      DateTime
+  description  String?
+  gradeIds     Json?                // string[] | null — null means applies to all grades
+  status       AcademicWindowStatus @default(DRAFT)
+  createdBy    String               // userId of the staff member who set this
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  tenant       Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([type])
+  @@index([academicYear])
+  @@index([status])
+  @@index([startDate, endDate])
+  @@index([tenantId, type, status])
+  @@map("academic_timelines")
+}
+
+model Promotion {
+  id          String    @id @default(uuid())
+  tenantId    String
+  name        String                // e.g. "Promotion 2023", "Class of 2028"
+  entryYear   Int                   // year the cohort enrolled (e.g. 2023)
+  description String?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sections    Section[]
+  students    Student[]
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
+  @@index([entryYear])
+  @@index([isActive])
+  @@map("promotions")
+}
+
+model Staff {
+  id          String   @id @default(uuid())
+  tenantId    String
+  userId      String   @unique
+  firstName   String
+  lastName    String
+  department  String?
+  staffRole   String   // "finance" | "discipline" | "reception" | "IT" | custom
+  photoUrl    String?
+  joiningDate DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([staffRole])
+  @@map("staff")
+}
+
+model StudentGrade {
+  id         String   @id @default(uuid())
+  tenantId   String
+  studentId  String
+  subjectId  String
+  term       String   // e.g. "2025-T1"
+  percentage Float
+  comment    String?
+  gradedBy   String   // userId of the teacher
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subject    Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, studentId, subjectId, term])
+  @@index([tenantId])
+  @@index([studentId])
+  @@index([term])
+  @@map("student_grades")
+}
+
+model Invoice {
+  id          String        @id @default(uuid())
+  tenantId    String
+  studentId   String
+  title       String
+  description String?
+  amount      Decimal       @db.Decimal(10, 2)
+  currency    String        @default("USD")
+  dueDate     DateTime
+  term        String?
+  category    String?       // "tuition" | "transport" | "uniform" | custom
+  status      InvoiceStatus @default(UNPAID)
+  issuedBy    String        // userId of finance staff who created it
+  lockedAt    DateTime?     // set when status = PENDING_VERIFICATION
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  student     Student             @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  tenant      Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  submissions PaymentSubmission[]
+  promises    PaymentPromise[]
+
+  @@index([tenantId])
+  @@index([studentId])
+  @@index([status])
+  @@index([dueDate])
+  @@index([tenantId, studentId])
+  @@map("invoices")
+}
+
+model PaymentSubmission {
+  id            String                  @id @default(uuid())
+  tenantId      String
+  invoiceId     String
+  submittedBy   String                  // userId (parent)
+  proofUrl      String                  // Supabase storage URL
+  note          String?
+  amountClaimed Decimal?                @db.Decimal(10, 2)
+  status        PaymentSubmissionStatus @default(PENDING_REVIEW)
+  reviewedBy    String?                 // userId of finance staff
+  reviewedAt    DateTime?
+  reviewNote    String?
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+
+  invoice       Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  tenant        Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([invoiceId])
+  @@index([status])
+  @@map("payment_submissions")
+}
+
+model PaymentPromise {
+  id           String               @id @default(uuid())
+  tenantId     String
+  invoiceId    String
+  promisedBy   String               // userId (parent)
+  promisedDate DateTime
+  note         String?
+  status       PaymentPromiseStatus @default(ACTIVE)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([invoiceId])
+  @@index([status])
+  @@index([promisedDate])
+  @@map("payment_promises")
+}
+
+// ─── ONBOARDING ───────────────────────────────────────────────────────────────
+
+model Invite {
+  id             String         @id @default(uuid())
+  tenantId       String
+  phone          String
+  email          String?
+  name           String?
+  role           Role
+  referenceId    String?
+  token          String         @unique
+  onboardingMode OnboardingMode @default(OTP)
+  expiresAt      DateTime
+  status         InviteStatus   @default(PENDING)
+  createdBy      String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  tenant         Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([token])
+  @@index([phone, tenantId])
+  @@map("invites")
+}
+
+model OtpCode {
+  id          String     @id @default(uuid())
+  phone       String
+  tenantId    String?
+  inviteToken String?
+  purpose     OtpPurpose @default(ONBOARDING)
+  code        String
+  expiresAt   DateTime
+  attempts    Int        @default(0)
+  verified    Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+
+  @@index([phone])
+  @@index([inviteToken])
+  @@map("otp_codes")
+}
+
+// ─── ENUMS ────────────────────────────────────────────────────────────────────
+
+enum OnboardingMode {
+  OTP
+  PASSWORD
+}
+
+enum InviteStatus {
+  PENDING
+  CLAIMED
+  EXPIRED
+}
+
+enum OtpPurpose {
+  LOGIN
+  ONBOARDING
+}
+
 enum Role {
   SUPER_ADMIN
   ADMIN
-  USER
-  DOS
-  DM
+  USER      // @deprecated — legacy teachers; use TEACHER for new users
+  DOS       // @deprecated — legacy staff; use STAFF for new users
+  DM        // @deprecated — legacy staff; use STAFF for new users
   TEACHER
   STUDENT
   PARENT
+  STAFF
 }
 
 enum UserType {
@@ -1214,6 +1605,25 @@ enum DeviceStatus {
   OFFLINE
 }
 
+enum AcademicRecordStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AssignmentResultStatus {
+  PENDING
+  GRADED
+  MISSING
+}
+
+enum ConsultationStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
 enum DeviceType {
   EDGE_DEVICE
   BIOMETRIC_SCANNER
@@ -1227,4 +1637,43 @@ enum LogLevel {
   WARN
   ERROR
   CRITICAL
+}
+
+enum InvoiceStatus {
+  UNPAID
+  PENDING_VERIFICATION
+  PAID
+  REJECTED
+  CANCELLED
+}
+
+enum PaymentSubmissionStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum PaymentPromiseStatus {
+  ACTIVE
+  FULFILLED
+  OVERDUE
+}
+
+enum AcademicWindowType {
+  TERM                // Main school term boundaries
+  EXAM                // Exam sitting period
+  GRADE_SUBMISSION    // Window when teachers may submit/edit grades
+  REPORT_PUBLICATION  // When report cards become visible to parents
+  ENROLLMENT          // Student enrollment / registration period
+  HOLIDAY             // School break / public holiday block
+  CONSULTATION        // Parent-teacher meeting period
+  ASSIGNMENT          // Assignment creation / submission period
+  CUSTOM              // Any other school-defined window
+}
+
+enum AcademicWindowStatus {
+  DRAFT     // Being configured — not yet visible to staff/parents
+  ACTIVE    // Window is open and in effect
+  CLOSED    // Window has ended
+  CANCELLED // Abandoned before activation
 }

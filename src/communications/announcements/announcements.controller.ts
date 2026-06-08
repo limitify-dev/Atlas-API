@@ -15,11 +15,19 @@ import {
   FileTypeValidator,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
-import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../../common/decorators/current-user.decorator';
 import { Role } from '../../../prisma/generated/client';
 import { AnnouncementsService } from './announcements.service';
 import {
@@ -40,7 +48,7 @@ export class AnnouncementsController {
   @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Create a new announcement' })
   async create(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Body() dto: CreateAnnouncementDto,
   ) {
     return this.announcementsService.create(user.tenantId, user.id, dto);
@@ -52,7 +60,7 @@ export class AnnouncementsController {
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Upload announcement banner image' })
   async uploadImage(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @UploadedFile(
       new ParseFilePipe({
         validators: [
@@ -77,7 +85,7 @@ export class AnnouncementsController {
   @ApiQuery({ name: 'search', required: false, type: String })
   @ApiQuery({ name: 'priority', required: false, type: String })
   async findAll(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Query() filters: AnnouncementFiltersDto,
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 20,
@@ -98,7 +106,7 @@ export class AnnouncementsController {
   @ApiQuery({ name: 'search', required: false, type: String })
   @ApiQuery({ name: 'priority', required: false, type: String })
   async findForUser(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Query() filters: AnnouncementFiltersDto,
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 20,
@@ -117,16 +125,13 @@ export class AnnouncementsController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Get announcement statistics' })
-  async getStats(@CurrentUser() user: any) {
+  async getStats(@CurrentUser() user: AuthUser) {
     return this.announcementsService.getStats(user.tenantId);
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a single announcement' })
-  async findOne(
-    @CurrentUser() user: any,
-    @Param('id') id: string,
-  ) {
+  async findOne(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.announcementsService.findOne(id, user.tenantId);
   }
 
@@ -135,7 +140,7 @@ export class AnnouncementsController {
   @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Update an announcement' })
   async update(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') id: string,
     @Body() dto: UpdateAnnouncementDto,
   ) {
@@ -146,10 +151,7 @@ export class AnnouncementsController {
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Delete an announcement' })
-  async delete(
-    @CurrentUser() user: any,
-    @Param('id') id: string,
-  ) {
+  async delete(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.announcementsService.delete(id, user.tenantId);
   }
 
@@ -158,7 +160,7 @@ export class AnnouncementsController {
   @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Toggle pin status of an announcement' })
   async togglePin(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') id: string,
     @Body() body: { isPinned?: boolean },
   ) {
@@ -167,10 +169,7 @@ export class AnnouncementsController {
 
   @Patch(':id/read')
   @ApiOperation({ summary: 'Mark an announcement as read' })
-  async markAsRead(
-    @CurrentUser() user: any,
-    @Param('id') id: string,
-  ) {
+  async markAsRead(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.announcementsService.markAsRead(id, user.id);
   }
 }

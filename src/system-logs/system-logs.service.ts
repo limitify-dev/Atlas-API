@@ -54,11 +54,7 @@ export class SystemLogsService {
   /**
    * Get logs with filtering and pagination
    */
-  async getLogs(
-    filters: LogFilters,
-    page: number = 1,
-    limit: number = 50,
-  ) {
+  async getLogs(filters: LogFilters, page: number = 1, limit: number = 50) {
     const skip = (page - 1) * limit;
 
     const where: any = {};
@@ -103,8 +99,24 @@ export class SystemLogsService {
       this.prisma.systemLog.count({ where }),
     ]);
 
+    // Resolve user details for all logs that have a userId
+    const userIds = [...new Set(logs.map((l) => l.userId).filter(Boolean))] as string[];
+    const users =
+      userIds.length > 0
+        ? await this.prisma.user.findMany({
+            where: { id: { in: userIds } },
+            select: { id: true, name: true, email: true, role: true },
+          })
+        : [];
+    const userMap = new Map(users.map((u) => [u.id, u]));
+
+    const enrichedLogs = logs.map((log) => ({
+      ...log,
+      user: log.userId ? (userMap.get(log.userId) ?? null) : null,
+    }));
+
     return {
-      logs,
+      logs: enrichedLogs,
       pagination: {
         page,
         limit,

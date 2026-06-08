@@ -11,7 +11,7 @@ import {
   QueryTeachersDto,
   TeacherResponseDto,
 } from './dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import {
   Prisma,
   UserType,
@@ -28,6 +28,72 @@ export class TeachersService {
     private readonly prisma: PrismaService,
     private supabase: SupabaseService,
   ) {}
+
+  private formatTime(totalMinutes: number) {
+    const safeMinutes = ((totalMinutes % (24 * 60)) + 24 * 60) % (24 * 60);
+    const hours = Math.floor(safeMinutes / 60);
+    const minutes = safeMinutes % 60;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+  }
+
+  private parseTimeToMinutes(value?: string | null, fallback: number = 9 * 60) {
+    if (!value) return fallback;
+    const match = /^(\d{1,2}):(\d{2})$/.exec(value.trim());
+    if (!match) return fallback;
+    const hours = Number(match[1]);
+    const minutes = Number(match[2]);
+    if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return fallback;
+    return (
+      Math.max(0, Math.min(23, hours)) * 60 + Math.max(0, Math.min(59, minutes))
+    );
+  }
+
+  private stableHash(input: string) {
+    let hash = 0;
+    for (let i = 0; i < input.length; i++) {
+      hash = (hash * 31 + input.charCodeAt(i)) >>> 0;
+    }
+    return hash;
+  }
+
+  private getConsultationConfig(
+    announcement?: { ctaUrl?: string | null } | null,
+  ) {
+    const fallbackDate = new Date();
+    fallbackDate.setDate(fallbackDate.getDate() + 7);
+    const fallbackDateStr = fallbackDate.toISOString().slice(0, 10);
+    const fallback = {
+      date: fallbackDateStr,
+      startTime: '09:00',
+      durationMinutes: 12,
+      location: 'School Campus',
+      source: 'SYSTEM_DEFAULT',
+    };
+
+    if (!announcement?.ctaUrl) return fallback;
+
+    try {
+      const url = new URL(announcement.ctaUrl, 'https://atlas.local');
+      const date = url.searchParams.get('date') || fallback.date;
+      const startTime = url.searchParams.get('start') || fallback.startTime;
+      const duration = Number(
+        url.searchParams.get('duration') || fallback.durationMinutes,
+      );
+      const location = url.searchParams.get('location') || fallback.location;
+      return {
+        date,
+        startTime,
+        durationMinutes:
+          Number.isFinite(duration) && duration > 0
+            ? Math.min(Math.floor(duration), 90)
+            : fallback.durationMinutes,
+        location,
+        source: 'ANNOUNCEMENT',
+      };
+    } catch {
+      return fallback;
+    }
+  }
 
   async create(
     createTeacherDto: CreateTeacherDto,
@@ -236,7 +302,7 @@ export class TeachersService {
     return results;
   }
 
-  async getBulkUploadTemplate(): Promise<Buffer> {
+  getBulkUploadTemplate(): Buffer {
     const columns = [
       'First Name',
       'Last Name',
@@ -270,6 +336,206 @@ export class TeachersService {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Teachers');
 
     return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+  }
+
+  async getMyConsultationSlots(
+    userId: string,
+    tenantId: string,
+    params?: { date?: string; limit?: number },
+  ) {
+    const teacher = await this.prisma.teacher.findFirst({
+      where: { tenantId, userId },
+      select: { id: true, firstName: true, lastName: true },
+    });
+
+    if (!teacher) {
+      return {
+        date: null,
+        startTime: null,
+        durationMinutes: null,
+        location: null,
+        items: [],
+      };
+    }
+
+    const persistentBookings = await this.prisma.consultationBooking.findMany({
+      where: {
+        tenantId,
+        teacherId: teacher.id,
+        ...(params?.date
+          ? {
+              consultationDate: {
+                gte: new Date(`${params.date}T00:00:00.000Z`),
+                lt: new Date(`${params.date}T23:59:59.999Z`),
+              },
+            }
+          : {}),
+        status: { not: 'CANCELLED' },
+      },
+      orderBy: [{ consultationDate: 'asc' }, { startTime: 'asc' }],
+      take: params?.limit || 120,
+    });
+
+    if (persistentBookings.length > 0) {
+      const students = await this.prisma.student.findMany({
+        where: {
+          id: {
+            in: Array.from(new Set(persistentBookings.map((b) => b.studentId))),
+          },
+        },
+        include: {
+          section: { select: { name: true } },
+          parents: {
+            include: {
+              parent: {
+                select: { firstName: true, lastName: true, relationship: true },
+              },
+            },
+            orderBy: { isPrimary: 'desc' },
+          },
+        },
+      });
+
+      const studentMap = new Map(students.map((s) => [s.id, s]));
+      const items = persistentBookings.map((booking) => {
+        const student = studentMap.get(booking.studentId);
+        const parent = student?.parents?.[0]?.parent;
+        return {
+          id: booking.id,
+          teacherId: teacher.id,
+          teacherName: `${teacher.firstName} ${teacher.lastName}`.trim(),
+          studentId: booking.studentId,
+          studentName: student
+            ? `${student.firstName} ${student.lastName}`.trim()
+            : 'Student',
+          section: student?.section?.name || null,
+          parentName: parent
+            ? `${parent.firstName} ${parent.lastName}`.trim()
+            : null,
+          relationship: parent?.relationship || null,
+          date: booking.consultationDate.toISOString().slice(0, 10),
+          startTime: booking.startTime,
+          endTime: booking.endTime,
+          location: booking.location || null,
+          source: 'BOOKING',
+          status: booking.status,
+        };
+      });
+
+      return {
+        date: items[0]?.date || null,
+        startTime: items[0]?.startTime || null,
+        durationMinutes: null,
+        location: items[0]?.location || null,
+        items,
+      };
+    }
+
+    const consultationAnnouncement = await this.prisma.announcement.findFirst({
+      where: {
+        tenantId,
+        status: 'ACTIVE',
+        ctaType: {
+          in: ['CONSULTATION_DAY', 'ACADEMICS_CONSULTATION'],
+        },
+      },
+      orderBy: { publishedAt: 'desc' },
+    });
+
+    const config = this.getConsultationConfig(consultationAnnouncement);
+    const date = params?.date || config.date;
+    const baseMinutes = this.parseTimeToMinutes(config.startTime, 9 * 60);
+
+    const [classSections, gradeSubjects] = await Promise.all([
+      this.prisma.classTeacher.findMany({
+        where: { teacherId: teacher.id },
+        select: { sectionId: true },
+      }),
+      this.prisma.subjectTeacher.findMany({
+        where: { teacherId: teacher.id },
+        include: {
+          subject: {
+            select: { id: true, name: true, gradeId: true },
+          },
+        },
+      }),
+    ]);
+
+    const sectionIds = Array.from(
+      new Set(classSections.map((row) => row.sectionId)),
+    );
+    const gradeIds = Array.from(
+      new Set(gradeSubjects.map((row) => row.subject?.gradeId).filter(Boolean)),
+    );
+
+    if (!sectionIds.length && !gradeIds.length) {
+      return {
+        date,
+        startTime: config.startTime,
+        durationMinutes: config.durationMinutes,
+        location: config.location,
+        items: [],
+      };
+    }
+
+    const students = await this.prisma.student.findMany({
+      where: {
+        tenantId,
+        OR: [
+          ...(sectionIds.length ? [{ sectionId: { in: sectionIds } }] : []),
+          ...(gradeIds.length ? [{ gradeId: { in: gradeIds } }] : []),
+        ],
+      },
+      include: {
+        section: { select: { id: true, name: true } },
+        parents: {
+          include: {
+            parent: {
+              select: { firstName: true, lastName: true, relationship: true },
+            },
+          },
+          orderBy: { isPrimary: 'desc' },
+        },
+      },
+      take: params?.limit || 120,
+    });
+
+    const items = students
+      .map((student) => {
+        const hash = this.stableHash(`${date}:${student.id}:${teacher.id}`);
+        const slotIndex = hash % 30;
+        const startMinutes = baseMinutes + slotIndex * config.durationMinutes;
+        const endMinutes = startMinutes + config.durationMinutes;
+        const parent = student.parents?.[0]?.parent;
+        return {
+          id: `${teacher.id}:${student.id}:${date}`,
+          teacherId: teacher.id,
+          teacherName: `${teacher.firstName} ${teacher.lastName}`.trim(),
+          studentId: student.id,
+          studentName: `${student.firstName} ${student.lastName}`.trim(),
+          section: student.section?.name || null,
+          parentName: parent
+            ? `${parent.firstName} ${parent.lastName}`.trim()
+            : null,
+          relationship: parent?.relationship || null,
+          date,
+          startTime: this.formatTime(startMinutes),
+          endTime: this.formatTime(endMinutes),
+          location: config.location,
+          source: config.source,
+        };
+      })
+      .sort((a, b) =>
+        `${a.date} ${a.startTime}`.localeCompare(`${b.date} ${b.startTime}`),
+      );
+
+    return {
+      date,
+      startTime: config.startTime,
+      durationMinutes: config.durationMinutes,
+      location: config.location,
+      items,
+    };
   }
 
   async findAll(
@@ -461,7 +727,6 @@ export class TeachersService {
             `Unexpected error processing photo for teacher ${id}:`,
             uploadErr,
           );
-          
         }
       }
 

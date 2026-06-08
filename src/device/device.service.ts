@@ -1,6 +1,15 @@
-import { Injectable, NotFoundException, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { DeviceStatus, DeviceType } from '../../prisma/generated/client';
+import {
+  DeviceStatus,
+  DeviceType,
+  Prisma,
+} from '../../prisma/generated/client';
 import * as crypto from 'crypto';
 
 @Injectable()
@@ -284,7 +293,9 @@ export class DeviceService {
     }
 
     if (device.status !== 'ACTIVE') {
-      throw new UnauthorizedException(`Device is ${device.status.toLowerCase()}`);
+      throw new UnauthorizedException(
+        `Device is ${device.status.toLowerCase()}`,
+      );
     }
 
     if (device.tenant.status !== 'ACTIVE') {
@@ -308,7 +319,7 @@ export class DeviceService {
     action: string,
     description?: string,
     ipAddress?: string,
-    metadata?: any,
+    metadata?: Prisma.InputJsonValue,
   ) {
     const device = await this.prisma.device.findUnique({
       where: { id: deviceId },
@@ -379,7 +390,8 @@ export class DeviceService {
 
     // Count by type
     devices.forEach((device) => {
-      stats.byType[device.deviceType] = (stats.byType[device.deviceType] || 0) + 1;
+      stats.byType[device.deviceType] =
+        (stats.byType[device.deviceType] || 0) + 1;
     });
 
     // Count recently active (within last 5 minutes)

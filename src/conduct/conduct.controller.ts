@@ -39,7 +39,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../prisma/generated/client';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../auth/decorators/current-user.decorator';
 
 @ApiTags('Conduct')
 @ApiBearerAuth()
@@ -62,12 +65,17 @@ export class ConductController {
   })
   async createRecord(
     @Body() dto: CreateConductRecordDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<ConductRecordResponseDto> {
     // For teachers, use their teacher ID as reportedBy
     // For admin/DM without teacher record, pass null for teacherId and use userId
     const teacherId = user.teacherId || null;
-    return this.conductService.createConductRecord(dto, user.tenantId, teacherId, user.id);
+    return this.conductService.createConductRecord(
+      dto,
+      user.tenantId,
+      teacherId,
+      user.id,
+    );
   }
 
   @Get('records')
@@ -80,7 +88,7 @@ export class ConductController {
   })
   async findAllRecords(
     @Query() query: QueryConductRecordsDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<ConductRecordListResponseDto> {
     return this.conductService.findAllConductRecords(user.tenantId, query);
   }
@@ -96,7 +104,7 @@ export class ConductController {
   })
   async findOneRecord(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<ConductRecordResponseDto> {
     return this.conductService.findOneConductRecord(id, user.tenantId);
   }
@@ -113,7 +121,7 @@ export class ConductController {
   async updateRecord(
     @Param('id') id: string,
     @Body() dto: UpdateConductRecordDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<ConductRecordResponseDto> {
     return this.conductService.updateConductRecord(id, dto, user.tenantId);
   }
@@ -130,9 +138,14 @@ export class ConductController {
   async resolveRecord(
     @Param('id') id: string,
     @Body() dto: ResolveConductRecordDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<ConductRecordResponseDto> {
-    return this.conductService.resolveConductRecord(id, dto, user.tenantId, user.id);
+    return this.conductService.resolveConductRecord(
+      id,
+      dto,
+      user.tenantId,
+      user.id,
+    );
   }
 
   @Delete('records/:id')
@@ -146,7 +159,7 @@ export class ConductController {
   })
   async removeRecord(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<void> {
     return this.conductService.removeConductRecord(id, user.tenantId);
   }
@@ -165,7 +178,7 @@ export class ConductController {
   })
   async getAllPoints(
     @Query() query: QueryPointsDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<PointsListResponseDto> {
     return this.conductService.getAllStudentsPoints(user.tenantId, query);
   }
@@ -181,7 +194,7 @@ export class ConductController {
   })
   async getStudentPoints(
     @Param('studentId') studentId: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentPointsResponseDto> {
     return this.conductService.getStudentPoints(studentId, user.tenantId);
   }
@@ -196,7 +209,7 @@ export class ConductController {
   })
   async deductPoints(
     @Body() dto: DeductPointsDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentPointsResponseDto> {
     return this.conductService.deductPoints(dto, user.tenantId, user.id);
   }
@@ -211,7 +224,7 @@ export class ConductController {
   })
   async addPoints(
     @Body() dto: AddPointsDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentPointsResponseDto> {
     return this.conductService.addPoints(dto, user.tenantId, user.id);
   }
@@ -227,9 +240,13 @@ export class ConductController {
   })
   async resetPoints(
     @Param('studentId') studentId: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentPointsResponseDto> {
-    return this.conductService.resetStudentPoints(studentId, user.tenantId, user.id);
+    return this.conductService.resetStudentPoints(
+      studentId,
+      user.tenantId,
+      user.id,
+    );
   }
 
   // =====================================
@@ -244,7 +261,7 @@ export class ConductController {
     description: 'Statistics retrieved successfully',
     type: ConductStatsDto,
   })
-  async getStats(@CurrentUser() user: any): Promise<ConductStatsDto> {
+  async getStats(@CurrentUser() user: AuthUser): Promise<ConductStatsDto> {
     return this.conductService.getStats(user.tenantId);
   }
 
@@ -257,7 +274,7 @@ export class ConductController {
     type: [PointsDistributionDto],
   })
   async getPointsDistribution(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<PointsDistributionDto[]> {
     return this.conductService.getPointsDistribution(user.tenantId);
   }
@@ -277,8 +294,11 @@ export class ConductController {
   })
   async getAtRiskStudents(
     @Query('threshold') threshold: number,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentPointsResponseDto[]> {
-    return this.conductService.getAtRiskStudents(user.tenantId, threshold || 75);
+    return this.conductService.getAtRiskStudents(
+      user.tenantId,
+      threshold || 75,
+    );
   }
 }

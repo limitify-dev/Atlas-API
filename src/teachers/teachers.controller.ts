@@ -12,7 +12,6 @@ import {
   HttpCode,
   UseInterceptors,
   UploadedFile,
-  Header,
   Res,
   StreamableFile,
 } from '@nestjs/common';
@@ -36,7 +35,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../prisma/generated/client';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../auth/decorators/current-user.decorator';
 
 @ApiTags('Teachers')
 @ApiBearerAuth()
@@ -60,7 +62,7 @@ export class TeachersController {
   })
   async create(
     @Body() createTeacherDto: CreateTeacherDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @UploadedFile() photo?: Express.Multer.File,
   ): Promise<TeacherResponseDto> {
     return this.teachersService.create(createTeacherDto, user.tenantId, photo);
@@ -76,7 +78,7 @@ export class TeachersController {
   })
   async bulkUpload(
     @UploadedFile() file: Express.Multer.File,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ) {
     return this.teachersService.processBulkUpload(file, user.tenantId);
   }
@@ -88,8 +90,8 @@ export class TeachersController {
     status: HttpStatus.OK,
     description: 'Template downloaded successfully',
   })
-  async getBulkUploadTemplate(@Res({ passthrough: true }) res: Response) {
-    const buffer = await this.teachersService.getBulkUploadTemplate();
+  getBulkUploadTemplate(@Res({ passthrough: true }) res: Response) {
+    const buffer = this.teachersService.getBulkUploadTemplate();
 
     res.set({
       'Content-Type':
@@ -98,7 +100,7 @@ export class TeachersController {
         'attachment; filename="teacher_import_template.xlsx"',
     });
 
-    return new StreamableFile(buffer as any);
+    return new StreamableFile(buffer as unknown as Uint8Array);
   }
 
   @Get('statistics')
@@ -108,8 +110,28 @@ export class TeachersController {
     status: HttpStatus.OK,
     description: 'Statistics retrieved successfully',
   })
-  async getStatistics(@CurrentUser() user: any) {
+  async getStatistics(@CurrentUser() user: AuthUser) {
     return this.teachersService.getStatistics(user.tenantId);
+  }
+
+  @Get('my-consultation-slots')
+  @Roles(Role.USER, Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @ApiOperation({
+    summary: 'Get consultation slots assigned to the current teacher',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Consultation slots retrieved successfully',
+  })
+  async getMyConsultationSlots(
+    @CurrentUser() user: AuthUser,
+    @Query('date') date?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.teachersService.getMyConsultationSlots(user.id, user.tenantId, {
+      date,
+      limit: limit ? Number(limit) : undefined,
+    });
   }
 
   @Get()
@@ -121,7 +143,7 @@ export class TeachersController {
   })
   async findAll(
     @Query() queryDto: QueryTeachersDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<{
     data: TeacherResponseDto[];
     total: number;
@@ -150,7 +172,7 @@ export class TeachersController {
   })
   async findOne(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<TeacherResponseDto> {
     return this.teachersService.findOne(id, user.tenantId);
   }
@@ -176,7 +198,7 @@ export class TeachersController {
   async update(
     @Param('id') id: string,
     @Body() updateTeacherDto: UpdateTeacherDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @UploadedFile() photo?: Express.Multer.File,
   ): Promise<TeacherResponseDto> {
     return this.teachersService.update(
@@ -206,7 +228,7 @@ export class TeachersController {
   })
   async remove(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<{ message: string }> {
     return this.teachersService.remove(id, user.tenantId);
   }

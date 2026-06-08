@@ -37,7 +37,10 @@ export class TenantsController {
   @Roles(Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Create a new tenant (Super Admin only)' })
   @ApiResponse({ status: 201, description: 'Tenant created successfully' })
-  @ApiResponse({ status: 403, description: 'Forbidden - Super Admin access required' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - Super Admin access required',
+  })
   @ApiResponse({ status: 409, description: 'Slug or domain already exists' })
   create(@Body() createTenantDto: CreateTenantDto) {
     return this.tenantsService.create(createTenantDto);

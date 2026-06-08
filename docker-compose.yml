@@ -35,6 +35,20 @@ services:
     networks:
       - atlas-network
 
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: atlas-cloudbeaver
+    restart: unless-stopped
+    ports:
+      - "${CLOUDBEAVER_PORT:-8978}:8978"
+    volumes:
+      - cloudbeaver-data:/opt/cloudbeaver/workspace
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - atlas-network
+
   # ============================================
   # Atlas API Service
   # ============================================
@@ -100,6 +114,7 @@ services:
 volumes:
   postgres-data:
   redis-data:
+  cloudbeaver-data:
 
 # ============================================
 # Networks

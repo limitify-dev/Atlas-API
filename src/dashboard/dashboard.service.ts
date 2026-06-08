@@ -27,7 +27,7 @@ export class DashboardService {
       yesterdayPresent,
       yesterdayTotal,
       // Weekly attendance data
-      weeklyAttendance,
+      _weeklyAttendance,
       // Permissions
       pendingPermissions,
       activePermissions,
@@ -99,9 +99,9 @@ export class DashboardService {
 
       // Recent attendance (last 10) - Only auto mode (card-based) entries with checkInTime from today
       this.prisma.attendance.findMany({
-        where: { 
+        where: {
           tenantId,
-          checkInTime: { 
+          checkInTime: {
             not: null, // Only show card-based auto check-ins
             gte: today, // Only today's records
           },
@@ -187,7 +187,8 @@ export class DashboardService {
           date: dateStr,
           present: data.present,
           total: data.total,
-          rate: data.total > 0 ? Math.round((data.present / data.total) * 100) : 0,
+          rate:
+            data.total > 0 ? Math.round((data.present / data.total) * 100) : 0,
         };
       },
     );

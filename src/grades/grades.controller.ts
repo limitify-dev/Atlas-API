@@ -24,7 +24,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../prisma/generated/client';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../auth/decorators/current-user.decorator';
 
 @ApiTags('Grades')
 @ApiBearerAuth()
@@ -42,9 +45,9 @@ export class GradesController {
   })
   async create(
     @Body() createGradeDto: CreateGradeDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ) {
-    return this.gradesService.create(user.tenantId, createGradeDto);
+    return this.gradesService.create(user?.tenantId, createGradeDto);
   }
 
   @Get()
@@ -54,7 +57,7 @@ export class GradesController {
     status: HttpStatus.OK,
     description: 'Grades retrieved successfully',
   })
-  async findAll(@CurrentUser() user: any) {
+  async findAll(@CurrentUser() user: AuthUser) {
     return this.gradesService.findAll(user.tenantId);
   }
 
@@ -73,7 +76,7 @@ export class GradesController {
     status: HttpStatus.NOT_FOUND,
     description: 'Grade not found',
   })
-  async findOne(@Param('id') id: string, @CurrentUser() user: any) {
+  async findOne(@Param('id') id: string, @CurrentUser() user: AuthUser) {
     return this.gradesService.findOne(user.tenantId, id);
   }
 
@@ -91,7 +94,7 @@ export class GradesController {
   async update(
     @Param('id') id: string,
     @Body() updateGradeDto: UpdateGradeDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ) {
     return this.gradesService.update(user.tenantId, id, updateGradeDto);
   }
@@ -108,7 +111,7 @@ export class GradesController {
     status: HttpStatus.OK,
     description: 'Grade deleted successfully',
   })
-  async remove(@Param('id') id: string, @CurrentUser() user: any) {
+  async remove(@Param('id') id: string, @CurrentUser() user: AuthUser) {
     return this.gradesService.remove(user.tenantId, id);
   }
 }

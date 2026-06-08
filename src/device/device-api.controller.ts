@@ -12,6 +12,11 @@ import {
   ApiResponse,
   ApiSecurity,
 } from '@nestjs/swagger';
+import {
+  Prisma,
+  DeviceStatus,
+  DeviceType,
+} from '../../prisma/generated/client';
 import { DeviceService } from './device.service';
 import { DeviceApiKeyGuard } from './guards/device-api-key.guard';
 
@@ -53,7 +58,16 @@ export class DeviceApiController {
       },
     },
   })
-  async healthCheck(@Request() req: any) {
+  healthCheck(
+    @Request()
+    req: {
+      device: {
+        id: string;
+        name: string;
+        status: DeviceStatus;
+      };
+    },
+  ) {
     return {
       status: 'healthy',
       timestamp: new Date().toISOString(),
@@ -77,7 +91,24 @@ export class DeviceApiController {
     status: 200,
     description: 'Device information retrieved successfully',
   })
-  async getDeviceInfo(@Request() req: any) {
+  getDeviceInfo(
+    @Request()
+    req: {
+      device: {
+        id: string;
+        name: string;
+        location: string;
+        deviceType: DeviceType;
+        status: DeviceStatus;
+        lastSeenAt: Date;
+        createdAt: Date;
+        tenant: {
+          id: string;
+          name: string;
+        };
+      };
+    },
+  ) {
     return {
       device: {
         id: req.device.id,
@@ -98,7 +129,8 @@ export class DeviceApiController {
   @Post('heartbeat')
   @ApiOperation({
     summary: 'Device heartbeat',
-    description: 'Send a heartbeat to indicate the device is online and functioning',
+    description:
+      'Send a heartbeat to indicate the device is online and functioning',
   })
   @ApiResponse({
     status: 200,
@@ -114,8 +146,25 @@ export class DeviceApiController {
     },
   })
   async heartbeat(
-    @Request() req: any,
-    @Body() data: { status?: string; metadata?: any },
+    @Request()
+    req: {
+      ip?: string;
+      connection?: { remoteAddress?: string };
+      device: {
+        id: string;
+        tenantId: string;
+        metadata?: JSON;
+      };
+    },
+    @Body()
+    data: {
+      status?: string;
+      metadata?: {
+        device?: {
+          metadata?: JSON;
+        };
+      };
+    },
   ) {
     const device = req.device;
 
@@ -136,7 +185,7 @@ export class DeviceApiController {
       'HEARTBEAT',
       'Device heartbeat received',
       ipAddress,
-      { reportedStatus: data.status },
+      { reportedStatus: data.status ?? null } as Prisma.InputJsonValue,
     );
 
     return {
@@ -162,19 +211,38 @@ export class DeviceApiController {
     description: 'Device registration confirmed',
   })
   async registerDevice(
-    @Request() req: any,
+    @Request()
+    req: {
+      ip?: string;
+      connection?: { remoteAddress?: string };
+      device: {
+        id: string;
+        tenantId: string;
+        metadata?: Record<string, unknown> | null;
+      };
+    },
     @Body()
     data: {
       device_id?: string;
       device_name?: string;
       location?: string;
-      metadata?: any;
+      metadata?: Record<string, unknown>;
     },
   ) {
-    const device = req.device;
+    const device: {
+      id: string;
+      tenantId: string;
+      tenant?: unknown;
+      metadata?: Record<string, unknown> | null;
+    } = req.device;
 
     // Update device info if provided
-    const updateData: any = {};
+    const updateData: {
+      name?: string;
+      location?: string;
+      metadata?: Prisma.InputJsonValue;
+      status?: DeviceStatus;
+    } = {};
     if (data.device_name) updateData.name = data.device_name;
     if (data.location) updateData.location = data.location;
     if (data.metadata) {
@@ -201,7 +269,7 @@ export class DeviceApiController {
       'REGISTRATION_CONFIRMED',
       'Edge device registration confirmed',
       ipAddress,
-      data,
+      data as Prisma.InputJsonValue,
     );
 
     return {

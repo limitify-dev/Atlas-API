@@ -201,8 +201,7 @@ export class TeacherAttendanceAnalyticsService {
     if (todayAttendances.length > 0) {
       const totalHours = todayAttendances.reduce((sum, att) => {
         if (att.checkInTime && att.checkOutTime) {
-          const diff =
-            att.checkOutTime.getTime() - att.checkInTime.getTime();
+          const diff = att.checkOutTime.getTime() - att.checkInTime.getTime();
           return sum + diff / (1000 * 60 * 60);
         }
         return sum;
@@ -434,15 +433,14 @@ export class TeacherAttendanceAnalyticsService {
 
         // Get previous period attendance for trend
         const teacherIds = data.teachers.map((t) => t.id);
-        const previousAttendances = await this.prisma.teacherAttendance.findMany(
-          {
+        const previousAttendances =
+          await this.prisma.teacherAttendance.findMany({
             where: {
               tenantId,
               teacherId: { in: teacherIds },
               createdAt: { gte: previousStart, lte: previousEnd },
             },
-          },
-        );
+          });
 
         const prevTotal = previousAttendances.length;
         const prevPresent = previousAttendances.filter(
@@ -468,7 +466,9 @@ export class TeacherAttendanceAnalyticsService {
       }),
     );
 
-    return departmentAnalytics.sort((a, b) => b.attendanceRate - a.attendanceRate);
+    return departmentAnalytics.sort(
+      (a, b) => b.attendanceRate - a.attendanceRate,
+    );
   }
 
   async getTeacherAnalytics(
@@ -501,10 +501,14 @@ export class TeacherAttendanceAnalyticsService {
 
     const attendances = teacher.attendances;
     const totalDays = attendances.length;
-    const presentDays = attendances.filter((a) => a.status === 'PRESENT').length;
+    const presentDays = attendances.filter(
+      (a) => a.status === 'PRESENT',
+    ).length;
     const absentDays = attendances.filter((a) => a.status === 'ABSENT').length;
     const lateDays = attendances.filter((a) => a.status === 'LATE').length;
-    const excusedDays = attendances.filter((a) => a.status === 'EXCUSED').length;
+    const excusedDays = attendances.filter(
+      (a) => a.status === 'EXCUSED',
+    ).length;
 
     const attendanceRate =
       totalDays > 0
@@ -517,7 +521,8 @@ export class TeacherAttendanceAnalyticsService {
     let tempStreak = 0;
 
     const sortedAttendances = [...attendances].sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );
 
     for (const att of sortedAttendances) {
@@ -538,8 +543,9 @@ export class TeacherAttendanceAnalyticsService {
 
     const recentRate =
       recentHalf.length > 0
-        ? recentHalf.filter((a) => a.status === 'PRESENT' || a.status === 'LATE')
-            .length / recentHalf.length
+        ? recentHalf.filter(
+            (a) => a.status === 'PRESENT' || a.status === 'LATE',
+          ).length / recentHalf.length
         : 0;
     const olderRate =
       olderHalf.length > 0
@@ -669,7 +675,10 @@ export class TeacherAttendanceAnalyticsService {
       customEnd,
     );
 
-    const where: any = { tenantId };
+    const where: {
+      tenantId: string;
+      department?: string;
+    } = { tenantId };
     if (department) where.department = department;
 
     const teachers = await this.prisma.teacher.findMany({
@@ -688,10 +697,16 @@ export class TeacherAttendanceAnalyticsService {
     return teachers.map((teacher) => {
       const attendances = teacher.attendances;
       const totalDays = attendances.length;
-      const presentDays = attendances.filter((a) => a.status === 'PRESENT').length;
-      const absentDays = attendances.filter((a) => a.status === 'ABSENT').length;
+      const presentDays = attendances.filter(
+        (a) => a.status === 'PRESENT',
+      ).length;
+      const absentDays = attendances.filter(
+        (a) => a.status === 'ABSENT',
+      ).length;
       const lateDays = attendances.filter((a) => a.status === 'LATE').length;
-      const excusedDays = attendances.filter((a) => a.status === 'EXCUSED').length;
+      const excusedDays = attendances.filter(
+        (a) => a.status === 'EXCUSED',
+      ).length;
 
       const attendanceRate =
         totalDays > 0
@@ -867,7 +882,9 @@ export class TeacherAttendanceAnalyticsService {
     );
     return allTeachers
       .filter((t) => t.totalDays > 0)
-      .sort((a, b) => b.attendanceRate - a.attendanceRate || b.streak - a.streak)
+      .sort(
+        (a, b) => b.attendanceRate - a.attendanceRate || b.streak - a.streak,
+      )
       .slice(0, limit);
   }
 
@@ -899,7 +916,7 @@ export class TeacherAttendanceAnalyticsService {
     };
 
     switch (reportType) {
-      case 'summary':
+      case 'summary': {
         const overview = await this.getOverviewAnalytics(
           tenantId,
           period,
@@ -941,8 +958,9 @@ export class TeacherAttendanceAnalyticsService {
           atRiskTeachers: atRisk.slice(0, 20),
           topPerformers,
         };
+      }
 
-      case 'detailed':
+      case 'detailed': {
         const allTeachers = await this.getAllTeachersAnalytics(
           tenantId,
           period,
@@ -966,8 +984,9 @@ export class TeacherAttendanceAnalyticsService {
           dayOfWeekAnalysis: dayOfWeek,
           monthlyComparison: monthly,
         };
+      }
 
-      case 'department':
+      case 'department': {
         if (!department) {
           const allDepartments = await this.getDepartmentAnalytics(
             tenantId,
@@ -989,8 +1008,9 @@ export class TeacherAttendanceAnalyticsService {
           department,
           teachers: deptTeachers,
         };
+      }
 
-      case 'teacher':
+      case 'teacher': {
         if (!teacherId) {
           throw new Error('Teacher ID is required for teacher report');
         }
@@ -1002,6 +1022,7 @@ export class TeacherAttendanceAnalyticsService {
           customEnd,
         );
         return { ...baseReport, teacher: teacherData };
+      }
 
       default:
         throw new Error('Invalid report type');

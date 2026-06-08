@@ -1,9 +1,14 @@
-import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import { SupabaseService } from 'src/common/supabase/supabase.service';
+import { Role } from '../../prisma/generated/client';
 
 @Injectable()
 export class UsersService {
@@ -44,12 +49,15 @@ export class UsersService {
     });
 
     //Remove password from response
-    const { password, ...userWithoutPassword } = user;
+    const { password: _password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 
   async findAll(tenantId?: string, role?: string, noTenant?: boolean) {
-    const where: any = {};
+    const where: {
+      tenantId?: string | null;
+      role?: Role | { not: Role };
+    } = {};
 
     // If tenantId is provided, filter by it
     if (tenantId) {
@@ -63,11 +71,11 @@ export class UsersService {
 
     // If role is provided, filter by it
     if (role) {
-      where.role = role;
+      where.role = role as Role;
     } else {
       // Default behavior: hide SUPER_ADMIN unless specifically requested
       where.role = {
-        not: 'SUPER_ADMIN',
+        not: Role.SUPER_ADMIN,
       };
     }
 
@@ -87,7 +95,7 @@ export class UsersService {
       },
     });
 
-    return users.map(({ password, ...user }) => user);
+    return users.map(({ password: _password, ...user }) => user);
   }
 
   async findOne(id: string) {
@@ -111,7 +119,7 @@ export class UsersService {
     }
 
     //Remove password from response
-    const { password, ...userWithoutPassword } = user;
+    const { password: _password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 
@@ -127,7 +135,7 @@ export class UsersService {
     }
 
     //Remove password from response
-    const { password, ...userWithoutPassword } = user;
+    const { password: _password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -201,7 +209,7 @@ export class UsersService {
     });
 
     //Remove password from response
-    const { password, ...userWithoutPassword } = user;
+    const { password: _password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 
@@ -219,7 +227,7 @@ export class UsersService {
       data: { status: 'ACTIVE' },
     });
 
-    const { password, ...userWithoutPassword } = user;
+    const { password: _password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
 

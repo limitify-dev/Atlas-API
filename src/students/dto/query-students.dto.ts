@@ -23,13 +23,22 @@ export class QueryStudentsDto {
   gradeId?: string;
 
   @ApiProperty({
-    description: 'Filter by section ID',
+    description: 'Filter by section (classroom) ID',
     example: 'uuid-section-id',
     required: false,
   })
   @IsString()
   @IsOptional()
   sectionId?: string;
+
+  @ApiProperty({
+    description: 'Filter by promotion (cohort) ID',
+    example: 'uuid-promotion-id',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  promotionId?: string;
 
   @ApiProperty({
     description: 'Filter by gender',

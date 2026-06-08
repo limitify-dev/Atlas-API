@@ -8,11 +8,12 @@ import {
   MessageBody,
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 import { Server, Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../../auth/constant';
 import { ChatService } from './chat.service';
-import { PushService } from '../push/push.service';
 
 interface AuthenticatedSocket extends Socket {
   user: {
@@ -45,7 +46,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly jwtService: JwtService,
     private readonly chatService: ChatService,
-    private readonly pushService: PushService,
+    @InjectQueue('push-notifications') private readonly pushQueue: Queue,
   ) {}
 
   private formatPushSenderName(fullName?: string | null): string {
@@ -150,10 +151,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         if (userSockets.size === 0) {
           this.connectedUsers.delete(client.user.sub);
           if (client.user.tenantId) {
-            this.server.to(`tenant:${client.user.tenantId}`).emit('user_presence', {
-              userId: client.user.sub,
-              isOnline: false,
-            });
+            this.server
+              .to(`tenant:${client.user.tenantId}`)
+              .emit('user_presence', {
+                userId: client.user.sub,
+                isOnline: false,
+              });
           }
           this.userTenants.delete(client.user.sub);
         }
@@ -165,7 +168,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('join_conversation')
-  async handleJoinConversation(
+  handleJoinConversation(
     @ConnectedSocket() client: AuthenticatedSocket,
     @MessageBody() data: { conversationId: string },
   ) {
@@ -176,7 +179,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('leave_conversation')
-  async handleLeaveConversation(
+  handleLeaveConversation(
     @ConnectedSocket() client: AuthenticatedSocket,
     @MessageBody() data: { conversationId: string },
   ) {
@@ -244,7 +247,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
           }
         }
 
-        // Send push notification if user is NOT looking at the conversation
+        // Enqueue push notification if user is NOT looking at the conversation
         if (!isJoinedToRoom) {
           const pushSenderName = this.formatPushSenderName(message.sender.name);
           const messagePreview = this.buildMessagePreview(message.content);
@@ -259,28 +262,30 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
             ? `${pushSenderName}: ${messagePreview}`
             : messagePreview;
 
-          this.pushService
-            .sendToUser(
-              participantId,
-              pushTitle,
-              pushBody,
+          this.pushQueue
+            .add(
+              'send-push-bulk',
               {
-                type: 'chat_message',
-                conversationId: data.conversationId,
-                messageId: message.id,
-                senderId: message.senderId,
-                senderName: pushSenderName,
-                senderRole: message.sender.role,
-                senderAvatar: message.sender.avatar || null,
-                conversationType,
-                conversationName: message.conversation?.name || null,
-                conversationAvatar: message.conversation?.avatar || null,
+                userIds: [participantId],
+                title: pushTitle,
+                body: pushBody,
+                data: {
+                  type: 'chat_message',
+                  conversationId: data.conversationId,
+                  messageId: message.id,
+                  senderId: message.senderId,
+                  senderName: pushSenderName,
+                  senderRole: message.sender.role,
+                  senderAvatar: message.sender.avatar || null,
+                  conversationType,
+                  conversationName: message.conversation?.name || null,
+                  conversationAvatar: message.conversation?.avatar || null,
+                },
               },
+              { attempts: 2, backoff: { type: 'fixed', delay: 3000 } },
             )
             .catch((err) =>
-              this.logger.warn(
-                `Push to ${participantId} failed: ${err.message}`,
-              ),
+              this.logger.warn(`Push enqueue for ${participantId} failed: ${err.message}`),
             );
         }
       }

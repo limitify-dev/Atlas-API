@@ -12,7 +12,6 @@ import {
   UploadedFile,
   Res,
   StreamableFile,
-  HttpStatus,
   Query,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -45,8 +44,8 @@ export class CardsController {
 
   @Get('bulk-upload-template')
   @ApiOperation({ summary: 'Download card bulk upload template' })
-  async getBulkUploadTemplate(@Res({ passthrough: true }) res: Response) {
-    const buffer = await this.cardsService.getBulkUploadTemplate();
+  getBulkUploadTemplate(@Res({ passthrough: true }) res: Response) {
+    const buffer = this.cardsService.getBulkUploadTemplate();
 
     res.set({
       'Content-Type':

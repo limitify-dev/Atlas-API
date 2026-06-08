@@ -1,36 +1,33 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class CreateSectionDto {
-  @ApiProperty({
-    description: 'Name of the section',
-    example: 'A',
-  })
+  @ApiProperty({ description: 'Name of the section/classroom', example: 'A' })
   @IsString()
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({
-    description: 'Grade ID this section belongs to',
-    example: 'uuid-grade-id',
-  })
+  @ApiProperty({ description: 'Grade ID this section belongs to', example: 'uuid-grade-id' })
   @IsString()
   @IsNotEmpty()
   gradeId: string;
 
-  @ApiProperty({
-    description: 'Capacity of the section',
-    example: 40,
-    required: false,
+  @ApiPropertyOptional({
+    description: 'Promotion (cohort) this classroom belongs to',
+    example: 'uuid-promotion-id',
   })
+  @IsUUID()
+  @IsOptional()
+  promotionId?: string;
+
+  @ApiPropertyOptional({ description: 'Maximum number of students', example: 40 })
   @IsInt()
   @IsOptional()
   capacity?: number;
 
-  @ApiProperty({
-    description: 'Combination ID for Advanced Level sections',
+  @ApiPropertyOptional({
+    description: 'Subject combination ID — required for Advanced Level sections only',
     example: 'uuid-combination-id',
-    required: false,
   })
   @IsString()
   @IsOptional()

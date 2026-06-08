@@ -8,12 +8,19 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { SystemLogsService, CreateLogDto, LogFilters } from './system-logs.service';
+import {
+  SystemLogsService,
+  CreateLogDto,
+  LogFilters,
+} from './system-logs.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { LogLevel } from '../../prisma/generated/client';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../common/decorators/roles.decorator';
+import { LogLevel, Role } from '../../prisma/generated/client';
 
 @Controller('system-logs')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.ADMIN, Role.SUPER_ADMIN)
 export class SystemLogsController {
   constructor(private readonly systemLogsService: SystemLogsService) {}
 
@@ -63,13 +70,25 @@ export class SystemLogsController {
   }
 
   @Post()
-  async createLog(@Request() req: any, @Body() data: CreateLogDto) {
+  async createLog(
+    @Request()
+    req: {
+      user?: {
+        userId: string;
+      };
+      ip?: string;
+      headers?: {
+        'user-agent'?: string;
+      };
+    },
+    @Body() data: CreateLogDto,
+  ) {
     // This endpoint is primarily for internal use or manual log creation
     return this.systemLogsService.createLog({
       ...data,
       userId: data.userId || req.user?.userId,
       ipAddress: data.ipAddress || req.ip,
-      userAgent: data.userAgent || req.headers['user-agent'],
+      userAgent: data.userAgent || req.headers?.['user-agent'],
     });
   }
 }

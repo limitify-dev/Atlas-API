@@ -5,6 +5,10 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AttendanceStatus } from '../../prisma/generated/client';
+import type { AttendanceWhereInput } from '../../prisma/generated/models/Attendance';
+import type { AttendanceGetPayload } from '../../prisma/generated/models/Attendance';
+import type { StudentGetPayload } from '../../prisma/generated/models/Student';
+import type { TeacherAttendanceGetPayload } from '../../prisma/generated/models/TeacherAttendance';
 
 @Injectable()
 export class AttendanceService {
@@ -16,7 +20,11 @@ export class AttendanceService {
     gradeId?: string,
     date?: string,
   ) {
-    const where: any = { tenantId };
+    const where: {
+      tenantId: string;
+      sectionId?: string;
+      gradeId?: string;
+    } = { tenantId };
 
     if (sectionId) {
       where.sectionId = sectionId;
@@ -69,23 +77,50 @@ export class AttendanceService {
       orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
     });
 
-    // Group students by section/classroom
-    const groupedBySection = students.reduce((acc: any, student: any) => {
-      const sectionKey = student.section.id;
-      if (!acc[sectionKey]) {
-        acc[sectionKey] = {
-          section: student.section,
-          students: [],
+    type StudentWithLatestAttendance = StudentGetPayload<{
+      include: {
+        section: {
+          include: {
+            grade: true;
+          };
         };
+        attendances: true;
+        card: true;
+      };
+    }>;
+    type AttendanceRecord = StudentWithLatestAttendance['attendances'][number];
+    type GroupedStudent = Omit<StudentWithLatestAttendance, 'attendances'> & {
+      attendance: AttendanceRecord | null;
+    };
+    type GroupedBySection = Record<
+      string,
+      {
+        section: StudentWithLatestAttendance['section'];
+        students: GroupedStudent[];
       }
+    >;
 
-      acc[sectionKey].students.push({
-        ...student,
-        attendance: student.attendances?.[0] || null,
-      });
+    // Group students by section/classroom
+    const groupedBySection = students.reduce<GroupedBySection>(
+      (acc, student) => {
+        const sectionKey = String(student.section.id);
+        if (!acc[sectionKey]) {
+          acc[sectionKey] = {
+            section: student.section,
+            students: [],
+          };
+        }
 
-      return acc;
-    }, {});
+        const { attendances, ...studentWithoutAttendances } = student;
+        acc[sectionKey].students.push({
+          ...studentWithoutAttendances,
+          attendance: attendances[0] ?? null,
+        });
+
+        return acc;
+      },
+      {},
+    );
 
     return Object.values(groupedBySection);
   }
@@ -99,6 +134,16 @@ export class AttendanceService {
     checkInDateTime?: Date;
     remarks?: string;
   }) {
+    type AttendanceWithStudentSection = AttendanceGetPayload<{
+      include: {
+        student: {
+          include: {
+            section: true;
+          };
+        };
+      };
+    }>;
+
     const student = await this.prisma.student.findUnique({
       where: { id: data.studentId },
     });
@@ -123,9 +168,16 @@ export class AttendanceService {
           lte: endOfDay,
         },
       },
+      include: {
+        student: {
+          include: {
+            section: true,
+          },
+        },
+      },
     });
 
-    let attendance: any;
+    let attendance: AttendanceWithStudentSection;
 
     if (existingAttendance) {
       // Only allow updates for manual attendance
@@ -193,6 +245,12 @@ export class AttendanceService {
     date: string;
     location?: string;
   }) {
+    type TeacherAttendanceWithTeacher = TeacherAttendanceGetPayload<{
+      include: {
+        teacher: true;
+      };
+    }>;
+
     const dateEntry = new Date(data.date);
     // Find the card
     const card = await this.prisma.card.findFirst({
@@ -283,7 +341,7 @@ export class AttendanceService {
         },
       });
 
-      let teacherAttendance: any;
+      let teacherAttendance: TeacherAttendanceWithTeacher;
 
       if (existingAttendance) {
         // Update existing attendance (check-out)
@@ -357,7 +415,7 @@ export class AttendanceService {
     page: number = 1,
     limit: number = 100,
   ) {
-    const where: any = {
+    const where: AttendanceWhereInput = {
       tenantId,
     };
 
@@ -423,7 +481,9 @@ export class AttendanceService {
       remarks?: string;
     }>,
   ) {
-    const results: any = [];
+    const results: Array<
+      Awaited<ReturnType<AttendanceService['markAttendance']>>
+    > = [];
 
     for (const record of records) {
       const result = await this.markAttendance({
@@ -449,7 +509,7 @@ export class AttendanceService {
     gradeId?: string,
     date?: string,
   ) {
-    const where: any = {
+    const where: AttendanceWhereInput = {
       tenantId,
     };
 
@@ -522,10 +582,20 @@ export class AttendanceService {
       where: { tenantId },
     });
 
-    const statsMap = stats.reduce((acc: any, stat) => {
-      acc[stat.status.toLowerCase()] = stat._count.status;
-      return acc;
-    }, {});
+    const statsMap: Record<'present' | 'absent' | 'late' | 'excused', number> =
+      {
+        present: 0,
+        absent: 0,
+        late: 0,
+        excused: 0,
+      };
+
+    for (const stat of stats) {
+      if (stat.status === 'PRESENT') statsMap.present = stat._count.status;
+      if (stat.status === 'ABSENT') statsMap.absent = stat._count.status;
+      if (stat.status === 'LATE') statsMap.late = stat._count.status;
+      if (stat.status === 'EXCUSED') statsMap.excused = stat._count.status;
+    }
 
     const markedCount = stats.reduce(
       (sum, stat) => sum + stat._count.status,
@@ -533,10 +603,10 @@ export class AttendanceService {
     );
 
     return {
-      present: statsMap.present || 0,
-      absent: statsMap.absent || 0,
-      late: statsMap.late || 0,
-      excused: statsMap.excused || 0,
+      present: statsMap.present,
+      absent: statsMap.absent,
+      late: statsMap.late,
+      excused: statsMap.excused,
       total: totalStudents,
       markedCount: markedCount,
     };
@@ -594,10 +664,20 @@ export class AttendanceService {
       where: { tenantId },
     });
 
-    const statsMap = stats.reduce((acc: any, stat) => {
-      acc[stat.status.toLowerCase()] = stat._count.status;
-      return acc;
-    }, {});
+    const statsMap: Record<'present' | 'absent' | 'late' | 'excused', number> =
+      {
+        present: 0,
+        absent: 0,
+        late: 0,
+        excused: 0,
+      };
+
+    for (const stat of stats) {
+      if (stat.status === 'PRESENT') statsMap.present = stat._count.status;
+      if (stat.status === 'ABSENT') statsMap.absent = stat._count.status;
+      if (stat.status === 'LATE') statsMap.late = stat._count.status;
+      if (stat.status === 'EXCUSED') statsMap.excused = stat._count.status;
+    }
 
     const markedCount = stats.reduce(
       (sum, stat) => sum + stat._count.status,
@@ -605,10 +685,10 @@ export class AttendanceService {
     );
 
     return {
-      present: statsMap.present || 0,
-      absent: statsMap.absent || 0,
-      late: statsMap.late || 0,
-      excused: statsMap.excused || 0,
+      present: statsMap.present,
+      absent: statsMap.absent,
+      late: statsMap.late,
+      excused: statsMap.excused,
       total: totalTeachers,
       markedCount: markedCount,
     };

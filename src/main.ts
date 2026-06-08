@@ -13,9 +13,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   // Enable global logging interceptor for system logs
-  app.useGlobalInterceptors(
-    app.get(LoggingInterceptor),
-  );
+  app.useGlobalInterceptors(app.get(LoggingInterceptor));
 
   // Enable global validation pipe
   app.useGlobalPipes(

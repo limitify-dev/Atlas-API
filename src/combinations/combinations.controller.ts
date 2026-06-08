@@ -6,7 +6,6 @@ import {
   Delete,
   Body,
   Param,
-  Query,
   UseGuards,
   HttpStatus,
   HttpCode,
@@ -17,7 +16,6 @@ import {
   ApiResponse,
   ApiBearerAuth,
   ApiParam,
-  ApiQuery,
 } from '@nestjs/swagger';
 import { CombinationsService } from './combinations.service';
 import { CreateCombinationDto } from './dto/create-combination.dto';
@@ -26,7 +24,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../prisma/generated/client';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../auth/decorators/current-user.decorator';
 
 @ApiTags('Combinations')
 @ApiBearerAuth()
@@ -44,7 +45,7 @@ export class CombinationsController {
   })
   async create(
     @Body() createCombinationDto: CreateCombinationDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ) {
     return this.combinationsService.create(user.tenantId, createCombinationDto);
   }
@@ -56,7 +57,7 @@ export class CombinationsController {
     status: HttpStatus.OK,
     description: 'Combinations retrieved successfully',
   })
-  async findAll(@CurrentUser() user: any) {
+  async findAll(@CurrentUser() user: AuthUser) {
     return this.combinationsService.findAll(user.tenantId);
   }
 
@@ -75,7 +76,7 @@ export class CombinationsController {
     status: HttpStatus.NOT_FOUND,
     description: 'Combination not found',
   })
-  async findOne(@Param('id') id: string, @CurrentUser() user: any) {
+  async findOne(@Param('id') id: string, @CurrentUser() user: AuthUser) {
     return this.combinationsService.findOne(user.tenantId, id);
   }
 
@@ -93,7 +94,7 @@ export class CombinationsController {
   async update(
     @Param('id') id: string,
     @Body() updateCombinationDto: UpdateCombinationDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ) {
     return this.combinationsService.update(
       user.tenantId,
@@ -114,7 +115,7 @@ export class CombinationsController {
     status: HttpStatus.OK,
     description: 'Combination deleted successfully',
   })
-  async remove(@Param('id') id: string, @CurrentUser() user: any) {
+  async remove(@Param('id') id: string, @CurrentUser() user: AuthUser) {
     return this.combinationsService.remove(user.tenantId, id);
   }
 }

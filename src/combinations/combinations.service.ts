@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCombinationDto } from './dto/create-combination.dto';
 import { UpdateCombinationDto } from './dto/update-combination.dto';
@@ -19,7 +24,9 @@ export class CombinationsService {
       });
 
       if (existingCombination) {
-        throw new ConflictException(`Combination "${createCombinationDto.code}" already exists`);
+        throw new ConflictException(
+          `Combination "${createCombinationDto.code}" already exists`,
+        );
       }
 
       return await this.prisma.combination.create({
@@ -34,7 +41,9 @@ export class CombinationsService {
       }
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new ConflictException('A combination with this code already exists');
+          throw new ConflictException(
+            'A combination with this code already exists',
+          );
         }
       }
       throw new BadRequestException('Failed to create combination');
@@ -62,7 +71,11 @@ export class CombinationsService {
     return combination;
   }
 
-  async update(tenantId: string, id: string, updateCombinationDto: UpdateCombinationDto) {
+  async update(
+    tenantId: string,
+    id: string,
+    updateCombinationDto: UpdateCombinationDto,
+  ) {
     try {
       await this.findOne(tenantId, id); // Ensure existence and ownership
 
@@ -77,7 +90,9 @@ export class CombinationsService {
         });
 
         if (existingCombination) {
-          throw new ConflictException(`Combination with code "${updateCombinationDto.code}" already exists`);
+          throw new ConflictException(
+            `Combination with code "${updateCombinationDto.code}" already exists`,
+          );
         }
       }
 
@@ -86,12 +101,17 @@ export class CombinationsService {
         data: updateCombinationDto,
       });
     } catch (error) {
-      if (error instanceof NotFoundException || error instanceof ConflictException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof ConflictException
+      ) {
         throw error;
       }
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new ConflictException('A combination with this code already exists');
+          throw new ConflictException(
+            'A combination with this code already exists',
+          );
         }
       }
       throw new BadRequestException('Failed to update combination');
@@ -111,7 +131,9 @@ export class CombinationsService {
       }
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003') {
-          throw new ConflictException('Cannot delete combination because it has associated sections');
+          throw new ConflictException(
+            'Cannot delete combination because it has associated sections',
+          );
         }
       }
       throw new BadRequestException('Failed to delete combination');

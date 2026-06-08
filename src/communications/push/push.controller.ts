@@ -1,15 +1,12 @@
-import {
-  Controller,
-  Post,
-  Delete,
-  Body,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, Delete, Body, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsEnum, IsOptional } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../../common/decorators/current-user.decorator';
 import { PushService } from './push.service';
 
 class RegisterPushTokenDto {
@@ -45,7 +42,7 @@ export class PushController {
   @Post('register')
   @ApiOperation({ summary: 'Register a push notification token' })
   async registerToken(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Body() dto: RegisterPushTokenDto,
   ) {
     return this.pushService.registerToken(

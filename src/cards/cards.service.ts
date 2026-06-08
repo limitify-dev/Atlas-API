@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
@@ -33,7 +37,10 @@ export class CardsService {
     });
   }
 
-  async findAll(tenantId: string, query?: { search?: string; unassigned?: boolean }) {
+  async findAll(
+    tenantId: string,
+    query?: { search?: string; unassigned?: boolean },
+  ) {
     const where: Prisma.CardWhereInput = {
       tenantId,
       ...(query?.search && {
@@ -69,9 +76,9 @@ export class CardsService {
         student: true,
         teacher: true,
         logs: {
-            orderBy: { createdAt: 'desc' },
-            take: 10,
-        }
+          orderBy: { createdAt: 'desc' },
+          take: 10,
+        },
       },
     });
 
@@ -88,62 +95,70 @@ export class CardsService {
 
     // Handle Assignment Logic
     if (updateCardDto.studentId !== undefined) {
-         // If assigning to a student, ensure student exists and is in same tenant
-         if (updateCardDto.studentId) {
-             const student = await this.prisma.student.findUnique({
-                 where: { id: updateCardDto.studentId }
-             });
-             if (!student || student.tenantId !== tenantId) {
-                 throw new BadRequestException('Student not found');
-             }
+      // If assigning to a student, ensure student exists and is in same tenant
+      if (updateCardDto.studentId) {
+        const student = await this.prisma.student.findUnique({
+          where: { id: updateCardDto.studentId },
+        });
+        if (!student || student.tenantId !== tenantId) {
+          throw new BadRequestException('Student not found');
+        }
 
-             // Validate card type matches the assignment
-             if (card.cardType !== CardType.STUDENT) {
-                 throw new BadRequestException(`Cannot assign a ${card.cardType} card to a student. This card can only be assigned to a ${card.cardType.toLowerCase()}.`);
-             }
+        // Validate card type matches the assignment
+        if (card.cardType !== CardType.STUDENT) {
+          throw new BadRequestException(
+            `Cannot assign a ${card.cardType} card to a student. This card can only be assigned to a ${card.cardType.toLowerCase()}.`,
+          );
+        }
 
-             const existingCard = await this.prisma.card.findUnique({
-                 where: { studentId: updateCardDto.studentId }
-             });
-             if (existingCard && existingCard.id !== id) {
-                 throw new BadRequestException('Student already has a card assigned. Unassign it first.');
-             }
-         }
+        const existingCard = await this.prisma.card.findUnique({
+          where: { studentId: updateCardDto.studentId },
+        });
+        if (existingCard && existingCard.id !== id) {
+          throw new BadRequestException(
+            'Student already has a card assigned. Unassign it first.',
+          );
+        }
+      }
     }
 
     if (updateCardDto.teacherId !== undefined) {
-          if (updateCardDto.teacherId) {
-              const teacher = await this.prisma.teacher.findUnique({
-                  where: { id: updateCardDto.teacherId }
-              });
-              if (!teacher || teacher.tenantId !== tenantId) {
-                  throw new BadRequestException('Teacher not found');
-              }
+      if (updateCardDto.teacherId) {
+        const teacher = await this.prisma.teacher.findUnique({
+          where: { id: updateCardDto.teacherId },
+        });
+        if (!teacher || teacher.tenantId !== tenantId) {
+          throw new BadRequestException('Teacher not found');
+        }
 
-              // Validate card type matches the assignment
-              if (card.cardType !== CardType.TEACHER) {
-                  throw new BadRequestException(`Cannot assign a ${card.cardType} card to a teacher. This card can only be assigned to a ${card.cardType.toLowerCase()}.`);
-              }
+        // Validate card type matches the assignment
+        if (card.cardType !== CardType.TEACHER) {
+          throw new BadRequestException(
+            `Cannot assign a ${card.cardType} card to a teacher. This card can only be assigned to a ${card.cardType.toLowerCase()}.`,
+          );
+        }
 
-               const existingCard = await this.prisma.card.findUnique({
-                 where: { teacherId: updateCardDto.teacherId }
-             });
-             if (existingCard && existingCard.id !== id) {
-                 throw new BadRequestException('Teacher already has a card assigned. Unassign it first.');
-             }
-         }
+        const existingCard = await this.prisma.card.findUnique({
+          where: { teacherId: updateCardDto.teacherId },
+        });
+        if (existingCard && existingCard.id !== id) {
+          throw new BadRequestException(
+            'Teacher already has a card assigned. Unassign it first.',
+          );
+        }
+      }
     }
 
     // Perform Update
     const updatedCard = await this.prisma.card.update({
       where: { id },
       data: {
-          ...updateCardDto,
-           ...(updateCardDto.studentId ? { teacherId: null } : {}),
-           ...(updateCardDto.teacherId ? { studentId: null } : {}),
+        ...updateCardDto,
+        ...(updateCardDto.studentId ? { teacherId: null } : {}),
+        ...(updateCardDto.teacherId ? { studentId: null } : {}),
       },
     });
-    
+
     return updatedCard;
   }
 
@@ -152,7 +167,13 @@ export class CardsService {
     const sevenDaysAgo = new Date(now);
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const [totalCards, activeCards, unassignedCards, lostOrDamagedCards, newCardsThisWeek] = await Promise.all([
+    const [
+      totalCards,
+      activeCards,
+      unassignedCards,
+      lostOrDamagedCards,
+      newCardsThisWeek,
+    ] = await Promise.all([
       this.prisma.card.count({ where: { tenantId } }),
       this.prisma.card.count({ where: { tenantId, status: 'ACTIVE' } }),
       this.prisma.card.count({
@@ -228,7 +249,9 @@ export class CardsService {
         };
 
         const cardNumber = String(getVal('CardNumber') || getVal('RFID') || '');
-        const cardTypeRaw = String(getVal('CardType') || 'STUDENT').toUpperCase();
+        const cardTypeRaw = String(
+          getVal('CardType') || 'STUDENT',
+        ).toUpperCase();
         const notes = getVal('Notes') ? String(getVal('Notes')) : undefined;
 
         if (!cardNumber) {
@@ -236,7 +259,9 @@ export class CardsService {
         }
 
         if (!Object.values(CardType).includes(cardTypeRaw as any)) {
-            throw new Error(`Invalid Card Type: ${cardTypeRaw}. Must be one of: ${Object.values(CardType).join(', ')}`);
+          throw new Error(
+            `Invalid Card Type: ${cardTypeRaw}. Must be one of: ${Object.values(CardType).join(', ')}`,
+          );
         }
 
         const dto: CreateCardDto = {
@@ -260,23 +285,19 @@ export class CardsService {
     return results;
   }
 
-  async getBulkUploadTemplate(): Promise<Buffer> {
-    const columns = [
-      'Card Number',
-      'Card Type',
-      'Notes',
-    ];
+  getBulkUploadTemplate(): Buffer {
+    const columns = ['Card Number', 'Card Type', 'Notes'];
 
     const data = [
       {
         'Card Number': 'A1-B2-C3-D4',
         'Card Type': 'STUDENT',
-        'Notes': 'Standard student card',
+        Notes: 'Standard student card',
       },
       {
         'Card Number': 'E5-F6-G7-H8',
         'Card Type': 'TEACHER',
-        'Notes': 'Staff access card',
+        Notes: 'Staff access card',
       },
     ];
 
@@ -287,16 +308,16 @@ export class CardsService {
     return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
   }
 
-  async bulkActivate(tenantId: string, cardIds: string[]): Promise<{ updated: number }> {
+  async bulkActivate(
+    tenantId: string,
+    cardIds: string[],
+  ): Promise<{ updated: number }> {
     // Filter to only assigned cards
     const cards = await this.prisma.card.findMany({
       where: {
         tenantId,
         id: { in: cardIds },
-        OR: [
-          { studentId: { not: null } },
-          { teacherId: { not: null } },
-        ],
+        OR: [{ studentId: { not: null } }, { teacherId: { not: null } }],
       },
     });
 
@@ -307,7 +328,7 @@ export class CardsService {
     // Update all to ACTIVE status
     const result = await this.prisma.card.updateMany({
       where: {
-        id: { in: cards.map(c => c.id) },
+        id: { in: cards.map((c) => c.id) },
       },
       data: {
         status: 'ACTIVE',

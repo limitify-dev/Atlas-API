@@ -9,6 +9,7 @@ import {
   Request,
   Res,
 } from '@nestjs/common';
+import { AuthUser as CurrentAuthUser } from '../auth/decorators/current-user.decorator';
 import {
   ApiTags,
   ApiOperation,
@@ -29,9 +30,126 @@ import {
   AutoCheckInDto,
   MarkAttendanceDto,
   BatchAttendanceDto,
-  EdgeAttendanceRecordDto,
   BulkMarkAttendanceDto,
 } from './dto';
+
+type AuthUser = { user: CurrentAuthUser };
+type ExcelCell = string | number | boolean | null;
+
+type TeacherReportOverview = {
+  totalTeachers: number;
+  averageAttendanceRate: number;
+  presentToday: number;
+  absentToday: number;
+  lateToday: number;
+  teachersAtRisk: number;
+  perfectAttendanceCount: number;
+  averageWorkHoursToday?: number | null;
+};
+
+type TeacherDepartmentRow = {
+  department: string;
+  totalTeachers: number;
+  presentCount: number;
+  absentCount: number;
+  lateCount: number;
+  excusedCount: number;
+  attendanceRate: number;
+  trend: string;
+  trendPercentage: number;
+};
+
+type TeacherRow = {
+  teacherId: string;
+  firstName: string;
+  lastName: string;
+  email?: string | null;
+  department?: string | null;
+  totalDays: number;
+  presentDays: number;
+  absentDays: number;
+  lateDays: number;
+  excusedDays: number;
+  attendanceRate: number;
+  riskLevel: string;
+};
+
+type AtRiskTeacherRow = {
+  teacherId: string;
+  firstName: string;
+  lastName: string;
+  department?: string | null;
+  attendanceRate: number;
+  lastAbsenceDate?: string | null;
+};
+
+type TeacherReportExportData = {
+  generatedAt: string;
+  schoolName: string;
+  period: { start: string; end: string };
+  overview?: TeacherReportOverview;
+  departments?: TeacherDepartmentRow[];
+  teachers?: TeacherRow[];
+  atRiskTeachers?: AtRiskTeacherRow[];
+};
+
+type StudentReportOverview = {
+  totalStudents: number;
+  averageAttendanceRate: number;
+  presentToday: number;
+  absentToday: number;
+  lateToday: number;
+  studentsAtRisk: number;
+  perfectAttendanceCount: number;
+};
+
+type ClassroomRow = {
+  gradeName: string;
+  sectionName: string;
+  totalStudents: number;
+  presentCount: number;
+  absentCount: number;
+  lateCount: number;
+  excusedCount: number;
+  attendanceRate: number;
+  trend: string;
+  trendPercentage: number;
+};
+
+type StudentRow = {
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  gradeName: string;
+  sectionName: string;
+  totalDays: number;
+  presentDays: number;
+  absentDays: number;
+  lateDays: number;
+  excusedDays: number;
+  attendanceRate: number;
+  riskLevel: string;
+};
+
+type AtRiskStudentRow = {
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  gradeName: string;
+  sectionName: string;
+  attendanceRate: number;
+  lastAbsenceDate?: string | null;
+};
+
+type StudentReportExportData = {
+  generatedAt: string;
+  schoolName: string;
+  period: { start: string; end: string };
+  overview?: StudentReportOverview;
+  classrooms?: ClassroomRow[];
+  students?: StudentRow[];
+  atRiskStudents?: AtRiskStudentRow[];
+};
 
 @ApiTags('Attendance')
 @Controller('attendance')
@@ -45,7 +163,7 @@ export class AttendanceController {
   @Get('students')
   @UseGuards(JwtAuthGuard)
   async getStudentsByClassroom(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('sectionId') sectionId?: string,
     @Query('gradeId') gradeId?: string,
@@ -83,7 +201,10 @@ export class AttendanceController {
     status: 404,
     description: 'Student not found',
   })
-  async markAttendance(@Request() req: any, @Body() data: MarkAttendanceDto) {
+  async markAttendance(
+    @Request() req: AuthUser,
+    @Body() data: MarkAttendanceDto,
+  ): Promise<unknown> {
     const effectiveTenantId = data.tenantId || req.user.tenantId;
     if (!effectiveTenantId) {
       throw new Error('Tenant ID is required');
@@ -98,7 +219,7 @@ export class AttendanceController {
         ? new Date(data.checkInDateTime)
         : undefined,
       remarks: data.remarks,
-    });
+    }) as Promise<unknown>;
   }
 
   @Post('mark-bulk')
@@ -114,7 +235,7 @@ export class AttendanceController {
     description: 'Attendance marked successfully for all students',
   })
   async markBulkAttendance(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Body() data: BulkMarkAttendanceDto,
   ) {
     const tenantId = req.user.tenantId;
@@ -131,13 +252,17 @@ export class AttendanceController {
     summary: 'Get attendance records',
     description: 'Get flat list of attendance records with optional filters',
   })
-  @ApiQuery({ name: 'date', required: false, description: 'Date in YYYY-MM-DD format' })
+  @ApiQuery({
+    name: 'date',
+    required: false,
+    description: 'Date in YYYY-MM-DD format',
+  })
   @ApiQuery({ name: 'sectionId', required: false })
   @ApiQuery({ name: 'gradeId', required: false })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
   async getAttendanceRecords(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('date') date?: string,
     @Query('sectionId') sectionId?: string,
     @Query('gradeId') gradeId?: string,
@@ -249,7 +374,10 @@ export class AttendanceController {
     status: 404,
     description: 'Card not found or inactive',
   })
-  async autoCheckIn(@Request() req: any, @Body() data: AutoCheckInDto) {
+  async autoCheckIn(
+    @Request() req: { tenantId: string },
+    @Body() data: AutoCheckInDto,
+  ) {
     // TenantId comes from the authenticated device
     return this.attendanceService.autoCheckIn({
       ...data,
@@ -304,10 +432,13 @@ export class AttendanceController {
     },
   })
   async batchAutoCheckIn(
-    @Request() req: any,
+    @Request()
+    req: {
+      tenantId: string;
+    },
     @Body() data: BatchAttendanceDto,
   ) {
-    const tenantId = req.tenantId;
+    const tenantId: string = req.tenantId;
     const results = {
       successful: 0,
       failed: 0,
@@ -333,13 +464,15 @@ export class AttendanceController {
           type: result.type,
           status: result.status,
         });
-      } catch (error) {
+      } catch (error: unknown) {
+        const message =
+          error instanceof Error ? error.message : 'Unknown error';
         results.failed++;
         results.errors.push({
           card_id: record.card_id,
           timestamp: record.timestamp,
           success: false,
-          error: error.message || 'Unknown error',
+          error: message,
         });
       }
     }
@@ -355,7 +488,7 @@ export class AttendanceController {
   @Get('report')
   @UseGuards(JwtAuthGuard)
   async getAttendanceReport(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId: string,
     @Query('date') date?: string,
     @Query('sectionId') sectionId?: string,
@@ -376,7 +509,7 @@ export class AttendanceController {
   @Get('stats')
   @UseGuards(JwtAuthGuard)
   async getAttendanceStats(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId: string,
     @Query('date') date?: string,
   ) {
@@ -403,7 +536,7 @@ export class AttendanceController {
     description: 'Date in YYYY-MM-DD format',
   })
   async getTeachers(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('date') date?: string,
     @Query('page') page?: number,
@@ -435,7 +568,7 @@ export class AttendanceController {
     description: 'Date in YYYY-MM-DD format',
   })
   async getTeacherAttendanceReport(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('date') date?: string,
   ) {
@@ -463,7 +596,7 @@ export class AttendanceController {
     description: 'Date in YYYY-MM-DD format',
   })
   async getTeacherAttendanceStats(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('date') date?: string,
   ) {
@@ -498,7 +631,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getTeacherAnalyticsOverview(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
     @Query('startDate') startDate?: string,
@@ -521,14 +654,15 @@ export class AttendanceController {
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Get teacher attendance trend data',
-    description: 'Retrieve daily teacher attendance trend data for visualization',
+    description:
+      'Retrieve daily teacher attendance trend data for visualization',
   })
   @ApiQuery({ name: 'tenantId', required: false })
   @ApiQuery({ name: 'period', required: false })
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getTeacherAnalyticsTrend(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
     @Query('startDate') startDate?: string,
@@ -559,7 +693,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getDepartmentAnalytics(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
     @Query('startDate') startDate?: string,
@@ -591,7 +725,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'endDate', required: false })
   @ApiQuery({ name: 'department', required: false })
   async getAllTeachersAnalytics(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
     @Query('startDate') startDate?: string,
@@ -624,7 +758,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getTeacherAnalytics(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Param('teacherId') teacherId: string,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
@@ -662,7 +796,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getAtRiskTeachers(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('threshold') threshold?: string,
     @Query('period') period?: string,
@@ -699,7 +833,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getTopPerformingTeachers(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('limit') limit?: string,
     @Query('period') period?: string,
@@ -729,7 +863,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'tenantId', required: false })
   @ApiQuery({ name: 'period', required: false })
   async getTeacherDayOfWeekAnalytics(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
   ) {
@@ -757,7 +891,8 @@ export class AttendanceController {
     description: 'Number of months to compare (default: 6)',
   })
   async getTeacherMonthlyComparison(
-    @Request() req: any,
+    @Request()
+    req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('months') months?: string,
   ) {
@@ -790,7 +925,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'department', required: false })
   @ApiQuery({ name: 'teacherId', required: false })
   async generateTeacherReport(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('reportType') reportType?: string,
     @Query('period') period?: string,
@@ -798,7 +933,7 @@ export class AttendanceController {
     @Query('endDate') endDate?: string,
     @Query('department') department?: string,
     @Query('teacherId') teacherId?: string,
-  ) {
+  ): Promise<unknown> {
     const effectiveTenantId = tenantId || req.user.tenantId;
     if (!effectiveTenantId) {
       throw new Error('Tenant ID is required');
@@ -812,7 +947,7 @@ export class AttendanceController {
       endDate,
       department,
       teacherId,
-    );
+    ) as Promise<unknown>;
   }
 
   @Get('teachers/analytics/export')
@@ -829,7 +964,8 @@ export class AttendanceController {
   @ApiQuery({ name: 'endDate', required: false })
   @ApiQuery({ name: 'department', required: false })
   async exportTeacherReport(
-    @Request() req: any,
+    @Request()
+    req: AuthUser,
     @Res() res: Response,
     @Query('tenantId') tenantId?: string,
     @Query('reportType') reportType?: string,
@@ -843,7 +979,7 @@ export class AttendanceController {
       throw new Error('Tenant ID is required');
     }
 
-    const reportData = await this.teacherAnalyticsService.generateReportData(
+    const reportData = (await this.teacherAnalyticsService.generateReportData(
       effectiveTenantId,
       (reportType as 'summary' | 'detailed' | 'department' | 'teacher') ||
         'summary',
@@ -851,14 +987,14 @@ export class AttendanceController {
       startDate,
       endDate,
       department,
-    );
+    )) as TeacherReportExportData;
 
     // Create workbook
     const workbook = XLSX.utils.book_new();
 
     // Add overview sheet if available
     if (reportData.overview) {
-      const overviewData = [
+      const overviewData: ExcelCell[][] = [
         ['Teacher Attendance Report Overview'],
         ['Generated At', reportData.generatedAt],
         ['School', reportData.schoolName],
@@ -888,7 +1024,7 @@ export class AttendanceController {
 
     // Add departments sheet if available
     if (reportData.departments && reportData.departments.length > 0) {
-      const departmentData = [
+      const departmentData: ExcelCell[][] = [
         [
           'Department',
           'Total Teachers',
@@ -899,7 +1035,7 @@ export class AttendanceController {
           'Attendance Rate',
           'Trend',
         ],
-        ...reportData.departments.map((d: any) => [
+        ...reportData.departments.map((d) => [
           d.department,
           d.totalTeachers,
           d.presentCount,
@@ -916,7 +1052,7 @@ export class AttendanceController {
 
     // Add teachers sheet if available
     if (reportData.teachers && reportData.teachers.length > 0) {
-      const teacherData = [
+      const teacherData: ExcelCell[][] = [
         [
           'Teacher ID',
           'Name',
@@ -930,7 +1066,7 @@ export class AttendanceController {
           'Attendance Rate',
           'Risk Level',
         ],
-        ...reportData.teachers.map((t: any) => [
+        ...reportData.teachers.map((t) => [
           t.teacherId,
           `${t.firstName} ${t.lastName}`,
           t.email || 'N/A',
@@ -950,15 +1086,9 @@ export class AttendanceController {
 
     // Add at-risk teachers sheet if available
     if (reportData.atRiskTeachers && reportData.atRiskTeachers.length > 0) {
-      const atRiskData = [
-        [
-          'Teacher ID',
-          'Name',
-          'Department',
-          'Attendance Rate',
-          'Last Absence',
-        ],
-        ...reportData.atRiskTeachers.map((t: any) => [
+      const atRiskData: ExcelCell[][] = [
+        ['Teacher ID', 'Name', 'Department', 'Attendance Rate', 'Last Absence'],
+        ...reportData.atRiskTeachers.map((t) => [
           t.teacherId,
           `${t.firstName} ${t.lastName}`,
           t.department || 'Unassigned',
@@ -971,7 +1101,10 @@ export class AttendanceController {
     }
 
     // Generate buffer
-    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+    const buffer = XLSX.write(workbook, {
+      type: 'buffer',
+      bookType: 'xlsx',
+    }) as Buffer;
 
     // Set headers and send
     const filename = `teacher_attendance_report_${new Date().toISOString().split('T')[0]}.xlsx`;
@@ -1012,7 +1145,7 @@ export class AttendanceController {
     description: 'Custom end date (YYYY-MM-DD)',
   })
   async getAnalyticsOverview(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
     @Query('startDate') startDate?: string,
@@ -1042,7 +1175,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getAnalyticsTrend(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
     @Query('startDate') startDate?: string,
@@ -1073,7 +1206,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getClassroomAnalytics(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
     @Query('startDate') startDate?: string,
@@ -1106,7 +1239,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'sectionId', required: false })
   @ApiQuery({ name: 'gradeId', required: false })
   async getAllStudentsAnalytics(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
     @Query('startDate') startDate?: string,
@@ -1141,7 +1274,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getStudentAnalytics(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Param('studentId') studentId: string,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
@@ -1179,7 +1312,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getAtRiskStudents(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('threshold') threshold?: string,
     @Query('period') period?: string,
@@ -1216,7 +1349,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'startDate', required: false })
   @ApiQuery({ name: 'endDate', required: false })
   async getTopPerformers(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('limit') limit?: string,
     @Query('period') period?: string,
@@ -1246,7 +1379,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'tenantId', required: false })
   @ApiQuery({ name: 'period', required: false })
   async getDayOfWeekAnalytics(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('period') period?: string,
   ) {
@@ -1274,7 +1407,7 @@ export class AttendanceController {
     description: 'Number of months to compare (default: 6)',
   })
   async getMonthlyComparison(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('months') months?: string,
   ) {
@@ -1307,7 +1440,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'sectionId', required: false })
   @ApiQuery({ name: 'studentId', required: false })
   async generateReport(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('reportType') reportType?: string,
     @Query('period') period?: string,
@@ -1315,7 +1448,7 @@ export class AttendanceController {
     @Query('endDate') endDate?: string,
     @Query('sectionId') sectionId?: string,
     @Query('studentId') studentId?: string,
-  ) {
+  ): Promise<unknown> {
     const effectiveTenantId = tenantId || req.user.tenantId;
     if (!effectiveTenantId) {
       throw new Error('Tenant ID is required');
@@ -1329,7 +1462,7 @@ export class AttendanceController {
       endDate,
       sectionId,
       studentId,
-    );
+    ) as Promise<unknown>;
   }
 
   @Get('analytics/export')
@@ -1346,7 +1479,7 @@ export class AttendanceController {
   @ApiQuery({ name: 'endDate', required: false })
   @ApiQuery({ name: 'sectionId', required: false })
   async exportReport(
-    @Request() req: any,
+    @Request() req: AuthUser,
     @Res() res: Response,
     @Query('tenantId') tenantId?: string,
     @Query('reportType') reportType?: string,
@@ -1360,7 +1493,7 @@ export class AttendanceController {
       throw new Error('Tenant ID is required');
     }
 
-    const reportData = await this.analyticsService.generateReportData(
+    const reportData = (await this.analyticsService.generateReportData(
       effectiveTenantId,
       (reportType as 'summary' | 'detailed' | 'classroom' | 'student') ||
         'summary',
@@ -1368,14 +1501,14 @@ export class AttendanceController {
       startDate,
       endDate,
       sectionId,
-    );
+    )) as StudentReportExportData;
 
     // Create workbook
     const workbook = XLSX.utils.book_new();
 
     // Add overview sheet if available
     if (reportData.overview) {
-      const overviewData = [
+      const overviewData: ExcelCell[][] = [
         ['Attendance Report Overview'],
         ['Generated At', reportData.generatedAt],
         ['School', reportData.schoolName],
@@ -1399,7 +1532,7 @@ export class AttendanceController {
 
     // Add classrooms sheet if available
     if (reportData.classrooms && reportData.classrooms.length > 0) {
-      const classroomData = [
+      const classroomData: ExcelCell[][] = [
         [
           'Grade',
           'Section',
@@ -1411,7 +1544,7 @@ export class AttendanceController {
           'Attendance Rate',
           'Trend',
         ],
-        ...reportData.classrooms.map((c: any) => [
+        ...reportData.classrooms.map((c) => [
           c.gradeName,
           c.sectionName,
           c.totalStudents,
@@ -1429,7 +1562,7 @@ export class AttendanceController {
 
     // Add students sheet if available
     if (reportData.students && reportData.students.length > 0) {
-      const studentData = [
+      const studentData: ExcelCell[][] = [
         [
           'Student ID',
           'Name',
@@ -1443,7 +1576,7 @@ export class AttendanceController {
           'Attendance Rate',
           'Risk Level',
         ],
-        ...reportData.students.map((s: any) => [
+        ...reportData.students.map((s) => [
           s.studentId,
           `${s.firstName} ${s.lastName}`,
           s.gradeName,
@@ -1463,7 +1596,7 @@ export class AttendanceController {
 
     // Add at-risk students sheet if available
     if (reportData.atRiskStudents && reportData.atRiskStudents.length > 0) {
-      const atRiskData = [
+      const atRiskData: ExcelCell[][] = [
         [
           'Student ID',
           'Name',
@@ -1472,7 +1605,7 @@ export class AttendanceController {
           'Attendance Rate',
           'Last Absence',
         ],
-        ...reportData.atRiskStudents.map((s: any) => [
+        ...reportData.atRiskStudents.map((s) => [
           s.studentId,
           `${s.firstName} ${s.lastName}`,
           s.gradeName,
@@ -1486,7 +1619,10 @@ export class AttendanceController {
     }
 
     // Generate buffer
-    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+    const buffer = XLSX.write(workbook, {
+      type: 'buffer',
+      bookType: 'xlsx',
+    }) as Buffer;
 
     // Set headers and send
     const filename = `attendance_report_${new Date().toISOString().split('T')[0]}.xlsx`;

@@ -7,7 +7,11 @@ import {
   CreateAnnouncementDto,
   UpdateAnnouncementDto,
 } from './dto';
-import { Role } from '../../../prisma/generated/client';
+import {
+  AnnouncementStatus,
+  Prisma,
+  Role,
+} from '../../../prisma/generated/client';
 
 @Injectable()
 export class AnnouncementsService {
@@ -47,7 +51,7 @@ export class AnnouncementsService {
   }
 
   async create(tenantId: string, userId: string, dto: CreateAnnouncementDto) {
-    const status = (dto.status as any) || 'ACTIVE';
+    const status = (dto.status as AnnouncementStatus) || 'ACTIVE';
     const announcement = await this.prisma.announcement.create({
       data: {
         tenantId,
@@ -74,7 +78,10 @@ export class AnnouncementsService {
     });
 
     // Create NotificationRecipient records for target users
-    const targetUsers = await this.getTargetUsers(tenantId, announcement.audience);
+    const targetUsers = await this.getTargetUsers(
+      tenantId,
+      announcement.audience,
+    );
 
     if (targetUsers.length > 0) {
       await this.prisma.notificationRecipient.createMany({
@@ -87,7 +94,10 @@ export class AnnouncementsService {
     }
 
     if (announcement.status === 'ACTIVE' && targetUsers.length > 0) {
-      await this.sendAnnouncementPush(announcement, targetUsers.map((u) => u.id));
+      await this.sendAnnouncementPush(
+        announcement,
+        targetUsers.map((u) => u.id),
+      );
     }
 
     return announcement;
@@ -101,10 +111,10 @@ export class AnnouncementsService {
   ) {
     const skip = (page - 1) * limit;
 
-    const where: any = { tenantId };
+    const where: Prisma.AnnouncementWhereInput = { tenantId };
 
     if (filters.status) {
-      where.status = filters.status;
+      where.status = filters.status as AnnouncementStatus;
     }
     if (filters.audience) {
       where.audience = filters.audience;
@@ -140,9 +150,10 @@ export class AnnouncementsService {
       this.prisma.announcement.count({ where }),
     ]);
 
-    const data = announcements.map((announcement: any) => {
-      const viewedCount = announcement.recipients.filter((r: any) => r.isRead).length;
-      const { recipients, ...rest } = announcement;
+    const data = announcements.map((announcement) => {
+      const viewedCount =
+        announcement.recipients?.filter((r) => r.isRead).length ?? 0;
+      const { recipients: _recipients, ...rest } = announcement;
       return {
         ...rest,
         recipientCount: announcement._count?.recipients ?? 0,
@@ -173,14 +184,14 @@ export class AnnouncementsService {
 
     const audienceFilter = this.getAudienceFilterForRole(userRole);
 
-    const where: any = {
+    const where: Prisma.AnnouncementWhereInput = {
       tenantId,
-      status: 'ACTIVE',
+      status: AnnouncementStatus.ACTIVE,
       audience: { in: audienceFilter },
     };
 
     if (filters.status) {
-      where.status = filters.status;
+      where.status = filters.status as AnnouncementStatus;
     }
     if (filters.priority) {
       where.priority = filters.priority;
@@ -211,9 +222,9 @@ export class AnnouncementsService {
       this.prisma.announcement.count({ where }),
     ]);
 
-    const data = announcements.map((announcement: any) => {
+    const data = announcements.map((announcement) => {
       const recipient = announcement.recipients?.[0];
-      const { recipients, ...announcementWithoutRecipients } = announcement;
+      const { recipients: _r, ...announcementWithoutRecipients } = announcement;
       return {
         ...announcementWithoutRecipients,
         isRead: recipient?.isRead || false,
@@ -252,8 +263,10 @@ export class AnnouncementsService {
       throw new NotFoundException('Announcement not found');
     }
 
-    const viewedCount = announcement.recipients.filter((r: any) => r.isRead).length;
-    const { recipients, ...rest } = announcement as any;
+    const viewedCount = announcement.recipients.filter(
+      (r: { isRead: boolean }) => r.isRead,
+    ).length;
+    const { recipients: _recipients3, ...rest } = announcement;
     return {
       ...rest,
       recipientCount: announcement._count?.recipients ?? 0,
@@ -270,7 +283,7 @@ export class AnnouncementsService {
       throw new NotFoundException('Announcement not found');
     }
 
-    const data: any = {};
+    const data: Prisma.AnnouncementUpdateInput = {};
     if (dto.title !== undefined) data.title = dto.title;
     if (dto.content !== undefined) data.content = dto.content;
     if (dto.imageUrl !== undefined) data.imageUrl = dto.imageUrl || null;
@@ -279,10 +292,17 @@ export class AnnouncementsService {
     if (dto.ctaUrl !== undefined) data.ctaUrl = dto.ctaUrl || null;
     if (dto.priority !== undefined) data.priority = dto.priority;
     if (dto.audience !== undefined) data.audience = dto.audience;
-    if (dto.expiresAt !== undefined) data.expiresAt = dto.expiresAt ? new Date(dto.expiresAt) : null;
+    if (dto.expiresAt !== undefined)
+      data.expiresAt = dto.expiresAt ? new Date(dto.expiresAt) : null;
     if (dto.isPinned !== undefined) data.isPinned = dto.isPinned;
-    if (dto.status !== undefined) data.status = dto.status;
-    if (dto.status !== undefined && dto.status === 'ACTIVE' && existing.status !== 'ACTIVE') {
+    if (dto.status !== undefined) {
+      data.status = dto.status as AnnouncementStatus;
+    }
+    if (
+      dto.status !== undefined &&
+      dto.status === 'ACTIVE' &&
+      existing.status !== 'ACTIVE'
+    ) {
       // Reset publish time when moving into ACTIVE state.
       data.publishedAt = new Date();
     }
@@ -300,7 +320,10 @@ export class AnnouncementsService {
     if (existing.status !== 'ACTIVE' && updated.status === 'ACTIVE') {
       const targetUsers = await this.getTargetUsers(tenantId, updated.audience);
       if (targetUsers.length > 0) {
-        await this.sendAnnouncementPush(updated, targetUsers.map((u) => u.id));
+        await this.sendAnnouncementPush(
+          updated,
+          targetUsers.map((u) => u.id),
+        );
       }
     }
 
@@ -384,7 +407,9 @@ export class AnnouncementsService {
   async getStats(tenantId: string) {
     const [active, expired, pinned, totalViews] = await Promise.all([
       this.prisma.announcement.count({ where: { tenantId, status: 'ACTIVE' } }),
-      this.prisma.announcement.count({ where: { tenantId, status: 'EXPIRED' } }),
+      this.prisma.announcement.count({
+        where: { tenantId, status: 'EXPIRED' },
+      }),
       this.prisma.announcement.count({ where: { tenantId, isPinned: true } }),
       this.prisma.notificationRecipient.count({
         where: {
@@ -398,7 +423,10 @@ export class AnnouncementsService {
   }
 
   private async getTargetUsers(tenantId: string, audience: string) {
-    const where: any = { tenantId };
+    const where: {
+      tenantId: string;
+      role?: Role | { in: Role[] };
+    } = { tenantId };
 
     switch (audience) {
       case 'PARENTS':
@@ -439,13 +467,27 @@ export class AnnouncementsService {
     }
   }
 
-  private async sendAnnouncementPush(announcement: any, userIds: string[]) {
+  private async sendAnnouncementPush(
+    announcement: {
+      id?: string;
+      title: string;
+      content: string;
+      imageUrl: string | null;
+      ctaLabel: string | null;
+      ctaType: string | null;
+      ctaUrl: string | null;
+      publishedAt: string | Date | null;
+    },
+    userIds: string[],
+  ) {
     const title = announcement.title || 'New Announcement';
     const content = String(announcement.content || '')
       .replace(/\s+/g, ' ')
       .trim();
     const body =
-      content.length > 160 ? `${content.slice(0, 157).trimEnd()}...` : content || 'Tap to view.';
+      content.length > 160
+        ? `${content.slice(0, 157).trimEnd()}...`
+        : content || 'Tap to view.';
 
     try {
       await this.pushService.sendToUsers(userIds, title, body, {

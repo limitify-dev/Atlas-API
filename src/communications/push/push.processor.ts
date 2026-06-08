@@ -3,8 +3,15 @@ import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
 import { PushService } from './push.service';
 
-export interface PushNotificationJob {
+export interface PushSingleJob {
   userId: string;
+  title: string;
+  body: string;
+  data?: Record<string, any>;
+}
+
+export interface PushBulkJob {
+  userIds: string[];
   title: string;
   body: string;
   data?: Record<string, any>;
@@ -18,18 +25,17 @@ export class PushProcessor extends WorkerHost {
     super();
   }
 
-  async process(job: Job<PushNotificationJob>) {
-    const { userId, title, body, data } = job.data;
-
-    this.logger.debug(`Processing push notification for user ${userId}`);
-
-    try {
-      await this.pushService.sendToUser(userId, title, body, data);
-    } catch (error) {
-      this.logger.error(
-        `Failed to send push to ${userId}: ${error.message}`,
-      );
-      throw error; // BullMQ will retry based on queue configuration
+  async process(job: Job<PushSingleJob | PushBulkJob>) {
+    if (job.name === 'send-push-bulk') {
+      const { userIds, title, body, data } = job.data as PushBulkJob;
+      this.logger.debug(`Processing bulk push to ${userIds.length} users: ${title}`);
+      await this.pushService.sendToUsers(userIds, title, body, data);
+      return;
     }
+
+    // Legacy single-user job
+    const { userId, title, body, data } = job.data as PushSingleJob;
+    this.logger.debug(`Processing push for user ${userId}: ${title}`);
+    await this.pushService.sendToUser(userId, title, body, data);
   }
 }

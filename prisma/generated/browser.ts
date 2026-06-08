@@ -223,6 +223,36 @@ export type CardPermission = Prisma.CardPermissionModel
  */
 export type Event = Prisma.EventModel
 /**
+ * Model AcademicExam
+ * 
+ */
+export type AcademicExam = Prisma.AcademicExamModel
+/**
+ * Model AcademicAssignment
+ * 
+ */
+export type AcademicAssignment = Prisma.AcademicAssignmentModel
+/**
+ * Model AcademicCourse
+ * 
+ */
+export type AcademicCourse = Prisma.AcademicCourseModel
+/**
+ * Model AcademicAssignmentResult
+ * 
+ */
+export type AcademicAssignmentResult = Prisma.AcademicAssignmentResultModel
+/**
+ * Model AcademicReportCard
+ * 
+ */
+export type AcademicReportCard = Prisma.AcademicReportCardModel
+/**
+ * Model ConsultationBooking
+ * 
+ */
+export type ConsultationBooking = Prisma.ConsultationBookingModel
+/**
  * Model Device
  * 
  */
@@ -237,3 +267,48 @@ export type DeviceLog = Prisma.DeviceLogModel
  * 
  */
 export type SystemLog = Prisma.SystemLogModel
+/**
+ * Model AcademicTimeline
+ * 
+ */
+export type AcademicTimeline = Prisma.AcademicTimelineModel
+/**
+ * Model Promotion
+ * 
+ */
+export type Promotion = Prisma.PromotionModel
+/**
+ * Model Staff
+ * 
+ */
+export type Staff = Prisma.StaffModel
+/**
+ * Model StudentGrade
+ * 
+ */
+export type StudentGrade = Prisma.StudentGradeModel
+/**
+ * Model Invoice
+ * 
+ */
+export type Invoice = Prisma.InvoiceModel
+/**
+ * Model PaymentSubmission
+ * 
+ */
+export type PaymentSubmission = Prisma.PaymentSubmissionModel
+/**
+ * Model PaymentPromise
+ * 
+ */
+export type PaymentPromise = Prisma.PaymentPromiseModel
+/**
+ * Model Invite
+ * 
+ */
+export type Invite = Prisma.InviteModel
+/**
+ * Model OtpCode
+ * 
+ */
+export type OtpCode = Prisma.OtpCodeModel

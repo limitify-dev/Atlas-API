@@ -1,6 +1,10 @@
 import { Controller, Post, Body, Get, Query, Param } from '@nestjs/common';
 import { BookTransactionsService } from './transactions.service';
-import { IssueBookDto, ReturnBookDto, IssueBulkDto } from './dto/transaction.dto';
+import {
+  IssueBookDto,
+  ReturnBookDto,
+  IssueBulkDto,
+} from './dto/transaction.dto';
 
 @Controller('library/transactions')
 export class BookTransactionsController {
@@ -22,15 +26,14 @@ export class BookTransactionsController {
   }
 
   @Post('return-bulk')
-  returnBulk(@Body() dto: { tenantId: string; copyCodes: string[]; returnDate?: string }) {
-      return this.transactionsService.returnBulk(dto);
+  returnBulk(
+    @Body() dto: { tenantId: string; copyCodes: string[]; returnDate?: string },
+  ) {
+    return this.transactionsService.returnBulk(dto);
   }
 
   @Post(':id/missing')
-  reportMissing(
-    @Param('id') id: string, 
-    @Body('tenantId') tenantId: string
-  ) {
+  reportMissing(@Param('id') id: string, @Body('tenantId') tenantId: string) {
     return this.transactionsService.reportMissing(tenantId, id);
   }
 
@@ -38,12 +41,12 @@ export class BookTransactionsController {
   getOverdue(
     @Query('tenantId') tenantId: string,
     @Query('page') page?: number,
-    @Query('pageSize') pageSize?: number
+    @Query('pageSize') pageSize?: number,
   ) {
-    return this.transactionsService.getOverdue({ 
+    return this.transactionsService.getOverdue({
       tenantId,
       page: page ? +page : 1,
-      pageSize: pageSize ? +pageSize : 10
+      pageSize: pageSize ? +pageSize : 10,
     });
   }
 
@@ -57,29 +60,35 @@ export class BookTransactionsController {
     @Query('studentId') studentId?: string,
     @Query('bookId') bookId?: string,
     @Query('excludeOverdue') excludeOverdue?: string,
-    @Query('search') search?: string
+    @Query('search') search?: string,
   ) {
-    const filters = { sectionId, studentId, bookId, excludeOverdue: excludeOverdue === 'true', search };
+    const filters = {
+      sectionId,
+      studentId,
+      bookId,
+      excludeOverdue: excludeOverdue === 'true',
+      search,
+    };
     if (grouped === 'true') {
-        return this.transactionsService.getActiveLoansGrouped({
-            tenantId,
-            page: page ? +page : 1,
-            pageSize: pageSize ? +pageSize : 10,
-            ...filters
-        });
+      return this.transactionsService.getActiveLoansGrouped({
+        tenantId,
+        page: page ? +page : 1,
+        pageSize: pageSize ? +pageSize : 10,
+        ...filters,
+      });
     }
-    return this.transactionsService.getActiveLoans({ 
+    return this.transactionsService.getActiveLoans({
       tenantId,
       page: page ? +page : 1,
       pageSize: pageSize ? +pageSize : 10,
-      ...filters
+      ...filters,
     });
   }
 
   @Get('history')
   getHistory(
     @Query('tenantId') tenantId: string,
-    @Query('studentId') studentId: string
+    @Query('studentId') studentId: string,
   ) {
     return this.transactionsService.getStudentHistory(tenantId, studentId);
   }

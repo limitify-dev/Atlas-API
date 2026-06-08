@@ -1,5 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { SubscriptionPlan, TenantStatus } from '../../../prisma/generated/client';
+import {
+  SubscriptionPlan,
+  TenantStatus,
+} from '../../../prisma/generated/client';
 
 export class CreateTenantDto {
   @ApiProperty({

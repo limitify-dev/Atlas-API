@@ -44,7 +44,7 @@ export class TenantsService {
 
     // Create tenant
     const tenant = await this.prisma.tenant.create({
-      data: createTenantDto as any,
+      data: createTenantDto,
     });
 
     return tenant;
@@ -168,7 +168,10 @@ export class TenantsService {
           });
 
         if (uploadError) {
-          console.error(`Logo upload failed for tenant ${id}:`, uploadError.message);
+          console.error(
+            `Logo upload failed for tenant ${id}:`,
+            uploadError.message,
+          );
         } else {
           const { data: urlData } = this.supabase.client.storage
             .from('atlas-profiles')
@@ -176,17 +179,23 @@ export class TenantsService {
           logoUrl = urlData.publicUrl;
         }
       } catch (uploadErr) {
-        console.error(`Unexpected error during logo upload for tenant ${id}:`, uploadErr);
+        console.error(
+          `Unexpected error during logo upload for tenant ${id}:`,
+          uploadErr,
+        );
       }
     }
 
     // Parse numeric fields that may come as strings from FormData
-    const updateData: any = { ...updateTenantDto };
+    const updateData: {
+      maxStudents?: number;
+      maxTeachers?: number;
+    } = { ...updateTenantDto };
     if (updateData.maxStudents !== undefined) {
-      updateData.maxStudents = parseInt(updateData.maxStudents, 10);
+      updateData.maxStudents = Number(updateData.maxStudents);
     }
     if (updateData.maxTeachers !== undefined) {
-      updateData.maxTeachers = parseInt(updateData.maxTeachers, 10);
+      updateData.maxTeachers = Number(updateData.maxTeachers);
     }
 
     return await this.prisma.tenant.update({

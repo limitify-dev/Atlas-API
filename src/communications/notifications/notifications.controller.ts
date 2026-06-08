@@ -34,7 +34,11 @@ export class NotificationsController {
     @Body() data: CreateNotificationDto,
     @Request() req: any,
   ) {
-    return this.notificationsService.createNotification(data, req.user.id, req.user.tenantId);
+    return this.notificationsService.createNotification(
+      data,
+      req.user.id,
+      req.user.tenantId,
+    );
   }
 
   /**

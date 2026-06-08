@@ -21,11 +21,11 @@ export class LoggingInterceptor implements NestInterceptor {
     const userAgent = headers['user-agent'] || '';
     const userId = request.user?.userId;
     const tenantId = request.user?.tenantId;
-    
+
     const startTime = Date.now();
 
     return next.handle().pipe(
-      tap((data) => {
+      tap((_data) => {
         const response = context.switchToHttp().getResponse();
         const statusCode = response.statusCode;
         const duration = Date.now() - startTime;
@@ -34,7 +34,12 @@ export class LoggingInterceptor implements NestInterceptor {
         if (statusCode >= 400 || this.shouldLog(url)) {
           this.systemLogsService
             .createLog({
-              level: statusCode >= 500 ? 'ERROR' : statusCode >= 400 ? 'WARN' : 'INFO',
+              level:
+                statusCode >= 500
+                  ? 'ERROR'
+                  : statusCode >= 400
+                    ? 'WARN'
+                    : 'INFO',
               message: `${method} ${url} - ${statusCode}`,
               metadata: {
                 request: {
@@ -101,17 +106,26 @@ export class LoggingInterceptor implements NestInterceptor {
     );
   }
 
-  /**
-   * Determine if this endpoint should be logged
-   */
   private shouldLog(url: string): boolean {
-    // Log important endpoints
     const importantPatterns = [
       '/auth/',
       '/users/',
       '/tenants/',
       '/devices/',
       '/system-logs/',
+      '/attendance/',
+      '/permissions/',
+      '/conduct/',
+      '/finance/',
+      '/students/',
+      '/teachers/',
+      '/grades/',
+      '/sections/',
+      '/promotions/',
+      '/subscriptions/',
+      '/platform-analytics/',
+      '/cards/',
+      '/library/',
     ];
 
     return importantPatterns.some((pattern) => url.includes(pattern));

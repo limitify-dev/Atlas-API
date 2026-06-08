@@ -1,9 +1,11 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { Prisma, Role, UserType } from '../../../prisma/generated/client';
 import {
   CreateNotificationDto,
   NotificationTargetType,
   NotificationFiltersDto,
+  NotificationType,
 } from './dto/create-notification.dto';
 import { PushService } from '../push/push.service';
 
@@ -17,14 +19,114 @@ export class NotificationsService {
   ) {}
 
   /**
+   * Create system notifications for an explicit list of users.
+   * This is used by domain events (e.g. library invoices) where we don't want sender-based targeting logic.
+   */
+  async createNotificationsForUsers(params: {
+    tenantId: string;
+    userIds: string[];
+    title: string;
+    message: string;
+    type?: string;
+    data?: Prisma.InputJsonValue;
+  }) {
+    const uniqueRecipientIds = Array.from(
+      new Set((params.userIds || []).filter(Boolean)),
+    );
+    if (!uniqueRecipientIds.length) {
+      return {
+        success: true,
+        recipientCount: 0,
+        notificationIds: [] as string[],
+      };
+    }
+
+    const recipients = await this.prisma.user.findMany({
+      where: {
+        id: { in: uniqueRecipientIds },
+        status: 'ACTIVE',
+      },
+      select: { id: true, tenantId: true },
+    });
+
+    if (!recipients.length) {
+      return {
+        success: true,
+        recipientCount: 0,
+        notificationIds: [] as string[],
+      };
+    }
+
+    const notifications = await Promise.all(
+      recipients.map((recipient) =>
+        this.prisma.notification.create({
+          data: {
+            tenantId: recipient.tenantId || params.tenantId,
+            userId: recipient.id,
+            title: params.title,
+            message: params.message,
+            type: params.type || 'GENERAL',
+            data: params.data,
+          },
+        }),
+      ),
+    );
+
+    await Promise.all(
+      notifications.map((notification) =>
+        this.prisma.notificationRecipient.create({
+          data: {
+            notificationId: notification.id,
+            userId: notification.userId,
+            isRead: false,
+          },
+        }),
+      ),
+    );
+
+    const pushData =
+      params.data &&
+      typeof params.data === 'object' &&
+      !Array.isArray(params.data)
+        ? (params.data as Record<string, unknown>)
+        : {};
+
+    const typeValue =
+      typeof pushData.type === 'string'
+        ? pushData.type
+        : params.type || 'GENERAL';
+
+    const recipientIds = recipients.map((r) => r.id);
+    this.pushService
+      .sendToUsers(recipientIds, params.title, params.message, {
+        ...pushData,
+        type: typeValue,
+        notificationIds: notifications.map((n) => n.id),
+      })
+      .catch((err: { message: string }) =>
+        this.logger.warn(`Push notifications failed: ${err.message}`),
+      );
+
+    return {
+      success: true,
+      recipientCount: recipients.length,
+      notificationIds: notifications.map((n) => n.id),
+    };
+  }
+
+  /**
    * Create a platform notification and distribute to recipients
    */
-  async createNotification(data: CreateNotificationDto, senderId: string, senderTenantId?: string) {
+  async createNotification(
+    data: CreateNotificationDto,
+    senderId: string,
+    senderTenantId?: string,
+  ) {
     // Determine recipients based on target type
     let recipientUserIds: string[] = [];
 
     switch (data.targetType) {
-      case NotificationTargetType.ALL:
+      case NotificationTargetType.ALL: {
         const allUsers = await this.prisma.user.findMany({
           where: {
             status: 'ACTIVE',
@@ -34,8 +136,9 @@ export class NotificationsService {
         });
         recipientUserIds = allUsers.map((u) => u.id);
         break;
+      }
 
-      case NotificationTargetType.TENANT:
+      case NotificationTargetType.TENANT: {
         const tenantIdForQuery = data.targetId || senderTenantId;
         if (tenantIdForQuery) {
           const tenantUsers = await this.prisma.user.findMany({
@@ -45,12 +148,13 @@ export class NotificationsService {
           recipientUserIds = tenantUsers.map((u) => u.id);
         }
         break;
+      }
 
-      case NotificationTargetType.ROLE:
+      case NotificationTargetType.ROLE: {
         if (data.targetId) {
           const roleUsers = await this.prisma.user.findMany({
             where: {
-              role: data.targetId as any,
+              role: data.targetId as Role,
               status: 'ACTIVE',
               ...(senderTenantId ? { tenantId: senderTenantId } : {}),
             },
@@ -59,12 +163,13 @@ export class NotificationsService {
           recipientUserIds = roleUsers.map((u) => u.id);
         }
         break;
+      }
 
-      case NotificationTargetType.USER_TYPE:
+      case NotificationTargetType.USER_TYPE: {
         if (data.targetId) {
           const typeUsers = await this.prisma.user.findMany({
             where: {
-              userType: data.targetId as any,
+              userType: data.targetId as UserType,
               status: 'ACTIVE',
               ...(senderTenantId ? { tenantId: senderTenantId } : {}),
             },
@@ -73,8 +178,9 @@ export class NotificationsService {
           recipientUserIds = typeUsers.map((u) => u.id);
         }
         break;
+      }
 
-      case NotificationTargetType.USER:
+      case NotificationTargetType.USER: {
         if (data.targetId || data.targetIds?.length) {
           const requestedIds = data.targetId
             ? [data.targetId]
@@ -89,6 +195,7 @@ export class NotificationsService {
           recipientUserIds = users.map((u) => u.id);
         }
         break;
+      }
     }
 
     // Always include the sender so they can see their own notification
@@ -109,7 +216,8 @@ export class NotificationsService {
             userId: recipient.id,
             title: data.title,
             message: data.message,
-            type: data.type || 'GENERAL',
+            type: data.type ?? NotificationType.GENERAL,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             data: {
               ...data.data,
               targetType: data.targetType,
@@ -135,12 +243,19 @@ export class NotificationsService {
 
     // Send push notifications to all recipients (fire-and-forget)
     const recipientIds = recipients.map((r) => r.id);
+    const dataType =
+      typeof data.data === 'object' && data.data !== null
+        ? (data.data as Record<string, unknown>).type
+        : undefined;
+    const pushType =
+      typeof dataType === 'string' ? dataType : data.type || 'GENERAL';
+
     this.pushService
       .sendToUsers(recipientIds, data.title, data.message, {
-        type: data.type || 'GENERAL',
+        type: pushType,
         notificationIds: notifications.map((n) => n.id),
       })
-      .catch((err) =>
+      .catch((err: { message: string }) =>
         this.logger.warn(`Push notifications failed: ${err.message}`),
       );
 
@@ -161,7 +276,15 @@ export class NotificationsService {
     limit: number = 50,
   ) {
     const skip = (page - 1) * limit;
-    const where: any = { tenantId };
+    const where: {
+      tenantId?: string;
+      type?: string;
+      OR?: any[];
+      createdAt?: {
+        gte?: Date;
+        lte?: Date;
+      };
+    } = { tenantId };
 
     if (filters.type) {
       where.type = filters.type;
@@ -209,7 +332,17 @@ export class NotificationsService {
     ]);
 
     // Group notifications by title+message+type to show as single notification with recipient count
-    const groupedMap = new Map<string, any>();
+    type GroupedNotification = {
+      id: string;
+      title: string;
+      message: string;
+      type: string;
+      createdAt: Date;
+      recipientCount: number;
+      readCount: number;
+      data: Prisma.JsonValue;
+    };
+    const groupedMap = new Map<string, GroupedNotification>();
 
     notifications.forEach((notification) => {
       const key = `${notification.title}|${notification.message}|${notification.type}|${notification.createdAt.toISOString().split('T')[0]}`;
@@ -227,10 +360,12 @@ export class NotificationsService {
         });
       } else {
         const existing = groupedMap.get(key);
-        existing.recipientCount++;
-        existing.readCount += notification.recipients.filter(
-          (r) => r.isRead,
-        ).length;
+        if (existing) {
+          existing.recipientCount++;
+          existing.readCount += notification.recipients.filter(
+            (r) => r.isRead,
+          ).length;
+        }
       }
     });
 

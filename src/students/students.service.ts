@@ -15,7 +15,7 @@ import {
   StudentCardQrResponseDto,
   StudentCardInfoDto,
 } from './dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import {
   Prisma,
   UserType,
@@ -49,6 +49,16 @@ export class StudentsService {
     try {
       // Create student, parents, and link them in a transaction
       const result = await this.prisma.$transaction(async (tx) => {
+        // Auto-resolve promotionId from the section if not explicitly provided
+        let resolvedPromotionId = createStudentDto.promotionId || null;
+        if (!resolvedPromotionId) {
+          const section = await tx.section.findUnique({
+            where: { id: createStudentDto.sectionId },
+            select: { promotionId: true },
+          });
+          resolvedPromotionId = section?.promotionId ?? null;
+        }
+
         // Create student (no user account needed)
         const student = await tx.student.create({
           data: {
@@ -66,6 +76,7 @@ export class StudentsService {
             rollNumber: createStudentDto.rollNumber || null,
             gradeId: createStudentDto.gradeId,
             sectionId: createStudentDto.sectionId,
+            promotionId: resolvedPromotionId,
             admissionDate: new Date(createStudentDto.admissionDate),
             photoUrl: createStudentDto.photoUrl || null,
           },
@@ -336,7 +347,7 @@ export class StudentsService {
     return results;
   }
 
-  async getBulkUploadTemplate(): Promise<Buffer> {
+  getBulkUploadTemplate(): Buffer {
     const columns = [
       'First Name',
       'Last Name',
@@ -423,6 +434,7 @@ export class StudentsService {
       search,
       gradeId,
       sectionId,
+      promotionId,
       gender,
       page = 1,
       limit = 10,
@@ -432,6 +444,7 @@ export class StudentsService {
       tenantId,
       ...(gradeId && { gradeId }),
       ...(sectionId && { sectionId }),
+      ...(promotionId && { promotionId }),
       ...(gender && { gender }),
       ...(search && {
         OR: [
@@ -460,7 +473,10 @@ export class StudentsService {
         where,
         include: {
           grade: true,
-          section: true,
+          section: {
+            include: { promotion: { select: { id: true, name: true, entryYear: true } } },
+          },
+          promotion: { select: { id: true, name: true, entryYear: true } },
           card: true,
           parents: {
             include: {
@@ -939,7 +955,7 @@ export class StudentsService {
     let payload: { type: string; sub: string; tenantId: string };
     try {
       payload = this.jwtService.verify(token);
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Invalid or expired QR code');
     }
 
@@ -989,7 +1005,6 @@ export class StudentsService {
 
     // Get active permissions for this student
     const now = new Date();
-    const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
     const currentTime = now.toTimeString().slice(0, 5); // HH:mm
 
     const activePermissions = await this.prisma.permission.findMany({

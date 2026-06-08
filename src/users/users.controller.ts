@@ -28,7 +28,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../auth/decorators/current-user.decorator';
 import { Role } from '../../prisma/generated/client';
 
 @ApiTags('Users')
@@ -65,7 +68,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Get user by ID' })
   @ApiResponse({ status: 200, description: 'User found' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  findOne(@Param('id') id: string, @CurrentUser() user: any) {
+  findOne(@Param('id') id: string, @CurrentUser() user: AuthUser) {
     // Users can only view their own profile unless they're admin
     if (
       user.userId !== id &&
@@ -84,7 +87,7 @@ export class UsersController {
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ) {
     // Role-based protection: Students cannot update their own profiles
     if (user.role === Role.STUDENT) {
@@ -119,7 +122,7 @@ export class UsersController {
       }),
     )
     file: Express.Multer.File,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ) {
     // Role-based protection: Students cannot update their own profiles
     if (user.role === Role.STUDENT) {

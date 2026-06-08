@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { InviteService } from './invite.service';
+import { OtpService } from './otp.service';
+import { SmsService } from './sms.service';
 import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -11,7 +14,7 @@ import { EmailModule } from 'src/email/email.module';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, InviteService, OtpService, SmsService, LocalStrategy, JwtStrategy],
   imports: [
     PrismaModule,
     EmailModule,
@@ -21,6 +24,6 @@ import { EmailModule } from 'src/email/email.module';
       signOptions: { expiresIn: jwtConstants.accessTokenExpiry },
     }),
   ],
-  exports: [AuthService],
+  exports: [AuthService, InviteService, OtpService, SmsService],
 })
 export class AuthModule {}

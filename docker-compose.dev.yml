@@ -63,6 +63,20 @@ services:
     networks:
       - atlas-network
 
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: atlas-cloudbeaver-dev
+    restart: unless-stopped
+    ports:
+      - "${CLOUDBEAVER_PORT:-8978}:8978"
+    volumes:
+      - cloudbeaver-data:/opt/cloudbeaver/workspace
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - atlas-network
+
   # ============================================
   # Redis (for BullMQ queues and Socket.io)
   # ============================================
@@ -80,6 +94,7 @@ services:
 volumes:
   postgres-data:
   redis-data:
+  cloudbeaver-data:
 
 networks:
   atlas-network:

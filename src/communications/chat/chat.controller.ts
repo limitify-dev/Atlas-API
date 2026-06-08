@@ -9,9 +9,17 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../../common/decorators/current-user.decorator';
 import { ChatService } from './chat.service';
 import {
   CreateConversationDto,
@@ -34,7 +42,7 @@ export class ChatController {
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   async getConversations(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 20,
   ) {
@@ -49,7 +57,7 @@ export class ChatController {
   @Post('conversations')
   @ApiOperation({ summary: 'Create or get a conversation with another user' })
   async createConversation(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Body() dto: CreateConversationDto,
   ) {
     return this.chatService.getOrCreateConversation(
@@ -62,7 +70,7 @@ export class ChatController {
   @Get('conversations/:id')
   @ApiOperation({ summary: 'Get a specific conversation by id' })
   async getConversationById(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') conversationId: string,
   ) {
     return this.chatService.getConversationById(
@@ -77,7 +85,7 @@ export class ChatController {
   @ApiQuery({ name: 'cursor', required: false, type: String })
   @ApiQuery({ name: 'limit', required: false, type: Number })
   async getMessages(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') conversationId: string,
     @Query('cursor') cursor?: string,
     @Query('limit') limit: number = 50,
@@ -93,7 +101,7 @@ export class ChatController {
   @Post('conversations/:id/messages')
   @ApiOperation({ summary: 'Send a message in a conversation (REST fallback)' })
   async sendMessage(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') conversationId: string,
     @Body() dto: SendMessageDto,
   ) {
@@ -108,7 +116,7 @@ export class ChatController {
   @Patch('conversations/:id/read')
   @ApiOperation({ summary: 'Mark a conversation as read' })
   async markAsRead(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') conversationId: string,
   ) {
     return this.chatService.markAsRead(conversationId, user.id);
@@ -116,13 +124,13 @@ export class ChatController {
 
   @Get('contacts')
   @ApiOperation({ summary: 'Get available contacts for the current user' })
-  async getContacts(@CurrentUser() user: any) {
+  async getContacts(@CurrentUser() user: AuthUser) {
     return this.chatService.getContacts(user.id, user.tenantId);
   }
 
   @Get('unread-count')
   @ApiOperation({ summary: 'Get total unread message count' })
-  async getUnreadCount(@CurrentUser() user: any) {
+  async getUnreadCount(@CurrentUser() user: AuthUser) {
     return this.chatService.getUnreadCount(user.id, user.tenantId);
   }
 
@@ -131,7 +139,7 @@ export class ChatController {
   @Post('groups')
   @ApiOperation({ summary: 'Create a group conversation' })
   async createGroup(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Body() dto: CreateGroupDto,
   ) {
     return this.chatService.createGroup(user.tenantId, user.id, dto);
@@ -140,7 +148,7 @@ export class ChatController {
   @Post('groups/section')
   @ApiOperation({ summary: 'Create a group for a school section (class)' })
   async createSectionGroup(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Body() body: { sectionId: string },
   ) {
     return this.chatService.createSectionGroup(
@@ -153,7 +161,7 @@ export class ChatController {
   @Patch('groups/:id')
   @ApiOperation({ summary: 'Update group details' })
   async updateGroup(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') groupId: string,
     @Body() dto: UpdateGroupDto,
   ) {
@@ -163,7 +171,7 @@ export class ChatController {
   @Post('groups/:id/participants')
   @ApiOperation({ summary: 'Add participants to a group' })
   async addParticipants(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') groupId: string,
     @Body() dto: AddParticipantsDto,
   ) {
@@ -177,7 +185,7 @@ export class ChatController {
   @Delete('groups/:id/participants/:userId')
   @ApiOperation({ summary: 'Remove a participant from a group' })
   async removeParticipant(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Param('id') groupId: string,
     @Param('userId') targetUserId: string,
   ) {
@@ -189,7 +197,7 @@ export class ChatController {
   @Post('channels')
   @ApiOperation({ summary: 'Create a broadcast channel' })
   async createChannel(
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @Body() dto: CreateChannelDto,
   ) {
     return this.chatService.createChannel(user.tenantId, user.id, dto);
@@ -197,7 +205,7 @@ export class ChatController {
 
   @Get('channels/school')
   @ApiOperation({ summary: 'Get or create the school announcements channel' })
-  async getSchoolChannel(@CurrentUser() user: any) {
+  async getSchoolChannel(@CurrentUser() user: AuthUser) {
     return this.chatService.getSchoolChannel(user.tenantId);
   }
 }

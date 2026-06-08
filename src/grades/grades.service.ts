@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateGradeDto } from './dto/create-grade.dto';
 import { UpdateGradeDto } from './dto/update-grade.dto';
@@ -19,7 +24,9 @@ export class GradesService {
       });
 
       if (existingGrade) {
-        throw new ConflictException(`Grade with code "${createGradeDto.code}" already exists`);
+        throw new ConflictException(
+          `Grade with code "${createGradeDto.code}" already exists`,
+        );
       }
 
       return await this.prisma.grade.create({
@@ -86,7 +93,9 @@ export class GradesService {
         });
 
         if (existingGrade) {
-          throw new ConflictException(`Grade with code "${updateGradeDto.code}" already exists`);
+          throw new ConflictException(
+            `Grade with code "${updateGradeDto.code}" already exists`,
+          );
         }
       }
 
@@ -95,7 +104,10 @@ export class GradesService {
         data: updateGradeDto,
       });
     } catch (error) {
-      if (error instanceof NotFoundException || error instanceof ConflictException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof ConflictException
+      ) {
         throw error;
       }
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -120,7 +132,9 @@ export class GradesService {
       }
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003') {
-          throw new ConflictException('Cannot delete grade because it has associated sections or students');
+          throw new ConflictException(
+            'Cannot delete grade because it has associated sections or students',
+          );
         }
       }
       throw new BadRequestException('Failed to delete grade');

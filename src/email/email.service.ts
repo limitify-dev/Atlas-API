@@ -4,14 +4,17 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as nodemailer from 'nodemailer';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+import nodemailer from 'nodemailer';
+
+type MailTransporter = {
+  sendMail(mailOptions: nodemailer.SendMailOptions): Promise<unknown>;
+};
 
 @Injectable()
 export class EmailService {
   private readonly logger = new Logger(EmailService.name);
-  private transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> | null =
-    null;
+  private transporter!: MailTransporter;
+  private transporterInitialized = false;
 
   constructor(private configService: ConfigService) {}
 
@@ -46,8 +49,17 @@ export class EmailService {
     return port === 465;
   }
 
-  private getTransporter(): nodemailer.Transporter<SMTPTransport.SentMessageInfo> {
-    if (this.transporter) {
+  private isMailTransporter(value: unknown): value is MailTransporter {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      'sendMail' in value &&
+      typeof (value as { sendMail?: unknown }).sendMail === 'function'
+    );
+  }
+
+  private getTransporter(): MailTransporter {
+    if (this.transporterInitialized) {
       return this.transporter;
     }
 
@@ -56,7 +68,7 @@ export class EmailService {
     const user = this.getRequiredEnv('SMTP_USER');
     const pass = this.getRequiredEnv('SMTP_PASS');
 
-    this.transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       host,
       port,
       secure: this.isSecurePort(port),
@@ -64,9 +76,17 @@ export class EmailService {
       pool: true,
       maxConnections: 3,
       maxMessages: 100,
-    });
+    }) as nodemailer.Transporter;
 
-    return this.transporter;
+    if (!this.isMailTransporter(transporter)) {
+      throw new InternalServerErrorException(
+        'Failed to initialize email transporter',
+      );
+    }
+
+    this.transporter = transporter;
+    this.transporterInitialized = true;
+    return transporter;
   }
 
   private getAppBaseUrl(): string {
@@ -97,7 +117,7 @@ export class EmailService {
     html: string;
     text: string;
   }): Promise<void> {
-    const transporter = this.getTransporter();
+    const transporter: MailTransporter = this.getTransporter();
 
     try {
       await transporter.sendMail({

@@ -5,12 +5,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import {
-  AddParticipantsDto,
-  CreateChannelDto,
-  CreateGroupDto,
-  UpdateGroupDto,
-} from './dto';
+import { CreateChannelDto, CreateGroupDto, UpdateGroupDto } from './dto';
 
 @Injectable()
 export class ChatService {
@@ -447,7 +442,13 @@ export class ChatService {
             select: { id: true, name: true, avatar: true, role: true },
           },
           conversation: {
-            select: { id: true, type: true, name: true, avatar: true, isReadOnly: true },
+            select: {
+              id: true,
+              type: true,
+              name: true,
+              avatar: true,
+              isReadOnly: true,
+            },
           },
         },
       }),
@@ -1299,11 +1300,7 @@ export class ChatService {
     return { success: true };
   }
 
-  async updateGroup(
-    groupId: string,
-    userId: string,
-    dto: UpdateGroupDto,
-  ) {
+  async updateGroup(groupId: string, userId: string, dto: UpdateGroupDto) {
     const participant = await this.prisma.conversationParticipant.findUnique({
       where: {
         conversationId_userId: { conversationId: groupId, userId },

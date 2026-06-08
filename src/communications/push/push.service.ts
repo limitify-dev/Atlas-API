@@ -20,7 +20,7 @@ export class PushService {
   ) {
     // Validate Expo token format
     if (platform === 'EXPO' && !Expo.isExpoPushToken(token)) {
-      this.logger.warn(`Invalid Expo push token: ${token}`);
+      this.logger.warn(`Invalid Expo push token: ${String(token)}`);
       throw new Error('Invalid Expo push token');
     }
 

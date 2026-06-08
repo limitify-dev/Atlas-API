@@ -1,4 +1,12 @@
-import { IsString, IsNotEmpty, IsOptional, IsInt, IsNumber, Min, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsInt,
+  IsNumber,
+  Min,
+  IsEnum,
+} from 'class-validator';
 import { BookStatus } from '../../../../prisma/generated/client';
 
 export class CreateBookDto {
@@ -29,7 +37,7 @@ export class CreateBookDto {
   @IsString()
   @IsNotEmpty()
   category: string;
-  
+
   @IsNumber()
   @IsOptional()
   @Min(0)
@@ -52,13 +60,13 @@ export class CreateBookDto {
 }
 
 export class GenerateCopiesDto {
-    @IsString()
-    @IsNotEmpty()
-    tenantId: string;
+  @IsString()
+  @IsNotEmpty()
+  tenantId: string;
 
-    @IsInt()
-    @Min(1)
-    count: number;
+  @IsInt()
+  @Min(1)
+  count: number;
 }
 
 export class CreateBookCopyDto {
@@ -107,7 +115,7 @@ export class UpdateBookDto {
   @IsString()
   @IsOptional()
   category?: string;
-  
+
   @IsNumber()
   @IsOptional()
   @Min(0)

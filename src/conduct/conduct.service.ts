@@ -22,7 +22,25 @@ import {
 import {
   IncidentStatus,
   PointTransactionType,
+  Prisma,
 } from '../../prisma/generated/client';
+
+type ConductRecordWithRelations = Prisma.ConductRecordGetPayload<{
+  include: {
+    student: { include: { grade: true; section: true } };
+    teacher: { include: { user: true } };
+  };
+}>;
+
+type StudentPointsWithRelations = Prisma.StudentConductPointsGetPayload<{
+  include: {
+    student: { include: { grade: true; section: true } };
+  };
+}> & {
+  transactions?: Prisma.StudentConductPointsGetPayload<{
+    include: { transactions: true };
+  }>['transactions'];
+};
 
 @Injectable()
 export class ConductService {
@@ -111,7 +129,7 @@ export class ConductService {
       limit = 10,
     } = query;
 
-    const where: any = { tenantId };
+    const where: Prisma.ConductRecordWhereInput = { tenantId };
 
     if (studentId) {
       where.studentId = studentId;
@@ -134,13 +152,14 @@ export class ConductService {
     }
 
     if (toDate) {
-      where.date = { ...(where.date || {}), lte: new Date(toDate) };
+      where.date = { ...(where.date as object), lte: new Date(toDate) };
     }
 
     if (gradeId || sectionId) {
-      where.student = {};
-      if (gradeId) where.student.gradeId = gradeId;
-      if (sectionId) where.student.sectionId = sectionId;
+      const studentFilter: Prisma.StudentWhereInput = {};
+      if (gradeId) studentFilter.gradeId = gradeId;
+      if (sectionId) studentFilter.sectionId = sectionId;
+      where.student = studentFilter;
     }
 
     if (search) {
@@ -364,7 +383,7 @@ export class ConductService {
     tenantId: string,
     includeTransactions = true,
   ): Promise<StudentPointsResponseDto> {
-    let pointsRecord = await this.prisma.studentConductPoints.findUnique({
+    const pointsRecord = await this.prisma.studentConductPoints.findUnique({
       where: { studentId },
       include: {
         student: {
@@ -412,7 +431,7 @@ export class ConductService {
     } = query;
 
     // Build where clause for students
-    const studentWhere: any = { tenantId };
+    const studentWhere: Prisma.StudentWhereInput = { tenantId };
 
     if (gradeId) studentWhere.gradeId = gradeId;
     if (sectionId) studentWhere.sectionId = sectionId;
@@ -570,7 +589,7 @@ export class ConductService {
     tenantId: string,
     recordedById: string,
   ): Promise<StudentPointsResponseDto> {
-    let pointsRecord = await this.prisma.studentConductPoints.findUnique({
+    const pointsRecord = await this.prisma.studentConductPoints.findUnique({
       where: { studentId },
     });
 
@@ -665,7 +684,9 @@ export class ConductService {
     };
   }
 
-  async getPointsDistribution(tenantId: string): Promise<PointsDistributionDto[]> {
+  async getPointsDistribution(
+    tenantId: string,
+  ): Promise<PointsDistributionDto[]> {
     const totalStudents = await this.prisma.studentConductPoints.count({
       where: { tenantId },
     });
@@ -793,7 +814,9 @@ export class ConductService {
     ]);
   }
 
-  private formatConductRecordResponse(record: any): ConductRecordResponseDto {
+  private formatConductRecordResponse(
+    record: ConductRecordWithRelations,
+  ): ConductRecordResponseDto {
     return {
       id: record.id,
       tenantId: record.tenantId,
@@ -801,14 +824,14 @@ export class ConductService {
       type: record.type,
       description: record.description,
       date: record.date,
-      reportedBy: record.reportedBy,
+      reportedBy: record.reportedBy!,
       severity: record.severity,
-      pointsDeducted: record.pointsDeducted,
+      pointsDeducted: record.pointsDeducted ?? undefined,
       incidentStatus: record.incidentStatus,
-      actionTaken: record.actionTaken,
-      resolutionNotes: record.resolutionNotes,
-      resolvedAt: record.resolvedAt,
-      resolvedBy: record.resolvedBy,
+      actionTaken: record.actionTaken ?? undefined,
+      resolutionNotes: record.resolutionNotes ?? undefined,
+      resolvedAt: record.resolvedAt ?? undefined,
+      resolvedBy: record.resolvedBy ?? undefined,
       createdAt: record.createdAt,
       updatedAt: record.updatedAt,
       student: {
@@ -816,7 +839,7 @@ export class ConductService {
         studentId: record.student.studentId,
         firstName: record.student.firstName,
         lastName: record.student.lastName,
-        photoUrl: record.student.photoUrl,
+        photoUrl: record.student.photoUrl ?? undefined,
         grade: record.student.grade
           ? {
               id: record.student.grade.id,
@@ -836,7 +859,7 @@ export class ConductService {
   }
 
   private formatStudentPointsResponse(
-    record: any,
+    record: StudentPointsWithRelations,
     includeTransactions = true,
   ): StudentPointsResponseDto {
     const category = this.getPointsCategory(record.currentPoints);
@@ -851,7 +874,7 @@ export class ConductService {
         studentId: record.student.studentId,
         firstName: record.student.firstName,
         lastName: record.student.lastName,
-        photoUrl: record.student.photoUrl,
+        photoUrl: record.student.photoUrl ?? undefined,
         grade: record.student.grade
           ? {
               id: record.student.grade.id,
@@ -868,7 +891,7 @@ export class ConductService {
       },
       transactions:
         includeTransactions && record.transactions
-          ? record.transactions.map((t: any) => ({
+          ? record.transactions.map((t) => ({
               id: t.id,
               transactionType: t.transactionType,
               pointsChange: t.pointsChange,
@@ -877,7 +900,7 @@ export class ConductService {
               reason: t.reason,
               recordedBy: t.recordedBy,
               recordedAt: t.recordedAt,
-              conductRecordId: t.conductRecordId,
+              conductRecordId: t.conductRecordId ?? undefined,
             }))
           : undefined,
       category,

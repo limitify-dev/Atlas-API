@@ -21,7 +21,12 @@ export class DeviceController {
 
   @Post('register')
   async registerDevice(
-    @Request() req: any,
+    @Request()
+    req: {
+      user: {
+        userId: string;
+      };
+    },
     @Body()
     data: {
       tenantId: string;
@@ -57,7 +62,12 @@ export class DeviceController {
 
   @Post(':deviceId/regenerate-key')
   async regenerateApiKey(
-    @Request() req: any,
+    @Request()
+    req: {
+      user: {
+        userId: string;
+      };
+    },
     @Param('deviceId') deviceId: string,
     @Query('tenantId') tenantId: string,
   ) {
@@ -76,7 +86,7 @@ export class DeviceController {
     data: {
       name?: string;
       location?: string;
-      description?: string; 
+      description?: string;
       status?: DeviceStatus;
       metadata?: any;
     },

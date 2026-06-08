@@ -5,13 +5,24 @@ import {
   BadRequestException,
   ForbiddenException,
 } from '@nestjs/common';
+import * as crypto from 'crypto';
 import { AuthResponseDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import { jwtConstants } from './constant';
-import { UserType } from '../../prisma/generated/client';
 import { EmailService } from 'src/email/email.service';
+import { Role, UserType, Status, User, OnboardingMode } from '../../prisma/generated/client';
+import { InviteService } from './invite.service';
+import { OtpService } from './otp.service';
+import { CompleteOnboardingDto } from './dto';
+
+export type AuthenticatedUser = Omit<User, 'password'> & {
+  schoolName: string | null;
+  schoolLogo: string | null;
+  brandColor: string;
+  timezone: string;
+};
 
 @Injectable()
 export class AuthService {
@@ -23,6 +34,8 @@ export class AuthService {
     private jwtService: JwtService,
     private prisma: PrismaService,
     private emailService: EmailService,
+    private inviteService: InviteService,
+    private otpService: OtpService,
   ) {}
 
   private getPasswordResetCooldownBoundary(): Date {
@@ -36,7 +49,7 @@ export class AuthService {
    * @param user - User details (from validateUser)
    * @returns Authentication response with tokens and user info
    */
-  async login(user: any): Promise<AuthResponseDto> {
+  async login(user: AuthenticatedUser): Promise<AuthResponseDto> {
     const payload = {
       sub: user.id,
       username: user.username,
@@ -95,7 +108,11 @@ export class AuthService {
   async refreshToken(refreshToken: string): Promise<AuthResponseDto> {
     try {
       // Verify the refresh token
-      const payload = this.jwtService.verify(refreshToken, {
+      interface JwtPayload {
+        sub: string;
+        [key: string]: unknown;
+      }
+      const payload = this.jwtService.verify<JwtPayload>(refreshToken, {
         secret: jwtConstants.secret,
       });
 
@@ -188,7 +205,7 @@ export class AuthService {
       });
 
       // Remove password and flatten tenant data
-      const { password, tenant, teacher, student, ...userWithoutPassword } =
+      const { tenant, teacher, student, ...userWithoutPassword } =
         userWithTenant!;
 
       return {
@@ -206,9 +223,9 @@ export class AuthService {
           schoolName: tenant?.name,
           schoolLogo: tenant?.logo || null,
           brandColor: tenant?.brandColor || '#1e40af',
-        } as any,
+        },
       };
-    } catch (error) {
+    } catch {
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
   }
@@ -217,12 +234,18 @@ export class AuthService {
    * @param identifier - User's username or email
    * @param password -  User's password
    */
-  async validateUser(identifier: string, pass: string): Promise<any | null> {
-    // Fetch user with password from database directly for validation
-    // Check if identifier is email or username
+  async validateUser(
+    identifier: string,
+    pass: string,
+  ): Promise<AuthenticatedUser | null> {
+    // Check if identifier is email, username, or phone
     const user = await this.prisma.user.findFirst({
       where: {
-        OR: [{ username: identifier }, { email: identifier }],
+        OR: [
+          { username: identifier },
+          { email: identifier },
+          { phone: identifier },
+        ],
       },
       include: {
         tenant: {
@@ -249,6 +272,15 @@ export class AuthService {
 
     if (!user) {
       return null;
+    }
+
+    // Block non-active accounts before touching the password hash
+    if (user.status !== 'ACTIVE') {
+      throw new UnauthorizedException(
+        user.status === 'SUSPENDED'
+          ? 'Your account has been suspended. Contact your school administrator.'
+          : 'Your account is not yet active. Contact your school administrator.',
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(pass, user.password);
@@ -281,11 +313,11 @@ export class AuthService {
         teacher?.photoUrl ||
         student?.photoUrl ||
         null,
-      userType: user.userType,
-      schoolName: tenant?.name,
-      schoolLogo: tenant?.logo || null,
-      brandColor: tenant?.brandColor || '#1e40af',
-      timezone: tenant?.timezone || 'UTC',
+      userType: user.userType ?? null,
+      schoolName: tenant?.name ?? null,
+      schoolLogo: tenant?.logo ?? null,
+      brandColor: tenant?.brandColor ?? '#1e40af',
+      timezone: tenant?.timezone ?? 'UTC',
     };
   }
 
@@ -295,11 +327,15 @@ export class AuthService {
     newPassword: string,
   ): Promise<{ message: string }> {
     if (!identifier || !currentPassword || !newPassword) {
-      throw new BadRequestException('Identifier, currentPassword and newPassword are required');
+      throw new BadRequestException(
+        'Identifier, currentPassword and newPassword are required',
+      );
     }
 
     if (newPassword.length < 8) {
-      throw new BadRequestException('New password must be at least 8 characters long');
+      throw new BadRequestException(
+        'New password must be at least 8 characters long',
+      );
     }
 
     const user = await this.prisma.user.findFirst({
@@ -314,7 +350,9 @@ export class AuthService {
 
     const isParentUser = user.role === 'PARENT' || user.userType === 'PARENT';
     if (!isParentUser) {
-      throw new ForbiddenException('Default password change flow is only available for parents');
+      throw new ForbiddenException(
+        'Default password change flow is only available for parents',
+      );
     }
 
     const isCurrentPasswordValid = await bcrypt.compare(
@@ -352,7 +390,10 @@ export class AuthService {
       this.prisma.session.deleteMany({ where: { userId: user.id } }),
     ]);
 
-    return { message: 'Password updated successfully. Please sign in with your new password.' };
+    return {
+      message:
+        'Password updated successfully. Please sign in with your new password.',
+    };
   }
   /**
    * Logout user and invalidate tokens
@@ -429,10 +470,14 @@ export class AuthService {
         name: registerData.name,
         username: registerData.username,
         password: hashedPassword,
-        role: registerData.role as any,
-        tenantId: registerData.tenantId || null,
-        userType: (registerData.userType as any) || null,
-        status: (registerData.status as any) || 'ACTIVE',
+        role: registerData.role ? (registerData.role as Role) : Role.USER,
+        tenantId: registerData.tenantId ?? null,
+        userType: registerData.userType
+          ? (registerData.userType as UserType)
+          : null,
+        status: registerData.status
+          ? (registerData.status as Status)
+          : Status.ACTIVE,
         emailVerified: true,
       },
     });
@@ -500,7 +545,39 @@ export class AuthService {
    * @returns Success message
    * @throws BadRequestException if token is invalid
    */
+
   async verifyEmail(token: string): Promise<{ message: string }> {
+    if (!token) {
+      throw new BadRequestException('Verification token is required');
+    }
+
+    let payload: { sub?: string; type?: string };
+    try {
+      payload = this.jwtService.verify(token, {
+        secret: jwtConstants.secret,
+      });
+    } catch {
+      throw new BadRequestException('Invalid or expired verification token');
+    }
+
+    if (!payload?.sub || payload.type !== 'email_verification') {
+      throw new BadRequestException('Invalid verification token');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+      select: { id: true },
+    });
+
+    if (!user) {
+      throw new BadRequestException('Invalid verification token');
+    }
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { emailVerified: true },
+    });
+
     return { message: 'Email verified successfully' };
   }
 
@@ -526,7 +603,7 @@ export class AuthService {
     });
 
     // Keep response generic to prevent account enumeration.
-    if (!user || user.status !== 'ACTIVE') {
+    if (!user || user.status !== 'ACTIVE' || !user.email) {
       return { message: 'If the email exists, a reset link has been sent.' };
     }
 
@@ -554,6 +631,199 @@ export class AuthService {
     await this.emailService.sendPasswordResetEmail(user.email, token);
 
     return { message: 'Password reset email sent' };
+  }
+
+  /**
+   * Complete invite-based onboarding for parent (OTP) or teacher/staff (password).
+   * Creates the user account, links the profile, and returns auth tokens.
+   */
+  async completeOnboarding(dto: CompleteOnboardingDto): Promise<AuthResponseDto> {
+    const invite = await this.inviteService.getValidInvite(dto.token);
+
+    // Phone must match the invite exactly
+    if (dto.phone.trim() !== invite.phone) {
+      throw new BadRequestException(
+        'Phone number does not match the invitation.',
+      );
+    }
+
+    if (invite.onboardingMode === OnboardingMode.OTP) {
+      const verified = await this.otpService.isVerifiedForInvite(
+        dto.phone,
+        dto.token,
+      );
+      if (!verified) {
+        throw new BadRequestException(
+          'Phone verification required. Complete OTP verification before submitting.',
+        );
+      }
+    } else {
+      // PASSWORD mode
+      if (!dto.password || dto.password.length < 8) {
+        throw new BadRequestException(
+          'A password of at least 8 characters is required.',
+        );
+      }
+    }
+
+    // Prevent duplicate accounts (phone globally unique)
+    const existingPhone = await this.prisma.user.findUnique({
+      where: { phone: dto.phone },
+    });
+    if (existingPhone) {
+      throw new ConflictException(
+        'An account with this phone number already exists.',
+      );
+    }
+
+    // Optional: prevent duplicate email
+    if (dto.email) {
+      const existingEmail = await this.prisma.user.findUnique({
+        where: { email: dto.email },
+      });
+      if (existingEmail) {
+        throw new ConflictException('An account with this email already exists.');
+      }
+    }
+
+    // Generate a unique username from phone digits
+    const baseUsername = `user${dto.phone.replace(/\D/g, '')}`;
+    const taken = await this.prisma.user.findUnique({ where: { username: baseUsername } });
+    const username = taken ? `${baseUsername}_${Date.now()}` : baseUsername;
+
+    const rawPassword = dto.password ?? `ATLAS_${crypto.randomUUID()}`;
+    const hashedPassword = await bcrypt.hash(rawPassword, 10);
+
+    const userType = this.roleToUserType(invite.role);
+
+    const newUser = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.user.create({
+        data: {
+          tenantId: invite.tenantId,
+          name: dto.name,
+          email: dto.email ?? null,
+          phone: dto.phone,
+          username,
+          password: hashedPassword,
+          role: invite.role,
+          userType,
+          status: Status.ACTIVE,
+          emailVerified: !!dto.email === false,
+        },
+      });
+
+      // Link profile based on role
+      if (invite.role === Role.PARENT) {
+        const nameParts = dto.name.trim().split(/\s+/);
+        const firstName = nameParts[0] ?? 'Parent';
+        const lastName = nameParts.slice(1).join(' ') || '';
+
+        const parent = await tx.parent.create({
+          data: {
+            tenantId: invite.tenantId,
+            userId: created.id,
+            firstName,
+            lastName,
+          },
+        });
+
+        if (invite.referenceId) {
+          await tx.studentParent.create({
+            data: {
+              studentId: invite.referenceId,
+              parentId: parent.id,
+              isPrimary: true,
+            },
+          });
+        }
+      } else if (invite.role === Role.TEACHER && invite.referenceId) {
+        await tx.teacher.update({
+          where: { id: invite.referenceId },
+          data: { userId: created.id },
+        });
+      } else if (invite.role === Role.STAFF && invite.referenceId) {
+        await tx.staff.update({
+          where: { id: invite.referenceId },
+          data: { userId: created.id },
+        });
+      }
+
+      // Claim invite and purge OTPs inside the transaction
+      await tx.invite.update({
+        where: { id: invite.id },
+        data: { status: 'CLAIMED' },
+      });
+      await tx.otpCode.deleteMany({ where: { inviteToken: dto.token } });
+
+      return created;
+    });
+
+    const tenant = invite.tenant;
+    const authenticatedUser: AuthenticatedUser = {
+      ...newUser,
+      schoolName: tenant?.name ?? null,
+      schoolLogo: tenant?.logo ?? null,
+      brandColor: tenant?.brandColor ?? '#1e40af',
+      timezone: tenant?.timezone ?? 'UTC',
+    };
+
+    return this.login(authenticatedUser);
+  }
+
+  /**
+   * Authenticate a parent via a verified login OTP (phone-first flow).
+   * The caller must have already called POST /auth/otp/verify successfully.
+   */
+  async loginWithVerifiedOtp(phone: string): Promise<AuthResponseDto> {
+    const user = await this.prisma.user.findFirst({
+      where: { phone },
+      include: {
+        tenant: {
+          select: { id: true, name: true, timezone: true, logo: true, brandColor: true },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('No account found for this phone number.');
+    }
+
+    if (user.status !== Status.ACTIVE) {
+      throw new UnauthorizedException('Account is not active.');
+    }
+
+    // Ensure OTP was genuinely verified (the OTP record still exists as verified)
+    const verified = await this.prisma.otpCode.findFirst({
+      where: { phone, purpose: 'LOGIN', verified: true },
+    });
+    if (!verified) {
+      throw new UnauthorizedException(
+        'OTP not verified. Please complete OTP verification first.',
+      );
+    }
+
+    // Clean up login OTPs before issuing tokens
+    await this.otpService.purgeLoginOtps(phone);
+
+    const { password, tenant, ...rest } = user;
+    const authenticatedUser: AuthenticatedUser = {
+      ...rest,
+      schoolName: tenant?.name ?? null,
+      schoolLogo: tenant?.logo ?? null,
+      brandColor: tenant?.brandColor ?? '#1e40af',
+      timezone: tenant?.timezone ?? 'UTC',
+    };
+
+    return this.login(authenticatedUser);
+  }
+
+  private roleToUserType(role: Role): UserType | null {
+    const map: Partial<Record<Role, UserType>> = {
+      [Role.PARENT]: UserType.PARENT,
+      [Role.TEACHER]: UserType.TEACHER,
+      [Role.STAFF]: UserType.STAFF,
+    };
+    return map[role] ?? null;
   }
 
   /**

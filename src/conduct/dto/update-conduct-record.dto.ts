@@ -2,7 +2,9 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateConductRecordDto } from './create-conduct-record.dto';
 import { IsString, IsOptional } from 'class-validator';
 
-export class UpdateConductRecordDto extends PartialType(CreateConductRecordDto) {}
+export class UpdateConductRecordDto extends PartialType(
+  CreateConductRecordDto,
+) {}
 
 export class ResolveConductRecordDto {
   @ApiProperty({

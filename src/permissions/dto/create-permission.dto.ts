@@ -92,7 +92,8 @@ export class CreatePermissionDto {
   toTime?: string;
 
   @ApiProperty({
-    description: 'Days of week for recurring permissions (0=Sunday, 1=Monday, etc.)',
+    description:
+      'Days of week for recurring permissions (0=Sunday, 1=Monday, etc.)',
     example: [1, 3, 5],
     required: false,
     type: [Number],

@@ -1,6 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  Request,
+} from '@nestjs/common';
 import { BooksService } from './books.service';
-import { CreateBookDto, CreateBookCopyDto, UpdateBookDto, GenerateCopiesDto } from './dto/create-book.dto';
+import {
+  CreateBookDto,
+  CreateBookCopyDto,
+  UpdateBookDto,
+  GenerateCopiesDto,
+} from './dto/create-book.dto';
 // Assuming JwtAuthGuard exists in common/guards or auth
 // I'll skip guards import for now to avoid errors if path differs, but commonly it is imported.
 // The user has 'withAuth' on frontend, so backend likely has Guards.
@@ -17,7 +32,7 @@ export class BooksController {
 
   @Post('migrate')
   migrate() {
-      return this.booksService.migrateCodes();
+    return this.booksService.migrateCodes();
   }
 
   @Get()
@@ -38,10 +53,7 @@ export class BooksController {
   }
 
   @Get('code/:code')
-  findByCode(
-    @Query('tenantId') tenantId: string,
-    @Param('code') code: string
-  ) {
+  findByCode(@Query('tenantId') tenantId: string, @Param('code') code: string) {
     return this.booksService.findByCode(tenantId, code);
   }
 
@@ -61,20 +73,14 @@ export class BooksController {
   }
 
   @Post(':id/copies')
-  addCopy(
-    @Param('id') id: string,
-    @Body() createCopyDto: CreateBookCopyDto
-  ) {
+  addCopy(@Param('id') id: string, @Body() createCopyDto: CreateBookCopyDto) {
     // ensure body has bookId set to param id
     createCopyDto.bookId = id;
     return this.booksService.addCopy(createCopyDto);
   }
 
   @Post(':id/generate-copies')
-  generateCopies(
-    @Param('id') id: string,
-    @Body() dto: GenerateCopiesDto
-  ) {
+  generateCopies(@Param('id') id: string, @Body() dto: GenerateCopiesDto) {
     return this.booksService.generateCopies(id, dto);
   }
 

@@ -12,7 +12,6 @@ import {
   HttpCode,
   UseInterceptors,
   UploadedFile,
-  Header,
   Res,
   StreamableFile,
 } from '@nestjs/common';
@@ -40,7 +39,10 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../prisma/generated/client';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../auth/decorators/current-user.decorator';
 
 @ApiTags('Students')
 @ApiBearerAuth()
@@ -68,7 +70,7 @@ export class StudentsController {
   })
   async create(
     @Body() createStudentDto: CreateStudentDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @UploadedFile() photo?: Express.Multer.File,
   ): Promise<StudentResponseDto> {
     return this.studentsService.create(createStudentDto, user.tenantId, photo);
@@ -84,7 +86,7 @@ export class StudentsController {
   })
   async bulkUpload(
     @UploadedFile() file: Express.Multer.File,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ) {
     return this.studentsService.processBulkUpload(file, user.tenantId);
   }
@@ -96,8 +98,8 @@ export class StudentsController {
     status: HttpStatus.OK,
     description: 'Template downloaded successfully',
   })
-  async getBulkUploadTemplate(@Res({ passthrough: true }) res: Response) {
-    const buffer = await this.studentsService.getBulkUploadTemplate();
+  getBulkUploadTemplate(@Res({ passthrough: true }) res: Response) {
+    const buffer = this.studentsService.getBulkUploadTemplate();
 
     res.set({
       'Content-Type':
@@ -117,7 +119,7 @@ export class StudentsController {
     description: 'Statistics retrieved successfully',
     type: StudentStatsDto,
   })
-  async getStatistics(@CurrentUser() user: any): Promise<StudentStatsDto> {
+  async getStatistics(@CurrentUser() user: AuthUser): Promise<StudentStatsDto> {
     return this.studentsService.getStatistics(user.tenantId);
   }
 
@@ -130,7 +132,7 @@ export class StudentsController {
   })
   async findAll(
     @Query() queryDto: QueryStudentsDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<{
     data: StudentResponseDto[];
     total: number;
@@ -159,7 +161,7 @@ export class StudentsController {
   })
   async findOne(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentResponseDto> {
     return this.studentsService.findOne(id, user.tenantId);
   }
@@ -183,7 +185,7 @@ export class StudentsController {
   })
   async findByStudentId(
     @Param('studentId') studentId: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentResponseDto> {
     return this.studentsService.findByStudentId(studentId, user.tenantId);
   }
@@ -207,14 +209,16 @@ export class StudentsController {
   })
   async getCardQr(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentCardQrResponseDto> {
     return this.studentsService.generateCardQrToken(id, user.tenantId);
   }
 
   @Post('scan-card')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER)
-  @ApiOperation({ summary: 'Scan student card QR and get student info with permissions' })
+  @ApiOperation({
+    summary: 'Scan student card QR and get student info with permissions',
+  })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Student card scanned successfully',
@@ -230,9 +234,12 @@ export class StudentsController {
   })
   async scanCard(
     @Body() scanCardDto: ScanStudentCardDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<StudentCardInfoDto> {
-    return this.studentsService.scanStudentCard(scanCardDto.token, user.tenantId);
+    return this.studentsService.scanStudentCard(
+      scanCardDto.token,
+      user.tenantId,
+    );
   }
 
   @Put(':id')
@@ -260,7 +267,7 @@ export class StudentsController {
   async update(
     @Param('id') id: string,
     @Body() updateStudentDto: UpdateStudentDto,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
     @UploadedFile() photo?: Express.Multer.File,
   ): Promise<StudentResponseDto> {
     return this.studentsService.update(
@@ -290,7 +297,7 @@ export class StudentsController {
   })
   async remove(
     @Param('id') id: string,
-    @CurrentUser() user: any,
+    @CurrentUser() user: AuthUser,
   ): Promise<{ message: string }> {
     return this.studentsService.remove(id, user.tenantId);
   }
