@@ -35,7 +35,7 @@ export class AcademicsService {
 
   private isTeacher(user: { role?: string; userType?: string }) {
     return (
-      String(user?.role || '').toUpperCase() === Role.USER &&
+      String(user?.role || '').toUpperCase() === Role.TEACHER &&
       String(user?.userType || '').toUpperCase() === 'TEACHER'
     );
   }

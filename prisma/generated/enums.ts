@@ -37,12 +37,7 @@ export type OtpPurpose = (typeof OtpPurpose)[keyof typeof OtpPurpose]
 export const Role = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
-  USER: 'USER',
-  DOS: 'DOS',
-  DM: 'DM',
   TEACHER: 'TEACHER',
-  STUDENT: 'STUDENT',
-  PARENT: 'PARENT',
   STAFF: 'STAFF'
 } as const
 
@@ -51,11 +46,7 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 export const UserType = {
   TEACHER: 'TEACHER',
-  STUDENT: 'STUDENT',
-  PARENT: 'PARENT',
-  STAFF: 'STAFF',
-  DOS: 'DOS',
-  DM: 'DM'
+  STAFF: 'STAFF'
 } as const
 
 export type UserType = (typeof UserType)[keyof typeof UserType]
@@ -382,3 +373,24 @@ export const AcademicWindowStatus = {
 } as const
 
 export type AcademicWindowStatus = (typeof AcademicWindowStatus)[keyof typeof AcademicWindowStatus]
+
+
+export const SubscriptionStatus = {
+  TRIAL: 'TRIAL',
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  SUSPENDED: 'SUSPENDED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
+
+
+export const AdminInviteStatus = {
+  PENDING: 'PENDING',
+  CLAIMED: 'CLAIMED',
+  EXPIRED: 'EXPIRED',
+  REVOKED: 'REVOKED'
+} as const
+
+export type AdminInviteStatus = (typeof AdminInviteStatus)[keyof typeof AdminInviteStatus]

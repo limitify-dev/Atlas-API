@@ -24,7 +24,7 @@ export class CreateInviteDto {
   @IsOptional()
   email?: string;
 
-  @ApiProperty({ enum: Role, example: Role.PARENT })
+  @ApiProperty({ enum: Role, example: Role.STAFF })
   @IsEnum(Role)
   role: Role;
 

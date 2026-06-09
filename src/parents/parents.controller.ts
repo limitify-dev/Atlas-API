@@ -15,19 +15,19 @@ export class ParentsController {
   constructor(private readonly parentsService: ParentsService) {}
 
   @Get('my-children')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   async getMyChildren(@CurrentUser() user: AuthUser) {
     return this.parentsService.getMyChildren(user.id, user.tenantId);
   }
 
   @Get('my-financials')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   async getMyFinancials(@CurrentUser() user: AuthUser) {
     return this.parentsService.getMyFinancials(user.id, user.tenantId);
   }
 
   @Get('exam-schedule')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   async getMyExamSchedule(
     @CurrentUser() user: AuthUser,
     @Query('studentId') studentId?: string,
@@ -40,7 +40,7 @@ export class ParentsController {
   }
 
   @Get('report-cards')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   async getMyReportCards(
     @CurrentUser() user: AuthUser,
     @Query('studentId') studentId?: string,
@@ -53,7 +53,7 @@ export class ParentsController {
   }
 
   @Get('assignments')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   async getMyAssignments(
     @CurrentUser() user: AuthUser,
     @Query('studentId') studentId?: string,
@@ -66,7 +66,7 @@ export class ParentsController {
   }
 
   @Get('consultation-slots')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   async getMyConsultationSlots(
     @CurrentUser() user: AuthUser,
     @Query('studentId') studentId?: string,

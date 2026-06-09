@@ -56,7 +56,7 @@ export class ConductController {
   // =====================================
 
   @Post('records')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Create a new conduct record' })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -79,7 +79,7 @@ export class ConductController {
   }
 
   @Get('records')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'Get all conduct records with filters' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -94,7 +94,7 @@ export class ConductController {
   }
 
   @Get('records/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'Get a single conduct record by ID' })
   @ApiParam({ name: 'id', description: 'Conduct record ID' })
   @ApiResponse({
@@ -110,7 +110,7 @@ export class ConductController {
   }
 
   @Put('records/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Update a conduct record' })
   @ApiParam({ name: 'id', description: 'Conduct record ID' })
   @ApiResponse({
@@ -127,7 +127,7 @@ export class ConductController {
   }
 
   @Put('records/:id/resolve')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Resolve a conduct record' })
   @ApiParam({ name: 'id', description: 'Conduct record ID' })
   @ApiResponse({
@@ -149,7 +149,7 @@ export class ConductController {
   }
 
   @Delete('records/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a conduct record' })
   @ApiParam({ name: 'id', description: 'Conduct record ID' })
@@ -169,7 +169,7 @@ export class ConductController {
   // =====================================
 
   @Get('points')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Get all students conduct points' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -184,7 +184,7 @@ export class ConductController {
   }
 
   @Get('points/student/:studentId')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'Get student conduct points with history' })
   @ApiParam({ name: 'studentId', description: 'Student ID' })
   @ApiResponse({
@@ -200,7 +200,7 @@ export class ConductController {
   }
 
   @Post('points/deduct')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Deduct points from a student' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -215,7 +215,7 @@ export class ConductController {
   }
 
   @Post('points/add')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Add points to a student (for good behavior)' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -254,7 +254,7 @@ export class ConductController {
   // =====================================
 
   @Get('stats/overview')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get conduct statistics overview' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -266,7 +266,7 @@ export class ConductController {
   }
 
   @Get('stats/points-distribution')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get points distribution' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -280,7 +280,7 @@ export class ConductController {
   }
 
   @Get('stats/at-risk-students')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get at-risk students (below threshold)' })
   @ApiQuery({
     name: 'threshold',

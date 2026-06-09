@@ -430,13 +430,13 @@ export class AnnouncementsService {
 
     switch (audience) {
       case 'PARENTS':
-        where.role = Role.PARENT;
+        where.role = Role.STAFF;
         break;
       case 'STUDENTS':
-        where.role = Role.STUDENT;
+        where.role = Role.STAFF;
         break;
       case 'STAFF':
-        where.role = { in: [Role.ADMIN, Role.DOS, Role.DM, Role.TEACHER] };
+        where.role = { in: [Role.ADMIN, Role.STAFF, Role.TEACHER] };
         break;
       case 'ALL':
       default:

@@ -127,7 +127,7 @@ export class TeachersService {
             username,
             password: hashedPassword,
             phone: createTeacherDto.phone,
-            role: Role.USER, // Or Role.TEACHER if you have that role, but schema says USER/ADMIN/SUPER_ADMIN
+            role: Role.TEACHER, // Or Role.TEACHER if you have that role, but schema says USER/ADMIN/SUPER_ADMIN
             userType: UserType.TEACHER,
             status: Status.ACTIVE,
           },

@@ -68,7 +68,7 @@ export class InvoicesController {
   }
 
   @Get('my')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   @ApiOperation({
     summary: 'List invoices for the authenticated parent children',
   })
@@ -80,7 +80,7 @@ export class InvoicesController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiOperation({
     summary: 'Get a single invoice with submissions and promises',
   })
@@ -89,7 +89,7 @@ export class InvoicesController {
   }
 
   @Get('student/:studentId/summary')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get payment summary counts for a student' })
   summary(
     @CurrentUser() user: AuthUser,

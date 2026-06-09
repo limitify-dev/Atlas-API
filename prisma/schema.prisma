@@ -68,6 +68,9 @@ model Tenant {
   teacherAttendances       TeacherAttendance[]
   teachers                 Teacher[]
   users                    User[]
+  tenantModules            TenantModule[]
+  studioSubscription       StudioSubscription?
+  adminInvites             AdminInvite[]
 
   @@index([slug])
   @@index([status])
@@ -83,7 +86,7 @@ model User {
   password                 String
   phone                    String?                   @unique
   avatar                   String?
-  role                     Role                      @default(USER)
+  role                     Role                      @default(STAFF)
   userType                 UserType?
   status                   Status                    @default(PENDING)
   emailVerified            Boolean                   @default(false)
@@ -1319,22 +1322,13 @@ enum OtpPurpose {
 enum Role {
   SUPER_ADMIN
   ADMIN
-  USER      // @deprecated — legacy teachers; use TEACHER for new users
-  DOS       // @deprecated — legacy staff; use STAFF for new users
-  DM        // @deprecated — legacy staff; use STAFF for new users
   TEACHER
-  STUDENT
-  PARENT
   STAFF
 }
 
 enum UserType {
   TEACHER
-  STUDENT
-  PARENT
   STAFF
-  DOS
-  DM
 }
 
 enum Status {
@@ -1559,4 +1553,86 @@ enum AcademicWindowStatus {
   ACTIVE    // Window is open and in effect
   CLOSED    // Window has ended
   CANCELLED // Abandoned before activation
+}
+
+// ─── Atlas Studio Models ──────────────────────────────────────────────────────
+
+model StudioModule {
+  id          String         @id @default(uuid())
+  key         String         @unique  // e.g. "academics", "attendance", "finance"
+  name        String
+  description String?
+  isCore      Boolean        @default(false)  // core modules can't be disabled
+  createdAt   DateTime       @default(now())
+
+  tenantModules TenantModule[]
+
+  @@map("studio_modules")
+}
+
+model TenantModule {
+  id        String      @id @default(uuid())
+  tenantId  String
+  moduleId  String
+  enabled   Boolean     @default(true)
+  enabledAt DateTime    @default(now())
+
+  tenant    Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  module    StudioModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, moduleId])
+  @@index([tenantId])
+  @@map("tenant_modules")
+}
+
+model StudioSubscription {
+  id        String             @id @default(uuid())
+  tenantId  String             @unique
+  plan      SubscriptionPlan   @default(BASIC)
+  status    SubscriptionStatus @default(TRIAL)
+  startDate DateTime           @default(now())
+  endDate   DateTime?
+  notes     String?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@map("studio_subscriptions")
+}
+
+model AdminInvite {
+  id        String            @id @default(uuid())
+  tenantId  String
+  phone     String?
+  email     String?
+  name      String?
+  token     String            @unique @default(uuid())
+  role      Role              @default(ADMIN)
+  status    AdminInviteStatus @default(PENDING)
+  expiresAt DateTime
+  claimedAt DateTime?
+  createdAt DateTime          @default(now())
+
+  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([token])
+  @@map("admin_invites")
+}
+
+enum SubscriptionStatus {
+  TRIAL
+  ACTIVE
+  EXPIRED
+  SUSPENDED
+  CANCELLED
+}
+
+enum AdminInviteStatus {
+  PENDING
+  CLAIMED
+  EXPIRED
+  REVOKED
 }

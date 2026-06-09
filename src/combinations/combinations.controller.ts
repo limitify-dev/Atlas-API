@@ -51,7 +51,7 @@ export class CombinationsController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get all combinations for the tenant' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -62,7 +62,7 @@ export class CombinationsController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get a combination by ID' })
   @ApiParam({
     name: 'id',

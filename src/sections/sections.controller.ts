@@ -50,7 +50,7 @@ export class SectionsController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.DOS, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List classrooms — filter by grade, promotion, or active status' })
   @ApiQuery({ name: 'gradeId', required: false })
   @ApiQuery({ name: 'promotionId', required: false, description: 'Filter by promotion/cohort' })
@@ -69,7 +69,7 @@ export class SectionsController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.DOS, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'Get a classroom with its students, teachers, promotion, and grade' })
   @ApiParam({ name: 'id', description: 'Section UUID' })
   findOne(@Param('id') id: string, @CurrentUser() user: AuthUser) {

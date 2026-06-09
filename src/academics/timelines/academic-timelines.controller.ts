@@ -27,7 +27,7 @@ import {
 } from './dto';
 
 /** Roles that can manage timelines — academics staff, DOS, and admins */
-const MANAGE_ROLES = [Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.DOS] as const;
+const MANAGE_ROLES = [Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF] as const;
 /** Roles that can read timelines — includes teachers so they know when windows open */
 const READ_ROLES = [...MANAGE_ROLES, Role.TEACHER] as const;
 

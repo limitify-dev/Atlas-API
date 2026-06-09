@@ -18,14 +18,14 @@ export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS, Role.DM, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Get all subjects' })
   findAll(@CurrentUser() user: AuthUser, @Query('gradeId') gradeId?: string) {
     return this.subjectsService.findAll(user.tenantId, gradeId);
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS, Role.DM, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Get a subject by id' })
   findOne(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.subjectsService.findOne(user.tenantId, id);

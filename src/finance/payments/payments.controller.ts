@@ -21,7 +21,7 @@ export class PaymentsController {
   // ─── PARENT ACTIONS ──────────────────────────────────────────────────────────
 
   @Post('invoices/:invoiceId/submit-proof')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   @ApiOperation({ summary: 'Submit payment proof for an invoice' })
   submitProof(
     @CurrentUser() user: AuthUser,
@@ -37,7 +37,7 @@ export class PaymentsController {
   }
 
   @Post('invoices/:invoiceId/promise')
-  @Roles(Role.PARENT)
+  @Roles(Role.STAFF)
   @ApiOperation({
     summary: 'Submit a payment promise (commit to pay by a date)',
   })
@@ -82,7 +82,7 @@ export class PaymentsController {
   // ─── SHARED QUERIES ───────────────────────────────────────────────────────────
 
   @Get('invoices/:invoiceId/submissions')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'List all payment submissions for an invoice' })
   getSubmissions(
     @CurrentUser() user: AuthUser,
@@ -95,7 +95,7 @@ export class PaymentsController {
   }
 
   @Get('invoices/:invoiceId/promises')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'List all payment promises for an invoice' })
   getPromises(
     @CurrentUser() user: AuthUser,

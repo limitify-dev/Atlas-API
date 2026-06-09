@@ -104,7 +104,11 @@ export const ModelName = {
   PaymentSubmission: 'PaymentSubmission',
   PaymentPromise: 'PaymentPromise',
   Invite: 'Invite',
-  OtpCode: 'OtpCode'
+  OtpCode: 'OtpCode',
+  StudioModule: 'StudioModule',
+  TenantModule: 'TenantModule',
+  StudioSubscription: 'StudioSubscription',
+  AdminInvite: 'AdminInvite'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1051,6 +1055,61 @@ export const OtpCodeScalarFieldEnum = {
 } as const
 
 export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
+
+
+export const StudioModuleScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  name: 'name',
+  description: 'description',
+  isCore: 'isCore',
+  createdAt: 'createdAt'
+} as const
+
+export type StudioModuleScalarFieldEnum = (typeof StudioModuleScalarFieldEnum)[keyof typeof StudioModuleScalarFieldEnum]
+
+
+export const TenantModuleScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  moduleId: 'moduleId',
+  enabled: 'enabled',
+  enabledAt: 'enabledAt'
+} as const
+
+export type TenantModuleScalarFieldEnum = (typeof TenantModuleScalarFieldEnum)[keyof typeof TenantModuleScalarFieldEnum]
+
+
+export const StudioSubscriptionScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  plan: 'plan',
+  status: 'status',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudioSubscriptionScalarFieldEnum = (typeof StudioSubscriptionScalarFieldEnum)[keyof typeof StudioSubscriptionScalarFieldEnum]
+
+
+export const AdminInviteScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  phone: 'phone',
+  email: 'email',
+  name: 'name',
+  token: 'token',
+  role: 'role',
+  status: 'status',
+  expiresAt: 'expiresAt',
+  claimedAt: 'claimedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type AdminInviteScalarFieldEnum = (typeof AdminInviteScalarFieldEnum)[keyof typeof AdminInviteScalarFieldEnum]
 
 
 export const SortOrder = {

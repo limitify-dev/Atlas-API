@@ -287,3 +287,23 @@ export type Invite = Prisma.InviteModel
  * 
  */
 export type OtpCode = Prisma.OtpCodeModel
+/**
+ * Model StudioModule
+ * 
+ */
+export type StudioModule = Prisma.StudioModuleModel
+/**
+ * Model TenantModule
+ * 
+ */
+export type TenantModule = Prisma.TenantModuleModel
+/**
+ * Model StudioSubscription
+ * 
+ */
+export type StudioSubscription = Prisma.StudioSubscriptionModel
+/**
+ * Model AdminInvite
+ * 
+ */
+export type AdminInvite = Prisma.AdminInviteModel

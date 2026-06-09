@@ -113,7 +113,7 @@ export class StudentsController {
   }
 
   @Get('statistics')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Get student statistics' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -125,7 +125,7 @@ export class StudentsController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get all students with filtering and pagination' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -147,7 +147,7 @@ export class StudentsController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get a student by ID' })
   @ApiParam({
     name: 'id',
@@ -171,7 +171,7 @@ export class StudentsController {
   }
 
   @Get('by-student-id/:studentId')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Get a student by student ID (e.g., ST001)' })
   @ApiParam({
     name: 'studentId',
@@ -195,7 +195,7 @@ export class StudentsController {
   }
 
   @Get(':id/card-qr')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Generate QR code token for student card' })
   @ApiParam({
     name: 'id',
@@ -219,7 +219,7 @@ export class StudentsController {
   }
 
   @Post('scan-card')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({
     summary: 'Scan student card QR and get student info with permissions',
   })

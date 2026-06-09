@@ -50,7 +50,7 @@ export class PermissionsService {
       createPermissionDto.requestedBy || PermissionRequestedBy.ADMIN;
     if (userRole === Role.TEACHER) {
       requestedBy = PermissionRequestedBy.TEACHER;
-    } else if (userRole === Role.PARENT) {
+    } else if (userRole === Role.STAFF) {
       requestedBy = PermissionRequestedBy.PARENT;
     }
 

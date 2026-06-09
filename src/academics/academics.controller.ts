@@ -45,7 +45,7 @@ export class AcademicsController {
   constructor(private readonly academicsService: AcademicsService) {}
 
   @Get('teacher-alignments/:teacherId')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get teacher classroom/subject alignment' })
   getTeacherAlignment(
     @CurrentUser() user: AuthUser,
@@ -55,7 +55,7 @@ export class AcademicsController {
   }
 
   @Put('teacher-alignments/:teacherId')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({
     summary: 'Set teacher classroom/subject alignment (DOS workflow)',
   })
@@ -72,7 +72,7 @@ export class AcademicsController {
   }
 
   @Post('courses')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Create academic course' })
   createCourse(
     @CurrentUser() user: AuthUser,
@@ -82,7 +82,7 @@ export class AcademicsController {
   }
 
   @Get('courses')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS, Role.USER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List academic courses' })
   listCourses(
     @CurrentUser() user: AuthUser,
@@ -92,7 +92,7 @@ export class AcademicsController {
   }
 
   @Patch('courses/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Update academic course' })
   updateCourse(
     @CurrentUser() user: AuthUser,
@@ -103,14 +103,14 @@ export class AcademicsController {
   }
 
   @Delete('courses/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Delete academic course' })
   deleteCourse(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.academicsService.deleteCourse(user.tenantId, id);
   }
 
   @Post('exams')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Create exam schedule item' })
   createExam(
     @CurrentUser() user: AuthUser,
@@ -120,7 +120,7 @@ export class AcademicsController {
   }
 
   @Get('exams')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List exam schedule items' })
   listExams(
     @CurrentUser() user: AuthUser,
@@ -130,7 +130,7 @@ export class AcademicsController {
   }
 
   @Patch('exams/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Update exam schedule item' })
   updateExam(
     @CurrentUser() user: AuthUser,
@@ -141,14 +141,14 @@ export class AcademicsController {
   }
 
   @Delete('exams/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Delete exam schedule item' })
   deleteExam(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.academicsService.deleteExam(user.tenantId, id);
   }
 
   @Post('assignments')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Create assignment' })
   createAssignment(
     @CurrentUser() user: AuthUser,
@@ -158,7 +158,7 @@ export class AcademicsController {
   }
 
   @Get('assignments')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List assignments' })
   listAssignments(
     @CurrentUser() user: AuthUser,
@@ -168,7 +168,7 @@ export class AcademicsController {
   }
 
   @Patch('assignments/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Update assignment' })
   updateAssignment(
     @CurrentUser() user: AuthUser,
@@ -179,14 +179,14 @@ export class AcademicsController {
   }
 
   @Delete('assignments/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Delete assignment' })
   deleteAssignment(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.academicsService.deleteAssignment(user.tenantId, id);
   }
 
   @Post('assignments/:id/results')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Upsert assignment results in bulk' })
   upsertAssignmentResults(
     @CurrentUser() user: AuthUser,
@@ -202,14 +202,14 @@ export class AcademicsController {
   }
 
   @Get('assignments/:id/results')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List assignment results' })
   getAssignmentResults(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.academicsService.getAssignmentResults(user.tenantId, id);
   }
 
   @Post('report-cards')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Create or upsert report card' })
   createReportCard(
     @CurrentUser() user: AuthUser,
@@ -219,7 +219,7 @@ export class AcademicsController {
   }
 
   @Get('report-cards')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List report cards' })
   listReportCards(
     @CurrentUser() user: AuthUser,
@@ -229,7 +229,7 @@ export class AcademicsController {
   }
 
   @Patch('report-cards/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Update report card' })
   updateReportCard(
     @CurrentUser() user: AuthUser,
@@ -245,14 +245,14 @@ export class AcademicsController {
   }
 
   @Delete('report-cards/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Delete report card' })
   deleteReportCard(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.academicsService.deleteReportCard(user.tenantId, id);
   }
 
   @Post('consultations/bookings')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Create consultation booking with conflict check' })
   createConsultationBooking(
     @CurrentUser() user: AuthUser,
@@ -266,7 +266,7 @@ export class AcademicsController {
   }
 
   @Get('consultations/bookings')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List consultation bookings' })
   listConsultationBookings(
     @CurrentUser() user: AuthUser,
@@ -276,7 +276,7 @@ export class AcademicsController {
   }
 
   @Patch('consultations/bookings/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Update consultation booking with conflict check' })
   updateConsultationBooking(
     @CurrentUser() user: AuthUser,
@@ -291,7 +291,7 @@ export class AcademicsController {
   }
 
   @Delete('consultations/bookings/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Delete consultation booking' })
   deleteConsultationBooking(
     @CurrentUser() user: AuthUser,
@@ -301,7 +301,7 @@ export class AcademicsController {
   }
 
   @Get('consultations/bookings/export.ics')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.USER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @Header('Content-Type', 'text/calendar; charset=utf-8')
   @Header(
     'Content-Disposition',

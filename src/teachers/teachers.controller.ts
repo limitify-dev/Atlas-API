@@ -49,7 +49,7 @@ export class TeachersController {
 
   @Post()
   @UseInterceptors(FileInterceptor('photo'))
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Create a new teacher' })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -69,7 +69,7 @@ export class TeachersController {
   }
 
   @Post('bulk-upload')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Bulk upload teachers from Excel/CSV' })
   @ApiResponse({
@@ -84,7 +84,7 @@ export class TeachersController {
   }
 
   @Get('bulk-upload-template')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Download teacher bulk upload template' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -104,7 +104,7 @@ export class TeachersController {
   }
 
   @Get('statistics')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get teacher statistics' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -115,7 +115,7 @@ export class TeachersController {
   }
 
   @Get('my-consultation-slots')
-  @Roles(Role.USER, Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.TEACHER, Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({
     summary: 'Get consultation slots assigned to the current teacher',
   })
@@ -135,7 +135,7 @@ export class TeachersController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get all teachers with filtering and pagination' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -154,7 +154,7 @@ export class TeachersController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get a teacher by ID' })
   @ApiParam({
     name: 'id',
@@ -179,7 +179,7 @@ export class TeachersController {
 
   @Put(':id')
   @UseInterceptors(FileInterceptor('photo'))
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DOS)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Update a teacher' })
   @ApiParam({
     name: 'id',

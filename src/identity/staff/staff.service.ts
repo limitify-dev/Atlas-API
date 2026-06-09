@@ -127,7 +127,7 @@ export class StaffService {
     // Reset role back to USER on deletion so they don't retain STAFF access
     await this.prisma.user.update({
       where: { id: staff.userId },
-      data: { role: Role.USER },
+      data: { role: Role.TEACHER },
     });
 
     return this.prisma.staff.delete({ where: { id } });

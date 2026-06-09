@@ -470,7 +470,7 @@ export class AuthService {
         name: registerData.name,
         username: registerData.username,
         password: hashedPassword,
-        role: registerData.role ? (registerData.role as Role) : Role.USER,
+        role: registerData.role ? (registerData.role as Role) : Role.TEACHER,
         tenantId: registerData.tenantId ?? null,
         userType: registerData.userType
           ? (registerData.userType as UserType)
@@ -713,7 +713,7 @@ export class AuthService {
       });
 
       // Link profile based on role
-      if (invite.role === Role.PARENT) {
+      if (invite.role === Role.STAFF) {
         const nameParts = dto.name.trim().split(/\s+/);
         const firstName = nameParts[0] ?? 'Parent';
         const lastName = nameParts.slice(1).join(' ') || '';
@@ -819,7 +819,7 @@ export class AuthService {
 
   private roleToUserType(role: Role): UserType | null {
     const map: Partial<Record<Role, UserType>> = {
-      [Role.PARENT]: UserType.PARENT,
+      [Role.STAFF]: UserType.STAFF,
       [Role.TEACHER]: UserType.TEACHER,
       [Role.STAFF]: UserType.STAFF,
     };

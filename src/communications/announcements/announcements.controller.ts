@@ -45,7 +45,7 @@ export class AnnouncementsController {
 
   @Post()
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.STAFF, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Create a new announcement' })
   async create(
     @CurrentUser() user: AuthUser,
@@ -56,7 +56,7 @@ export class AnnouncementsController {
 
   @Post('upload-image')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.STAFF, Role.SUPER_ADMIN)
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Upload announcement banner image' })
   async uploadImage(
@@ -76,7 +76,7 @@ export class AnnouncementsController {
 
   @Get()
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.STAFF, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'List all announcements (admin)' })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
@@ -123,7 +123,7 @@ export class AnnouncementsController {
 
   @Get('stats')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.STAFF, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Get announcement statistics' })
   async getStats(@CurrentUser() user: AuthUser) {
     return this.announcementsService.getStats(user.tenantId);
@@ -137,7 +137,7 @@ export class AnnouncementsController {
 
   @Patch(':id')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.STAFF, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Update an announcement' })
   async update(
     @CurrentUser() user: AuthUser,
@@ -149,7 +149,7 @@ export class AnnouncementsController {
 
   @Delete(':id')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.STAFF, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Delete an announcement' })
   async delete(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.announcementsService.delete(id, user.tenantId);
@@ -157,7 +157,7 @@ export class AnnouncementsController {
 
   @Patch(':id/pin')
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.DOS, Role.DM, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.STAFF, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Toggle pin status of an announcement' })
   async togglePin(
     @CurrentUser() user: AuthUser,

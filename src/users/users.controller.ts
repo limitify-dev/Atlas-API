@@ -90,7 +90,7 @@ export class UsersController {
     @CurrentUser() user: AuthUser,
   ) {
     // Role-based protection: Students cannot update their own profiles
-    if (user.role === Role.STUDENT) {
+    if (user.role === Role.STAFF) {
       throw new ForbiddenException(
         'Student profiles can only be updated by administrators',
       );
@@ -125,7 +125,7 @@ export class UsersController {
     @CurrentUser() user: AuthUser,
   ) {
     // Role-based protection: Students cannot update their own profiles
-    if (user.role === Role.STUDENT) {
+    if (user.role === Role.STAFF) {
       throw new ForbiddenException(
         'Student profiles can only be updated by administrators',
       );

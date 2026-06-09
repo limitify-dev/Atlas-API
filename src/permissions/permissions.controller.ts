@@ -54,7 +54,7 @@ export class PermissionsController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new permission' })
   @ApiResponse({
@@ -80,7 +80,7 @@ export class PermissionsController {
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all permissions with filters' })
   @ApiResponse({
@@ -97,7 +97,7 @@ export class PermissionsController {
 
   @Get('stats/overview')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get permission statistics overview' })
   @ApiResponse({
@@ -111,7 +111,7 @@ export class PermissionsController {
 
   @Get('check/:studentId')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Check if student has active permission' })
   @ApiParam({ name: 'studentId', description: 'Student ID' })
@@ -131,7 +131,7 @@ export class PermissionsController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM, Role.TEACHER, Role.PARENT)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a single permission by ID' })
   @ApiParam({ name: 'id', description: 'Permission ID' })
@@ -153,7 +153,7 @@ export class PermissionsController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a permission' })
   @ApiParam({ name: 'id', description: 'Permission ID' })
@@ -184,7 +184,7 @@ export class PermissionsController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete a permission' })
@@ -206,7 +206,7 @@ export class PermissionsController {
 
   @Post(':id/approve')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Approve a pending permission' })
   @ApiParam({ name: 'id', description: 'Permission ID' })
@@ -234,7 +234,7 @@ export class PermissionsController {
 
   @Post(':id/reject')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.DM)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Reject a pending permission' })
   @ApiParam({ name: 'id', description: 'Permission ID' })

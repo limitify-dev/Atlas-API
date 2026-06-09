@@ -27,6 +27,7 @@ import { UsersModule } from './users/users.module';
 import { TenantsModule } from './tenants/tenants.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { StaffModule } from './identity/staff/staff.module';
+import { StudioModule } from './studio/studio.module';
 
 // ─── Academic Structure ───────────────────────────────────────────────────────
 import { GradesModule } from './grades/grades.module';
@@ -96,6 +97,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     TenantsModule,
     TeachersModule,
     StaffModule,
+    StudioModule,
 
     // ── Academic Structure ─────────────────────────────────────────────────────
     GradesModule,
