@@ -235,15 +235,11 @@ export class TenantsService {
         _count: {
           select: {
             users: true,
-            students: true,
             teachers: true,
-            parents: true,
             grades: true,
             sections: true,
             subjects: true,
             books: true,
-            buses: true,
-            events: true,
           },
         },
       },
