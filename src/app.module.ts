@@ -25,8 +25,6 @@ import { RolesGuard } from './auth/guards/roles.guard';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TenantsModule } from './tenants/tenants.module';
-import { StudentsModule } from './students/students.module';
-import { ParentsModule } from './parents/parents.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { StaffModule } from './identity/staff/staff.module';
 
@@ -96,8 +94,6 @@ import { DashboardModule } from './dashboard/dashboard.module';
     AuthModule,
     UsersModule,
     TenantsModule,
-    StudentsModule,
-    ParentsModule,
     TeachersModule,
     StaffModule,
 

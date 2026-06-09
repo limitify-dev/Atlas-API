@@ -70,9 +70,6 @@ export const ModelName = {
   Book: 'Book',
   BookCopy: 'BookCopy',
   BookTransaction: 'BookTransaction',
-  Bus: 'Bus',
-  BusRoute: 'BusRoute',
-  TransportAssignment: 'TransportAssignment',
   Permission: 'Permission',
   PermissionUsage: 'PermissionUsage',
   ConductRecord: 'ConductRecord',
@@ -86,8 +83,6 @@ export const ModelName = {
   Announcement: 'Announcement',
   Notification: 'Notification',
   NotificationRecipient: 'NotificationRecipient',
-  InventoryItem: 'InventoryItem',
-  InventoryTransaction: 'InventoryTransaction',
   Card: 'Card',
   CardLog: 'CardLog',
   CardPermission: 'CardPermission',
@@ -446,54 +441,6 @@ export const BookTransactionScalarFieldEnum = {
 export type BookTransactionScalarFieldEnum = (typeof BookTransactionScalarFieldEnum)[keyof typeof BookTransactionScalarFieldEnum]
 
 
-export const BusScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  busNumber: 'busNumber',
-  capacity: 'capacity',
-  driver: 'driver',
-  driverContact: 'driverContact',
-  status: 'status',
-  registrationNumber: 'registrationNumber',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type BusScalarFieldEnum = (typeof BusScalarFieldEnum)[keyof typeof BusScalarFieldEnum]
-
-
-export const BusRouteScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  busId: 'busId',
-  routeName: 'routeName',
-  routeNumber: 'routeNumber',
-  startPoint: 'startPoint',
-  endPoint: 'endPoint',
-  stops: 'stops',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type BusRouteScalarFieldEnum = (typeof BusRouteScalarFieldEnum)[keyof typeof BusRouteScalarFieldEnum]
-
-
-export const TransportAssignmentScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  studentId: 'studentId',
-  routeId: 'routeId',
-  pickupPoint: 'pickupPoint',
-  dropoffPoint: 'dropoffPoint',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type TransportAssignmentScalarFieldEnum = (typeof TransportAssignmentScalarFieldEnum)[keyof typeof TransportAssignmentScalarFieldEnum]
-
-
 export const PermissionScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -711,37 +658,6 @@ export const NotificationRecipientScalarFieldEnum = {
 } as const
 
 export type NotificationRecipientScalarFieldEnum = (typeof NotificationRecipientScalarFieldEnum)[keyof typeof NotificationRecipientScalarFieldEnum]
-
-
-export const InventoryItemScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  name: 'name',
-  category: 'category',
-  quantity: 'quantity',
-  unit: 'unit',
-  minQuantity: 'minQuantity',
-  location: 'location',
-  description: 'description',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type InventoryItemScalarFieldEnum = (typeof InventoryItemScalarFieldEnum)[keyof typeof InventoryItemScalarFieldEnum]
-
-
-export const InventoryTransactionScalarFieldEnum = {
-  id: 'id',
-  tenantId: 'tenantId',
-  itemId: 'itemId',
-  type: 'type',
-  quantity: 'quantity',
-  remarks: 'remarks',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt'
-} as const
-
-export type InventoryTransactionScalarFieldEnum = (typeof InventoryTransactionScalarFieldEnum)[keyof typeof InventoryTransactionScalarFieldEnum]
 
 
 export const CardScalarFieldEnum = {

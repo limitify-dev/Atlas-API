@@ -545,23 +545,6 @@ export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
 }
 
-export type EnumBusStatusFilter<$PrismaModel = never> = {
-  equals?: $Enums.BusStatus | Prisma.EnumBusStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.BusStatus[] | Prisma.ListEnumBusStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.BusStatus[] | Prisma.ListEnumBusStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumBusStatusFilter<$PrismaModel> | $Enums.BusStatus
-}
-
-export type EnumBusStatusWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.BusStatus | Prisma.EnumBusStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.BusStatus[] | Prisma.ListEnumBusStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.BusStatus[] | Prisma.ListEnumBusStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumBusStatusWithAggregatesFilter<$PrismaModel> | $Enums.BusStatus
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumBusStatusFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumBusStatusFilter<$PrismaModel>
-}
-
 export type EnumPermissionStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.PermissionStatus | Prisma.EnumPermissionStatusFieldRefInput<$PrismaModel>
   in?: $Enums.PermissionStatus[] | Prisma.ListEnumPermissionStatusFieldRefInput<$PrismaModel>
@@ -1558,23 +1541,6 @@ export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _min?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
-}
-
-export type NestedEnumBusStatusFilter<$PrismaModel = never> = {
-  equals?: $Enums.BusStatus | Prisma.EnumBusStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.BusStatus[] | Prisma.ListEnumBusStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.BusStatus[] | Prisma.ListEnumBusStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumBusStatusFilter<$PrismaModel> | $Enums.BusStatus
-}
-
-export type NestedEnumBusStatusWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.BusStatus | Prisma.EnumBusStatusFieldRefInput<$PrismaModel>
-  in?: $Enums.BusStatus[] | Prisma.ListEnumBusStatusFieldRefInput<$PrismaModel>
-  notIn?: $Enums.BusStatus[] | Prisma.ListEnumBusStatusFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumBusStatusWithAggregatesFilter<$PrismaModel> | $Enums.BusStatus
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumBusStatusFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumBusStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumPermissionStatusFilter<$PrismaModel = never> = {

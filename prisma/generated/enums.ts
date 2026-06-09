@@ -121,15 +121,6 @@ export const BookStatus = {
 export type BookStatus = (typeof BookStatus)[keyof typeof BookStatus]
 
 
-export const BusStatus = {
-  ACTIVE: 'ACTIVE',
-  MAINTENANCE: 'MAINTENANCE',
-  INACTIVE: 'INACTIVE'
-} as const
-
-export type BusStatus = (typeof BusStatus)[keyof typeof BusStatus]
-
-
 export const PermissionStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',

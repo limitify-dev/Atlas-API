@@ -37,8 +37,6 @@ model Tenant {
   bookCopies               BookCopy[]
   bookTransactions         BookTransaction[]
   books                    Book[]
-  busRoutes                BusRoute[]
-  buses                    Bus[]
   cardLogs                 CardLog[]
   cardPermissions          CardPermission[]
   cards                    Card[]
@@ -50,8 +48,6 @@ model Tenant {
   devices                  Device[]
   events                   Event[]
   grades                   Grade[]
-  inventoryItems           InventoryItem[]
-  inventoryTransactions    InventoryTransaction[]
   academicTimelines        AcademicTimeline[]
   invoices                 Invoice[]
   messages                 Message[]
@@ -71,7 +67,6 @@ model Tenant {
   subjects                 Subject[]
   teacherAttendances       TeacherAttendance[]
   teachers                 Teacher[]
-  transportAssignments     TransportAssignment[]
   users                    User[]
 
   @@index([slug])
@@ -189,7 +184,6 @@ model Student {
   section             Section               @relation(fields: [sectionId], references: [id])
   tenant              Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user                User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transportAssignment TransportAssignment?
 
   @@unique([tenantId, studentId])
   @@index([tenantId])
@@ -509,71 +503,6 @@ model BookTransaction {
   @@map("book_transactions")
 }
 
-model Bus {
-  id                 String     @id @default(uuid())
-  tenantId           String
-  busNumber          String
-  capacity           Int
-  driver             String
-  driverContact      String
-  status             BusStatus  @default(ACTIVE)
-  registrationNumber String
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-  routes             BusRoute[]
-  tenant             Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-
-  @@unique([tenantId, busNumber])
-  @@unique([tenantId, registrationNumber])
-  @@index([tenantId])
-  @@index([busNumber])
-  @@index([status])
-  @@map("buses")
-}
-
-model BusRoute {
-  id                   String                @id @default(uuid())
-  tenantId             String
-  busId                String
-  routeName            String
-  routeNumber          String
-  startPoint           String
-  endPoint             String
-  stops                Json
-  startTime            String
-  endTime              String
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  bus                  Bus                   @relation(fields: [busId], references: [id], onDelete: Cascade)
-  tenant               Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  transportAssignments TransportAssignment[]
-
-  @@unique([tenantId, routeNumber])
-  @@index([tenantId])
-  @@index([busId])
-  @@index([routeNumber])
-  @@map("bus_routes")
-}
-
-model TransportAssignment {
-  id           String   @id @default(uuid())
-  tenantId     String
-  studentId    String   @unique
-  routeId      String
-  pickupPoint  String
-  dropoffPoint String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  route        BusRoute @relation(fields: [routeId], references: [id], onDelete: Cascade)
-  student      Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-
-  @@index([tenantId])
-  @@index([studentId])
-  @@index([routeId])
-  @@map("transport_assignments")
-}
-
 model Permission {
   id             String                @id @default(uuid())
   tenantId       String
@@ -857,46 +786,6 @@ model NotificationRecipient {
   @@index([userId])
   @@index([isRead])
   @@map("notification_recipients")
-}
-
-model InventoryItem {
-  id           String                 @id @default(uuid())
-  tenantId     String
-  name         String
-  category     String
-  quantity     Int                    @default(0)
-  unit         String
-  minQuantity  Int                    @default(0)
-  location     String?
-  description  String?
-  createdAt    DateTime               @default(now())
-  updatedAt    DateTime               @updatedAt
-  tenant       Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  transactions InventoryTransaction[]
-
-  @@index([tenantId])
-  @@index([category])
-  @@index([quantity])
-  @@map("inventory_items")
-}
-
-model InventoryTransaction {
-  id        String        @id @default(uuid())
-  tenantId  String
-  itemId    String
-  type      String
-  quantity  Int
-  remarks   String?
-  createdBy String
-  createdAt DateTime      @default(now())
-  item      InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  tenant    Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-
-  @@index([tenantId])
-  @@index([itemId])
-  @@index([type])
-  @@index([createdAt])
-  @@map("inventory_transactions")
 }
 
 model Card {
@@ -1488,12 +1377,6 @@ enum BookStatus {
   RESERVED
   DAMAGED
   LOST
-}
-
-enum BusStatus {
-  ACTIVE
-  MAINTENANCE
-  INACTIVE
 }
 
 enum PermissionStatus {

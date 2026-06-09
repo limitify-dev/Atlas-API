@@ -113,21 +113,6 @@ export type BookCopy = Prisma.BookCopyModel
  */
 export type BookTransaction = Prisma.BookTransactionModel
 /**
- * Model Bus
- * 
- */
-export type Bus = Prisma.BusModel
-/**
- * Model BusRoute
- * 
- */
-export type BusRoute = Prisma.BusRouteModel
-/**
- * Model TransportAssignment
- * 
- */
-export type TransportAssignment = Prisma.TransportAssignmentModel
-/**
  * Model Permission
  * 
  */
@@ -192,16 +177,6 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type NotificationRecipient = Prisma.NotificationRecipientModel
-/**
- * Model InventoryItem
- * 
- */
-export type InventoryItem = Prisma.InventoryItemModel
-/**
- * Model InventoryTransaction
- * 
- */
-export type InventoryTransaction = Prisma.InventoryTransactionModel
 /**
  * Model Card
  * 
