@@ -11,7 +11,10 @@ import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 
 export class CreatePromotionDto {
-  @ApiProperty({ example: 'Promotion 2023', description: 'Human-readable cohort name' })
+  @ApiProperty({
+    example: 'Promotion 2023',
+    description: 'Human-readable cohort name',
+  })
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -23,7 +26,9 @@ export class CreatePromotionDto {
   @Type(() => Number)
   entryYear: number;
 
-  @ApiPropertyOptional({ example: 'Five-year secondary programme, 2023 intake' })
+  @ApiPropertyOptional({
+    example: 'Five-year secondary programme, 2023 intake',
+  })
   @IsString()
   @IsOptional()
   description?: string;

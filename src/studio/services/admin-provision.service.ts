@@ -1,4 +1,9 @@
-import { Injectable, ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateAdminInviteDto } from '../dto';
 
@@ -11,11 +16,15 @@ export class AdminProvisionService {
    * The invite token is used by the admin to complete onboarding via the main Auth API.
    */
   async createInvite(tenantId: string, dto: CreateAdminInviteDto) {
-    const tenant = await this.prisma.tenant.findUnique({ where: { id: tenantId } });
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+    });
     if (!tenant) throw new NotFoundException('Tenant not found.');
 
     if (!dto.email && !dto.phone) {
-      throw new BadRequestException('Either email or phone is required for the invite.');
+      throw new BadRequestException(
+        'Either email or phone is required for the invite.',
+      );
     }
 
     // Check for existing pending invite
@@ -23,7 +32,9 @@ export class AdminProvisionService {
       where: { tenantId, status: 'PENDING' },
     });
     if (existing) {
-      throw new ConflictException('A pending invite already exists for this tenant. Revoke it first.');
+      throw new ConflictException(
+        'A pending invite already exists for this tenant. Revoke it first.',
+      );
     }
 
     const expiresAt = new Date();
@@ -50,7 +61,9 @@ export class AdminProvisionService {
   }
 
   async revokeInvite(inviteId: string) {
-    const invite = await this.prisma.adminInvite.findUnique({ where: { id: inviteId } });
+    const invite = await this.prisma.adminInvite.findUnique({
+      where: { id: inviteId },
+    });
     if (!invite) throw new NotFoundException('Invite not found.');
     if (invite.status !== 'PENDING') {
       throw new BadRequestException('Only pending invites can be revoked.');
@@ -65,14 +78,24 @@ export class AdminProvisionService {
   async validateAndClaim(token: string) {
     const invite = await this.prisma.adminInvite.findUnique({
       where: { token },
-      include: { tenant: { select: { id: true, name: true, slug: true, status: true } } },
+      include: {
+        tenant: { select: { id: true, name: true, slug: true, status: true } },
+      },
     });
 
     if (!invite) throw new NotFoundException('Invalid invite token.');
-    if (invite.status !== 'PENDING') throw new BadRequestException('This invite has already been used or revoked.');
+    if (invite.status !== 'PENDING')
+      throw new BadRequestException(
+        'This invite has already been used or revoked.',
+      );
     if (invite.expiresAt < new Date()) {
-      await this.prisma.adminInvite.update({ where: { id: invite.id }, data: { status: 'EXPIRED' } });
-      throw new BadRequestException('This invite has expired. Request a new one from your platform administrator.');
+      await this.prisma.adminInvite.update({
+        where: { id: invite.id },
+        data: { status: 'EXPIRED' },
+      });
+      throw new BadRequestException(
+        'This invite has expired. Request a new one from your platform administrator.',
+      );
     }
 
     await this.prisma.adminInvite.update({

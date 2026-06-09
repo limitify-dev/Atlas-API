@@ -558,15 +558,11 @@ export class ChatService {
     let contactUserIds: string[] = [];
 
     switch (user.role) {
-      case 'PARENT':
-        contactUserIds = await this.getParentContacts(userId, tenantId);
-        break;
       case 'TEACHER':
         contactUserIds = await this.getTeacherContacts(userId, tenantId);
         break;
       case 'ADMIN':
-      case 'DOS':
-      case 'DM':
+      case 'STAFF':
       case 'SUPER_ADMIN':
         contactUserIds = await this.getAdminContacts(userId, tenantId);
         break;
@@ -619,7 +615,7 @@ export class ChatService {
     const staffUsers = await this.prisma.user.findMany({
       where: {
         tenantId,
-        role: { in: ['DM', 'DOS'] },
+        role: { in: ['STAFF'] },
         status: { in: ['ACTIVE', 'PENDING'] },
       },
       select: { id: true },
@@ -629,19 +625,18 @@ export class ChatService {
   }
 
   /**
-   * Teachers can message: parents of students in their classes + other teachers + admin/DOS/DM
+   * Teachers can message: other teachers + admin/staff
    */
   private async getTeacherContacts(
     userId: string,
     tenantId: string,
   ): Promise<string[]> {
-    // Teachers can message other teachers + admin/DOS/DM staff in the same tenant
-    // (They no longer see parents as contacts per new requirements)
+    // Teachers can message other teachers + admin/staff in the same tenant
     const otherUsers = await this.prisma.user.findMany({
       where: {
         tenantId,
         id: { not: userId },
-        role: { in: ['TEACHER', 'ADMIN', 'DOS', 'DM'] },
+        role: { in: ['TEACHER', 'ADMIN', 'STAFF'] },
         status: { in: ['ACTIVE', 'PENDING'] },
       },
       select: { id: true },
@@ -662,7 +657,7 @@ export class ChatService {
         ...(tenantId && { tenantId }),
         id: { not: userId },
         role: {
-          in: ['ADMIN', 'DOS', 'DM', 'TEACHER', 'PARENT', 'SUPER_ADMIN'],
+          in: ['ADMIN', 'STAFF', 'TEACHER', 'SUPER_ADMIN'],
         },
         status: { in: ['ACTIVE', 'PENDING'] },
       },
@@ -928,11 +923,11 @@ export class ChatService {
   ) {
     const tenantLogo = await this.getTenantLogo(tenantId);
 
-    // Find all PARENT users in tenant
-    const parentUsers = await this.prisma.user.findMany({
+    // Find all STAFF/TEACHER users in tenant
+    const staffTeacherUsers = await this.prisma.user.findMany({
       where: {
         tenantId,
-        role: 'PARENT',
+        role: { in: ['STAFF', 'TEACHER'] },
         status: { in: ['ACTIVE', 'PENDING'] },
       },
       select: { id: true },
@@ -956,7 +951,7 @@ export class ChatService {
         userId: uid,
         role: 'ADMIN' as const,
       })),
-      ...parentUsers
+      ...staffTeacherUsers
         .filter((u) => !adminIds.has(u.id))
         .map((u) => ({
           userId: u.id,
@@ -1067,11 +1062,11 @@ export class ChatService {
     });
 
     if (!channel) {
-      const [parentUsers, adminUsers] = await Promise.all([
+      const [staffTeacherUsers, adminUsers] = await Promise.all([
         this.prisma.user.findMany({
           where: {
             tenantId,
-            role: 'PARENT',
+            role: { in: ['STAFF', 'TEACHER'] },
             status: { in: ['ACTIVE', 'PENDING'] },
           },
           select: { id: true },
@@ -1092,7 +1087,7 @@ export class ChatService {
           userId: uid,
           role: 'ADMIN' as const,
         })),
-        ...parentUsers
+        ...staffTeacherUsers
           .filter((u) => !adminIds.has(u.id))
           .map((u) => ({
             userId: u.id,

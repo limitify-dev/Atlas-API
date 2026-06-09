@@ -9,7 +9,10 @@ import {
   Request,
   Res,
 } from '@nestjs/common';
-import { CurrentUser, AuthUser as CurrentAuthUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser as CurrentAuthUser,
+} from '../auth/decorators/current-user.decorator';
 import {
   ApiTags,
   ApiOperation,

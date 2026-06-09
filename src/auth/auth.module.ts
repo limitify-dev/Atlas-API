@@ -14,7 +14,14 @@ import { EmailModule } from 'src/email/email.module';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, InviteService, OtpService, SmsService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    InviteService,
+    OtpService,
+    SmsService,
+    LocalStrategy,
+    JwtStrategy,
+  ],
   imports: [
     PrismaModule,
     EmailModule,

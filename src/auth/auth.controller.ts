@@ -258,7 +258,9 @@ export class AuthController {
       'Creates an invite for a parent, teacher, or staff member and sends the link via SMS.',
   })
   @ApiResponse({ status: 201, description: 'Invite created and sent.' })
-  @ApiConflictResponse({ description: 'Active invite or account already exists for this phone.' })
+  @ApiConflictResponse({
+    description: 'Active invite or account already exists for this phone.',
+  })
   async createInvite(
     @CurrentUser() user: AuthUser,
     @Body() dto: CreateInviteDto,
@@ -310,10 +312,18 @@ export class AuthController {
       'Creates the user account and links the profile. ' +
       'OTP mode: OTP must be verified first. Password mode: password is required.',
   })
-  @ApiResponse({ status: 201, description: 'Account created. Returns auth tokens.', type: AuthResponseDto })
-  @ApiBadRequestResponse({ description: 'Validation failure or OTP not verified.' })
+  @ApiResponse({
+    status: 201,
+    description: 'Account created. Returns auth tokens.',
+    type: AuthResponseDto,
+  })
+  @ApiBadRequestResponse({
+    description: 'Validation failure or OTP not verified.',
+  })
   @ApiConflictResponse({ description: 'Phone or email already registered.' })
-  async completeOnboarding(@Body() dto: CompleteOnboardingDto): Promise<AuthResponseDto> {
+  async completeOnboarding(
+    @Body() dto: CompleteOnboardingDto,
+  ): Promise<AuthResponseDto> {
     return this.authService.completeOnboarding(dto);
   }
 
@@ -337,7 +347,12 @@ export class AuthController {
       if (dto.phone !== invite.phone) {
         throw new Error('Phone number does not match the invitation.');
       }
-      return this.otpService.send(dto.phone, purpose, invite.tenantId, dto.inviteToken);
+      return this.otpService.send(
+        dto.phone,
+        purpose,
+        invite.tenantId,
+        dto.inviteToken,
+      );
     }
 
     return this.otpService.send(dto.phone, purpose);
@@ -355,7 +370,12 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'OTP verified.' })
   async verifyOtp(@Body() dto: VerifyOtpDto) {
     const purpose = dto.inviteToken ? OtpPurpose.ONBOARDING : OtpPurpose.LOGIN;
-    const result = await this.otpService.verify(dto.phone, purpose, dto.code, dto.inviteToken);
+    const result = await this.otpService.verify(
+      dto.phone,
+      purpose,
+      dto.code,
+      dto.inviteToken,
+    );
 
     // For login purpose, exchange the verified OTP for auth tokens immediately
     if (purpose === OtpPurpose.LOGIN) {

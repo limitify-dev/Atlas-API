@@ -27,7 +27,11 @@ export class StudioModulesService {
       allModules.map((mod) =>
         this.prisma.tenantModule.upsert({
           where: { tenantId_moduleId: { tenantId, moduleId: mod.id } },
-          create: { tenantId, moduleId: mod.id, enabled: enabledKeys.includes(mod.key) },
+          create: {
+            tenantId,
+            moduleId: mod.id,
+            enabled: enabledKeys.includes(mod.key),
+          },
           update: { enabled: enabledKeys.includes(mod.key) },
         }),
       ),

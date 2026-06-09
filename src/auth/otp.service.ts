@@ -122,7 +122,10 @@ export class OtpService {
   }
 
   /** Check whether a verified onboarding OTP exists for invite + phone (called from completeOnboarding). */
-  async isVerifiedForInvite(phone: string, inviteToken: string): Promise<boolean> {
+  async isVerifiedForInvite(
+    phone: string,
+    inviteToken: string,
+  ): Promise<boolean> {
     const otp = await this.prisma.otpCode.findFirst({
       where: {
         phone,

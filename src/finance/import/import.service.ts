@@ -1,14 +1,10 @@
-import {
-  BadRequestException,
-  Injectable,
-  Logger,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import * as XLSX from 'xlsx';
 import { PrismaService } from '../../prisma/prisma.service';
 import { InvoicesService } from '../invoices/invoices.service';
 
 export interface ImportRow {
-  studentId: string;   // student's school ID (e.g. "STU-001"), not UUID
+  studentId: string; // student's school ID (e.g. "STU-001"), not UUID
   amount: string;
   dueDate: string;
   title: string;
@@ -60,16 +56,33 @@ export class ImportService {
       const rowErrors: ImportRowError[] = [];
 
       if (!row.studentId?.trim()) {
-        rowErrors.push({ row: rowNum, field: 'studentId', message: 'studentId is required' });
+        rowErrors.push({
+          row: rowNum,
+          field: 'studentId',
+          message: 'studentId is required',
+        });
       }
       if (!row.title?.trim()) {
-        rowErrors.push({ row: rowNum, field: 'title', message: 'title is required' });
+        rowErrors.push({
+          row: rowNum,
+          field: 'title',
+          message: 'title is required',
+        });
       }
       if (!row.amount || !/^\d+(\.\d{1,2})?$/.test(String(row.amount).trim())) {
-        rowErrors.push({ row: rowNum, field: 'amount', message: 'amount must be a positive number with up to 2 decimal places' });
+        rowErrors.push({
+          row: rowNum,
+          field: 'amount',
+          message:
+            'amount must be a positive number with up to 2 decimal places',
+        });
       }
       if (!row.dueDate || isNaN(new Date(row.dueDate).getTime())) {
-        rowErrors.push({ row: rowNum, field: 'dueDate', message: 'dueDate is not a valid date' });
+        rowErrors.push({
+          row: rowNum,
+          field: 'dueDate',
+          message: 'dueDate is not a valid date',
+        });
       }
 
       if (rowErrors.length > 0) {
@@ -142,7 +155,9 @@ export class ImportService {
     try {
       workbook = XLSX.read(file.buffer, { type: 'buffer', cellDates: true });
     } catch {
-      throw new BadRequestException('Could not parse file. Ensure it is a valid .xlsx or .csv file.');
+      throw new BadRequestException(
+        'Could not parse file. Ensure it is a valid .xlsx or .csv file.',
+      );
     }
 
     const sheetName = workbook.SheetNames[0];
@@ -158,14 +173,21 @@ export class ImportService {
 
     // Normalise column names to camelCase
     return raw.map((r) => ({
-      studentId: String(r['studentId'] ?? r['student_id'] ?? r['Student ID'] ?? '').trim(),
+      studentId: String(
+        r['studentId'] ?? r['student_id'] ?? r['Student ID'] ?? '',
+      ).trim(),
       title: String(r['title'] ?? r['Title'] ?? '').trim(),
-      description: String(r['description'] ?? r['Description'] ?? '').trim() || undefined,
+      description:
+        String(r['description'] ?? r['Description'] ?? '').trim() || undefined,
       amount: String(r['amount'] ?? r['Amount'] ?? '').trim(),
-      dueDate: String(r['dueDate'] ?? r['due_date'] ?? r['Due Date'] ?? '').trim(),
+      dueDate: String(
+        r['dueDate'] ?? r['due_date'] ?? r['Due Date'] ?? '',
+      ).trim(),
       term: String(r['term'] ?? r['Term'] ?? '').trim() || undefined,
-      category: String(r['category'] ?? r['Category'] ?? '').trim() || undefined,
-      currency: String(r['currency'] ?? r['Currency'] ?? '').trim() || undefined,
+      category:
+        String(r['category'] ?? r['Category'] ?? '').trim() || undefined,
+      currency:
+        String(r['currency'] ?? r['Currency'] ?? '').trim() || undefined,
     }));
   }
 }

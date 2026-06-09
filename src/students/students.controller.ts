@@ -141,7 +141,9 @@ export class StudentsController {
     limit: number;
   }> {
     if (!user?.tenantId) {
-      throw new BadRequestException('Tenant ID is missing from user context. Please log in again.');
+      throw new BadRequestException(
+        'Tenant ID is missing from user context. Please log in again.',
+      );
     }
     return this.studentsService.findAll(queryDto, user.tenantId);
   }

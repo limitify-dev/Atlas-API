@@ -10,7 +10,10 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { OnboardingMode, Role } from '../../../prisma/generated/client';
 
 export class CreateInviteDto {
-  @ApiProperty({ example: '+237652301234', description: 'Phone number in E.164 format' })
+  @ApiProperty({
+    example: '+237652301234',
+    description: 'Phone number in E.164 format',
+  })
   @IsPhoneNumber()
   phone: string;
 
@@ -29,7 +32,8 @@ export class CreateInviteDto {
   role: Role;
 
   @ApiPropertyOptional({
-    description: 'studentId for PARENT, teacherId for TEACHER, staffId for STAFF',
+    description:
+      'studentId for PARENT, teacherId for TEACHER, staffId for STAFF',
   })
   @IsUUID()
   @IsOptional()

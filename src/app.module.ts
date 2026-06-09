@@ -89,7 +89,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     EmailModule,
 
     // ── Cross-cutting ──────────────────────────────────────────────────────────
-    DomainEventsModule,   // @Global — no need to re-import in feature modules
+    DomainEventsModule, // @Global — no need to re-import in feature modules
 
     // ── Identity ───────────────────────────────────────────────────────────────
     AuthModule,

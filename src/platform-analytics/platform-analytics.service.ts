@@ -25,7 +25,7 @@ export class PlatformAnalyticsService {
       this.prisma.tenant.count({ where: { status: 'TRIAL' } }),
       this.prisma.tenant.count({ where: { status: 'SUSPENDED' } }),
       this.prisma.user.count(),
-      this.prisma.user.count({ where: { role: 'STUDENT' } }),
+      this.prisma.user.count({ where: { role: 'STAFF' } }),
       this.prisma.user.count({ where: { role: 'TEACHER' } }),
       this.prisma.device.count(),
       this.prisma.device.count({ where: { status: 'ACTIVE' } }),
@@ -40,7 +40,7 @@ export class PlatformAnalyticsService {
       },
       users: {
         total: totalUsers,
-        students: totalStudents,
+        staff: totalStudents,
         teachers: totalTeachers,
       },
       devices: {

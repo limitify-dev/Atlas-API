@@ -32,7 +32,9 @@ export class PostFeeDto {
 
   @ApiProperty({ example: '250.00' })
   @IsString()
-  @Matches(/^\d+(\.\d{1,2})?$/, { message: 'amount must be a valid decimal with up to 2 decimal places' })
+  @Matches(/^\d+(\.\d{1,2})?$/, {
+    message: 'amount must be a valid decimal with up to 2 decimal places',
+  })
   amount: string;
 
   @ApiPropertyOptional({ example: 'USD' })
@@ -49,7 +51,10 @@ export class PostFeeDto {
   @IsOptional()
   term?: string;
 
-  @ApiPropertyOptional({ example: 'tuition', description: 'tuition | transport | uniform | custom' })
+  @ApiPropertyOptional({
+    example: 'tuition',
+    description: 'tuition | transport | uniform | custom',
+  })
   @IsString()
   @IsOptional()
   category?: string;
@@ -57,7 +62,8 @@ export class PostFeeDto {
   @ApiProperty({
     enum: FeeScope,
     example: FeeScope.SECTION,
-    description: 'Target scope: all students, a section, a grade, or specific students',
+    description:
+      'Target scope: all students, a section, a grade, or specific students',
   })
   @IsEnum(FeeScope)
   scope: FeeScope;
@@ -72,7 +78,9 @@ export class PostFeeDto {
   @IsUUID()
   gradeId?: string;
 
-  @ApiPropertyOptional({ description: 'Required when scope = "students". List of student UUIDs.' })
+  @ApiPropertyOptional({
+    description: 'Required when scope = "students". List of student UUIDs.',
+  })
   @ValidateIf((o) => o.scope === FeeScope.STUDENTS)
   @IsArray()
   @ArrayMinSize(1)

@@ -48,13 +48,18 @@ export class StudioController {
   // ── Tenants ───────────────────────────────────────────────────
 
   @Get('tenants')
-  @ApiOperation({ summary: 'List all tenants with subscription + module status' })
+  @ApiOperation({
+    summary: 'List all tenants with subscription + module status',
+  })
   listTenants() {
     return this.tenantsService.findAll();
   }
 
   @Post('tenants')
-  @ApiOperation({ summary: 'Bootstrap a new tenant (creates subscription, modules, and optional admin invite)' })
+  @ApiOperation({
+    summary:
+      'Bootstrap a new tenant (creates subscription, modules, and optional admin invite)',
+  })
   createTenant(@Body() dto: CreateStudioTenantDto) {
     return this.tenantsService.create(dto);
   }
@@ -66,8 +71,13 @@ export class StudioController {
   }
 
   @Patch('tenants/:id/status')
-  @ApiOperation({ summary: 'Update tenant status (active / suspended / trial / cancelled)' })
-  updateTenantStatus(@Param('id') id: string, @Body() dto: UpdateTenantStatusDto) {
+  @ApiOperation({
+    summary: 'Update tenant status (active / suspended / trial / cancelled)',
+  })
+  updateTenantStatus(
+    @Param('id') id: string,
+    @Body() dto: UpdateTenantStatusDto,
+  ) {
     return this.tenantsService.updateStatus(id, dto);
   }
 
@@ -88,7 +98,10 @@ export class StudioController {
 
   @Patch('tenants/:id/modules')
   @ApiOperation({ summary: 'Set enabled modules for a tenant' })
-  setTenantModules(@Param('id') id: string, @Body() dto: UpdateTenantModulesDto) {
+  setTenantModules(
+    @Param('id') id: string,
+    @Body() dto: UpdateTenantModulesDto,
+  ) {
     return this.modulesService.setForTenant(id, dto.enabledModules);
   }
 
@@ -107,8 +120,13 @@ export class StudioController {
   }
 
   @Patch('tenants/:id/subscription')
-  @ApiOperation({ summary: 'Update tenant subscription (plan, status, end date)' })
-  updateSubscription(@Param('id') id: string, @Body() dto: UpdateSubscriptionDto) {
+  @ApiOperation({
+    summary: 'Update tenant subscription (plan, status, end date)',
+  })
+  updateSubscription(
+    @Param('id') id: string,
+    @Body() dto: UpdateSubscriptionDto,
+  ) {
     return this.subscriptionService.update(id, dto);
   }
 

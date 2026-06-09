@@ -13,7 +13,10 @@ export class CompleteOnboardingDto {
   @IsNotEmpty()
   token: string;
 
-  @ApiProperty({ example: '+237652301234', description: 'Must match the phone on the invite' })
+  @ApiProperty({
+    example: '+237652301234',
+    description: 'Must match the phone on the invite',
+  })
   @IsPhoneNumber()
   phone: string;
 
@@ -23,7 +26,8 @@ export class CompleteOnboardingDto {
   name: string;
 
   @ApiPropertyOptional({
-    description: 'Required for PASSWORD mode (teacher/staff). Min 8 characters.',
+    description:
+      'Required for PASSWORD mode (teacher/staff). Min 8 characters.',
     minLength: 8,
   })
   @IsString()

@@ -474,7 +474,9 @@ export class StudentsService {
         include: {
           grade: true,
           section: {
-            include: { promotion: { select: { id: true, name: true, entryYear: true } } },
+            include: {
+              promotion: { select: { id: true, name: true, entryYear: true } },
+            },
           },
           promotion: { select: { id: true, name: true, entryYear: true } },
           card: true,

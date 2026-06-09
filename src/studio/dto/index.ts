@@ -1,5 +1,17 @@
-import { IsString, IsOptional, IsEmail, IsArray, IsBoolean, IsEnum, IsDateString } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsEmail,
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsDateString,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  SubscriptionPlan,
+  SubscriptionStatus,
+} from '../../../prisma/generated/client';
 
 export class CreateStudioTenantDto {
   @ApiProperty({ example: 'Saint Ignatius High School' })
@@ -11,76 +23,91 @@ export class CreateStudioTenantDto {
   slug: string;
 
   @ApiPropertyOptional()
-  @IsOptional() @IsString()
+  @IsOptional()
+  @IsString()
   timezone?: string;
 
   @ApiPropertyOptional()
-  @IsOptional() @IsString()
+  @IsOptional()
+  @IsString()
   brandColor?: string;
 
   // Initial admin invite
   @ApiPropertyOptional({ example: 'admin@school.com' })
-  @IsOptional() @IsEmail()
+  @IsOptional()
+  @IsEmail()
   adminEmail?: string;
 
   @ApiPropertyOptional({ example: '+250788000000' })
-  @IsOptional() @IsString()
+  @IsOptional()
+  @IsString()
   adminPhone?: string;
 
   @ApiPropertyOptional({ example: 'John Doe' })
-  @IsOptional() @IsString()
+  @IsOptional()
+  @IsString()
   adminName?: string;
 
   // Subscription
-  @ApiPropertyOptional({ enum: ['BASIC','STANDARD','PREMIUM','ENTERPRISE'] })
-  @IsOptional() @IsString()
-  plan?: string;
+  @ApiPropertyOptional({ enum: SubscriptionPlan })
+  @IsOptional()
+  @IsEnum(SubscriptionPlan)
+  plan?: SubscriptionPlan;
 }
 
 export class UpdateTenantModulesDto {
-  @ApiProperty({ example: ['academics','attendance'] })
-  @IsArray() @IsString({ each: true })
+  @ApiProperty({ example: ['academics', 'attendance'] })
+  @IsArray()
+  @IsString({ each: true })
   enabledModules: string[];
 }
 
 export class UpdateSubscriptionDto {
-  @ApiPropertyOptional({ enum: ['BASIC','STANDARD','PREMIUM','ENTERPRISE'] })
-  @IsOptional() @IsString()
-  plan?: string;
+  @ApiPropertyOptional({ enum: SubscriptionPlan })
+  @IsOptional()
+  @IsEnum(SubscriptionPlan)
+  plan?: SubscriptionPlan;
 
-  @ApiPropertyOptional({ enum: ['TRIAL','ACTIVE','EXPIRED','SUSPENDED','CANCELLED'] })
-  @IsOptional() @IsString()
-  status?: string;
+  @ApiPropertyOptional({ enum: SubscriptionStatus })
+  @IsOptional()
+  @IsEnum(SubscriptionStatus)
+  status?: SubscriptionStatus;
 
   @ApiPropertyOptional()
-  @IsOptional() @IsDateString()
+  @IsOptional()
+  @IsDateString()
   endDate?: string;
 
   @ApiPropertyOptional()
-  @IsOptional() @IsString()
+  @IsOptional()
+  @IsString()
   notes?: string;
 }
 
 export class UpdateTenantStatusDto {
-  @ApiProperty({ enum: ['ACTIVE','SUSPENDED','TRIAL','CANCELLED'] })
+  @ApiProperty({ enum: ['ACTIVE', 'SUSPENDED', 'TRIAL', 'CANCELLED'] })
   @IsString()
   status: string;
 }
 
 export class CreateAdminInviteDto {
   @ApiPropertyOptional()
-  @IsOptional() @IsEmail()
+  @IsOptional()
+  @IsEmail()
   email?: string;
 
   @ApiPropertyOptional()
-  @IsOptional() @IsString()
+  @IsOptional()
+  @IsString()
   phone?: string;
 
   @ApiPropertyOptional()
-  @IsOptional() @IsString()
+  @IsOptional()
+  @IsString()
   name?: string;
 
-  @ApiPropertyOptional({ enum: ['ADMIN','TEACHER','STAFF'] })
-  @IsOptional() @IsString()
+  @ApiPropertyOptional({ enum: ['ADMIN', 'TEACHER', 'STAFF'] })
+  @IsOptional()
+  @IsString()
   role?: string;
 }

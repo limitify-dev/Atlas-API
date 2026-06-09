@@ -2,7 +2,10 @@ import { Controller, Get, UseGuards } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { CurrentUser, AuthUser } from '../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../auth/decorators/current-user.decorator';
 
 @ApiTags('Dashboard')
 @ApiBearerAuth()

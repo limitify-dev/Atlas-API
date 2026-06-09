@@ -28,7 +28,9 @@ export class PushProcessor extends WorkerHost {
   async process(job: Job<PushSingleJob | PushBulkJob>) {
     if (job.name === 'send-push-bulk') {
       const { userIds, title, body, data } = job.data as PushBulkJob;
-      this.logger.debug(`Processing bulk push to ${userIds.length} users: ${title}`);
+      this.logger.debug(
+        `Processing bulk push to ${userIds.length} users: ${title}`,
+      );
       await this.pushService.sendToUsers(userIds, title, body, data);
       return;
     }

@@ -10,7 +10,9 @@ import { UpdateSectionDto } from './dto/update-section.dto';
 import { EducationLevel, Prisma } from '../../prisma/generated/client';
 
 const SECTION_INCLUDE = {
-  grade: { select: { id: true, name: true, level: true, educationLevel: true } },
+  grade: {
+    select: { id: true, name: true, level: true, educationLevel: true },
+  },
   promotion: { select: { id: true, name: true, entryYear: true } },
   combination: { select: { id: true, name: true, code: true } },
   _count: { select: { students: true } },
@@ -46,7 +48,9 @@ export class SectionsService {
         where: { id: dto.combinationId, tenantId },
       });
       if (!combination) {
-        throw new BadRequestException(`Combination ${dto.combinationId} not found.`);
+        throw new BadRequestException(
+          `Combination ${dto.combinationId} not found.`,
+        );
       }
     } else if (dto.combinationId) {
       throw new BadRequestException(
@@ -72,10 +76,14 @@ export class SectionsService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
-          throw new ConflictException('A section with this name already exists for this grade.');
+          throw new ConflictException(
+            'A section with this name already exists for this grade.',
+          );
         }
         if (error.code === 'P2003') {
-          throw new BadRequestException('Invalid grade, combination, or promotion ID.');
+          throw new BadRequestException(
+            'Invalid grade, combination, or promotion ID.',
+          );
         }
       }
       throw error;
@@ -112,7 +120,12 @@ export class SectionsService {
         classes: {
           include: {
             teacher: {
-              select: { id: true, firstName: true, lastName: true, photoUrl: true },
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                photoUrl: true,
+              },
             },
           },
         },
@@ -226,9 +239,7 @@ export class SectionsService {
       where: { id: studentId, tenantId, sectionId },
     });
     if (!student) {
-      throw new NotFoundException(
-        'Student not found in this classroom.',
-      );
+      throw new NotFoundException('Student not found in this classroom.');
     }
 
     // Section is required on Student — removing means clearing it.

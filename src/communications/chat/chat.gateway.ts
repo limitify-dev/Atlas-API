@@ -285,7 +285,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
               { attempts: 2, backoff: { type: 'fixed', delay: 3000 } },
             )
             .catch((err) =>
-              this.logger.warn(`Push enqueue for ${participantId} failed: ${err.message}`),
+              this.logger.warn(
+                `Push enqueue for ${participantId} failed: ${err.message}`,
+              ),
             );
         }
       }

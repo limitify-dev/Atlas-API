@@ -12,7 +12,13 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import { jwtConstants } from './constant';
 import { EmailService } from 'src/email/email.service';
-import { Role, UserType, Status, User, OnboardingMode } from '../../prisma/generated/client';
+import {
+  Role,
+  UserType,
+  Status,
+  User,
+  OnboardingMode,
+} from '../../prisma/generated/client';
 import { InviteService } from './invite.service';
 import { OtpService } from './otp.service';
 import { CompleteOnboardingDto } from './dto';
@@ -288,22 +294,6 @@ export class AuthService {
       return null;
     }
 
-    const isParentUser = user.role === 'PARENT' || user.userType === 'PARENT';
-    if (isParentUser) {
-      const usingDefaultPassword = await bcrypt.compare(
-        AuthService.DEFAULT_PARENT_PASSWORD,
-        user.password,
-      );
-
-      if (usingDefaultPassword) {
-        throw new ForbiddenException({
-          code: 'DEFAULT_PASSWORD_CHANGE_REQUIRED',
-          message:
-            'Default parent password detected. Please change your password to continue.',
-        });
-      }
-    }
-
     // Remove password before returning and flatten tenant data
     const { password, tenant, teacher, student, ...userWithoutPassword } = user;
     return {
@@ -326,74 +316,9 @@ export class AuthService {
     currentPassword: string,
     newPassword: string,
   ): Promise<{ message: string }> {
-    if (!identifier || !currentPassword || !newPassword) {
-      throw new BadRequestException(
-        'Identifier, currentPassword and newPassword are required',
-      );
-    }
-
-    if (newPassword.length < 8) {
-      throw new BadRequestException(
-        'New password must be at least 8 characters long',
-      );
-    }
-
-    const user = await this.prisma.user.findFirst({
-      where: {
-        OR: [{ username: identifier }, { email: identifier }],
-      },
-    });
-
-    if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
-    }
-
-    const isParentUser = user.role === 'PARENT' || user.userType === 'PARENT';
-    if (!isParentUser) {
-      throw new ForbiddenException(
-        'Default password change flow is only available for parents',
-      );
-    }
-
-    const isCurrentPasswordValid = await bcrypt.compare(
-      currentPassword,
-      user.password,
+    throw new BadRequestException(
+      'Default password change flow is no longer available. Please reset your password using the standard password reset flow.',
     );
-    if (!isCurrentPasswordValid) {
-      throw new UnauthorizedException('Current password is incorrect');
-    }
-
-    const isStillDefault = await bcrypt.compare(
-      AuthService.DEFAULT_PARENT_PASSWORD,
-      user.password,
-    );
-    if (!isStillDefault) {
-      throw new BadRequestException('Password has already been changed');
-    }
-
-    if (newPassword === AuthService.DEFAULT_PARENT_PASSWORD) {
-      throw new BadRequestException('Please choose a different password');
-    }
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await this.prisma.user.update({
-      where: { id: user.id },
-      data: {
-        password: hashedPassword,
-        passwordChangedAt: new Date(),
-      },
-    });
-
-    // Invalidate old sessions/tokens tied to the default password.
-    await Promise.all([
-      this.prisma.refreshToken.deleteMany({ where: { userId: user.id } }),
-      this.prisma.session.deleteMany({ where: { userId: user.id } }),
-    ]);
-
-    return {
-      message:
-        'Password updated successfully. Please sign in with your new password.',
-    };
   }
   /**
    * Logout user and invalidate tokens
@@ -637,7 +562,9 @@ export class AuthService {
    * Complete invite-based onboarding for parent (OTP) or teacher/staff (password).
    * Creates the user account, links the profile, and returns auth tokens.
    */
-  async completeOnboarding(dto: CompleteOnboardingDto): Promise<AuthResponseDto> {
+  async completeOnboarding(
+    dto: CompleteOnboardingDto,
+  ): Promise<AuthResponseDto> {
     const invite = await this.inviteService.getValidInvite(dto.token);
 
     // Phone must match the invite exactly
@@ -682,13 +609,17 @@ export class AuthService {
         where: { email: dto.email },
       });
       if (existingEmail) {
-        throw new ConflictException('An account with this email already exists.');
+        throw new ConflictException(
+          'An account with this email already exists.',
+        );
       }
     }
 
     // Generate a unique username from phone digits
     const baseUsername = `user${dto.phone.replace(/\D/g, '')}`;
-    const taken = await this.prisma.user.findUnique({ where: { username: baseUsername } });
+    const taken = await this.prisma.user.findUnique({
+      where: { username: baseUsername },
+    });
     const username = taken ? `${baseUsername}_${Date.now()}` : baseUsername;
 
     const rawPassword = dto.password ?? `ATLAS_${crypto.randomUUID()}`;
@@ -713,30 +644,7 @@ export class AuthService {
       });
 
       // Link profile based on role
-      if (invite.role === Role.STAFF) {
-        const nameParts = dto.name.trim().split(/\s+/);
-        const firstName = nameParts[0] ?? 'Parent';
-        const lastName = nameParts.slice(1).join(' ') || '';
-
-        const parent = await tx.parent.create({
-          data: {
-            tenantId: invite.tenantId,
-            userId: created.id,
-            firstName,
-            lastName,
-          },
-        });
-
-        if (invite.referenceId) {
-          await tx.studentParent.create({
-            data: {
-              studentId: invite.referenceId,
-              parentId: parent.id,
-              isPrimary: true,
-            },
-          });
-        }
-      } else if (invite.role === Role.TEACHER && invite.referenceId) {
+      if (invite.role === Role.TEACHER && invite.referenceId) {
         await tx.teacher.update({
           where: { id: invite.referenceId },
           data: { userId: created.id },
@@ -779,13 +687,21 @@ export class AuthService {
       where: { phone },
       include: {
         tenant: {
-          select: { id: true, name: true, timezone: true, logo: true, brandColor: true },
+          select: {
+            id: true,
+            name: true,
+            timezone: true,
+            logo: true,
+            brandColor: true,
+          },
         },
       },
     });
 
     if (!user) {
-      throw new UnauthorizedException('No account found for this phone number.');
+      throw new UnauthorizedException(
+        'No account found for this phone number.',
+      );
     }
 
     if (user.status !== Status.ACTIVE) {
@@ -821,7 +737,6 @@ export class AuthService {
     const map: Partial<Record<Role, UserType>> = {
       [Role.STAFF]: UserType.STAFF,
       [Role.TEACHER]: UserType.TEACHER,
-      [Role.STAFF]: UserType.STAFF,
     };
     return map[role] ?? null;
   }

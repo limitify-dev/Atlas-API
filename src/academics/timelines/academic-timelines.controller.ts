@@ -9,11 +9,19 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
-import { CurrentUser, AuthUser } from '../../auth/decorators/current-user.decorator';
+import {
+  CurrentUser,
+  AuthUser,
+} from '../../auth/decorators/current-user.decorator';
 import {
   AcademicWindowStatus,
   AcademicWindowType,
@@ -47,7 +55,10 @@ export class AcademicTimelinesController {
     description:
       'Creates in DRAFT status. Call /activate when ready to make it visible and enforceable.',
   })
-  create(@CurrentUser() user: AuthUser, @Body() dto: CreateAcademicTimelineDto) {
+  create(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: CreateAcademicTimelineDto,
+  ) {
     return this.timelinesService.create(user.tenantId, dto, user.id);
   }
 
@@ -55,19 +66,32 @@ export class AcademicTimelinesController {
 
   @Get()
   @Roles(...READ_ROLES)
-  @ApiOperation({ summary: 'List timeline windows — filter by type, status, year, term, or currently open' })
+  @ApiOperation({
+    summary:
+      'List timeline windows — filter by type, status, year, term, or currently open',
+  })
   @ApiQuery({ name: 'type', enum: AcademicWindowType, required: false })
   @ApiQuery({ name: 'status', enum: AcademicWindowStatus, required: false })
   @ApiQuery({ name: 'academicYear', required: false, example: '2024-2025' })
   @ApiQuery({ name: 'term', required: false, example: 'T1' })
-  @ApiQuery({ name: 'currentOnly', required: false, type: Boolean, description: 'Only windows whose date range includes today' })
-  findAll(@CurrentUser() user: AuthUser, @Query() filters: AcademicTimelineFiltersDto) {
+  @ApiQuery({
+    name: 'currentOnly',
+    required: false,
+    type: Boolean,
+    description: 'Only windows whose date range includes today',
+  })
+  findAll(
+    @CurrentUser() user: AuthUser,
+    @Query() filters: AcademicTimelineFiltersDto,
+  ) {
     return this.timelinesService.findAll(user.tenantId, filters);
   }
 
   @Get('academic-years')
   @Roles(...READ_ROLES)
-  @ApiOperation({ summary: 'List all academic years that have at least one window configured' })
+  @ApiOperation({
+    summary: 'List all academic years that have at least one window configured',
+  })
   getAcademicYears(@CurrentUser() user: AuthUser) {
     return this.timelinesService.getAcademicYears(user.tenantId);
   }
@@ -96,7 +120,8 @@ export class AcademicTimelinesController {
   @Roles(...MANAGE_ROLES)
   @ApiOperation({
     summary: 'Update a timeline window',
-    description: 'Allowed only on DRAFT and ACTIVE windows. Overlap is re-checked if dates or scope change.',
+    description:
+      'Allowed only on DRAFT and ACTIVE windows. Overlap is re-checked if dates or scope change.',
   })
   update(
     @CurrentUser() user: AuthUser,
@@ -122,7 +147,8 @@ export class AcademicTimelinesController {
   @Roles(...MANAGE_ROLES)
   @ApiOperation({
     summary: 'Manually close an ACTIVE window → CLOSED',
-    description: 'Use when ending a window early. Closed windows are read-only.',
+    description:
+      'Use when ending a window early. Closed windows are read-only.',
   })
   close(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.timelinesService.close(user.tenantId, id);
@@ -132,7 +158,8 @@ export class AcademicTimelinesController {
   @Roles(...MANAGE_ROLES)
   @ApiOperation({
     summary: 'Cancel a DRAFT or ACTIVE window → CANCELLED',
-    description: 'For windows that were set up in error. Cancelled windows are read-only.',
+    description:
+      'For windows that were set up in error. Cancelled windows are read-only.',
   })
   cancel(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.timelinesService.cancel(user.tenantId, id);

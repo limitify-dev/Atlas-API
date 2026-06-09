@@ -21,7 +21,9 @@ export class CreateInvoiceDto {
 
   @ApiProperty({ example: '250.00' })
   @IsString()
-  @Matches(/^\d+(\.\d{1,2})?$/, { message: 'amount must be a valid decimal with up to 2 decimal places' })
+  @Matches(/^\d+(\.\d{1,2})?$/, {
+    message: 'amount must be a valid decimal with up to 2 decimal places',
+  })
   amount: string;
 
   @ApiPropertyOptional({ example: 'USD' })
@@ -38,7 +40,10 @@ export class CreateInvoiceDto {
   @IsOptional()
   term?: string;
 
-  @ApiPropertyOptional({ example: 'tuition', description: 'tuition | transport | uniform | custom' })
+  @ApiPropertyOptional({
+    example: 'tuition',
+    description: 'tuition | transport | uniform | custom',
+  })
   @IsString()
   @IsOptional()
   category?: string;

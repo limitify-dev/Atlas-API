@@ -1,9 +1,17 @@
-import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateStudioTenantDto, UpdateTenantStatusDto } from '../dto';
 import { StudioModulesService } from './studio-modules.service';
 import { StudioSubscriptionService } from './studio-subscription.service';
 import { AdminProvisionService } from './admin-provision.service';
+import {
+  AdminInvite,
+  SubscriptionPlan,
+} from '../../../prisma/generated/client';
 
 @Injectable()
 export class StudioTenantsService {
@@ -19,7 +27,9 @@ export class StudioTenantsService {
       include: {
         studioSubscription: true,
         tenantModules: { include: { module: true } },
-        _count: { select: { users: true, teachers: true, grades: true, sections: true } },
+        _count: {
+          select: { users: true, teachers: true, grades: true, sections: true },
+        },
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -32,7 +42,9 @@ export class StudioTenantsService {
         studioSubscription: true,
         tenantModules: { include: { module: true } },
         adminInvites: { orderBy: { createdAt: 'desc' }, take: 5 },
-        _count: { select: { users: true, teachers: true, grades: true, sections: true } },
+        _count: {
+          select: { users: true, teachers: true, grades: true, sections: true },
+        },
       },
     });
     if (!tenant) throw new NotFoundException('Tenant not found.');
@@ -50,7 +62,10 @@ export class StudioTenantsService {
     const existing = await this.prisma.tenant.findFirst({
       where: { OR: [{ slug: dto.slug }, { name: dto.name }] },
     });
-    if (existing) throw new ConflictException('A tenant with this name or slug already exists.');
+    if (existing)
+      throw new ConflictException(
+        'A tenant with this name or slug already exists.',
+      );
 
     const tenant = await this.prisma.tenant.create({
       data: {
@@ -64,12 +79,15 @@ export class StudioTenantsService {
 
     // Parallel: subscription + modules
     await Promise.all([
-      this.subscriptionService.createTrial(tenant.id, dto.plan || 'BASIC'),
+      this.subscriptionService.createTrial(
+        tenant.id,
+        (dto.plan as SubscriptionPlan) || SubscriptionPlan.BASIC,
+      ),
       this.modulesService.enableDefaults(tenant.id),
     ]);
 
     // Admin invite if contact provided
-    let invite = null;
+    let invite: AdminInvite | null = null;
     if (dto.adminEmail || dto.adminPhone) {
       invite = await this.adminProvisionService.createInvite(tenant.id, {
         email: dto.adminEmail,

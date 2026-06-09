@@ -28,7 +28,10 @@ export class CreateStaffDto {
   @IsOptional()
   department?: string;
 
-  @ApiProperty({ example: 'finance', description: 'finance | discipline | reception | IT | custom' })
+  @ApiProperty({
+    example: 'finance',
+    description: 'finance | discipline | reception | IT | custom',
+  })
   @IsString()
   @IsNotEmpty()
   staffRole: string;

@@ -72,7 +72,9 @@ export class PaymentsService {
             submittedBy: parentUserId,
             proofUrl: dto.proofUrl,
             note: dto.note,
-            amountClaimed: dto.amountClaimed ? new Prisma.Decimal(dto.amountClaimed) : null,
+            amountClaimed: dto.amountClaimed
+              ? new Prisma.Decimal(dto.amountClaimed)
+              : null,
           },
         }),
         tx.invoice.update({
@@ -93,7 +95,13 @@ export class PaymentsService {
       const studentName = `${invoice.student.firstName} ${invoice.student.lastName}`;
 
       this.events.emit(
-        new PaymentSubmittedEvent(tenantId, invoiceId, submission.id, studentName, financeStaffUserIds),
+        new PaymentSubmittedEvent(
+          tenantId,
+          invoiceId,
+          submission.id,
+          studentName,
+          financeStaffUserIds,
+        ),
       );
 
       return submission;
@@ -185,7 +193,8 @@ export class PaymentsService {
         },
       });
 
-      if (!submission) throw new NotFoundException('Payment submission not found.');
+      if (!submission)
+        throw new NotFoundException('Payment submission not found.');
 
       if (submission.status !== PaymentSubmissionStatus.PENDING_REVIEW) {
         throw new ConflictException(
@@ -223,7 +232,10 @@ export class PaymentsService {
       // If approved, fulfill any active promises
       if (dto.approved) {
         await tx.paymentPromise.updateMany({
-          where: { invoiceId: submission.invoiceId, status: PaymentPromiseStatus.ACTIVE },
+          where: {
+            invoiceId: submission.invoiceId,
+            status: PaymentPromiseStatus.ACTIVE,
+          },
           data: { status: PaymentPromiseStatus.FULFILLED },
         });
       }
@@ -234,11 +246,21 @@ export class PaymentsService {
 
       if (dto.approved) {
         this.events.emit(
-          new PaymentApprovedEvent(tenantId, submission.invoiceId, dto.reviewNote ?? null, parentUserIds),
+          new PaymentApprovedEvent(
+            tenantId,
+            submission.invoiceId,
+            dto.reviewNote ?? null,
+            parentUserIds,
+          ),
         );
       } else {
         this.events.emit(
-          new PaymentRejectedEvent(tenantId, submission.invoiceId, dto.reviewNote ?? null, parentUserIds),
+          new PaymentRejectedEvent(
+            tenantId,
+            submission.invoiceId,
+            dto.reviewNote ?? null,
+            parentUserIds,
+          ),
         );
       }
 

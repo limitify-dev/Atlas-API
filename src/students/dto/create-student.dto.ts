@@ -113,7 +113,8 @@ export class CreateStudentDto {
   sectionId: string;
 
   @ApiProperty({
-    description: 'Promotion (cohort) ID — optional, auto-stamped from section if not provided',
+    description:
+      'Promotion (cohort) ID — optional, auto-stamped from section if not provided',
     example: 'uuid-promotion-id',
     required: false,
   })

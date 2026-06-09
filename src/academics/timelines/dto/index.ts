@@ -34,12 +34,15 @@ export class CreateAcademicTimelineDto {
     description: 'Academic year this window belongs to',
   })
   @IsString()
-  @Matches(/^\d{4}-\d{4}$/, { message: 'academicYear must be in the format YYYY-YYYY (e.g. 2024-2025)' })
+  @Matches(/^\d{4}-\d{4}$/, {
+    message: 'academicYear must be in the format YYYY-YYYY (e.g. 2024-2025)',
+  })
   academicYear: string;
 
   @ApiPropertyOptional({
     example: 'T1',
-    description: 'Term identifier within the academic year — omit for full-year windows',
+    description:
+      'Term identifier within the academic year — omit for full-year windows',
   })
   @IsString()
   @IsOptional()
@@ -53,14 +56,17 @@ export class CreateAcademicTimelineDto {
   @IsDateString()
   endDate: string;
 
-  @ApiPropertyOptional({ example: 'Teachers must submit all term grades by the end date.' })
+  @ApiPropertyOptional({
+    example: 'Teachers must submit all term grades by the end date.',
+  })
   @IsString()
   @IsOptional()
   description?: string;
 
   @ApiPropertyOptional({
     type: [String],
-    description: 'Grade UUIDs this window applies to. Omit or pass null for school-wide windows.',
+    description:
+      'Grade UUIDs this window applies to. Omit or pass null for school-wide windows.',
     example: ['uuid-grade-1', 'uuid-grade-2'],
   })
   @IsArray()
@@ -69,7 +75,9 @@ export class CreateAcademicTimelineDto {
   gradeIds?: string[];
 }
 
-export class UpdateAcademicTimelineDto extends PartialType(CreateAcademicTimelineDto) {}
+export class UpdateAcademicTimelineDto extends PartialType(
+  CreateAcademicTimelineDto,
+) {}
 
 export class AcademicTimelineFiltersDto {
   @ApiPropertyOptional({ enum: AcademicWindowType })
@@ -93,7 +101,8 @@ export class AcademicTimelineFiltersDto {
   term?: string;
 
   @ApiPropertyOptional({
-    description: 'Return only windows that are currently open (startDate <= now <= endDate)',
+    description:
+      'Return only windows that are currently open (startDate <= now <= endDate)',
     type: Boolean,
   })
   @IsOptional()

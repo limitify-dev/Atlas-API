@@ -100,7 +100,9 @@ export class SystemLogsService {
     ]);
 
     // Resolve user details for all logs that have a userId
-    const userIds = [...new Set(logs.map((l) => l.userId).filter(Boolean))] as string[];
+    const userIds = [
+      ...new Set(logs.map((l) => l.userId).filter(Boolean)),
+    ] as string[];
     const users =
       userIds.length > 0
         ? await this.prisma.user.findMany({

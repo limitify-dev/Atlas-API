@@ -29,7 +29,7 @@ export class NotificationsController {
    */
   @Post()
   @UseGuards(RolesGuard)
-  @Roles('SUPER_ADMIN', 'ADMIN', 'DOS', 'DM')
+  @Roles('SUPER_ADMIN', 'ADMIN', 'STAFF')
   async createNotification(
     @Body() data: CreateNotificationDto,
     @Request() req: any,
@@ -46,7 +46,7 @@ export class NotificationsController {
    */
   @Get()
   @UseGuards(RolesGuard)
-  @Roles('SUPER_ADMIN', 'ADMIN', 'DOS', 'DM')
+  @Roles('SUPER_ADMIN', 'ADMIN', 'STAFF')
   async getNotifications(
     @Request() req: any,
     @Query() filters: NotificationFiltersDto,
@@ -66,7 +66,7 @@ export class NotificationsController {
    */
   @Get('stats')
   @UseGuards(RolesGuard)
-  @Roles('SUPER_ADMIN', 'ADMIN', 'DOS', 'DM')
+  @Roles('SUPER_ADMIN', 'ADMIN', 'STAFF')
   async getStats(@Request() req: any) {
     return this.notificationsService.getNotificationStats(req.user.tenantId);
   }
@@ -131,7 +131,7 @@ export class NotificationsController {
    */
   @Delete(':id')
   @UseGuards(RolesGuard)
-  @Roles('SUPER_ADMIN', 'ADMIN', 'DOS', 'DM')
+  @Roles('SUPER_ADMIN', 'ADMIN', 'STAFF')
   async deleteNotification(@Param('id') id: string, @Request() req: any) {
     return this.notificationsService.deleteNotification(id, req.user.tenantId);
   }

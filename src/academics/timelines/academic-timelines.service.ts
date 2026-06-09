@@ -22,7 +22,11 @@ export class AcademicTimelinesService {
 
   // ─── WRITE ───────────────────────────────────────────────────────────────────
 
-  async create(tenantId: string, dto: CreateAcademicTimelineDto, createdBy: string) {
+  async create(
+    tenantId: string,
+    dto: CreateAcademicTimelineDto,
+    createdBy: string,
+  ) {
     const start = new Date(dto.startDate);
     const end = new Date(dto.endDate);
 
@@ -30,7 +34,14 @@ export class AcademicTimelinesService {
       throw new BadRequestException('endDate must be after startDate.');
     }
 
-    await this.checkOverlap(tenantId, dto.type, start, end, dto.academicYear, dto.term);
+    await this.checkOverlap(
+      tenantId,
+      dto.type,
+      start,
+      end,
+      dto.academicYear,
+      dto.term,
+    );
 
     return this.prisma.academicTimeline.create({
       data: {
@@ -42,7 +53,9 @@ export class AcademicTimelinesService {
         startDate: start,
         endDate: end,
         description: dto.description ?? null,
-        gradeIds: dto.gradeIds ? JSON.parse(JSON.stringify(dto.gradeIds)) : Prisma.DbNull,
+        gradeIds: dto.gradeIds
+          ? JSON.parse(JSON.stringify(dto.gradeIds))
+          : Prisma.DbNull,
         createdBy,
       },
     });
@@ -179,7 +192,8 @@ export class AcademicTimelinesService {
     const timeline = await this.prisma.academicTimeline.findFirst({
       where: { id, tenantId },
     });
-    if (!timeline) throw new NotFoundException('Academic timeline window not found.');
+    if (!timeline)
+      throw new NotFoundException('Academic timeline window not found.');
     return timeline;
   }
 
@@ -216,11 +230,19 @@ export class AcademicTimelinesService {
         startDate: { lte: now },
         endDate: { gte: now },
       },
-      select: { id: true, name: true, type: true, endDate: true, term: true, academicYear: true },
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        endDate: true,
+        term: true,
+        academicYear: true,
+      },
     });
 
     // Build a map keyed by window type — most recently started wins if multiple overlap
-    const map: Partial<Record<AcademicWindowType, typeof open[0] | null>> = {};
+    const map: Partial<Record<AcademicWindowType, (typeof open)[0] | null>> =
+      {};
 
     for (const type of Object.values(AcademicWindowType)) {
       map[type] = null;
@@ -237,7 +259,10 @@ export class AcademicTimelinesService {
    *
    * Example: academicTimelinesService.isWindowOpen(tenantId, AcademicWindowType.GRADE_SUBMISSION)
    */
-  async isWindowOpen(tenantId: string, type: AcademicWindowType): Promise<boolean> {
+  async isWindowOpen(
+    tenantId: string,
+    type: AcademicWindowType,
+  ): Promise<boolean> {
     const now = new Date();
     const count = await this.prisma.academicTimeline.count({
       where: {
@@ -288,7 +313,7 @@ export class AcademicTimelinesService {
     if (conflict) {
       throw new ConflictException(
         `This window overlaps with "${conflict.name}" (${conflict.startDate.toISOString().slice(0, 10)} – ${conflict.endDate.toISOString().slice(0, 10)}). ` +
-        `Adjust the dates or cancel the conflicting window first.`,
+          `Adjust the dates or cancel the conflicting window first.`,
       );
     }
   }

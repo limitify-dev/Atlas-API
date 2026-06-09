@@ -95,13 +95,17 @@ export class InviteService {
       },
     });
 
-    if (!invite) throw new NotFoundException('Invalid or unknown invite token.');
+    if (!invite)
+      throw new NotFoundException('Invalid or unknown invite token.');
 
     if (invite.status === InviteStatus.CLAIMED) {
       throw new ConflictException('This invite has already been used.');
     }
 
-    if (invite.status === InviteStatus.EXPIRED || invite.expiresAt < new Date()) {
+    if (
+      invite.status === InviteStatus.EXPIRED ||
+      invite.expiresAt < new Date()
+    ) {
       await this.prisma.invite.update({
         where: { id: invite.id },
         data: { status: InviteStatus.EXPIRED },
@@ -128,7 +132,8 @@ export class InviteService {
   async resend(token: string) {
     const invite = await this.prisma.invite.findUnique({ where: { token } });
 
-    if (!invite) throw new NotFoundException('Invalid or unknown invite token.');
+    if (!invite)
+      throw new NotFoundException('Invalid or unknown invite token.');
 
     if (invite.status === InviteStatus.CLAIMED) {
       throw new ConflictException('This invite has already been used.');
@@ -145,7 +150,11 @@ export class InviteService {
       data: { token: newToken, expiresAt, status: InviteStatus.PENDING },
     });
 
-    await this.sendInviteSms(updated.phone, updated.token, updated.onboardingMode);
+    await this.sendInviteSms(
+      updated.phone,
+      updated.token,
+      updated.onboardingMode,
+    );
 
     return { message: 'Invite resent successfully.' };
   }
@@ -176,11 +185,15 @@ export class InviteService {
       },
     });
 
-    if (!invite) throw new NotFoundException('Invalid or unknown invite token.');
+    if (!invite)
+      throw new NotFoundException('Invalid or unknown invite token.');
     if (invite.status === InviteStatus.CLAIMED) {
       throw new ConflictException('This invite has already been used.');
     }
-    if (invite.status === InviteStatus.EXPIRED || invite.expiresAt < new Date()) {
+    if (
+      invite.status === InviteStatus.EXPIRED ||
+      invite.expiresAt < new Date()
+    ) {
       await this.prisma.invite.update({
         where: { id: invite.id },
         data: { status: InviteStatus.EXPIRED },

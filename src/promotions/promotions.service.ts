@@ -53,10 +53,7 @@ export class PromotionsService {
             grade: { select: { id: true, name: true, level: true } },
             _count: { select: { students: true } },
           },
-          orderBy: [
-            { grade: { level: 'asc' } },
-            { name: 'asc' },
-          ],
+          orderBy: [{ grade: { level: 'asc' } }, { name: 'asc' }],
         },
         _count: { select: { sections: true, students: true } },
       },
