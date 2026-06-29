@@ -15,8 +15,11 @@ export class PlatformAnalyticsService {
       trialTenants,
       suspendedTenants,
       totalUsers,
-      totalStudents,
+      totalAdmins,
       totalTeachers,
+      totalStaff,
+      totalParents,
+      totalStudents,
       totalDevices,
       activeDevices,
     ] = await Promise.all([
@@ -24,9 +27,12 @@ export class PlatformAnalyticsService {
       this.prisma.tenant.count({ where: { status: 'ACTIVE' } }),
       this.prisma.tenant.count({ where: { status: 'TRIAL' } }),
       this.prisma.tenant.count({ where: { status: 'SUSPENDED' } }),
-      this.prisma.user.count(),
-      this.prisma.user.count({ where: { role: 'STAFF' } }),
-      this.prisma.user.count({ where: { role: 'TEACHER' } }),
+      this.prisma.user.count({ where: { role: { not: 'SUPER_ADMIN' } } }),
+      this.prisma.user.count({ where: { role: 'ADMIN' } }),
+      this.prisma.teacher.count(),
+      this.prisma.staff.count(),
+      this.prisma.parent.count(),
+      this.prisma.student.count(),
       this.prisma.device.count(),
       this.prisma.device.count({ where: { status: 'ACTIVE' } }),
     ]);
@@ -39,9 +45,13 @@ export class PlatformAnalyticsService {
         suspended: suspendedTenants,
       },
       users: {
+        // total = login accounts across all schools (excludes the super-admin)
         total: totalUsers,
-        staff: totalStudents,
+        admins: totalAdmins,
         teachers: totalTeachers,
+        staff: totalStaff,
+        parents: totalParents,
+        students: totalStudents,
       },
       devices: {
         total: totalDevices,

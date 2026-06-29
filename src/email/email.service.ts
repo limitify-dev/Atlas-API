@@ -233,6 +233,68 @@ export class EmailService {
    * @param email - Recipient email address
    * @param token - Reset token
    */
+  async sendAdminInviteEmail(params: {
+    email: string;
+    name?: string;
+    tenantName: string;
+    inviteUrl: string;
+  }): Promise<void> {
+    const greeting = params.name ? `Hi ${params.name},` : 'Hello,';
+    const subject = `You've been invited to manage ${params.tenantName} on Atlas`;
+    const html = this.buildEmailShell({
+      title: `You're invited to Atlas`,
+      subtitle: `${params.tenantName} has added you as an administrator.`,
+      body: `<p>${greeting}</p>
+             <p>You have been invited to set up your administrator account for <strong>${params.tenantName}</strong> on Atlas School Management.</p>
+             <p>Click the button below to create your account. This link expires in 48 hours.</p>`,
+      ctaLabel: 'Accept Invitation',
+      ctaUrl: params.inviteUrl,
+    });
+    const text = [
+      `${greeting}`,
+      `You have been invited to manage ${params.tenantName} on Atlas School Management.`,
+      `Accept your invitation: ${params.inviteUrl}`,
+      'This link expires in 48 hours.',
+    ].join('\n\n');
+
+    await this.sendEmail({ to: params.email, subject, html, text });
+  }
+
+  async sendStaffInviteEmail(params: {
+    email: string;
+    name?: string;
+    tenantName: string;
+    department?: string;
+    role?: string;
+    inviteUrl: string;
+  }): Promise<void> {
+    const greeting = params.name ? `Hi ${params.name},` : 'Hello,';
+    const roleLabel = params.role
+      ? params.role.charAt(0).toUpperCase() + params.role.slice(1).toLowerCase()
+      : 'Staff';
+    const deptLine = params.department
+      ? ` in the <strong>${params.department}</strong> department`
+      : '';
+    const subject = `You've been invited to join ${params.tenantName} on Atlas`;
+    const html = this.buildEmailShell({
+      title: `Welcome to ${params.tenantName}`,
+      subtitle: `You have been added as ${roleLabel} staff${params.department ? ` — ${params.department}` : ''}.`,
+      body: `<p>${greeting}</p>
+             <p>You have been registered as a <strong>${roleLabel}</strong> staff member${deptLine} at <strong>${params.tenantName}</strong> on Atlas School Management.</p>
+             <p>Click the button below to set up your account and create your password. This link expires in 48 hours.</p>`,
+      ctaLabel: 'Set Up My Account',
+      ctaUrl: params.inviteUrl,
+    });
+    const text = [
+      `${greeting}`,
+      `You have been registered as ${roleLabel} staff${params.department ? ` in the ${params.department} department` : ''} at ${params.tenantName}.`,
+      `Set up your account: ${params.inviteUrl}`,
+      'This link expires in 48 hours.',
+    ].join('\n\n');
+
+    await this.sendEmail({ to: params.email, subject, html, text });
+  }
+
   async sendPasswordResetEmail(email: string, token: string): Promise<void> {
     const resetUrl = `${this.getAppBaseUrl().replace(/\/$/, '')}/reset-password?token=${token}`;
     const subject = 'Reset Your Atlas Password';

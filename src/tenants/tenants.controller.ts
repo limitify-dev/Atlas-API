@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFile,
+  ForbiddenException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -24,6 +25,7 @@ import { CreateTenantDto, UpdateTenantDto } from './dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Role } from '../../prisma/generated/client';
 
 @ApiTags('Tenants')
@@ -98,6 +100,39 @@ export class TenantsController {
     @UploadedFile() logoFile?: Express.Multer.File,
   ) {
     return this.tenantsService.update(id, updateTenantDto, logoFile);
+  }
+
+  @Patch(':id/settings')
+  @Roles(Role.SUPER_ADMIN, Role.ADMIN)
+  @ApiOperation({
+    summary: 'Update tenant settings (Admin can update own tenant)',
+  })
+  @ApiParam({ name: 'id', description: 'Tenant UUID' })
+  @ApiResponse({ status: 200, description: 'Settings updated successfully' })
+  @ApiResponse({ status: 404, description: 'Tenant not found' })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - can only update own tenant',
+  })
+  async updateSettings(
+    @Param('id') id: string,
+    @Body() settings: Record<string, any>,
+    @CurrentUser() user: any,
+  ) {
+    // Admins can only update their own tenant's settings
+    if (user.role !== 'SUPER_ADMIN' && user.tenantId !== id) {
+      throw new ForbiddenException(
+        'You can only update your own tenant settings',
+      );
+    }
+
+    const tenant = await this.tenantsService.findOne(id);
+    const updatedSettings = {
+      ...((tenant.settings as Record<string, any>) || {}),
+      ...settings,
+    };
+
+    return this.tenantsService.update(id, { settings: updatedSettings });
   }
 
   @Delete(':id')

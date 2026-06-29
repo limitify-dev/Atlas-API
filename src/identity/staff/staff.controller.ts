@@ -19,7 +19,12 @@ import {
 } from '../../auth/decorators/current-user.decorator';
 import { Role } from '../../../prisma/generated/client';
 import { StaffService } from './staff.service';
-import { CreateStaffDto, StaffFiltersDto, UpdateStaffDto } from './dto';
+import {
+  CreateStaffDto,
+  RegisterStaffDto,
+  StaffFiltersDto,
+  UpdateStaffDto,
+} from './dto';
 
 @ApiTags('Identity — Staff')
 @ApiBearerAuth()
@@ -27,6 +32,16 @@ import { CreateStaffDto, StaffFiltersDto, UpdateStaffDto } from './dto';
 @Controller('staff')
 export class StaffController {
   constructor(private readonly staffService: StaffService) {}
+
+  @Post('register')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiOperation({
+    summary:
+      'Register a new staff member (creates user + staff profile + sends invite email)',
+  })
+  register(@CurrentUser() user: AuthUser, @Body() dto: RegisterStaffDto) {
+    return this.staffService.register(user.tenantId, dto);
+  }
 
   @Post()
   @Roles(Role.ADMIN, Role.SUPER_ADMIN)

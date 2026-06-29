@@ -94,7 +94,14 @@ export class ConductController {
   }
 
   @Get('records/:id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
+  @Roles(
+    Role.ADMIN,
+    Role.SUPER_ADMIN,
+    Role.STAFF,
+    Role.TEACHER,
+    Role.STAFF,
+    Role.PARENT,
+  )
   @ApiOperation({ summary: 'Get a single conduct record by ID' })
   @ApiParam({ name: 'id', description: 'Conduct record ID' })
   @ApiResponse({
@@ -184,7 +191,14 @@ export class ConductController {
   }
 
   @Get('points/student/:studentId')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
+  @Roles(
+    Role.ADMIN,
+    Role.SUPER_ADMIN,
+    Role.STAFF,
+    Role.TEACHER,
+    Role.STAFF,
+    Role.PARENT,
+  )
   @ApiOperation({ summary: 'Get student conduct points with history' })
   @ApiParam({ name: 'studentId', description: 'Student ID' })
   @ApiResponse({

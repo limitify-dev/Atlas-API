@@ -1,1 +1,2 @@
-// TODO: Add DTOs for subject operations
+export * from './create-subject.dto';
+export * from './update-subject.dto';

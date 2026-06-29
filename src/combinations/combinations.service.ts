@@ -32,6 +32,7 @@ export class CombinationsService {
       return await this.prisma.combination.create({
         data: {
           ...createCombinationDto,
+          subjectIds: createCombinationDto.subjectIds ?? [],
           tenantId,
         },
       });

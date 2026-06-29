@@ -263,7 +263,14 @@ export class AcademicsService {
       this.prisma.classTeacher.findMany({
         where: { teacherId },
         include: {
-          section: { select: { id: true, name: true, gradeId: true } },
+          section: {
+            select: {
+              id: true,
+              name: true,
+              gradeId: true,
+              grade: { select: { id: true, name: true, code: true } },
+            },
+          },
         },
       }),
       this.prisma.subjectTeacher.findMany({
@@ -283,8 +290,15 @@ export class AcademicsService {
       },
       sectionIds: classLinks.map((link) => link.sectionId),
       subjectIds: subjectLinks.map((link) => link.subjectId),
-      sections: classLinks.map((link) => link.section),
+      sections: classLinks.map((link) => ({
+        ...link.section,
+        isPrimary: link.isPrimary,
+      })),
       subjects: subjectLinks.map((link) => link.subject),
+      // Sections where this teacher is the class teacher (homeroom)
+      primarySectionIds: classLinks
+        .filter((link) => link.isPrimary)
+        .map((link) => link.sectionId),
     };
   }
 
@@ -344,16 +358,24 @@ export class AcademicsService {
       }
     }
 
+    // Preserve any existing class-teacher (isPrimary) designations for sections
+    // that remain assigned, so re-saving the alignment doesn't wipe them.
+    const existingPrimaries = await this.prisma.classTeacher.findMany({
+      where: { teacherId, isPrimary: true },
+      select: { sectionId: true },
+    });
+    const primarySet = new Set(existingPrimaries.map((p) => p.sectionId));
+
     await this.prisma.$transaction(async (tx) => {
       await tx.classTeacher.deleteMany({ where: { teacherId } });
       await tx.subjectTeacher.deleteMany({ where: { teacherId } });
 
       if (uniqueSectionIds.length) {
         await tx.classTeacher.createMany({
-          data: uniqueSectionIds.map((sectionId, index) => ({
+          data: uniqueSectionIds.map((sectionId) => ({
             teacherId,
             sectionId,
-            isPrimary: index === 0,
+            isPrimary: primarySet.has(sectionId),
           })),
           skipDuplicates: true,
         });
@@ -368,6 +390,77 @@ export class AcademicsService {
     });
 
     return this.getTeacherAlignment(tenantId, teacherId);
+  }
+  /**
+   * Gets the current teacher's subject IDs for a specific section.
+   * Used to filter the subject selector to only subjects the teacher teaches.
+   */
+  async getMySubjectsForSection(
+    tenantId: string,
+    user: { id?: string; role?: string; userType?: string },
+    sectionId: string,
+  ) {
+    if (!this.isTeacher(user)) {
+      throw new ForbiddenException('Only teachers can access this endpoint');
+    }
+
+    const teacher = await this.prisma.teacher.findFirst({
+      where: { tenantId, userId: user.id },
+      select: { id: true },
+    });
+    if (!teacher) {
+      throw new NotFoundException('Teacher record not found');
+    }
+
+    const subjectLinks = await this.prisma.subjectTeacher.findMany({
+      where: { teacherId: teacher.id },
+      select: { subjectId: true },
+    });
+
+    return { subjectIds: subjectLinks.map((l) => l.subjectId) };
+  }
+
+
+  /**
+   * Sets (or clears) the class teacher (homeroom) of a section. A section has at
+   * most one class teacher, so any other teacher's designation is cleared.
+   */
+  async setClassTeacher(
+    tenantId: string,
+    sectionId: string,
+    teacherId: string | null,
+  ) {
+    const section = await this.prisma.section.findFirst({
+      where: { id: sectionId, tenantId },
+      select: { id: true },
+    });
+    if (!section) throw new NotFoundException('Classroom (section) not found');
+
+    if (teacherId) {
+      const teacher = await this.prisma.teacher.findFirst({
+        where: { id: teacherId, tenantId },
+        select: { id: true },
+      });
+      if (!teacher) throw new NotFoundException('Teacher not found');
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      // Clear any current class teacher for this section
+      await tx.classTeacher.updateMany({
+        where: { sectionId },
+        data: { isPrimary: false },
+      });
+      if (teacherId) {
+        // Make this teacher the class teacher (ensure the link exists)
+        await tx.classTeacher.upsert({
+          where: { teacherId_sectionId: { teacherId, sectionId } },
+          update: { isPrimary: true },
+          create: { teacherId, sectionId, isPrimary: true },
+        });
+      }
+    });
+
+    return { sectionId, teacherId, classTeacher: !!teacherId };
   }
 
   async createCourse(
@@ -666,10 +759,16 @@ export class AcademicsService {
     });
   }
 
-  async listAssignments(tenantId: string, query: ListAcademicsQueryDto) {
+  async listAssignments(
+    tenantId: string,
+    user: { id?: string; role?: string; userType?: string },
+    query: ListAcademicsQueryDto,
+  ) {
+    const createdByFilter = this.isTeacher(user) ? { createdBy: user.id } : {};
     return this.prisma.academicAssignment.findMany({
       where: {
         tenantId,
+        ...createdByFilter,
         ...(query.gradeId ? { gradeId: query.gradeId } : {}),
         ...(query.sectionId ? { sectionId: query.sectionId } : {}),
         ...(query.subjectId ? { subjectId: query.subjectId } : {}),
@@ -691,6 +790,7 @@ export class AcademicsService {
 
   async updateAssignment(
     tenantId: string,
+    user: { id?: string; role?: string; userType?: string },
     id: string,
     dto: UpdateAssignmentDto,
   ) {
@@ -698,6 +798,9 @@ export class AcademicsService {
       where: { id, tenantId },
     });
     if (!existing) throw new NotFoundException('Assignment not found');
+    if (this.isTeacher(user) && existing.createdBy !== user.id) {
+      throw new ForbiddenException('You can only edit assignments you created');
+    }
 
     const nextCourseId =
       dto.courseId !== undefined ? dto.courseId : existing.courseId;
@@ -767,11 +870,20 @@ export class AcademicsService {
     });
   }
 
-  async deleteAssignment(tenantId: string, id: string) {
+  async deleteAssignment(
+    tenantId: string,
+    user: { id?: string; role?: string; userType?: string },
+    id: string,
+  ) {
     const existing = await this.prisma.academicAssignment.findFirst({
       where: { id, tenantId },
     });
     if (!existing) throw new NotFoundException('Assignment not found');
+    if (this.isTeacher(user) && existing.createdBy !== user.id) {
+      throw new ForbiddenException(
+        'You can only delete assignments you created',
+      );
+    }
 
     await this.prisma.$transaction([
       this.prisma.academicAssignmentResult.deleteMany({
@@ -785,7 +897,7 @@ export class AcademicsService {
 
   async upsertAssignmentResults(
     tenantId: string,
-    userId: string,
+    user: { id: string; role?: string; userType?: string },
     assignmentId: string,
     dto: UpsertAssignmentResultsDto,
   ) {
@@ -793,6 +905,11 @@ export class AcademicsService {
       where: { id: assignmentId, tenantId },
     });
     if (!assignment) throw new NotFoundException('Assignment not found');
+    if (this.isTeacher(user) && assignment.createdBy !== user.id) {
+      throw new ForbiddenException(
+        'You can only grade assignments you created',
+      );
+    }
 
     const results = await Promise.all(
       dto.items.map((item) =>
@@ -833,7 +950,7 @@ export class AcademicsService {
                 ? new Date()
                 : undefined,
             submittedAt: new Date(),
-            createdBy: userId,
+            createdBy: user.id,
           },
         }),
       ),
@@ -842,10 +959,205 @@ export class AcademicsService {
     return { success: true, count: results.length, data: results };
   }
 
-  async getAssignmentResults(tenantId: string, assignmentId: string) {
+  async getAssignmentResults(
+    tenantId: string,
+    user: { id?: string; role?: string; userType?: string },
+    assignmentId: string,
+  ) {
+    const assignment = await this.prisma.academicAssignment.findFirst({
+      where: { id: assignmentId, tenantId },
+    });
+    if (!assignment) throw new NotFoundException('Assignment not found');
+    if (this.isTeacher(user) && assignment.createdBy !== user.id) {
+      throw new ForbiddenException(
+        'You can only view results for assignments you created',
+      );
+    }
     return this.prisma.academicAssignmentResult.findMany({
       where: { tenantId, assignmentId },
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async getStudentsInSection(
+    tenantId: string,
+    user: { id?: string; role?: string; userType?: string },
+    sectionId: string,
+  ) {
+    // If teacher, verify they are assigned to the section
+    if (this.isTeacher(user)) {
+      const teacher = await this.prisma.teacher.findFirst({
+        where: { tenantId, userId: user.id },
+        select: { id: true },
+      });
+      if (!teacher) throw new ForbiddenException('Teacher record not found');
+      const classLink = await this.prisma.classTeacher.findFirst({
+        where: { teacherId: teacher.id, sectionId },
+        select: { id: true },
+      });
+      const section = await this.prisma.section.findFirst({
+        where: { id: sectionId, tenantId },
+        select: { gradeId: true },
+      });
+      const subjectLink = section
+        ? await this.prisma.subjectTeacher.findFirst({
+            where: {
+              teacherId: teacher.id,
+              subject: { gradeId: section.gradeId },
+            },
+            select: { id: true },
+          })
+        : null;
+      if (!classLink && !subjectLink) {
+        throw new ForbiddenException(
+          'You are not assigned to the requested section',
+        );
+      }
+    }
+
+    return this.prisma.student.findMany({
+      where: { tenantId, sectionId },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        studentId: true,
+        photoUrl: true,
+      },
+      orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
+    });
+  }
+
+  async bulkUpsertStudentGrades(
+    tenantId: string,
+    user: { id: string; role?: string; userType?: string },
+    dto: {
+      subjectId: string;
+      sectionId: string;
+      term: string;
+      grades: Array<{
+        studentId: string;
+        percentage: number;
+        comment?: string;
+      }>;
+    },
+  ) {
+    if (this.isTeacher(user)) {
+      const teacher = await this.prisma.teacher.findFirst({
+        where: { tenantId, userId: user.id },
+        select: { id: true },
+      });
+      if (!teacher) throw new ForbiddenException('Teacher record not found');
+
+      const [classLink, subjectLink] = await Promise.all([
+        this.prisma.classTeacher.findFirst({
+          where: { teacherId: teacher.id, sectionId: dto.sectionId },
+          select: { id: true },
+        }),
+        this.prisma.subjectTeacher.findFirst({
+          where: { teacherId: teacher.id, subjectId: dto.subjectId },
+          select: { id: true },
+        }),
+      ]);
+      if (!classLink) {
+        throw new ForbiddenException(
+          'You are not assigned to the requested section',
+        );
+      }
+      if (!subjectLink) {
+        throw new ForbiddenException(
+          'You are not assigned to the requested subject',
+        );
+      }
+    }
+
+    const results = await Promise.all(
+      dto.grades.map((g) =>
+        this.prisma.studentGrade.upsert({
+          where: {
+            tenantId_studentId_subjectId_term: {
+              tenantId,
+              studentId: g.studentId,
+              subjectId: dto.subjectId,
+              term: dto.term,
+            },
+          },
+          update: {
+            percentage: g.percentage,
+            comment: g.comment ?? null,
+            gradedBy: user.id,
+          },
+          create: {
+            tenantId,
+            studentId: g.studentId,
+            subjectId: dto.subjectId,
+            term: dto.term,
+            percentage: g.percentage,
+            comment: g.comment ?? null,
+            gradedBy: user.id,
+          },
+        }),
+      ),
+    );
+
+    return { success: true, count: results.length, data: results };
+  }
+
+  async listStudentGrades(
+    tenantId: string,
+    user: { id?: string; role?: string; userType?: string },
+    query: { subjectId?: string; sectionId?: string; term?: string },
+  ) {
+    if (this.isTeacher(user)) {
+      const teacher = await this.prisma.teacher.findFirst({
+        where: { tenantId, userId: user.id },
+        select: { id: true },
+      });
+      if (!teacher) throw new ForbiddenException('Teacher record not found');
+
+      if (query.subjectId) {
+        const subjectLink = await this.prisma.subjectTeacher.findFirst({
+          where: { teacherId: teacher.id, subjectId: query.subjectId },
+          select: { id: true },
+        });
+        if (!subjectLink) {
+          throw new ForbiddenException(
+            'You are not assigned to the requested subject',
+          );
+        }
+      }
+      if (query.sectionId) {
+        const classLink = await this.prisma.classTeacher.findFirst({
+          where: { teacherId: teacher.id, sectionId: query.sectionId },
+          select: { id: true },
+        });
+        if (!classLink) {
+          throw new ForbiddenException(
+            'You are not assigned to the requested section',
+          );
+        }
+      }
+    }
+
+    // If sectionId is provided, resolve students in that section first
+    let studentIds: string[] | undefined;
+    if (query.sectionId) {
+      const students = await this.prisma.student.findMany({
+        where: { tenantId, sectionId: query.sectionId },
+        select: { id: true },
+      });
+      studentIds = students.map((s) => s.id);
+    }
+
+    return this.prisma.studentGrade.findMany({
+      where: {
+        tenantId,
+        ...(query.subjectId ? { subjectId: query.subjectId } : {}),
+        ...(query.term ? { term: query.term } : {}),
+        ...(studentIds ? { studentId: { in: studentIds } } : {}),
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 500,
     });
   }
 

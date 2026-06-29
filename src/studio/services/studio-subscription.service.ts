@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UpdateSubscriptionDto } from '../dto';
 import {
@@ -27,9 +27,10 @@ export class StudioSubscriptionService {
   async createTrial(
     tenantId: string,
     plan: SubscriptionPlan = SubscriptionPlan.BASIC,
+    trialDays = 30,
   ) {
     const trialEnd = new Date();
-    trialEnd.setDate(trialEnd.getDate() + 30); // 30-day trial
+    trialEnd.setDate(trialEnd.getDate() + trialDays);
 
     return this.prisma.studioSubscription.create({
       data: {
@@ -43,17 +44,21 @@ export class StudioSubscriptionService {
   }
 
   async update(tenantId: string, dto: UpdateSubscriptionDto) {
-    const existing = await this.prisma.studioSubscription.findUnique({
-      where: { tenantId },
-    });
-    if (!existing)
-      throw new NotFoundException('Subscription not found for this tenant.');
+    const updateData = {
+      ...(dto.plan && { plan: dto.plan }),
+      ...(dto.status && { status: dto.status }),
+      ...(dto.endDate && { endDate: new Date(dto.endDate) }),
+      ...(dto.notes !== undefined && { notes: dto.notes }),
+    };
 
-    return this.prisma.studioSubscription.update({
+    return this.prisma.studioSubscription.upsert({
       where: { tenantId },
-      data: {
-        ...(dto.plan && { plan: dto.plan }),
-        ...(dto.status && { status: dto.status }),
+      update: updateData,
+      create: {
+        tenantId,
+        plan: dto.plan ?? SubscriptionPlan.BASIC,
+        status: dto.status ?? SubscriptionStatus.ACTIVE,
+        startDate: new Date(),
         ...(dto.endDate && { endDate: new Date(dto.endDate) }),
         ...(dto.notes !== undefined && { notes: dto.notes }),
       },

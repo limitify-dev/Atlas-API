@@ -6,6 +6,10 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateChannelDto, CreateGroupDto, UpdateGroupDto } from './dto';
+import {
+  PARENT_MESSAGING_STAFF_ROLES,
+  resolveContactDisplayRole,
+} from '../../common/constants/staff-roles';
 
 @Injectable()
 export class ChatService {
@@ -13,6 +17,40 @@ export class ChatService {
 
   private hasTenantAccess(tenantId?: string | null): tenantId is string {
     return Boolean(tenantId && tenantId.trim().length > 0);
+  }
+
+  private readonly contactUserSelect = {
+    id: true,
+    name: true,
+    avatar: true,
+    role: true,
+    userType: true,
+    staff: {
+      select: {
+        staffRole: true,
+        department: true,
+      },
+    },
+    parent: {
+      select: {
+        relationship: true,
+        children: {
+          select: {
+            student: {
+              select: { firstName: true, lastName: true },
+            },
+          },
+        },
+      },
+    },
+  } as const;
+
+  private formatContactUser(user: any) {
+    if (!user) return null;
+    return {
+      ...user,
+      displayRole: resolveContactDisplayRole(user),
+    };
   }
 
   private async getTenantLogo(tenantId: string): Promise<string | null> {
@@ -207,25 +245,7 @@ export class ChatService {
           participants: {
             include: {
               user: {
-                select: {
-                  id: true,
-                  name: true,
-                  avatar: true,
-                  role: true,
-                  userType: true,
-                  parent: {
-                    select: {
-                      relationship: true,
-                      children: {
-                        select: {
-                          student: {
-                            select: { firstName: true, lastName: true },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
+                select: this.contactUserSelect,
               },
             },
           },
@@ -558,6 +578,9 @@ export class ChatService {
     let contactUserIds: string[] = [];
 
     switch (user.role) {
+      case 'PARENT':
+        contactUserIds = await this.getParentContacts(userId, tenantId);
+        break;
       case 'TEACHER':
         contactUserIds = await this.getTeacherContacts(userId, tenantId);
         break;
@@ -585,6 +608,12 @@ export class ChatService {
         avatar: true,
         role: true,
         userType: true,
+        staff: {
+          select: {
+            staffRole: true,
+            department: true,
+          },
+        },
         parent: {
           select: {
             relationship: true,
@@ -601,27 +630,45 @@ export class ChatService {
       orderBy: { name: 'asc' },
     });
 
-    return contacts;
+    return contacts.map((contact) => ({
+      ...contact,
+      displayRole: resolveContactDisplayRole(contact),
+    }));
   }
 
   /**
-   * Parents can message: teachers of their children + admin/DOS/DM staff
+   * Parents can message: school admin + academics (DOS), discipline (DM), and finance (Bursar) staff.
    */
   private async getParentContacts(
-    userId: string,
+    _userId: string,
     tenantId: string,
   ): Promise<string[]> {
-    // Parents can only message DM and DOS for now
-    const staffUsers = await this.prisma.user.findMany({
-      where: {
-        tenantId,
-        role: { in: ['STAFF'] },
-        status: { in: ['ACTIVE', 'PENDING'] },
-      },
-      select: { id: true },
-    });
+    const [staffUsers, adminUsers] = await Promise.all([
+      this.prisma.user.findMany({
+        where: {
+          tenantId,
+          role: 'STAFF',
+          status: { in: ['ACTIVE', 'PENDING'] },
+          staff: {
+            staffRole: {
+              in: PARENT_MESSAGING_STAFF_ROLES,
+              mode: 'insensitive',
+            },
+          },
+        },
+        select: { id: true },
+      }),
+      this.prisma.user.findMany({
+        where: {
+          tenantId,
+          role: 'ADMIN',
+          status: { in: ['ACTIVE', 'PENDING'] },
+        },
+        select: { id: true },
+      }),
+    ]);
 
-    return staffUsers.map((u) => u.id);
+    return [...staffUsers, ...adminUsers].map((u) => u.id);
   }
 
   /**
@@ -1110,25 +1157,7 @@ export class ChatService {
           participants: {
             include: {
               user: {
-                select: {
-                  id: true,
-                  name: true,
-                  avatar: true,
-                  role: true,
-                  userType: true,
-                  parent: {
-                    select: {
-                      relationship: true,
-                      children: {
-                        select: {
-                          student: {
-                            select: { firstName: true, lastName: true },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
+                select: this.contactUserSelect,
               },
             },
           },
@@ -1457,7 +1486,7 @@ export class ChatService {
 
     return {
       ...base,
-      participant: otherParticipant?.user || null,
+      participant: this.formatContactUser(otherParticipant?.user || null),
     };
   }
 }

@@ -599,6 +599,63 @@ export class TeachersService {
     return this.transformToResponse(teacher);
   }
 
+  /**
+   * Returns the teacher profile for the currently authenticated user,
+   * including the classrooms (sections) and subjects they are aligned to.
+   */
+  async findMe(userId: string, tenantId: string) {
+    const teacher = await this.prisma.teacher.findFirst({
+      where: { userId, tenantId },
+      include: {
+        user: { select: { email: true } },
+        classes: {
+          include: {
+            section: {
+              select: {
+                id: true,
+                name: true,
+                gradeId: true,
+                grade: { select: { id: true, name: true, code: true } },
+              },
+            },
+          },
+        },
+        subjects: {
+          include: {
+            subject: {
+              select: {
+                id: true,
+                name: true,
+                code: true,
+                gradeId: true,
+                grade: { select: { id: true, name: true, code: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!teacher) {
+      throw new NotFoundException('No teacher profile found for this account.');
+    }
+
+    return {
+      id: teacher.id,
+      teacherId: teacher.teacherId,
+      firstName: teacher.firstName,
+      lastName: teacher.lastName,
+      department: teacher.department,
+      specialization: teacher.specialization,
+      email: teacher.user?.email ?? null,
+      sections: teacher.classes.map((c) => ({
+        ...c.section,
+        isPrimary: c.isPrimary,
+      })),
+      subjects: teacher.subjects.map((s) => s.subject),
+    };
+  }
+
   async update(
     id: string,
     updateTeacherDto: UpdateTeacherDto,

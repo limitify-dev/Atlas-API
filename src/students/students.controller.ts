@@ -88,8 +88,13 @@ export class StudentsController {
   async bulkUpload(
     @UploadedFile() file: Express.Multer.File,
     @CurrentUser() user: AuthUser,
+    @Query('promotionId') promotionId?: string,
   ) {
-    return this.studentsService.processBulkUpload(file, user.tenantId);
+    return this.studentsService.processBulkUpload(
+      file,
+      user.tenantId,
+      promotionId,
+    );
   }
 
   @Get('bulk-upload-template')

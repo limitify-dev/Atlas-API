@@ -34,13 +34,14 @@ export class CreateCombinationDto {
   description?: string;
 
   @ApiProperty({
-    description: 'Array of subject IDs in this combination',
+    description: 'Array of subject IDs in this combination (optional)',
     example: ['uuid-1', 'uuid-2', 'uuid-3'],
     type: [String],
+    required: false,
   })
   @IsArray()
-  @IsNotEmpty()
-  subjectIds: string[];
+  @IsOptional()
+  subjectIds?: string[];
 
   @ApiProperty({
     description: 'Whether the combination is active',

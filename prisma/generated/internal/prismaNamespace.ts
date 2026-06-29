@@ -398,6 +398,8 @@ export const ModelName = {
   Subject: 'Subject',
   ClassTeacher: 'ClassTeacher',
   SubjectTeacher: 'SubjectTeacher',
+  TimetablePeriod: 'TimetablePeriod',
+  TimetableEntry: 'TimetableEntry',
   Attendance: 'Attendance',
   TeacherAttendance: 'TeacherAttendance',
   Book: 'Book',
@@ -441,7 +443,10 @@ export const ModelName = {
   StudioModule: 'StudioModule',
   TenantModule: 'TenantModule',
   StudioSubscription: 'StudioSubscription',
-  AdminInvite: 'AdminInvite'
+  AdminInvite: 'AdminInvite',
+  TenantBilling: 'TenantBilling',
+  AdminApproval: 'AdminApproval',
+  Feedback: 'Feedback'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -457,7 +462,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "attendance" | "teacherAttendance" | "book" | "bookCopy" | "bookTransaction" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "conversation" | "conversationParticipant" | "chatMessage" | "pushToken" | "message" | "announcement" | "notification" | "notificationRecipient" | "card" | "cardLog" | "cardPermission" | "event" | "academicExam" | "academicAssignment" | "academicCourse" | "academicAssignmentResult" | "academicReportCard" | "consultationBooking" | "device" | "deviceLog" | "systemLog" | "academicTimeline" | "promotion" | "staff" | "studentGrade" | "invoice" | "paymentSubmission" | "paymentPromise" | "invite" | "otpCode" | "studioModule" | "tenantModule" | "studioSubscription" | "adminInvite"
+    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "timetablePeriod" | "timetableEntry" | "attendance" | "teacherAttendance" | "book" | "bookCopy" | "bookTransaction" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "conversation" | "conversationParticipant" | "chatMessage" | "pushToken" | "message" | "announcement" | "notification" | "notificationRecipient" | "card" | "cardLog" | "cardPermission" | "event" | "academicExam" | "academicAssignment" | "academicCourse" | "academicAssignmentResult" | "academicReportCard" | "consultationBooking" | "device" | "deviceLog" | "systemLog" | "academicTimeline" | "promotion" | "staff" | "studentGrade" | "invoice" | "paymentSubmission" | "paymentPromise" | "invite" | "otpCode" | "studioModule" | "tenantModule" | "studioSubscription" | "adminInvite" | "tenantBilling" | "adminApproval" | "feedback"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1494,6 +1499,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SubjectTeacherCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SubjectTeacherCountAggregateOutputType> | number
+        }
+      }
+    }
+    TimetablePeriod: {
+      payload: Prisma.$TimetablePeriodPayload<ExtArgs>
+      fields: Prisma.TimetablePeriodFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TimetablePeriodFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TimetablePeriodFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>
+        }
+        findFirst: {
+          args: Prisma.TimetablePeriodFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TimetablePeriodFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>
+        }
+        findMany: {
+          args: Prisma.TimetablePeriodFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>[]
+        }
+        create: {
+          args: Prisma.TimetablePeriodCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>
+        }
+        createMany: {
+          args: Prisma.TimetablePeriodCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TimetablePeriodCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>[]
+        }
+        delete: {
+          args: Prisma.TimetablePeriodDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>
+        }
+        update: {
+          args: Prisma.TimetablePeriodUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>
+        }
+        deleteMany: {
+          args: Prisma.TimetablePeriodDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TimetablePeriodUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TimetablePeriodUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>[]
+        }
+        upsert: {
+          args: Prisma.TimetablePeriodUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetablePeriodPayload>
+        }
+        aggregate: {
+          args: Prisma.TimetablePeriodAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTimetablePeriod>
+        }
+        groupBy: {
+          args: Prisma.TimetablePeriodGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimetablePeriodGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TimetablePeriodCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimetablePeriodCountAggregateOutputType> | number
+        }
+      }
+    }
+    TimetableEntry: {
+      payload: Prisma.$TimetableEntryPayload<ExtArgs>
+      fields: Prisma.TimetableEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TimetableEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TimetableEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.TimetableEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TimetableEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>
+        }
+        findMany: {
+          args: Prisma.TimetableEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>[]
+        }
+        create: {
+          args: Prisma.TimetableEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>
+        }
+        createMany: {
+          args: Prisma.TimetableEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TimetableEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.TimetableEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>
+        }
+        update: {
+          args: Prisma.TimetableEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.TimetableEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TimetableEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TimetableEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.TimetableEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimetableEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.TimetableEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTimetableEntry>
+        }
+        groupBy: {
+          args: Prisma.TimetableEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimetableEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TimetableEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimetableEntryCountAggregateOutputType> | number
         }
       }
     }
@@ -4753,6 +4906,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TenantBilling: {
+      payload: Prisma.$TenantBillingPayload<ExtArgs>
+      fields: Prisma.TenantBillingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TenantBillingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TenantBillingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>
+        }
+        findFirst: {
+          args: Prisma.TenantBillingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TenantBillingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>
+        }
+        findMany: {
+          args: Prisma.TenantBillingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>[]
+        }
+        create: {
+          args: Prisma.TenantBillingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>
+        }
+        createMany: {
+          args: Prisma.TenantBillingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TenantBillingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>[]
+        }
+        delete: {
+          args: Prisma.TenantBillingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>
+        }
+        update: {
+          args: Prisma.TenantBillingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>
+        }
+        deleteMany: {
+          args: Prisma.TenantBillingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TenantBillingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TenantBillingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>[]
+        }
+        upsert: {
+          args: Prisma.TenantBillingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TenantBillingPayload>
+        }
+        aggregate: {
+          args: Prisma.TenantBillingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTenantBilling>
+        }
+        groupBy: {
+          args: Prisma.TenantBillingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantBillingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TenantBillingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TenantBillingCountAggregateOutputType> | number
+        }
+      }
+    }
+    AdminApproval: {
+      payload: Prisma.$AdminApprovalPayload<ExtArgs>
+      fields: Prisma.AdminApprovalFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AdminApprovalFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AdminApprovalFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>
+        }
+        findFirst: {
+          args: Prisma.AdminApprovalFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AdminApprovalFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>
+        }
+        findMany: {
+          args: Prisma.AdminApprovalFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>[]
+        }
+        create: {
+          args: Prisma.AdminApprovalCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>
+        }
+        createMany: {
+          args: Prisma.AdminApprovalCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AdminApprovalCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>[]
+        }
+        delete: {
+          args: Prisma.AdminApprovalDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>
+        }
+        update: {
+          args: Prisma.AdminApprovalUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>
+        }
+        deleteMany: {
+          args: Prisma.AdminApprovalDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AdminApprovalUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AdminApprovalUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>[]
+        }
+        upsert: {
+          args: Prisma.AdminApprovalUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminApprovalPayload>
+        }
+        aggregate: {
+          args: Prisma.AdminApprovalAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdminApproval>
+        }
+        groupBy: {
+          args: Prisma.AdminApprovalGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdminApprovalGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AdminApprovalCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdminApprovalCountAggregateOutputType> | number
+        }
+      }
+    }
+    Feedback: {
+      payload: Prisma.$FeedbackPayload<ExtArgs>
+      fields: Prisma.FeedbackFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FeedbackFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FeedbackFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>
+        }
+        findFirst: {
+          args: Prisma.FeedbackFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FeedbackFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>
+        }
+        findMany: {
+          args: Prisma.FeedbackFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>[]
+        }
+        create: {
+          args: Prisma.FeedbackCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>
+        }
+        createMany: {
+          args: Prisma.FeedbackCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FeedbackCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>[]
+        }
+        delete: {
+          args: Prisma.FeedbackDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>
+        }
+        update: {
+          args: Prisma.FeedbackUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>
+        }
+        deleteMany: {
+          args: Prisma.FeedbackDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FeedbackUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FeedbackUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>[]
+        }
+        upsert: {
+          args: Prisma.FeedbackUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeedbackPayload>
+        }
+        aggregate: {
+          args: Prisma.FeedbackAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFeedback>
+        }
+        groupBy: {
+          args: Prisma.FeedbackGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FeedbackGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FeedbackCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FeedbackCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5024,6 +5399,37 @@ export const SubjectTeacherScalarFieldEnum = {
 } as const
 
 export type SubjectTeacherScalarFieldEnum = (typeof SubjectTeacherScalarFieldEnum)[keyof typeof SubjectTeacherScalarFieldEnum]
+
+
+export const TimetablePeriodScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  label: 'label',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  orderIndex: 'orderIndex',
+  isBreak: 'isBreak',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TimetablePeriodScalarFieldEnum = (typeof TimetablePeriodScalarFieldEnum)[keyof typeof TimetablePeriodScalarFieldEnum]
+
+
+export const TimetableEntryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  sectionId: 'sectionId',
+  periodId: 'periodId',
+  dayOfWeek: 'dayOfWeek',
+  subjectId: 'subjectId',
+  teacherId: 'teacherId',
+  room: 'room',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TimetableEntryScalarFieldEnum = (typeof TimetableEntryScalarFieldEnum)[keyof typeof TimetableEntryScalarFieldEnum]
 
 
 export const AttendanceScalarFieldEnum = {
@@ -5645,6 +6051,10 @@ export const InvoiceScalarFieldEnum = {
   status: 'status',
   issuedBy: 'issuedBy',
   lockedAt: 'lockedAt',
+  paidAt: 'paidAt',
+  amountPaid: 'amountPaid',
+  paymentMethod: 'paymentMethod',
+  gracePeriodApproved: 'gracePeriodApproved',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -5679,6 +6089,9 @@ export const PaymentPromiseScalarFieldEnum = {
   promisedDate: 'promisedDate',
   note: 'note',
   status: 'status',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  approvalNote: 'approvalNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -5775,6 +6188,53 @@ export const AdminInviteScalarFieldEnum = {
 } as const
 
 export type AdminInviteScalarFieldEnum = (typeof AdminInviteScalarFieldEnum)[keyof typeof AdminInviteScalarFieldEnum]
+
+
+export const TenantBillingScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  billingCycle: 'billingCycle',
+  amount: 'amount',
+  currency: 'currency',
+  dueDate: 'dueDate',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  status: 'status',
+  notes: 'notes',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantBillingScalarFieldEnum = (typeof TenantBillingScalarFieldEnum)[keyof typeof TenantBillingScalarFieldEnum]
+
+
+export const AdminApprovalScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  status: 'status',
+  requestedAt: 'requestedAt',
+  reviewedAt: 'reviewedAt',
+  reviewedBy: 'reviewedBy',
+  notes: 'notes'
+} as const
+
+export type AdminApprovalScalarFieldEnum = (typeof AdminApprovalScalarFieldEnum)[keyof typeof AdminApprovalScalarFieldEnum]
+
+
+export const FeedbackScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  category: 'category',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt',
+  resolvedAt: 'resolvedAt'
+} as const
+
+export type FeedbackScalarFieldEnum = (typeof FeedbackScalarFieldEnum)[keyof typeof FeedbackScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -6003,6 +6463,20 @@ export type EnumEducationLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'EducationLevel[]'
  */
 export type ListEnumEducationLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EducationLevel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DayOfWeek'
+ */
+export type EnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek'>
+    
+
+
+/**
+ * Reference to a field of type 'DayOfWeek[]'
+ */
+export type ListEnumDayOfWeekFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DayOfWeek[]'>
     
 
 
@@ -6481,6 +6955,76 @@ export type EnumAdminInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType
 export type ListEnumAdminInviteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AdminInviteStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'BillingCycle'
+ */
+export type EnumBillingCycleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingCycle'>
+    
+
+
+/**
+ * Reference to a field of type 'BillingCycle[]'
+ */
+export type ListEnumBillingCycleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingCycle[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BillingStatus'
+ */
+export type EnumBillingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'BillingStatus[]'
+ */
+export type ListEnumBillingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BillingStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AdminApprovalStatus'
+ */
+export type EnumAdminApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AdminApprovalStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AdminApprovalStatus[]'
+ */
+export type ListEnumAdminApprovalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AdminApprovalStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FeedbackCategory'
+ */
+export type EnumFeedbackCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FeedbackCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'FeedbackCategory[]'
+ */
+export type ListEnumFeedbackCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FeedbackCategory[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FeedbackStatus'
+ */
+export type EnumFeedbackStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FeedbackStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FeedbackStatus[]'
+ */
+export type ListEnumFeedbackStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FeedbackStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -6590,6 +7134,8 @@ export type GlobalOmitConfig = {
   subject?: Prisma.SubjectOmit
   classTeacher?: Prisma.ClassTeacherOmit
   subjectTeacher?: Prisma.SubjectTeacherOmit
+  timetablePeriod?: Prisma.TimetablePeriodOmit
+  timetableEntry?: Prisma.TimetableEntryOmit
   attendance?: Prisma.AttendanceOmit
   teacherAttendance?: Prisma.TeacherAttendanceOmit
   book?: Prisma.BookOmit
@@ -6634,6 +7180,9 @@ export type GlobalOmitConfig = {
   tenantModule?: Prisma.TenantModuleOmit
   studioSubscription?: Prisma.StudioSubscriptionOmit
   adminInvite?: Prisma.AdminInviteOmit
+  tenantBilling?: Prisma.TenantBillingOmit
+  adminApproval?: Prisma.AdminApprovalOmit
+  feedback?: Prisma.FeedbackOmit
 }
 
 /* Types for Logging */

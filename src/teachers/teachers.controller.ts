@@ -134,6 +134,20 @@ export class TeachersController {
     });
   }
 
+  @Get('me')
+  @Roles(Role.TEACHER, Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiOperation({
+    summary:
+      'Get the current teacher profile with assigned classes and subjects',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Teacher profile retrieved successfully',
+  })
+  async findMe(@CurrentUser() user: AuthUser) {
+    return this.teachersService.findMe(user.id, user.tenantId);
+  }
+
   @Get()
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get all teachers with filtering and pagination' })

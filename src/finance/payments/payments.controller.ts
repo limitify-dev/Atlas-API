@@ -9,7 +9,10 @@ import {
 } from '../../auth/decorators/current-user.decorator';
 import { Role } from '../../../prisma/generated/client';
 import { PaymentsService } from './payments.service';
-import { PromiseToPayDto, ReviewSubmissionDto, SubmitProofDto } from '../dto';
+import { SubmitProofDto } from '../dto/submit-proof.dto';
+import { PromiseToPayDto } from '../dto/promise-to-pay.dto';
+import { ReviewSubmissionDto } from '../dto/review-submission.dto';
+import { ReviewPromiseDto } from '../dto/review-promise.dto';
 
 @ApiTags('Finance — Payments')
 @ApiBearerAuth()
@@ -21,7 +24,7 @@ export class PaymentsController {
   // ─── PARENT ACTIONS ──────────────────────────────────────────────────────────
 
   @Post('invoices/:invoiceId/submit-proof')
-  @Roles(Role.STAFF)
+  @Roles(Role.STAFF, Role.PARENT)
   @ApiOperation({ summary: 'Submit payment proof for an invoice' })
   submitProof(
     @CurrentUser() user: AuthUser,
@@ -37,7 +40,7 @@ export class PaymentsController {
   }
 
   @Post('invoices/:invoiceId/promise')
-  @Roles(Role.STAFF)
+  @Roles(Role.STAFF, Role.PARENT)
   @ApiOperation({
     summary: 'Submit a payment promise (commit to pay by a date)',
   })
@@ -74,6 +77,36 @@ export class PaymentsController {
     return this.paymentsService.review(
       user.tenantId,
       submissionId,
+      dto,
+      user.id,
+    );
+  }
+
+  @Get('promises/pending')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'List all grace requests awaiting approval' })
+  getPendingPromises(@CurrentUser() user: AuthUser) {
+    return this.paymentsService.getPendingPromises(user.tenantId);
+  }
+
+  @Get('promises/expiring-soon')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'List grace requests expiring within 3 days' })
+  getExpiringSoon(@CurrentUser() user: AuthUser) {
+    return this.paymentsService.getExpiringSoon(user.tenantId);
+  }
+
+  @Post('promises/:promiseId/review')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Approve or refuse a grace request' })
+  reviewPromise(
+    @CurrentUser() user: AuthUser,
+    @Param('promiseId') promiseId: string,
+    @Body() dto: ReviewPromiseDto,
+  ) {
+    return this.paymentsService.reviewPromise(
+      user.tenantId,
+      promiseId,
       dto,
       user.id,
     );

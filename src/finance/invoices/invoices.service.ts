@@ -19,6 +19,7 @@ import {
 import {
   InvoiceCreatedEvent,
   InvoicesBulkCreatedEvent,
+  OverdueReminderEvent,
 } from '../../domain-events/events';
 import { Prisma } from '../../../prisma/generated/client';
 
@@ -86,7 +87,7 @@ export class InvoicesService {
       try {
         await this.createOne(tenantId, item, issuedBy);
         result.created++;
-      } catch (err) {
+      } catch (err: any) {
         result.failed++;
         result.errors.push({
           index: i,
@@ -195,9 +196,15 @@ export class InvoicesService {
               firstName: true,
               lastName: true,
               studentId: true,
+              grade: { select: { id: true, name: true, code: true } },
+              section: { select: { id: true, name: true } },
             },
           },
-          _count: { select: { submissions: true, promises: true } },
+          submissions: {
+            select: { id: true, note: true },
+            take: 1,
+            orderBy: { createdAt: 'desc' },
+          },
         },
         orderBy: { dueDate: 'asc' },
         skip: (page - 1) * limit,
@@ -218,8 +225,8 @@ export class InvoicesService {
             firstName: true,
             lastName: true,
             studentId: true,
-            grade: { select: { name: true } },
-            section: { select: { name: true } },
+            grade: { select: { id: true, name: true, code: true } },
+            section: { select: { id: true, name: true } },
           },
         },
         submissions: {
@@ -248,10 +255,13 @@ export class InvoicesService {
     if (!parent) throw new NotFoundException('Parent profile not found.');
 
     const studentIds = parent.children.map((c) => c.studentId);
-    return this.findAll(tenantId, { ...filters, studentId: undefined });
+    return this.findAll(tenantId, {
+      ...filters,
+      studentId: studentIds.length > 0 ? studentIds : undefined,
+    });
   }
 
-  async cancel(tenantId: string, id: string, staffUserId: string) {
+  async cancel(tenantId: string, id: string, _staffUserId: string) {
     const invoice = await this.prisma.invoice.findFirst({
       where: { id, tenantId },
     });
@@ -270,6 +280,35 @@ export class InvoicesService {
     return this.prisma.invoice.update({
       where: { id },
       data: { status: InvoiceStatus.CANCELLED },
+    });
+  }
+
+  async update(
+    tenantId: string,
+    id: string,
+    dto: {
+      amount?: number;
+      currency?: string;
+      dueDate?: string;
+      description?: string;
+    },
+  ) {
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id, tenantId },
+    });
+
+    if (!invoice) throw new NotFoundException('Invoice not found.');
+
+    const updateData: any = {};
+    if (dto.amount !== undefined)
+      updateData.amount = new Prisma.Decimal(dto.amount);
+    if (dto.currency !== undefined) updateData.currency = dto.currency;
+    if (dto.dueDate !== undefined) updateData.dueDate = new Date(dto.dueDate);
+    if (dto.description !== undefined) updateData.description = dto.description;
+
+    return this.prisma.invoice.update({
+      where: { id },
+      data: updateData,
     });
   }
 
@@ -310,5 +349,50 @@ export class InvoicesService {
       }),
     ]);
     return { total, paid, pending, overdue };
+  }
+
+  async sendReminder(
+    tenantId: string,
+    invoiceId: string,
+    channel: 'sms' | 'email' | 'both',
+    customMessage?: string,
+  ) {
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id: invoiceId, tenantId },
+      include: {
+        student: {
+          include: {
+            parents: {
+              include: { parent: { include: { user: true } } },
+            },
+          },
+        },
+      },
+    });
+
+    if (!invoice) throw new NotFoundException('Invoice not found.');
+
+    const parentUserIds =
+      invoice.student?.parents
+        ?.map((sp) => sp.parent?.user?.id)
+        .filter(Boolean) ?? [];
+
+    const studentName = invoice.student
+      ? `${invoice.student.firstName} ${invoice.student.lastName}`
+      : 'Student';
+
+    this.events.emit(
+      new OverdueReminderEvent(
+        tenantId,
+        invoiceId,
+        studentName,
+        parentUserIds,
+        Number(invoice.amount) - Number(invoice.amountPaid || 0),
+        channel,
+        customMessage,
+      ),
+    );
+
+    return { success: true, sentTo: parentUserIds.length };
   }
 }

@@ -232,7 +232,7 @@ export type PaymentSubmissionGroupByOutputType = {
   tenantId: string
   invoiceId: string
   submittedBy: string
-  proofUrl: string
+  proofUrl: string | null
   note: string | null
   amountClaimed: runtime.Decimal | null
   status: $Enums.PaymentSubmissionStatus
@@ -271,7 +271,7 @@ export type PaymentSubmissionWhereInput = {
   tenantId?: Prisma.StringFilter<"PaymentSubmission"> | string
   invoiceId?: Prisma.StringFilter<"PaymentSubmission"> | string
   submittedBy?: Prisma.StringFilter<"PaymentSubmission"> | string
-  proofUrl?: Prisma.StringFilter<"PaymentSubmission"> | string
+  proofUrl?: Prisma.StringNullableFilter<"PaymentSubmission"> | string | null
   note?: Prisma.StringNullableFilter<"PaymentSubmission"> | string | null
   amountClaimed?: Prisma.DecimalNullableFilter<"PaymentSubmission"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFilter<"PaymentSubmission"> | $Enums.PaymentSubmissionStatus
@@ -289,7 +289,7 @@ export type PaymentSubmissionOrderByWithRelationInput = {
   tenantId?: Prisma.SortOrder
   invoiceId?: Prisma.SortOrder
   submittedBy?: Prisma.SortOrder
-  proofUrl?: Prisma.SortOrder
+  proofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   amountClaimed?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -310,7 +310,7 @@ export type PaymentSubmissionWhereUniqueInput = Prisma.AtLeast<{
   tenantId?: Prisma.StringFilter<"PaymentSubmission"> | string
   invoiceId?: Prisma.StringFilter<"PaymentSubmission"> | string
   submittedBy?: Prisma.StringFilter<"PaymentSubmission"> | string
-  proofUrl?: Prisma.StringFilter<"PaymentSubmission"> | string
+  proofUrl?: Prisma.StringNullableFilter<"PaymentSubmission"> | string | null
   note?: Prisma.StringNullableFilter<"PaymentSubmission"> | string | null
   amountClaimed?: Prisma.DecimalNullableFilter<"PaymentSubmission"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFilter<"PaymentSubmission"> | $Enums.PaymentSubmissionStatus
@@ -328,7 +328,7 @@ export type PaymentSubmissionOrderByWithAggregationInput = {
   tenantId?: Prisma.SortOrder
   invoiceId?: Prisma.SortOrder
   submittedBy?: Prisma.SortOrder
-  proofUrl?: Prisma.SortOrder
+  proofUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   amountClaimed?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -352,7 +352,7 @@ export type PaymentSubmissionScalarWhereWithAggregatesInput = {
   tenantId?: Prisma.StringWithAggregatesFilter<"PaymentSubmission"> | string
   invoiceId?: Prisma.StringWithAggregatesFilter<"PaymentSubmission"> | string
   submittedBy?: Prisma.StringWithAggregatesFilter<"PaymentSubmission"> | string
-  proofUrl?: Prisma.StringWithAggregatesFilter<"PaymentSubmission"> | string
+  proofUrl?: Prisma.StringNullableWithAggregatesFilter<"PaymentSubmission"> | string | null
   note?: Prisma.StringNullableWithAggregatesFilter<"PaymentSubmission"> | string | null
   amountClaimed?: Prisma.DecimalNullableWithAggregatesFilter<"PaymentSubmission"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusWithAggregatesFilter<"PaymentSubmission"> | $Enums.PaymentSubmissionStatus
@@ -366,7 +366,7 @@ export type PaymentSubmissionScalarWhereWithAggregatesInput = {
 export type PaymentSubmissionCreateInput = {
   id?: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -384,7 +384,7 @@ export type PaymentSubmissionUncheckedCreateInput = {
   tenantId: string
   invoiceId: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -398,7 +398,7 @@ export type PaymentSubmissionUncheckedCreateInput = {
 export type PaymentSubmissionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -416,7 +416,7 @@ export type PaymentSubmissionUncheckedUpdateInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   invoiceId?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -432,7 +432,7 @@ export type PaymentSubmissionCreateManyInput = {
   tenantId: string
   invoiceId: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -446,7 +446,7 @@ export type PaymentSubmissionCreateManyInput = {
 export type PaymentSubmissionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -462,7 +462,7 @@ export type PaymentSubmissionUncheckedUpdateManyInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   invoiceId?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -623,14 +623,6 @@ export type PaymentSubmissionUncheckedUpdateManyWithoutInvoiceNestedInput = {
   deleteMany?: Prisma.PaymentSubmissionScalarWhereInput | Prisma.PaymentSubmissionScalarWhereInput[]
 }
 
-export type NullableDecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
-}
-
 export type EnumPaymentSubmissionStatusFieldUpdateOperationsInput = {
   set?: $Enums.PaymentSubmissionStatus
 }
@@ -638,7 +630,7 @@ export type EnumPaymentSubmissionStatusFieldUpdateOperationsInput = {
 export type PaymentSubmissionCreateWithoutTenantInput = {
   id?: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -654,7 +646,7 @@ export type PaymentSubmissionUncheckedCreateWithoutTenantInput = {
   id?: string
   invoiceId: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -699,7 +691,7 @@ export type PaymentSubmissionScalarWhereInput = {
   tenantId?: Prisma.StringFilter<"PaymentSubmission"> | string
   invoiceId?: Prisma.StringFilter<"PaymentSubmission"> | string
   submittedBy?: Prisma.StringFilter<"PaymentSubmission"> | string
-  proofUrl?: Prisma.StringFilter<"PaymentSubmission"> | string
+  proofUrl?: Prisma.StringNullableFilter<"PaymentSubmission"> | string | null
   note?: Prisma.StringNullableFilter<"PaymentSubmission"> | string | null
   amountClaimed?: Prisma.DecimalNullableFilter<"PaymentSubmission"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFilter<"PaymentSubmission"> | $Enums.PaymentSubmissionStatus
@@ -713,7 +705,7 @@ export type PaymentSubmissionScalarWhereInput = {
 export type PaymentSubmissionCreateWithoutInvoiceInput = {
   id?: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -729,7 +721,7 @@ export type PaymentSubmissionUncheckedCreateWithoutInvoiceInput = {
   id?: string
   tenantId: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -770,7 +762,7 @@ export type PaymentSubmissionCreateManyTenantInput = {
   id?: string
   invoiceId: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -784,7 +776,7 @@ export type PaymentSubmissionCreateManyTenantInput = {
 export type PaymentSubmissionUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -800,7 +792,7 @@ export type PaymentSubmissionUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoiceId?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -815,7 +807,7 @@ export type PaymentSubmissionUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   invoiceId?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -830,7 +822,7 @@ export type PaymentSubmissionCreateManyInvoiceInput = {
   id?: string
   tenantId: string
   submittedBy: string
-  proofUrl: string
+  proofUrl?: string | null
   note?: string | null
   amountClaimed?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.PaymentSubmissionStatus
@@ -844,7 +836,7 @@ export type PaymentSubmissionCreateManyInvoiceInput = {
 export type PaymentSubmissionUpdateWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -860,7 +852,7 @@ export type PaymentSubmissionUncheckedUpdateWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -875,7 +867,7 @@ export type PaymentSubmissionUncheckedUpdateManyWithoutInvoiceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   submittedBy?: Prisma.StringFieldUpdateOperationsInput | string
-  proofUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  proofUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amountClaimed?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumPaymentSubmissionStatusFieldUpdateOperationsInput | $Enums.PaymentSubmissionStatus
@@ -983,7 +975,7 @@ export type $PaymentSubmissionPayload<ExtArgs extends runtime.Types.Extensions.I
     tenantId: string
     invoiceId: string
     submittedBy: string
-    proofUrl: string
+    proofUrl: string | null
     note: string | null
     amountClaimed: runtime.Decimal | null
     status: $Enums.PaymentSubmissionStatus

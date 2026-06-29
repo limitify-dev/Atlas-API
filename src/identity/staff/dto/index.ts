@@ -30,7 +30,8 @@ export class CreateStaffDto {
 
   @ApiProperty({
     example: 'finance',
-    description: 'finance | discipline | reception | IT | custom',
+    description:
+      'studies | dos (Director of Studies) | discipline | dm (Discipline Master) | finance | bursar',
   })
   @IsString()
   @IsNotEmpty()
@@ -47,6 +48,42 @@ export class CreateStaffDto {
 }
 
 export class UpdateStaffDto extends PartialType(CreateStaffDto) {}
+
+export class RegisterStaffDto {
+  @ApiProperty({ example: 'John' })
+  @IsString()
+  @IsNotEmpty()
+  firstName: string;
+
+  @ApiProperty({ example: 'Doe' })
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
+
+  @ApiPropertyOptional({ example: 'john.doe@school.edu' })
+  @IsString()
+  @IsOptional()
+  email?: string;
+
+  @ApiPropertyOptional({ example: '+250788000000' })
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
+  @ApiPropertyOptional({ example: 'Finance' })
+  @IsString()
+  @IsOptional()
+  department?: string;
+
+  @ApiProperty({ example: 'finance' })
+  @IsString()
+  @IsNotEmpty()
+  staffRole: string;
+
+  @ApiProperty()
+  @IsDateString()
+  joiningDate: string;
+}
 
 export class StaffFiltersDto {
   @ApiPropertyOptional({ example: 'finance' })

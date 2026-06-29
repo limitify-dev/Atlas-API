@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AttendanceStatus, BookStatus } from '../../prisma/generated/client';
+import {
+  AttendanceStatus,
+  BookStatus,
+  InvoiceStatus,
+} from '../../prisma/generated/client';
 
 @Injectable()
 export class ParentsService {
@@ -165,6 +169,7 @@ export class ParentsService {
           ? {
               id: student.grade.id,
               name: student.grade.name,
+              code: student.grade.code,
               level: student.grade.level,
               educationLevel: student.grade.educationLevel,
             }
@@ -199,7 +204,11 @@ export class ParentsService {
     });
   }
 
-  async getMyFinancials(userId: string, tenantId: string) {
+  async getMyFinancials(
+    userId: string,
+    tenantId: string,
+    filters?: { status?: string },
+  ) {
     const parent = await this.prisma.parent.findFirst({
       where: { userId, tenantId },
       select: {
@@ -221,6 +230,15 @@ export class ParentsService {
       return { invoices: [], summary: { outstanding: 0, count: 0 } };
     }
 
+    // Fetch tenant settings to get the configured currency
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { settings: true },
+    });
+
+    const defaultCurrency = (tenant?.settings as any)?.currency || 'USD';
+
+    // Fetch library fines (existing logic)
     const transactions = await this.prisma.bookTransaction.findMany({
       where: {
         tenantId,
@@ -265,16 +283,16 @@ export class ParentsService {
       orderBy: { updatedAt: 'desc' },
     });
 
-    const invoices = transactions.map((txn) => {
+    const libraryInvoices = transactions.map((txn) => {
       const amount = Number(txn.fine || txn.book?.price || 0);
       return {
         id: txn.id,
-        type: 'LIBRARY_MISSING_BOOK',
+        type: 'LIBRARY_MISSING_BOOK' as const,
         amount,
-        currency: 'USD',
-        status: 'UNPAID',
+        currency: defaultCurrency,
+        status: 'UNPAID' as const,
         issuedAt: txn.updatedAt,
-        description: `Missing book: ${txn.book?.title || 'Unknown Book'}`,
+        description: `Missing Book: ${txn.book?.title || 'Unknown Book'}`,
         book: txn.book
           ? {
               id: txn.book.id,
@@ -310,14 +328,257 @@ export class ParentsService {
       };
     });
 
-    const outstanding = invoices.reduce((sum, inv) => sum + inv.amount, 0);
+    // Fetch school fee invoices for these students with student details
+    const feeInvoices = await this.prisma.invoice.findMany({
+      where: {
+        tenantId,
+        studentId: { in: studentIds },
+        status: {
+          not: InvoiceStatus.CANCELLED,
+          ...(filters?.status && { equals: filters.status as InvoiceStatus }),
+        },
+      },
+      include: {
+        student: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            studentId: true,
+            section: { select: { id: true, name: true } },
+            grade: { select: { id: true, name: true } },
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const feeInvoiceItems = feeInvoices.map((inv: any) => {
+      const amount = Number(inv.amount || 0);
+      const amountPaid = Number(inv.amountPaid || 0);
+      const outstanding = Math.max(0, amount - amountPaid);
+      const student = inv.student;
+
+      // Use grace period extended date if available
+      const displayDueDate = inv.gracePeriodApproved
+        ? inv.gracePeriodApproved
+        : inv.dueDate;
+
+      return {
+        id: inv.id,
+        type: 'SCHOOL_FEES' as const,
+        amount,
+        currency: inv.currency || 'USD',
+        status: inv.status || 'UNPAID',
+        issuedAt: inv.createdAt,
+        description: inv.title || inv.description || 'School Fee',
+        feeDescription: inv.description,
+        term: inv.term,
+        category: inv.category,
+        dueDate: displayDueDate,
+        gracePeriodApproved: inv.gracePeriodApproved,
+        amountPaid,
+        amountOutstanding: outstanding,
+        student: student
+          ? {
+              id: student.id,
+              studentId: student.studentId,
+              fullName: `${student.firstName} ${student.lastName}`.trim(),
+              section: student.section?.name || null,
+              grade: student.grade?.name || null,
+            }
+          : {
+              id: inv.studentId,
+              studentId: inv.studentId,
+              fullName: 'Student',
+              section: null,
+              grade: null,
+            },
+        transaction: {
+          id: inv.id,
+          issueDate: inv.createdAt,
+          dueDate: inv.dueDate,
+          returnDate: null,
+          remarks: null,
+        },
+      };
+    });
+
+    const allInvoices = [...libraryInvoices, ...feeInvoiceItems] as any[];
+    const totalOutstanding = allInvoices.reduce(
+      (sum: number, inv: any) =>
+        sum + (inv.amountOutstanding || inv.amount || 0),
+      0,
+    );
+
     return {
-      invoices,
+      invoices: allInvoices,
       summary: {
-        outstanding: Number(outstanding.toFixed(2)),
-        count: invoices.length,
+        outstanding: Number(totalOutstanding.toFixed(2)),
+        count: allInvoices.length,
+        currency: defaultCurrency,
       },
     };
+  }
+
+  /**
+   * Classroom context for each child: their grade & section, class teacher
+   * (homeroom), and the courses (subjects) they take with each subject's
+   * teacher and contact details. Scoped strictly to each child's classroom.
+   */
+  async getMyClassroom(
+    userId: string,
+    tenantId: string,
+    params?: { studentId?: string },
+  ) {
+    const children = await this.getParentChildrenLite(userId, tenantId);
+    const selected = params?.studentId
+      ? children.filter((c) => c.id === params.studentId)
+      : children;
+    if (!selected.length) return [];
+
+    const sectionIds = Array.from(new Set(selected.map((c) => c.sectionId)));
+    const gradeIds = Array.from(new Set(selected.map((c) => c.gradeId)));
+
+    const teacherSelect = {
+      id: true,
+      firstName: true,
+      lastName: true,
+      photoUrl: true,
+      specialization: true,
+      department: true,
+      user: { select: { email: true, phone: true, avatar: true } },
+    } as const;
+
+    const [classTeachers, subjects] = await Promise.all([
+      this.prisma.classTeacher.findMany({
+        where: { sectionId: { in: sectionIds }, isPrimary: true },
+        include: { teacher: { select: teacherSelect } },
+      }),
+      this.prisma.subject.findMany({
+        where: { tenantId, gradeId: { in: gradeIds } },
+        include: {
+          teachers: { include: { teacher: { select: teacherSelect } } },
+        },
+        orderBy: { name: 'asc' },
+      }),
+    ]);
+
+    const fmtTeacher = (t: any) =>
+      t
+        ? {
+            id: t.id,
+            name: `${t.firstName} ${t.lastName}`.trim(),
+            specialization: t.specialization ?? t.department ?? null,
+            photoUrl: t.photoUrl ?? t.user?.avatar ?? null,
+            email: t.user?.email ?? null,
+            phone: t.user?.phone ?? null,
+          }
+        : null;
+
+    const classTeacherBySection = new Map(
+      classTeachers.map((ct) => [ct.sectionId, ct.teacher]),
+    );
+    const subjectsByGrade = new Map<string, typeof subjects>();
+    for (const s of subjects) {
+      const arr = subjectsByGrade.get(s.gradeId) ?? [];
+      arr.push(s);
+      subjectsByGrade.set(s.gradeId, arr);
+    }
+
+    return selected.map((child: any) => ({
+      studentId: child.id,
+      studentName: `${child.firstName} ${child.lastName}`.trim(),
+      studentCode: child.studentId,
+      grade: child.grade,
+      section: child.section,
+      classTeacher: fmtTeacher(classTeacherBySection.get(child.sectionId)),
+      courses: (subjectsByGrade.get(child.gradeId) ?? []).map((s) => ({
+        subjectId: s.id,
+        name: s.name,
+        code: s.code,
+        teachers: s.teachers
+          .map((st) => fmtTeacher(st.teacher))
+          .filter(Boolean),
+      })),
+    }));
+  }
+
+  /**
+   * Child's academic performance summary: graded subject percentages (from
+   * report cards / StudentGrade), an overall average, and assignment stats.
+   */
+  async getMyPerformance(
+    userId: string,
+    tenantId: string,
+    params?: { studentId?: string; term?: string },
+  ) {
+    const children = await this.getParentChildrenLite(userId, tenantId);
+    const selected = params?.studentId
+      ? children.filter((c) => c.id === params.studentId)
+      : children;
+    if (!selected.length) return [];
+
+    const childIds = selected.map((c) => c.id);
+
+    const [grades, assignmentResults] = await Promise.all([
+      this.prisma.studentGrade.findMany({
+        where: {
+          tenantId,
+          studentId: { in: childIds },
+          ...(params?.term ? { term: { contains: params.term } } : {}),
+        },
+        include: { subject: { select: { id: true, name: true } } },
+        orderBy: { updatedAt: 'desc' },
+      }),
+      this.prisma.academicAssignmentResult.findMany({
+        where: { studentId: { in: childIds } },
+        select: { studentId: true, score: true, status: true },
+      }),
+    ]);
+
+    return selected.map((child: any) => {
+      const childGrades = grades.filter((g) => g.studentId === child.id);
+      const subjects = childGrades.map((g) => ({
+        subjectId: g.subjectId,
+        name: g.subject?.name ?? 'Subject',
+        percentage: g.percentage,
+        term: g.term,
+        comment: g.comment ?? null,
+      }));
+      const overallAverage = subjects.length
+        ? Math.round(
+            (subjects.reduce((sum, s) => sum + s.percentage, 0) /
+              subjects.length) *
+              10,
+          ) / 10
+        : null;
+
+      const childResults = assignmentResults.filter(
+        (r) => r.studentId === child.id && typeof r.score === 'number',
+      );
+      const assignmentAverage = childResults.length
+        ? Math.round(
+            (childResults.reduce((sum, r) => sum + (r.score ?? 0), 0) /
+              childResults.length) *
+              10,
+          ) / 10
+        : null;
+
+      return {
+        studentId: child.id,
+        studentName: `${child.firstName} ${child.lastName}`.trim(),
+        grade: child.grade,
+        section: child.section,
+        overallAverage,
+        gradedSubjects: subjects.length,
+        subjects,
+        assignments: {
+          graded: childResults.length,
+          averageScore: assignmentAverage,
+        },
+      };
+    });
   }
 
   async getMyExamSchedule(
@@ -387,43 +648,7 @@ export class ParentsService {
       return rows.slice(0, params?.limit || 100);
     }
 
-    const grades = Array.from(new Set(selectedChildren.map((c) => c.gradeId)));
-    const subjects = await this.prisma.subject.findMany({
-      where: { tenantId, gradeId: { in: grades } },
-      select: {
-        id: true,
-        name: true,
-        gradeId: true,
-      },
-      orderBy: { name: 'asc' },
-    });
-
-    const start = new Date();
-    start.setHours(9, 0, 0, 0);
-    start.setDate(start.getDate() + 1);
-
-    const rows = selectedChildren.flatMap((student) => {
-      const studentSubjects = subjects
-        .filter((s) => s.gradeId === student.gradeId)
-        .slice(0, 8);
-      return studentSubjects.map((subject, index) => {
-        const examDate = new Date(start);
-        examDate.setDate(start.getDate() + index);
-        return {
-          id: `${student.id}-${subject.id}-${examDate.toISOString().slice(0, 10)}`,
-          title: `${subject.name} Exam`,
-          subject: subject.name,
-          studentId: student.id,
-          studentName: `${student.firstName} ${student.lastName}`.trim(),
-          examDate: examDate.toISOString(),
-          date: examDate.toISOString(),
-          status: 'SCHEDULED',
-          details: `Exam for ${subject.name} (${student.grade?.name || 'Grade'})`,
-        };
-      });
-    });
-
-    return rows.slice(0, params?.limit || 100);
+    return [];
   }
 
   async getMyAssignments(
@@ -523,51 +748,7 @@ export class ParentsService {
       return rows.slice(0, params?.limit || 100);
     }
 
-    const grades = Array.from(new Set(selectedChildren.map((c) => c.gradeId)));
-    const subjects = await this.prisma.subject.findMany({
-      where: { tenantId, gradeId: { in: grades } },
-      select: {
-        id: true,
-        name: true,
-        gradeId: true,
-      },
-      orderBy: { name: 'asc' },
-    });
-
-    const baseDate = new Date();
-    baseDate.setHours(17, 0, 0, 0);
-
-    const rows = selectedChildren.flatMap((student) => {
-      const studentSubjects = subjects
-        .filter((s) => s.gradeId === student.gradeId)
-        .slice(0, 8);
-      return studentSubjects.map((subject, index) => {
-        const dueDate = new Date(baseDate);
-        dueDate.setDate(baseDate.getDate() + index + 2);
-
-        const hash = this.stableHash(`${student.id}-${subject.id}`);
-        const isGraded = hash % 3 === 0;
-        const score = isGraded ? 60 + (hash % 41) : null;
-
-        return {
-          id: `${student.id}-${subject.id}-assignment-${index + 1}`,
-          title: `${subject.name} Assignment ${index + 1}`,
-          subject: subject.name,
-          studentId: student.id,
-          studentName: `${student.firstName} ${student.lastName}`.trim(),
-          dueDate: dueDate.toISOString(),
-          date: dueDate.toISOString(),
-          status: isGraded ? 'GRADED' : 'PENDING',
-          score,
-          grade: score != null ? `${Math.round(score)}%` : null,
-          details: isGraded
-            ? `Assignment graded at ${score != null ? Math.round(score) : '--'}%.`
-            : 'Assignment submitted and awaiting grading.',
-        };
-      });
-    });
-
-    return rows.slice(0, params?.limit || 100);
+    return [];
   }
 
   async getMyReportCards(

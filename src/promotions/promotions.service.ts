@@ -35,12 +35,32 @@ export class PromotionsService {
     if (filters.entryYear !== undefined) where.entryYear = filters.entryYear;
     if (filters.isActive !== undefined) where.isActive = filters.isActive;
 
-    return this.prisma.promotion.findMany({
+    const promotions = await this.prisma.promotion.findMany({
       where,
       include: {
+        sections: {
+          select: { _count: { select: { students: true } } },
+        },
         _count: { select: { sections: true, students: true } },
       },
       orderBy: [{ entryYear: 'desc' }, { name: 'asc' }],
+    });
+
+    // Compute student count from enrolled section members (ground truth),
+    // falling back to the denormalized promotionId count if sections are empty.
+    return promotions.map((p) => {
+      const sectionStudentTotal = p.sections.reduce(
+        (sum, s) => sum + s._count.students,
+        0,
+      );
+      return {
+        ...p,
+        _count: {
+          sections: p._count.sections,
+          students:
+            sectionStudentTotal > 0 ? sectionStudentTotal : p._count.students,
+        },
+      };
     });
   }
 
@@ -103,44 +123,86 @@ export class PromotionsService {
     return this.prisma.promotion.delete({ where: { id } });
   }
 
-  /** Returns all students who belong to this promotion, grouped by their current section */
+  /**
+   * Returns students grouped by section for this promotion.
+   * Uses section membership (sectionId) as the source of truth rather than
+   * the denormalized student.promotionId field, so it works correctly even
+   * before a full promotionId back-fill has been run.
+   */
   async getRoster(tenantId: string, id: string) {
     const promotion = await this.prisma.promotion.findFirst({
       where: { id, tenantId },
+      include: {
+        sections: {
+          select: {
+            id: true,
+            name: true,
+            grade: {
+              select: { id: true, name: true, code: true, level: true },
+            },
+            _count: { select: { students: true } },
+          },
+          orderBy: [{ grade: { level: 'asc' } }, { name: 'asc' }],
+        },
+      },
     });
     if (!promotion) throw new NotFoundException('Promotion not found.');
 
-    const students = await this.prisma.student.findMany({
-      where: { tenantId, promotionId: id },
-      include: {
-        section: { select: { id: true, name: true } },
-        grade: { select: { id: true, name: true, level: true } },
-        user: { select: { id: true, avatar: true, status: true } },
-      },
-      orderBy: [{ grade: { level: 'asc' } }, { lastName: 'asc' }],
-    });
-
-    // Group by section for a structured roster view
-    const bySectionMap = new Map<
-      string,
-      { section: { id: string; name: string }; students: typeof students }
-    >();
-
-    for (const student of students) {
-      const key = student.sectionId;
-      if (!bySectionMap.has(key)) {
-        bySectionMap.set(key, {
-          section: student.section,
-          students: [],
-        });
-      }
-      bySectionMap.get(key)!.students.push(student);
-    }
+    const totalStudents = promotion.sections.reduce(
+      (sum, s) => sum + s._count.students,
+      0,
+    );
 
     return {
-      promotion,
-      totalStudents: students.length,
-      classrooms: Array.from(bySectionMap.values()),
+      promotion: {
+        id: promotion.id,
+        name: promotion.name,
+        entryYear: promotion.entryYear,
+      },
+      totalStudents,
+      classrooms: promotion.sections.map((s) => ({
+        section: { id: s.id, name: s.name, grade: s.grade },
+        studentCount: s._count.students,
+      })),
     };
+  }
+
+  /** Returns the paginated student list for a specific section within a promotion */
+  async getSectionRoster(
+    tenantId: string,
+    promotionId: string,
+    sectionId: string,
+    page: number,
+    limit: number,
+  ) {
+    const promotion = await this.prisma.promotion.findFirst({
+      where: { id: promotionId, tenantId },
+    });
+    if (!promotion) throw new NotFoundException('Promotion not found.');
+
+    const section = await this.prisma.section.findFirst({
+      where: { id: sectionId, tenantId, promotionId },
+    });
+    if (!section) throw new NotFoundException('Section not in this promotion.');
+
+    const [students, total] = await this.prisma.$transaction([
+      this.prisma.student.findMany({
+        where: { tenantId, sectionId },
+        select: {
+          id: true,
+          studentId: true,
+          firstName: true,
+          lastName: true,
+          gender: true,
+          admissionDate: true,
+        },
+        orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.student.count({ where: { tenantId, sectionId } }),
+    ]);
+
+    return { students, total, page, limit };
   }
 }

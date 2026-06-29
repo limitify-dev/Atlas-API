@@ -4,7 +4,6 @@ import {
   IsInt,
   IsOptional,
   IsString,
-  IsUUID,
   Max,
   Min,
 } from 'class-validator';
@@ -19,9 +18,8 @@ export class InvoiceFiltersDto {
   status?: InvoiceStatus;
 
   @ApiPropertyOptional()
-  @IsUUID()
   @IsOptional()
-  studentId?: string;
+  studentId?: string | string[];
 
   @ApiPropertyOptional({ example: '2025-T1' })
   @IsString()

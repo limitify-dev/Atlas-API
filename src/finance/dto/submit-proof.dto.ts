@@ -1,12 +1,13 @@
-import { IsOptional, IsString, IsUrl, Matches } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString, Matches } from 'class-validator';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SubmitProofDto {
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Supabase storage URL for the payment proof image/PDF',
   })
-  @IsUrl({}, { message: 'proofUrl must be a valid URL' })
-  proofUrl: string;
+  @IsString()
+  @IsOptional()
+  proofUrl?: string;
 
   @ApiPropertyOptional()
   @IsString()

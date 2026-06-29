@@ -64,11 +64,31 @@ export class PromotionsController {
   @Get(':id/roster')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({
-    summary:
-      'Get the full student roster for a promotion, grouped by classroom',
+    summary: 'Get classrooms with student counts for a promotion',
   })
   getRoster(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.promotionsService.getRoster(user.tenantId, id);
+  }
+
+  @Get(':id/roster/:sectionId')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
+  @ApiOperation({
+    summary: 'Get paginated students for a specific section within a promotion',
+  })
+  getSectionRoster(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+    @Param('sectionId') sectionId: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 50,
+  ) {
+    return this.promotionsService.getSectionRoster(
+      user.tenantId,
+      id,
+      sectionId,
+      Number(page),
+      Number(limit),
+    );
   }
 
   @Patch(':id')

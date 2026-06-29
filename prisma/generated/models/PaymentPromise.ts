@@ -32,6 +32,9 @@ export type PaymentPromiseMinAggregateOutputType = {
   promisedDate: Date | null
   note: string | null
   status: $Enums.PaymentPromiseStatus | null
+  approvedBy: string | null
+  approvedAt: Date | null
+  approvalNote: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,6 +47,9 @@ export type PaymentPromiseMaxAggregateOutputType = {
   promisedDate: Date | null
   note: string | null
   status: $Enums.PaymentPromiseStatus | null
+  approvedBy: string | null
+  approvedAt: Date | null
+  approvalNote: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -56,6 +62,9 @@ export type PaymentPromiseCountAggregateOutputType = {
   promisedDate: number
   note: number
   status: number
+  approvedBy: number
+  approvedAt: number
+  approvalNote: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -70,6 +79,9 @@ export type PaymentPromiseMinAggregateInputType = {
   promisedDate?: true
   note?: true
   status?: true
+  approvedBy?: true
+  approvedAt?: true
+  approvalNote?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +94,9 @@ export type PaymentPromiseMaxAggregateInputType = {
   promisedDate?: true
   note?: true
   status?: true
+  approvedBy?: true
+  approvedAt?: true
+  approvalNote?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +109,9 @@ export type PaymentPromiseCountAggregateInputType = {
   promisedDate?: true
   note?: true
   status?: true
+  approvedBy?: true
+  approvedAt?: true
+  approvalNote?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -179,6 +197,9 @@ export type PaymentPromiseGroupByOutputType = {
   promisedDate: Date
   note: string | null
   status: $Enums.PaymentPromiseStatus
+  approvedBy: string | null
+  approvedAt: Date | null
+  approvalNote: string | null
   createdAt: Date
   updatedAt: Date
   _count: PaymentPromiseCountAggregateOutputType | null
@@ -212,6 +233,9 @@ export type PaymentPromiseWhereInput = {
   promisedDate?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
   note?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
   status?: Prisma.EnumPaymentPromiseStatusFilter<"PaymentPromise"> | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
+  approvedAt?: Prisma.DateTimeNullableFilter<"PaymentPromise"> | Date | string | null
+  approvalNote?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
   invoice?: Prisma.XOR<Prisma.InvoiceScalarRelationFilter, Prisma.InvoiceWhereInput>
@@ -226,6 +250,9 @@ export type PaymentPromiseOrderByWithRelationInput = {
   promisedDate?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  approvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  approvalNote?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   invoice?: Prisma.InvoiceOrderByWithRelationInput
@@ -243,6 +270,9 @@ export type PaymentPromiseWhereUniqueInput = Prisma.AtLeast<{
   promisedDate?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
   note?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
   status?: Prisma.EnumPaymentPromiseStatusFilter<"PaymentPromise"> | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
+  approvedAt?: Prisma.DateTimeNullableFilter<"PaymentPromise"> | Date | string | null
+  approvalNote?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
   invoice?: Prisma.XOR<Prisma.InvoiceScalarRelationFilter, Prisma.InvoiceWhereInput>
@@ -257,6 +287,9 @@ export type PaymentPromiseOrderByWithAggregationInput = {
   promisedDate?: Prisma.SortOrder
   note?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  approvedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  approvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  approvalNote?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PaymentPromiseCountOrderByAggregateInput
@@ -275,6 +308,9 @@ export type PaymentPromiseScalarWhereWithAggregatesInput = {
   promisedDate?: Prisma.DateTimeWithAggregatesFilter<"PaymentPromise"> | Date | string
   note?: Prisma.StringNullableWithAggregatesFilter<"PaymentPromise"> | string | null
   status?: Prisma.EnumPaymentPromiseStatusWithAggregatesFilter<"PaymentPromise"> | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.StringNullableWithAggregatesFilter<"PaymentPromise"> | string | null
+  approvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PaymentPromise"> | Date | string | null
+  approvalNote?: Prisma.StringNullableWithAggregatesFilter<"PaymentPromise"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PaymentPromise"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PaymentPromise"> | Date | string
 }
@@ -285,6 +321,9 @@ export type PaymentPromiseCreateInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invoice: Prisma.InvoiceCreateNestedOneWithoutPromisesInput
@@ -299,6 +338,9 @@ export type PaymentPromiseUncheckedCreateInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -309,6 +351,9 @@ export type PaymentPromiseUpdateInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invoice?: Prisma.InvoiceUpdateOneRequiredWithoutPromisesNestedInput
@@ -323,6 +368,9 @@ export type PaymentPromiseUncheckedUpdateInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -335,6 +383,9 @@ export type PaymentPromiseCreateManyInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -345,6 +396,9 @@ export type PaymentPromiseUpdateManyMutationInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -357,6 +411,9 @@ export type PaymentPromiseUncheckedUpdateManyInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -379,6 +436,9 @@ export type PaymentPromiseCountOrderByAggregateInput = {
   promisedDate?: Prisma.SortOrder
   note?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  approvedBy?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrder
+  approvalNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -391,6 +451,9 @@ export type PaymentPromiseMaxOrderByAggregateInput = {
   promisedDate?: Prisma.SortOrder
   note?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  approvedBy?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrder
+  approvalNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -403,6 +466,9 @@ export type PaymentPromiseMinOrderByAggregateInput = {
   promisedDate?: Prisma.SortOrder
   note?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  approvedBy?: Prisma.SortOrder
+  approvedAt?: Prisma.SortOrder
+  approvalNote?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -501,6 +567,9 @@ export type PaymentPromiseCreateWithoutTenantInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invoice: Prisma.InvoiceCreateNestedOneWithoutPromisesInput
@@ -513,6 +582,9 @@ export type PaymentPromiseUncheckedCreateWithoutTenantInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -554,6 +626,9 @@ export type PaymentPromiseScalarWhereInput = {
   promisedDate?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
   note?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
   status?: Prisma.EnumPaymentPromiseStatusFilter<"PaymentPromise"> | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
+  approvedAt?: Prisma.DateTimeNullableFilter<"PaymentPromise"> | Date | string | null
+  approvalNote?: Prisma.StringNullableFilter<"PaymentPromise"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PaymentPromise"> | Date | string
 }
@@ -564,6 +639,9 @@ export type PaymentPromiseCreateWithoutInvoiceInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutPaymentPromisesInput
@@ -576,6 +654,9 @@ export type PaymentPromiseUncheckedCreateWithoutInvoiceInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -613,6 +694,9 @@ export type PaymentPromiseCreateManyTenantInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -623,6 +707,9 @@ export type PaymentPromiseUpdateWithoutTenantInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invoice?: Prisma.InvoiceUpdateOneRequiredWithoutPromisesNestedInput
@@ -635,6 +722,9 @@ export type PaymentPromiseUncheckedUpdateWithoutTenantInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -646,6 +736,9 @@ export type PaymentPromiseUncheckedUpdateManyWithoutTenantInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -657,6 +750,9 @@ export type PaymentPromiseCreateManyInvoiceInput = {
   promisedDate: Date | string
   note?: string | null
   status?: $Enums.PaymentPromiseStatus
+  approvedBy?: string | null
+  approvedAt?: Date | string | null
+  approvalNote?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -667,6 +763,9 @@ export type PaymentPromiseUpdateWithoutInvoiceInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutPaymentPromisesNestedInput
@@ -679,6 +778,9 @@ export type PaymentPromiseUncheckedUpdateWithoutInvoiceInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -690,6 +792,9 @@ export type PaymentPromiseUncheckedUpdateManyWithoutInvoiceInput = {
   promisedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   note?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumPaymentPromiseStatusFieldUpdateOperationsInput | $Enums.PaymentPromiseStatus
+  approvedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvalNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -704,6 +809,9 @@ export type PaymentPromiseSelect<ExtArgs extends runtime.Types.Extensions.Intern
   promisedDate?: boolean
   note?: boolean
   status?: boolean
+  approvedBy?: boolean
+  approvedAt?: boolean
+  approvalNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
@@ -718,6 +826,9 @@ export type PaymentPromiseSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   promisedDate?: boolean
   note?: boolean
   status?: boolean
+  approvedBy?: boolean
+  approvedAt?: boolean
+  approvalNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
@@ -732,6 +843,9 @@ export type PaymentPromiseSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   promisedDate?: boolean
   note?: boolean
   status?: boolean
+  approvedBy?: boolean
+  approvedAt?: boolean
+  approvalNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
@@ -746,11 +860,14 @@ export type PaymentPromiseSelectScalar = {
   promisedDate?: boolean
   note?: boolean
   status?: boolean
+  approvedBy?: boolean
+  approvedAt?: boolean
+  approvalNote?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PaymentPromiseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "invoiceId" | "promisedBy" | "promisedDate" | "note" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["paymentPromise"]>
+export type PaymentPromiseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "invoiceId" | "promisedBy" | "promisedDate" | "note" | "status" | "approvedBy" | "approvedAt" | "approvalNote" | "createdAt" | "updatedAt", ExtArgs["result"]["paymentPromise"]>
 export type PaymentPromiseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -778,6 +895,9 @@ export type $PaymentPromisePayload<ExtArgs extends runtime.Types.Extensions.Inte
     promisedDate: Date
     note: string | null
     status: $Enums.PaymentPromiseStatus
+    approvedBy: string | null
+    approvedAt: Date | null
+    approvalNote: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["paymentPromise"]>
@@ -1212,6 +1332,9 @@ export interface PaymentPromiseFieldRefs {
   readonly promisedDate: Prisma.FieldRef<"PaymentPromise", 'DateTime'>
   readonly note: Prisma.FieldRef<"PaymentPromise", 'String'>
   readonly status: Prisma.FieldRef<"PaymentPromise", 'PaymentPromiseStatus'>
+  readonly approvedBy: Prisma.FieldRef<"PaymentPromise", 'String'>
+  readonly approvedAt: Prisma.FieldRef<"PaymentPromise", 'DateTime'>
+  readonly approvalNote: Prisma.FieldRef<"PaymentPromise", 'String'>
   readonly createdAt: Prisma.FieldRef<"PaymentPromise", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PaymentPromise", 'DateTime'>
 }

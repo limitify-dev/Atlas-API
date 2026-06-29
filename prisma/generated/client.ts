@@ -110,6 +110,17 @@ export type ClassTeacher = Prisma.ClassTeacherModel
  */
 export type SubjectTeacher = Prisma.SubjectTeacherModel
 /**
+ * Model TimetablePeriod
+ * Per-tenant timetable period definitions (admin-customizable slots & durations).
+ */
+export type TimetablePeriod = Prisma.TimetablePeriodModel
+/**
+ * Model TimetableEntry
+ * A single scheduled lesson: a class at a day+period, optionally with subject & teacher.
+ * Uniqueness constraints prevent class and teacher double-booking.
+ */
+export type TimetableEntry = Prisma.TimetableEntryModel
+/**
  * Model Attendance
  * 
  */
@@ -329,3 +340,18 @@ export type StudioSubscription = Prisma.StudioSubscriptionModel
  * 
  */
 export type AdminInvite = Prisma.AdminInviteModel
+/**
+ * Model TenantBilling
+ * 
+ */
+export type TenantBilling = Prisma.TenantBillingModel
+/**
+ * Model AdminApproval
+ * 
+ */
+export type AdminApproval = Prisma.AdminApprovalModel
+/**
+ * Model Feedback
+ * 
+ */
+export type Feedback = Prisma.FeedbackModel

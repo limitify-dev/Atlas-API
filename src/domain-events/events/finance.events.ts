@@ -74,3 +74,45 @@ export class PaymentPromisedEvent {
     public readonly financeStaffUserIds: string[],
   ) {}
 }
+
+export class GraceApprovedEvent {
+  static readonly EVENT = 'grace.approved';
+
+  constructor(
+    public readonly tenantId: string,
+    public readonly invoiceId: string,
+    public readonly newDueDate: Date,
+    public readonly studentName: string,
+    /** Parent userIds to notify */
+    public readonly parentUserIds: string[],
+    public readonly approvalNote: string | null,
+  ) {}
+}
+
+export class GraceRefusedEvent {
+  static readonly EVENT = 'grace.refused';
+
+  constructor(
+    public readonly tenantId: string,
+    public readonly invoiceId: string,
+    public readonly studentName: string,
+    /** Parent userIds to notify */
+    public readonly parentUserIds: string[],
+    public readonly refusalNote: string | null,
+  ) {}
+}
+
+export class OverdueReminderEvent {
+  static readonly EVENT = 'overdue.reminder';
+
+  constructor(
+    public readonly tenantId: string,
+    public readonly invoiceId: string,
+    public readonly studentName: string,
+    /** Parent userIds to notify */
+    public readonly parentUserIds: string[],
+    public readonly outstandingAmount: number,
+    public readonly channel?: 'sms' | 'email' | 'both',
+    public readonly customMessage?: string | null,
+  ) {}
+}

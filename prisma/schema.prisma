@@ -68,9 +68,14 @@ model Tenant {
   teacherAttendances       TeacherAttendance[]
   teachers                 Teacher[]
   users                    User[]
+  timetablePeriods         TimetablePeriod[]
+  timetableEntries         TimetableEntry[]
   tenantModules            TenantModule[]
   studioSubscription       StudioSubscription?
   adminInvites             AdminInvite[]
+  tenantBillings           TenantBilling[]
+  adminApprovals           AdminApproval[]
+  feedback                 Feedback[]
 
   @@index([slug])
   @@index([status])
@@ -111,6 +116,9 @@ model User {
   student                  Student?
   teacher                  Teacher?
   tenant                   Tenant?                   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  adminApproval            AdminApproval?            @relation("ApprovalUser")
+  reviewedApprovals        AdminApproval[]           @relation("ApprovalReviewer")
+  feedback                 Feedback[]
 
   @@index([tenantId])
   @@index([email])
@@ -152,41 +160,41 @@ model RefreshToken {
 }
 
 model Student {
-  id                  String                @id @default(uuid())
-  tenantId            String
-  userId              String?               @unique
-  studentId           String
-  firstName           String
-  lastName            String
-  dateOfBirth         DateTime
-  gender              Gender
-  bloodGroup          String?
-  nationality         String?
-  address             String?
-  photoUrl            String?
-  rollNumber          String?
-  admissionDate       DateTime
-  gradeId             String
-  sectionId           String
-  promotionId         String?
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  email               String?
-  phone               String?
-  attendances         Attendance[]
-  borrowedBooks       BookTransaction[]
-  card                Card?
-  conductRecords      ConductRecord[]
-  invoices            Invoice[]
-  permissions         Permission[]
-  conductPoints       StudentConductPoints?
-  parents             StudentParent[]
-  studentGrades       StudentGrade[]
-  grade               Grade                 @relation(fields: [gradeId], references: [id])
-  promotion           Promotion?            @relation(fields: [promotionId], references: [id])
-  section             Section               @relation(fields: [sectionId], references: [id])
-  tenant              Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user                User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String                @id @default(uuid())
+  tenantId       String
+  userId         String?               @unique
+  studentId      String
+  firstName      String
+  lastName       String
+  dateOfBirth    DateTime
+  gender         Gender
+  bloodGroup     String?
+  nationality    String?
+  address        String?
+  photoUrl       String?
+  rollNumber     String?
+  admissionDate  DateTime
+  gradeId        String
+  sectionId      String
+  promotionId    String?
+  createdAt      DateTime              @default(now())
+  updatedAt      DateTime              @updatedAt
+  email          String?
+  phone          String?
+  attendances    Attendance[]
+  borrowedBooks  BookTransaction[]
+  card           Card?
+  conductRecords ConductRecord[]
+  invoices       Invoice[]
+  permissions    Permission[]
+  conductPoints  StudentConductPoints?
+  parents        StudentParent[]
+  studentGrades  StudentGrade[]
+  grade          Grade                 @relation(fields: [gradeId], references: [id])
+  promotion      Promotion?            @relation(fields: [promotionId], references: [id])
+  section        Section               @relation(fields: [sectionId], references: [id])
+  tenant         Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user           User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, studentId])
   @@index([tenantId])
@@ -233,28 +241,29 @@ model StudentParent {
 }
 
 model Teacher {
-  id             String              @id @default(uuid())
-  tenantId       String
-  userId         String              @unique
-  teacherId      String
-  firstName      String
-  lastName       String
-  dateOfBirth    DateTime?
-  gender         Gender?
-  qualification  String?
-  specialization String?
-  joiningDate    DateTime
-  createdAt      DateTime            @default(now())
-  updatedAt      DateTime            @updatedAt
-  department     String?
-  photoUrl       String?
-  card           Card?
-  classes        ClassTeacher[]
-  conductRecords ConductRecord[]
-  subjects       SubjectTeacher[]
-  attendances    TeacherAttendance[]
-  tenant         Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user           User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id               String              @id @default(uuid())
+  tenantId         String
+  userId           String              @unique
+  teacherId        String
+  firstName        String
+  lastName         String
+  dateOfBirth      DateTime?
+  gender           Gender?
+  qualification    String?
+  specialization   String?
+  joiningDate      DateTime
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  department       String?
+  photoUrl         String?
+  card             Card?
+  classes          ClassTeacher[]
+  conductRecords   ConductRecord[]
+  subjects         SubjectTeacher[]
+  attendances      TeacherAttendance[]
+  timetableEntries TimetableEntry[]
+  tenant           Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, teacherId])
   @@index([tenantId])
@@ -326,6 +335,7 @@ model Section {
   tenant           Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   students         Student[]
   conversations    Conversation[]
+  timetableEntries TimetableEntry[]
 
   @@unique([tenantId, gradeId, name])
   @@index([tenantId])
@@ -336,18 +346,19 @@ model Section {
 }
 
 model Subject {
-  id            String           @id @default(uuid())
-  tenantId      String
-  name          String
-  code          String
-  description   String?
-  gradeId       String
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  studentGrades StudentGrade[]
-  teachers      SubjectTeacher[]
-  grade         Grade            @relation(fields: [gradeId], references: [id], onDelete: Cascade)
-  tenant        Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id               String           @id @default(uuid())
+  tenantId         String
+  name             String
+  code             String
+  description      String?
+  gradeId          String
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  studentGrades    StudentGrade[]
+  teachers         SubjectTeacher[]
+  grade            Grade            @relation(fields: [gradeId], references: [id], onDelete: Cascade)
+  tenant           Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  timetableEntries TimetableEntry[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -383,6 +394,53 @@ model SubjectTeacher {
   @@index([teacherId])
   @@index([subjectId])
   @@map("subject_teachers")
+}
+
+/// Per-tenant timetable period definitions (admin-customizable slots & durations).
+model TimetablePeriod {
+  id         String           @id @default(uuid())
+  tenantId   String
+  label      String
+  startTime  String
+  endTime    String
+  orderIndex Int
+  isBreak    Boolean          @default(false)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  entries    TimetableEntry[]
+
+  @@unique([tenantId, orderIndex])
+  @@index([tenantId])
+  @@map("timetable_periods")
+}
+
+/// A single scheduled lesson: a class at a day+period, optionally with subject & teacher.
+/// Uniqueness constraints prevent class and teacher double-booking.
+model TimetableEntry {
+  id        String          @id @default(uuid())
+  tenantId  String
+  sectionId String
+  periodId  String
+  dayOfWeek DayOfWeek
+  subjectId String?
+  teacherId String?
+  room      String?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  period    TimetablePeriod @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  section   Section         @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  subject   Subject?        @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  teacher   Teacher?        @relation(fields: [teacherId], references: [id], onDelete: SetNull)
+  tenant    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([sectionId, dayOfWeek, periodId])
+  @@unique([teacherId, dayOfWeek, periodId])
+  @@index([tenantId])
+  @@index([sectionId])
+  @@index([teacherId])
+  @@index([periodId])
+  @@map("timetable_entries")
 }
 
 model Attendance {
@@ -916,6 +974,7 @@ model AcademicAssignment {
   createdBy   String
   createdAt   DateTime             @default(now())
   updatedAt   DateTime             @updatedAt
+  type        String?              @default("HOMEWORK")
 
   @@index([tenantId])
   @@index([courseId])
@@ -1094,20 +1153,20 @@ model SystemLog {
 model AcademicTimeline {
   id           String               @id @default(uuid())
   tenantId     String
-  name         String               // e.g. "Term 1 Grade Submission Window"
+  name         String // e.g. "Term 1 Grade Submission Window"
   type         AcademicWindowType
-  academicYear String               // e.g. "2024-2025"
-  term         String?              // e.g. "T1", "T2", "S1" — null = applies to full year
+  academicYear String // e.g. "2024-2025"
+  term         String? // e.g. "T1", "T2", "S1" — null = applies to full year
   startDate    DateTime
   endDate      DateTime
   description  String?
-  gradeIds     Json?                // string[] | null — null means applies to all grades
+  gradeIds     Json? // string[] | null — null means applies to all grades
   status       AcademicWindowStatus @default(DRAFT)
-  createdBy    String               // userId of the staff member who set this
+  createdBy    String // userId of the staff member who set this
   createdAt    DateTime             @default(now())
   updatedAt    DateTime             @updatedAt
 
-  tenant       Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([type])
@@ -1119,18 +1178,18 @@ model AcademicTimeline {
 }
 
 model Promotion {
-  id          String    @id @default(uuid())
+  id          String   @id @default(uuid())
   tenantId    String
-  name        String                // e.g. "Promotion 2023", "Class of 2028"
-  entryYear   Int                   // year the cohort enrolled (e.g. 2023)
+  name        String // e.g. "Promotion 2023", "Class of 2028"
+  entryYear   Int // year the cohort enrolled (e.g. 2023)
   description String?
-  isActive    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  tenant      Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  sections    Section[]
-  students    Student[]
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sections Section[]
+  students Student[]
 
   @@unique([tenantId, name])
   @@index([tenantId])
@@ -1146,14 +1205,14 @@ model Staff {
   firstName   String
   lastName    String
   department  String?
-  staffRole   String   // "finance" | "discipline" | "reception" | "IT" | custom
+  staffRole   String // "studies" | "dos" | "discipline" | "dm" | "finance" | "bursar" | custom
   photoUrl    String?
   joiningDate DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([staffRole])
@@ -1165,16 +1224,16 @@ model StudentGrade {
   tenantId   String
   studentId  String
   subjectId  String
-  term       String   // e.g. "2025-T1"
+  term       String // e.g. "2025-T1"
   percentage Float
   comment    String?
-  gradedBy   String   // userId of the teacher
+  gradedBy   String // userId of the teacher
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  subject    Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, studentId, subjectId, term])
   @@index([tenantId])
@@ -1184,52 +1243,56 @@ model StudentGrade {
 }
 
 model Invoice {
-  id          String        @id @default(uuid())
-  tenantId    String
-  studentId   String
-  title       String
-  description String?
-  amount      Decimal       @db.Decimal(10, 2)
-  currency    String        @default("USD")
-  dueDate     DateTime
-  term        String?
-  category    String?       // "tuition" | "transport" | "uniform" | custom
-  status      InvoiceStatus @default(UNPAID)
-  issuedBy    String        // userId of finance staff who created it
-  lockedAt    DateTime?     // set when status = PENDING_VERIFICATION
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+   id          String        @id @default(uuid())
+   tenantId    String
+   studentId   String
+   title       String
+   description String?
+   amount      Decimal       @db.Decimal(10, 2)
+   currency    String        @default("USD")
+   dueDate     DateTime
+   term        String?
+   category    String? // "tuition" | "transport" | "uniform" | custom
+   status      InvoiceStatus @default(UNPAID)
+   issuedBy    String // userId of finance staff who created it
+   lockedAt    DateTime? // set when status = PENDING_VERIFICATION
+   paidAt      DateTime? // when payment was confirmed
+   amountPaid  Decimal?    @db.Decimal(10, 2) // tracked payment amount
+   paymentMethod String? // "bank_transfer", "cash", "mobile_money", etc.
+   gracePeriodApproved DateTime? // extends dueDate when grace is approved
+   createdAt   DateTime      @default(now())
+   updatedAt   DateTime      @updatedAt
 
-  student     Student             @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  tenant      Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  submissions PaymentSubmission[]
-  promises    PaymentPromise[]
+   student     Student             @relation(fields: [studentId], references: [id], onDelete: Cascade)
+   tenant      Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+   submissions PaymentSubmission[]
+   promises    PaymentPromise[]
 
-  @@index([tenantId])
-  @@index([studentId])
-  @@index([status])
-  @@index([dueDate])
-  @@index([tenantId, studentId])
-  @@map("invoices")
-}
+   @@index([tenantId])
+   @@index([studentId])
+   @@index([status])
+   @@index([dueDate])
+   @@index([tenantId, studentId])
+   @@map("invoices")
+ }
 
 model PaymentSubmission {
   id            String                  @id @default(uuid())
   tenantId      String
   invoiceId     String
-  submittedBy   String                  // userId (parent)
-  proofUrl      String                  // Supabase storage URL
+  submittedBy   String // userId (parent)
+  proofUrl      String? // Supabase storage URL (optional for parent mark-as-paid)
   note          String?
   amountClaimed Decimal?                @db.Decimal(10, 2)
   status        PaymentSubmissionStatus @default(PENDING_REVIEW)
-  reviewedBy    String?                 // userId of finance staff
+  reviewedBy    String? // userId of finance staff
   reviewedAt    DateTime?
   reviewNote    String?
   createdAt     DateTime                @default(now())
   updatedAt     DateTime                @updatedAt
 
-  invoice       Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-  tenant        Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([invoiceId])
@@ -1238,25 +1301,28 @@ model PaymentSubmission {
 }
 
 model PaymentPromise {
-  id           String               @id @default(uuid())
-  tenantId     String
-  invoiceId    String
-  promisedBy   String               // userId (parent)
-  promisedDate DateTime
-  note         String?
-  status       PaymentPromiseStatus @default(ACTIVE)
-  createdAt    DateTime             @default(now())
-  updatedAt    DateTime             @updatedAt
+   id           String               @id @default(uuid())
+   tenantId     String
+   invoiceId    String
+   promisedBy   String // userId (parent)
+   promisedDate DateTime
+   note         String?
+   status       PaymentPromiseStatus @default(ACTIVE)
+   approvedBy   String? // userId (finance staff) when approved/refused
+   approvedAt   DateTime?
+   approvalNote String? // bursar note when approving/refusing
+   createdAt    DateTime             @default(now())
+   updatedAt    DateTime             @updatedAt
 
-  invoice      Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
-  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+   invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+   tenant  Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
-  @@index([tenantId])
-  @@index([invoiceId])
-  @@index([status])
-  @@index([promisedDate])
-  @@map("payment_promises")
-}
+   @@index([tenantId])
+   @@index([invoiceId])
+   @@index([status])
+   @@index([promisedDate])
+   @@map("payment_promises")
+ }
 
 // ─── ONBOARDING ───────────────────────────────────────────────────────────────
 
@@ -1276,7 +1342,7 @@ model Invite {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 
-  tenant         Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([token])
@@ -1324,11 +1390,13 @@ enum Role {
   ADMIN
   TEACHER
   STAFF
+  PARENT
 }
 
 enum UserType {
   TEACHER
   STAFF
+  PARENT
 }
 
 enum Status {
@@ -1350,6 +1418,16 @@ enum SubscriptionPlan {
   BASIC
   PREMIUM
   ENTERPRISE
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
 }
 
 enum Gender {
@@ -1494,6 +1572,15 @@ enum AssignmentResultStatus {
   MISSING
 }
 
+enum AssignmentType {
+  HOMEWORK
+  CLASSWORK
+  QUIZ
+  TEST
+  PROJECT
+  EXAM
+}
+
 enum ConsultationStatus {
   SCHEDULED
   COMPLETED
@@ -1517,12 +1604,14 @@ enum LogLevel {
 }
 
 enum InvoiceStatus {
-  UNPAID
-  PENDING_VERIFICATION
-  PAID
-  REJECTED
-  CANCELLED
-}
+   UNPAID
+   PENDING_VERIFICATION
+   PAID
+   REJECTED
+   CANCELLED
+   OVERDUE
+   PARTIALLY_PAID
+ }
 
 enum PaymentSubmissionStatus {
   PENDING_REVIEW
@@ -1531,39 +1620,41 @@ enum PaymentSubmissionStatus {
 }
 
 enum PaymentPromiseStatus {
-  ACTIVE
-  FULFILLED
-  OVERDUE
-}
+   ACTIVE
+   APPROVED
+   REFUSED
+   FULFILLED
+   OVERDUE
+ }
 
 enum AcademicWindowType {
-  TERM                // Main school term boundaries
-  EXAM                // Exam sitting period
-  GRADE_SUBMISSION    // Window when teachers may submit/edit grades
-  REPORT_PUBLICATION  // When report cards become visible to parents
-  ENROLLMENT          // Student enrollment / registration period
-  HOLIDAY             // School break / public holiday block
-  CONSULTATION        // Parent-teacher meeting period
-  ASSIGNMENT          // Assignment creation / submission period
-  CUSTOM              // Any other school-defined window
+  TERM // Main school term boundaries
+  EXAM // Exam sitting period
+  GRADE_SUBMISSION // Window when teachers may submit/edit grades
+  REPORT_PUBLICATION // When report cards become visible to parents
+  ENROLLMENT // Student enrollment / registration period
+  HOLIDAY // School break / public holiday block
+  CONSULTATION // Parent-teacher meeting period
+  ASSIGNMENT // Assignment creation / submission period
+  CUSTOM // Any other school-defined window
 }
 
 enum AcademicWindowStatus {
-  DRAFT     // Being configured — not yet visible to staff/parents
-  ACTIVE    // Window is open and in effect
-  CLOSED    // Window has ended
+  DRAFT // Being configured — not yet visible to staff/parents
+  ACTIVE // Window is open and in effect
+  CLOSED // Window has ended
   CANCELLED // Abandoned before activation
 }
 
 // ─── Atlas Studio Models ──────────────────────────────────────────────────────
 
 model StudioModule {
-  id          String         @id @default(uuid())
-  key         String         @unique  // e.g. "academics", "attendance", "finance"
+  id          String   @id @default(uuid())
+  key         String   @unique // e.g. "academics", "attendance", "finance"
   name        String
   description String?
-  isCore      Boolean        @default(false)  // core modules can't be disabled
-  createdAt   DateTime       @default(now())
+  isCore      Boolean  @default(false) // core modules can't be disabled
+  createdAt   DateTime @default(now())
 
   tenantModules TenantModule[]
 
@@ -1571,14 +1662,14 @@ model StudioModule {
 }
 
 model TenantModule {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   tenantId  String
   moduleId  String
-  enabled   Boolean     @default(true)
-  enabledAt DateTime    @default(now())
+  enabled   Boolean  @default(true)
+  enabledAt DateTime @default(now())
 
-  tenant    Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  module    StudioModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  tenant Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  module StudioModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, moduleId])
   @@index([tenantId])
@@ -1596,7 +1687,7 @@ model StudioSubscription {
   createdAt DateTime           @default(now())
   updatedAt DateTime           @updatedAt
 
-  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([status])
   @@map("studio_subscriptions")
@@ -1615,11 +1706,72 @@ model AdminInvite {
   claimedAt DateTime?
   createdAt DateTime          @default(now())
 
-  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([token])
   @@map("admin_invites")
+}
+
+model TenantBilling {
+  id           String        @id @default(uuid())
+  tenantId     String
+  billingCycle BillingCycle
+  amount       Decimal       @db.Decimal(10, 2)
+  currency     String        @default("USD")
+  dueDate      DateTime
+  periodStart  DateTime
+  periodEnd    DateTime
+  status       BillingStatus @default(PENDING)
+  notes        String?
+  paidAt       DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([dueDate])
+  @@map("tenant_billings")
+}
+
+model AdminApproval {
+  id          String              @id @default(uuid())
+  tenantId    String
+  userId      String              @unique
+  status      AdminApprovalStatus @default(PENDING)
+  requestedAt DateTime            @default(now())
+  reviewedAt  DateTime?
+  reviewedBy  String?
+  notes       String?
+
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user     User   @relation("ApprovalUser", fields: [userId], references: [id], onDelete: Cascade)
+  reviewer User?  @relation("ApprovalReviewer", fields: [reviewedBy], references: [id])
+
+  @@index([tenantId])
+  @@index([status])
+  @@map("admin_approvals")
+}
+
+model Feedback {
+  id         String           @id @default(uuid())
+  tenantId   String
+  userId     String
+  category   FeedbackCategory
+  message    String
+  status     FeedbackStatus   @default(NEW)
+  createdAt  DateTime         @default(now())
+  resolvedAt DateTime?
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([status])
+  @@index([category])
+  @@map("feedback")
 }
 
 enum SubscriptionStatus {
@@ -1635,4 +1787,36 @@ enum AdminInviteStatus {
   CLAIMED
   EXPIRED
   REVOKED
+}
+
+enum BillingCycle {
+  MONTHLY
+  TERMLY
+  YEARLY
+}
+
+enum BillingStatus {
+  PENDING
+  PAID
+  OVERDUE
+  SUSPENDED
+}
+
+enum AdminApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum FeedbackCategory {
+  BUG
+  SUGGESTION
+  COMPLAINT
+  OTHER
+}
+
+enum FeedbackStatus {
+  NEW
+  REVIEWED
+  RESOLVED
 }

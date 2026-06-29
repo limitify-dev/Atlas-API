@@ -15,19 +15,48 @@ export class ParentsController {
   constructor(private readonly parentsService: ParentsService) {}
 
   @Get('my-children')
-  @Roles(Role.STAFF)
+  @Roles(Role.STAFF, Role.PARENT)
   async getMyChildren(@CurrentUser() user: AuthUser) {
     return this.parentsService.getMyChildren(user.id, user.tenantId);
   }
 
   @Get('my-financials')
-  @Roles(Role.STAFF)
-  async getMyFinancials(@CurrentUser() user: AuthUser) {
-    return this.parentsService.getMyFinancials(user.id, user.tenantId);
+  @Roles(Role.STAFF, Role.PARENT)
+  async getMyFinancials(
+    @CurrentUser() user: AuthUser,
+    @Query('status') status?: string,
+  ) {
+    return this.parentsService.getMyFinancials(user.id, user.tenantId, {
+      status,
+    });
+  }
+
+  @Get('my-classroom')
+  @Roles(Role.STAFF, Role.PARENT)
+  async getMyClassroom(
+    @CurrentUser() user: AuthUser,
+    @Query('studentId') studentId?: string,
+  ) {
+    return this.parentsService.getMyClassroom(user.id, user.tenantId, {
+      studentId,
+    });
+  }
+
+  @Get('performance')
+  @Roles(Role.STAFF, Role.PARENT)
+  async getMyPerformance(
+    @CurrentUser() user: AuthUser,
+    @Query('studentId') studentId?: string,
+    @Query('term') term?: string,
+  ) {
+    return this.parentsService.getMyPerformance(user.id, user.tenantId, {
+      studentId,
+      term,
+    });
   }
 
   @Get('exam-schedule')
-  @Roles(Role.STAFF)
+  @Roles(Role.STAFF, Role.PARENT)
   async getMyExamSchedule(
     @CurrentUser() user: AuthUser,
     @Query('studentId') studentId?: string,
@@ -40,7 +69,7 @@ export class ParentsController {
   }
 
   @Get('report-cards')
-  @Roles(Role.STAFF)
+  @Roles(Role.STAFF, Role.PARENT)
   async getMyReportCards(
     @CurrentUser() user: AuthUser,
     @Query('studentId') studentId?: string,
@@ -53,7 +82,7 @@ export class ParentsController {
   }
 
   @Get('assignments')
-  @Roles(Role.STAFF)
+  @Roles(Role.STAFF, Role.PARENT)
   async getMyAssignments(
     @CurrentUser() user: AuthUser,
     @Query('studentId') studentId?: string,

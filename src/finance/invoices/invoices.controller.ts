@@ -60,6 +60,27 @@ export class InvoicesController {
     return this.invoicesService.postFee(user.tenantId, dto, user.id);
   }
 
+  @Post('reminders/send')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Send payment reminder for an invoice to parent' })
+  sendReminder(
+    @CurrentUser() user: AuthUser,
+    @Body()
+    dto: {
+      invoiceId: string;
+      channel?: 'sms' | 'email' | 'both';
+      customMessage?: string;
+    },
+  ) {
+    const { invoiceId, channel, customMessage } = dto;
+    return this.invoicesService.sendReminder(
+      user.tenantId,
+      invoiceId,
+      channel ?? 'both',
+      customMessage,
+    );
+  }
+
   @Get()
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'List all invoices (admin / staff view)' })
@@ -103,5 +124,22 @@ export class InvoicesController {
   @ApiOperation({ summary: 'Cancel an invoice (cannot cancel PAID invoices)' })
   cancel(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.invoicesService.cancel(user.tenantId, id, user.id);
+  }
+
+  @Patch(':id')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Update an invoice' })
+  update(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+    @Body()
+    dto: {
+      amount?: number;
+      currency?: string;
+      dueDate?: string;
+      description?: string;
+    },
+  ) {
+    return this.invoicesService.update(user.tenantId, id, dto);
   }
 }

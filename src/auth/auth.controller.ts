@@ -1,16 +1,21 @@
 import {
   Controller,
   Post,
+  Patch,
   Body,
   Get,
   Query,
   Request,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
+  ApiConsumes,
   ApiBadRequestResponse,
   ApiUnauthorizedResponse,
   ApiConflictResponse,
@@ -122,6 +127,60 @@ export class AuthController {
   })
   async getProfile(@Request() req: { user: User }): Promise<any> {
     return this.authService.getProfile(req.user.id);
+  }
+
+  // ─── Admin invite onboarding ───────────────────────────────────────────────
+
+  @Public()
+  @Get('admin-invite/preview')
+  @ApiOperation({
+    summary: 'Preview an admin invite (public, does not claim token)',
+  })
+  previewAdminInvite(@Query('token') token: string) {
+    if (!token) throw new Error('token query param is required');
+    return this.authService.previewAdminInvite(token);
+  }
+
+  @Public()
+  @Post('admin-invite/complete')
+  @ApiOperation({
+    summary: 'Complete admin onboarding — creates account and issues tokens',
+  })
+  async completeAdminInvite(
+    @Body() body: { token: string; name: string; password: string },
+  ) {
+    return this.authService.completeAdminInvite(body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('profile')
+  @UseInterceptors(FileInterceptor('avatarFile'))
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({
+    summary:
+      'Update current user profile (name, username, email, phone, avatar)',
+  })
+  async updateProfile(
+    @Request() req: { user: User },
+    @Body()
+    body: { name?: string; username?: string; email?: string; phone?: string },
+    @UploadedFile() avatarFile?: Express.Multer.File,
+  ): Promise<any> {
+    return this.authService.updateProfile(req.user.id, body, avatarFile);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('profile/password')
+  @ApiOperation({ summary: 'Change current user password' })
+  async changePassword(
+    @Request() req: { user: User },
+    @Body() body: { currentPassword: string; newPassword: string },
+  ): Promise<{ message: string }> {
+    return this.authService.changePassword(
+      req.user.id,
+      body.currentPassword,
+      body.newPassword,
+    );
   }
 
   @Public()

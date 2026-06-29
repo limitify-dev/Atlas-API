@@ -65,6 +65,8 @@ export const ModelName = {
   Subject: 'Subject',
   ClassTeacher: 'ClassTeacher',
   SubjectTeacher: 'SubjectTeacher',
+  TimetablePeriod: 'TimetablePeriod',
+  TimetableEntry: 'TimetableEntry',
   Attendance: 'Attendance',
   TeacherAttendance: 'TeacherAttendance',
   Book: 'Book',
@@ -108,7 +110,10 @@ export const ModelName = {
   StudioModule: 'StudioModule',
   TenantModule: 'TenantModule',
   StudioSubscription: 'StudioSubscription',
-  AdminInvite: 'AdminInvite'
+  AdminInvite: 'AdminInvite',
+  TenantBilling: 'TenantBilling',
+  AdminApproval: 'AdminApproval',
+  Feedback: 'Feedback'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -359,6 +364,37 @@ export const SubjectTeacherScalarFieldEnum = {
 } as const
 
 export type SubjectTeacherScalarFieldEnum = (typeof SubjectTeacherScalarFieldEnum)[keyof typeof SubjectTeacherScalarFieldEnum]
+
+
+export const TimetablePeriodScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  label: 'label',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  orderIndex: 'orderIndex',
+  isBreak: 'isBreak',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TimetablePeriodScalarFieldEnum = (typeof TimetablePeriodScalarFieldEnum)[keyof typeof TimetablePeriodScalarFieldEnum]
+
+
+export const TimetableEntryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  sectionId: 'sectionId',
+  periodId: 'periodId',
+  dayOfWeek: 'dayOfWeek',
+  subjectId: 'subjectId',
+  teacherId: 'teacherId',
+  room: 'room',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TimetableEntryScalarFieldEnum = (typeof TimetableEntryScalarFieldEnum)[keyof typeof TimetableEntryScalarFieldEnum]
 
 
 export const AttendanceScalarFieldEnum = {
@@ -980,6 +1016,10 @@ export const InvoiceScalarFieldEnum = {
   status: 'status',
   issuedBy: 'issuedBy',
   lockedAt: 'lockedAt',
+  paidAt: 'paidAt',
+  amountPaid: 'amountPaid',
+  paymentMethod: 'paymentMethod',
+  gracePeriodApproved: 'gracePeriodApproved',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1014,6 +1054,9 @@ export const PaymentPromiseScalarFieldEnum = {
   promisedDate: 'promisedDate',
   note: 'note',
   status: 'status',
+  approvedBy: 'approvedBy',
+  approvedAt: 'approvedAt',
+  approvalNote: 'approvalNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1110,6 +1153,53 @@ export const AdminInviteScalarFieldEnum = {
 } as const
 
 export type AdminInviteScalarFieldEnum = (typeof AdminInviteScalarFieldEnum)[keyof typeof AdminInviteScalarFieldEnum]
+
+
+export const TenantBillingScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  billingCycle: 'billingCycle',
+  amount: 'amount',
+  currency: 'currency',
+  dueDate: 'dueDate',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  status: 'status',
+  notes: 'notes',
+  paidAt: 'paidAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TenantBillingScalarFieldEnum = (typeof TenantBillingScalarFieldEnum)[keyof typeof TenantBillingScalarFieldEnum]
+
+
+export const AdminApprovalScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  status: 'status',
+  requestedAt: 'requestedAt',
+  reviewedAt: 'reviewedAt',
+  reviewedBy: 'reviewedBy',
+  notes: 'notes'
+} as const
+
+export type AdminApprovalScalarFieldEnum = (typeof AdminApprovalScalarFieldEnum)[keyof typeof AdminApprovalScalarFieldEnum]
+
+
+export const FeedbackScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  userId: 'userId',
+  category: 'category',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt',
+  resolvedAt: 'resolvedAt'
+} as const
+
+export type FeedbackScalarFieldEnum = (typeof FeedbackScalarFieldEnum)[keyof typeof FeedbackScalarFieldEnum]
 
 
 export const SortOrder = {

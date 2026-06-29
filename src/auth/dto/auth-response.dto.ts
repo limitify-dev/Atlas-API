@@ -108,6 +108,14 @@ export class UserDto {
     nullable: true,
   })
   brandColor?: string | null;
+
+  @ApiProperty({
+    description: 'Staff role (only present for STAFF users)',
+    example: 'academic',
+    nullable: true,
+    required: false,
+  })
+  staffRole?: string | null;
 }
 
 export class AuthResponseDto {

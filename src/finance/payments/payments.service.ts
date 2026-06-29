@@ -11,14 +11,21 @@ import {
   InvoiceStatus,
   PaymentSubmissionStatus,
   PaymentPromiseStatus,
-  Role,
 } from '../../../prisma/generated/client';
-import { SubmitProofDto, PromiseToPayDto, ReviewSubmissionDto } from '../dto';
+import {
+  SubmitProofDto,
+  PromiseToPayDto,
+  ReviewSubmissionDto,
+  ReviewPromiseDto,
+} from '../dto';
 import {
   PaymentApprovedEvent,
   PaymentPromisedEvent,
   PaymentRejectedEvent,
   PaymentSubmittedEvent,
+  GraceApprovedEvent,
+  GraceRefusedEvent,
+  OverdueReminderEvent,
 } from '../../domain-events/events';
 import { Prisma } from '../../../prisma/generated/client';
 
@@ -285,7 +292,7 @@ export class PaymentsService {
                 firstName: true,
                 lastName: true,
                 studentId: true,
-                grade: { select: { name: true } },
+                grade: { select: { name: true, code: true } },
                 section: { select: { name: true } },
               },
             },
@@ -320,11 +327,176 @@ export class PaymentsService {
     });
   }
 
-  // ─── SCHEDULED JOB ───────────────────────────────────────────────────────────
+  async getPromiseWithDetails(tenantId: string, promiseId: string) {
+    const promise = await this.prisma.paymentPromise.findFirst({
+      where: { id: promiseId, tenantId },
+      include: {
+        invoice: {
+          include: {
+            student: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                parents: {
+                  include: {
+                    parent: {
+                      include: { user: true },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
 
-  /** Runs every morning to mark payment promises whose date has passed */
+    if (!promise) throw new NotFoundException('Payment promise not found.');
+    return promise;
+  }
+
+  async getPendingPromises(tenantId: string) {
+    return this.prisma.paymentPromise.findMany({
+      where: {
+        tenantId,
+        status: PaymentPromiseStatus.ACTIVE,
+      },
+      include: {
+        invoice: {
+          include: {
+            student: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                studentId: true,
+                section: { select: { name: true } },
+                grade: { select: { name: true, code: true } },
+              },
+            },
+          },
+        },
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+  }
+
+  async getExpiringSoon(tenantId: string) {
+    const threeDaysFromNow = new Date();
+    threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
+
+    return this.prisma.paymentPromise.findMany({
+      where: {
+        tenantId,
+        status: PaymentPromiseStatus.APPROVED,
+        promisedDate: {
+          lte: threeDaysFromNow,
+          gte: new Date(),
+        },
+      },
+      include: {
+        invoice: {
+          include: {
+            student: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                studentId: true,
+                section: { select: { name: true } },
+                grade: { select: { name: true, code: true } },
+              },
+            },
+          },
+        },
+      },
+      orderBy: { promisedDate: 'asc' },
+    });
+  }
+
+  async reviewPromise(
+    tenantId: string,
+    promiseId: string,
+    dto: ReviewPromiseDto,
+    staffUserId: string,
+  ) {
+    return this.prisma.$transaction(async (tx) => {
+      const promise = await this.getPromiseWithDetails(tenantId, promiseId);
+
+      const newStatus = dto.approved
+        ? PaymentPromiseStatus.APPROVED
+        : PaymentPromiseStatus.REFUSED;
+
+      // If approving, extend the invoice due date
+      let newDueDate: Date | undefined;
+      if (dto.approved && promise.invoice?.dueDate) {
+        newDueDate = promise.promisedDate;
+      }
+
+      const [updatedPromise, updatedInvoice] = await Promise.all([
+        tx.paymentPromise.update({
+          where: { id: promiseId },
+          data: {
+            status: newStatus,
+            approvedBy: staffUserId,
+            approvedAt: new Date(),
+            approvalNote: dto.approvalNote,
+          },
+        }),
+        dto.approved && promise.invoice
+          ? tx.invoice.update({
+              where: { id: promise.invoiceId },
+              data: {
+                gracePeriodApproved: newDueDate,
+                dueDate: newDueDate,
+              },
+            })
+          : Promise.resolve(null),
+      ]);
+
+      // Get parent userIds for notification
+      const parentUserIds =
+        promise.invoice?.student?.parents
+          ?.map((sp) => sp.parent?.user?.id)
+          .filter(Boolean) ?? [];
+
+      const studentName = promise.invoice?.student
+        ? `${promise.invoice.student.firstName} ${promise.invoice.student.lastName}`
+        : 'Student';
+
+      if (dto.approved) {
+        this.events.emit(
+          new GraceApprovedEvent(
+            tenantId,
+            promise.invoiceId,
+            promise.promisedDate,
+            studentName,
+            parentUserIds,
+            dto.approvalNote ?? null,
+          ),
+        );
+      } else {
+        this.events.emit(
+          new GraceRefusedEvent(
+            tenantId,
+            promise.invoiceId,
+            studentName,
+            parentUserIds,
+            dto.approvalNote ?? null,
+          ),
+        );
+      }
+
+      return { promise: updatedPromise, invoice: updatedInvoice };
+    });
+  }
+
+  // ─── SCHEDULED JOBS ────────────────────────────────────────────────────────────
+
   @Cron(CronExpression.EVERY_DAY_AT_8AM)
   async markOverduePromises() {
+    // Mark ACTIVE promises as OVERDUE if past their promised date
     await this.prisma.paymentPromise.updateMany({
       where: {
         status: PaymentPromiseStatus.ACTIVE,
@@ -335,5 +507,66 @@ export class PaymentsService {
       },
       data: { status: PaymentPromiseStatus.OVERDUE },
     });
+
+    // Mark APPROVED promises as OVERDUE if their extension date passed
+    // and invoice is still unpaid
+    await this.prisma.paymentPromise.updateMany({
+      where: {
+        status: PaymentPromiseStatus.APPROVED,
+        promisedDate: { lt: new Date() },
+        invoice: {
+          status: { not: InvoiceStatus.PAID },
+        },
+      },
+      data: { status: PaymentPromiseStatus.OVERDUE },
+    });
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_9AM)
+  async sendOverdueReminders() {
+    const overdueInvoices = await this.prisma.invoice.findMany({
+      where: {
+        status: { in: [InvoiceStatus.UNPAID, InvoiceStatus.PARTIALLY_PAID] },
+        dueDate: { lt: new Date() },
+      },
+      include: {
+        student: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            parents: {
+              include: {
+                parent: {
+                  include: { user: true },
+                },
+              },
+            },
+          },
+        },
+      },
+      take: 100, // Batch process
+    });
+
+    for (const invoice of overdueInvoices) {
+      const parentUserIds =
+        invoice.student?.parents
+          ?.map((sp) => sp.parent?.user?.id)
+          .filter(Boolean) ?? [];
+
+      const studentName = invoice.student
+        ? `${invoice.student.firstName} ${invoice.student.lastName}`
+        : 'Student';
+
+      this.events.emit(
+        new OverdueReminderEvent(
+          invoice.tenantId,
+          invoice.id,
+          studentName,
+          parentUserIds,
+          Number(invoice.amount) - Number(invoice.amountPaid || 0),
+        ),
+      );
+    }
   }
 }

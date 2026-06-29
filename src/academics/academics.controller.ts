@@ -54,6 +54,16 @@ export class AcademicsController {
     return this.academicsService.getTeacherAlignment(user.tenantId, teacherId);
   }
 
+  @Get('teacher-alignments/me/subjects')
+  @Roles(Role.TEACHER)
+  @ApiOperation({ summary: 'Get current teacher\'s subject IDs for a section' })
+  getMySubjects(
+    @CurrentUser() user: AuthUser,
+    @Query('sectionId') sectionId: string,
+  ) {
+    return this.academicsService.getMySubjectsForSection(user.tenantId, user, sectionId);
+  }
+
   @Put('teacher-alignments/:teacherId')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({
@@ -68,6 +78,23 @@ export class AcademicsController {
       user.tenantId,
       teacherId,
       dto,
+    );
+  }
+
+  @Put('class-teacher')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary:
+      'Set or clear the class teacher (homeroom) of a section. teacherId null clears it.',
+  })
+  setClassTeacher(
+    @CurrentUser() user: AuthUser,
+    @Body() body: { sectionId: string; teacherId?: string | null },
+  ) {
+    return this.academicsService.setClassTeacher(
+      user.tenantId,
+      body.sectionId,
+      body.teacherId ?? null,
     );
   }
 
@@ -164,7 +191,7 @@ export class AcademicsController {
     @CurrentUser() user: AuthUser,
     @Query() query: ListAcademicsQueryDto,
   ) {
-    return this.academicsService.listAssignments(user.tenantId, query);
+    return this.academicsService.listAssignments(user.tenantId, user, query);
   }
 
   @Patch('assignments/:id')
@@ -175,14 +202,14 @@ export class AcademicsController {
     @Param('id') id: string,
     @Body() dto: UpdateAssignmentDto,
   ) {
-    return this.academicsService.updateAssignment(user.tenantId, id, dto);
+    return this.academicsService.updateAssignment(user.tenantId, user, id, dto);
   }
 
   @Delete('assignments/:id')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
   @ApiOperation({ summary: 'Delete assignment' })
   deleteAssignment(@CurrentUser() user: AuthUser, @Param('id') id: string) {
-    return this.academicsService.deleteAssignment(user.tenantId, id);
+    return this.academicsService.deleteAssignment(user.tenantId, user, id);
   }
 
   @Post('assignments/:id/results')
@@ -195,7 +222,7 @@ export class AcademicsController {
   ) {
     return this.academicsService.upsertAssignmentResults(
       user.tenantId,
-      user.id,
+      user,
       id,
       dto,
     );
@@ -205,7 +232,63 @@ export class AcademicsController {
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List assignment results' })
   getAssignmentResults(@CurrentUser() user: AuthUser, @Param('id') id: string) {
-    return this.academicsService.getAssignmentResults(user.tenantId, id);
+    return this.academicsService.getAssignmentResults(user.tenantId, user, id);
+  }
+
+  @Get('students')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
+  @ApiOperation({
+    summary: 'Get students in a section (teachers: own sections only)',
+  })
+  getStudentsInSection(
+    @CurrentUser() user: AuthUser,
+    @Query('sectionId') sectionId: string,
+  ) {
+    return this.academicsService.getStudentsInSection(
+      user.tenantId,
+      user,
+      sectionId,
+    );
+  }
+
+  @Post('grades/bulk')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
+  @ApiOperation({ summary: 'Bulk upsert student term grades' })
+  bulkUpsertStudentGrades(
+    @CurrentUser() user: AuthUser,
+    @Body()
+    body: {
+      subjectId: string;
+      sectionId: string;
+      term: string;
+      grades: Array<{
+        studentId: string;
+        percentage: number;
+        comment?: string;
+      }>;
+    },
+  ) {
+    return this.academicsService.bulkUpsertStudentGrades(
+      user.tenantId,
+      user,
+      body,
+    );
+  }
+
+  @Get('grades')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
+  @ApiOperation({ summary: 'List student term grades' })
+  listStudentGrades(
+    @CurrentUser() user: AuthUser,
+    @Query('subjectId') subjectId?: string,
+    @Query('sectionId') sectionId?: string,
+    @Query('term') term?: string,
+  ) {
+    return this.academicsService.listStudentGrades(user.tenantId, user, {
+      subjectId,
+      sectionId,
+      term,
+    });
   }
 
   @Post('report-cards')

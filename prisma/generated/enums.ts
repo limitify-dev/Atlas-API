@@ -38,7 +38,8 @@ export const Role = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
   TEACHER: 'TEACHER',
-  STAFF: 'STAFF'
+  STAFF: 'STAFF',
+  PARENT: 'PARENT'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
@@ -46,7 +47,8 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 export const UserType = {
   TEACHER: 'TEACHER',
-  STAFF: 'STAFF'
+  STAFF: 'STAFF',
+  PARENT: 'PARENT'
 } as const
 
 export type UserType = (typeof UserType)[keyof typeof UserType]
@@ -80,6 +82,19 @@ export const SubscriptionPlan = {
 } as const
 
 export type SubscriptionPlan = (typeof SubscriptionPlan)[keyof typeof SubscriptionPlan]
+
+
+export const DayOfWeek = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY'
+} as const
+
+export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
 
 
 export const Gender = {
@@ -326,7 +341,9 @@ export const InvoiceStatus = {
   PENDING_VERIFICATION: 'PENDING_VERIFICATION',
   PAID: 'PAID',
   REJECTED: 'REJECTED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  OVERDUE: 'OVERDUE',
+  PARTIALLY_PAID: 'PARTIALLY_PAID'
 } as const
 
 export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
@@ -343,6 +360,8 @@ export type PaymentSubmissionStatus = (typeof PaymentSubmissionStatus)[keyof typ
 
 export const PaymentPromiseStatus = {
   ACTIVE: 'ACTIVE',
+  APPROVED: 'APPROVED',
+  REFUSED: 'REFUSED',
   FULFILLED: 'FULFILLED',
   OVERDUE: 'OVERDUE'
 } as const
@@ -394,3 +413,50 @@ export const AdminInviteStatus = {
 } as const
 
 export type AdminInviteStatus = (typeof AdminInviteStatus)[keyof typeof AdminInviteStatus]
+
+
+export const BillingCycle = {
+  MONTHLY: 'MONTHLY',
+  TERMLY: 'TERMLY',
+  YEARLY: 'YEARLY'
+} as const
+
+export type BillingCycle = (typeof BillingCycle)[keyof typeof BillingCycle]
+
+
+export const BillingStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  OVERDUE: 'OVERDUE',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type BillingStatus = (typeof BillingStatus)[keyof typeof BillingStatus]
+
+
+export const AdminApprovalStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type AdminApprovalStatus = (typeof AdminApprovalStatus)[keyof typeof AdminApprovalStatus]
+
+
+export const FeedbackCategory = {
+  BUG: 'BUG',
+  SUGGESTION: 'SUGGESTION',
+  COMPLAINT: 'COMPLAINT',
+  OTHER: 'OTHER'
+} as const
+
+export type FeedbackCategory = (typeof FeedbackCategory)[keyof typeof FeedbackCategory]
+
+
+export const FeedbackStatus = {
+  NEW: 'NEW',
+  REVIEWED: 'REVIEWED',
+  RESOLVED: 'RESOLVED'
+} as const
+
+export type FeedbackStatus = (typeof FeedbackStatus)[keyof typeof FeedbackStatus]

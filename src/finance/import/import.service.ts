@@ -2,6 +2,8 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import * as XLSX from 'xlsx';
 import { PrismaService } from '../../prisma/prisma.service';
 import { InvoicesService } from '../invoices/invoices.service';
+import { InvoiceStatus } from '../../../prisma/generated/client';
+import { Prisma } from '../../../prisma/generated/client';
 
 export interface ImportRow {
   studentId: string; // student's school ID (e.g. "STU-001"), not UUID
@@ -147,6 +149,102 @@ export class ImportService {
       },
       issuedBy,
     );
+  }
+
+  async commitPaymentConfirmations(
+    tenantId: string,
+    preview: InvoiceImportPreview,
+    _issuedBy: string,
+  ) {
+    if (preview.errors.length > 0) {
+      throw new BadRequestException(
+        `Cannot commit confirmations: ${preview.errors.length} validation error(s) remain.`,
+      );
+    }
+    if (preview.valid.length === 0) {
+      throw new BadRequestException('No valid rows to confirm.');
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const results: Array<{
+        studentId: string;
+        success: boolean;
+        error?: string;
+      }> = [];
+      for (const row of preview.valid) {
+        const invoice = await tx.invoice.findFirst({
+          where: {
+            tenantId,
+            studentId: row._studentUuid,
+            amount: new Prisma.Decimal(String(row.amount)),
+            dueDate: new Date(row.dueDate),
+            status: {
+              in: [
+                InvoiceStatus.UNPAID,
+                InvoiceStatus.PARTIALLY_PAID,
+                InvoiceStatus.PENDING_VERIFICATION,
+              ],
+            },
+          },
+        });
+
+        if (invoice) {
+          await tx.invoice.update({
+            where: { id: invoice.id },
+            data: {
+              status: InvoiceStatus.PAID,
+              paidAt: new Date(),
+              lockedAt: null,
+            },
+          });
+          results.push({ studentId: row.studentId, success: true });
+        } else {
+          results.push({
+            studentId: row.studentId,
+            success: false,
+            error: 'Invoice not found or already paid',
+          });
+        }
+      }
+      return {
+        confirmed: results.filter((r) => r.success).length,
+        skipped: results.filter((r) => !r.success).length,
+      };
+    });
+  }
+
+  async generateTemplate(): Promise<Buffer> {
+    const wsData = [
+      {
+        studentId: 'STU-001',
+        title: 'Term 3 Tuition Fee',
+        amount: '150000',
+        dueDate: '2026-05-31',
+        description: 'Full term tuition fee',
+        term: 'Term 3',
+        category: 'Tuition',
+        currency: 'RWF',
+      },
+    ];
+
+    const ws = XLSX.utils.json_to_sheet(wsData, { skipHeader: false });
+
+    // Set column widths for readability
+    ws['!cols'] = [
+      { wch: 14 }, // studentId
+      { wch: 24 }, // title
+      { wch: 14 }, // amount
+      { wch: 14 }, // dueDate
+      { wch: 30 }, // description
+      { wch: 12 }, // term
+      { wch: 16 }, // category
+      { wch: 12 }, // currency
+    ];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Invoices');
+
+    return Buffer.from(XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' }));
   }
 
   private parseFile(file: Express.Multer.File): ImportRow[] {

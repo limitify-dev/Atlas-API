@@ -7,14 +7,27 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { UpdateSectionDto } from './dto/update-section.dto';
-import { EducationLevel, Prisma } from '../../prisma/generated/client';
+import { Prisma } from '../../prisma/generated/client';
 
 const SECTION_INCLUDE = {
   grade: {
-    select: { id: true, name: true, level: true, educationLevel: true },
+    select: {
+      id: true,
+      name: true,
+      code: true,
+      level: true,
+      educationLevel: true,
+    },
   },
   promotion: { select: { id: true, name: true, entryYear: true } },
   combination: { select: { id: true, name: true, code: true } },
+  // Class teacher (homeroom) of the section, if designated
+  classes: {
+    where: { isPrimary: true },
+    select: {
+      teacher: { select: { id: true, firstName: true, lastName: true } },
+    },
+  },
   _count: { select: { students: true } },
 } as const;
 
@@ -38,12 +51,9 @@ export class SectionsService {
     });
     if (!grade) throw new NotFoundException(`Grade ${dto.gradeId} not found.`);
 
-    if (grade.educationLevel === EducationLevel.ADVANCED) {
-      if (!dto.combinationId) {
-        throw new BadRequestException(
-          'A subject combination is required for Advanced Level sections.',
-        );
-      }
+    // A subject combination is optional. When provided it must be a valid
+    // combination for this tenant (used mainly for Advanced Level streams).
+    if (dto.combinationId) {
       const combination = await this.prisma.combination.findUnique({
         where: { id: dto.combinationId, tenantId },
       });
@@ -52,10 +62,6 @@ export class SectionsService {
           `Combination ${dto.combinationId} not found.`,
         );
       }
-    } else if (dto.combinationId) {
-      throw new BadRequestException(
-        `Subject combinations are only allowed for Advanced Level sections.`,
-      );
     }
 
     // Validate promotion belongs to tenant
@@ -142,18 +148,30 @@ export class SectionsService {
   async update(tenantId: string, id: string, dto: UpdateSectionDto) {
     await this.findOne(tenantId, id);
 
-    if ((dto as any).promotionId) {
+    const incomingPromotionId = (dto as any).promotionId;
+
+    if (incomingPromotionId) {
       const promotion = await this.prisma.promotion.findFirst({
-        where: { id: (dto as any).promotionId, tenantId },
+        where: { id: incomingPromotionId, tenantId },
       });
       if (!promotion) throw new NotFoundException('Promotion not found.');
     }
 
-    return this.prisma.section.update({
-      where: { id },
-      data: dto,
-      include: SECTION_INCLUDE,
-    });
+    const [section] = await this.prisma.$transaction([
+      this.prisma.section.update({
+        where: { id },
+        data: dto,
+        include: SECTION_INCLUDE,
+      }),
+      // Back-fill promotionId on all existing students in this section so
+      // they appear in the cohort roster immediately.
+      this.prisma.student.updateMany({
+        where: { sectionId: id, tenantId },
+        data: { promotionId: incomingPromotionId ?? null },
+      }),
+    ]);
+
+    return section;
   }
 
   async remove(tenantId: string, id: string) {

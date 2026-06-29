@@ -4,7 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { CreateStudioTenantDto, UpdateTenantStatusDto } from '../dto';
+import { SupabaseService } from '../../common/supabase/supabase.service';
+import {
+  CreateStudioTenantDto,
+  UpdateTenantStatusDto,
+  UpdateTenantDto,
+} from '../dto';
 import { StudioModulesService } from './studio-modules.service';
 import { StudioSubscriptionService } from './studio-subscription.service';
 import { AdminProvisionService } from './admin-provision.service';
@@ -17,6 +22,7 @@ import {
 export class StudioTenantsService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly supabase: SupabaseService,
     private readonly modulesService: StudioModulesService,
     private readonly subscriptionService: StudioSubscriptionService,
     private readonly adminProvisionService: AdminProvisionService,
@@ -82,6 +88,7 @@ export class StudioTenantsService {
       this.subscriptionService.createTrial(
         tenant.id,
         (dto.plan as SubscriptionPlan) || SubscriptionPlan.BASIC,
+        dto.trialDays ?? 30,
       ),
       this.modulesService.enableDefaults(tenant.id),
     ]);
@@ -100,12 +107,65 @@ export class StudioTenantsService {
     return { tenant, invite };
   }
 
+  async update(
+    id: string,
+    dto: UpdateTenantDto,
+    logoFile?: Express.Multer.File,
+  ) {
+    await this.findOne(id);
+
+    let logoUrl: string | undefined;
+    if (logoFile) {
+      try {
+        const fileExt = logoFile.originalname.split('.').pop() || 'png';
+        const filePath = `tenants/${id}/logo.${fileExt}`;
+        const { error: uploadError } = await this.supabase.client.storage
+          .from('atlas-profiles')
+          .upload(filePath, logoFile.buffer, {
+            contentType: logoFile.mimetype,
+            upsert: true,
+            cacheControl: '3600',
+          });
+        if (!uploadError) {
+          const { data: urlData } = this.supabase.client.storage
+            .from('atlas-profiles')
+            .getPublicUrl(filePath);
+          logoUrl = urlData.publicUrl;
+        }
+      } catch {
+        /* logo upload failure is non-fatal */
+      }
+    }
+
+    return this.prisma.tenant.update({
+      where: { id },
+      data: {
+        ...(dto.name !== undefined && { name: dto.name }),
+        ...(dto.email !== undefined && { email: dto.email }),
+        ...(dto.phone !== undefined && { phone: dto.phone }),
+        ...(dto.timezone !== undefined && { timezone: dto.timezone }),
+        ...(dto.brandColor !== undefined && { brandColor: dto.brandColor }),
+        ...(dto.domain !== undefined && { domain: dto.domain }),
+        ...(logoUrl !== undefined && { logo: logoUrl }),
+      },
+    });
+  }
+
   async updateStatus(id: string, dto: UpdateTenantStatusDto) {
     await this.findOne(id); // throws if not found
     return this.prisma.tenant.update({
       where: { id },
       data: { status: dto.status as any },
     });
+  }
+
+  async deleteUser(tenantId: string, userId: string) {
+    const user = await this.prisma.user.findFirst({
+      where: { id: userId, tenantId },
+    });
+    if (!user) throw new NotFoundException('User not found in this tenant.');
+    await this.prisma.user.delete({ where: { id: userId } });
+    return { message: 'User removed.' };
   }
 
   async delete(id: string) {

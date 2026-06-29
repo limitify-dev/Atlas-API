@@ -286,6 +286,9 @@ export type UserWhereInput = {
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
+  adminApproval?: Prisma.XOR<Prisma.AdminApprovalNullableScalarRelationFilter, Prisma.AdminApprovalWhereInput> | null
+  reviewedApprovals?: Prisma.AdminApprovalListRelationFilter
+  feedback?: Prisma.FeedbackListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -321,6 +324,9 @@ export type UserOrderByWithRelationInput = {
   student?: Prisma.StudentOrderByWithRelationInput
   teacher?: Prisma.TeacherOrderByWithRelationInput
   tenant?: Prisma.TenantOrderByWithRelationInput
+  adminApproval?: Prisma.AdminApprovalOrderByWithRelationInput
+  reviewedApprovals?: Prisma.AdminApprovalOrderByRelationAggregateInput
+  feedback?: Prisma.FeedbackOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -359,6 +365,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   student?: Prisma.XOR<Prisma.StudentNullableScalarRelationFilter, Prisma.StudentWhereInput> | null
   teacher?: Prisma.XOR<Prisma.TeacherNullableScalarRelationFilter, Prisma.TeacherWhereInput> | null
   tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
+  adminApproval?: Prisma.XOR<Prisma.AdminApprovalNullableScalarRelationFilter, Prisma.AdminApprovalWhereInput> | null
+  reviewedApprovals?: Prisma.AdminApprovalListRelationFilter
+  feedback?: Prisma.FeedbackListRelationFilter
 }, "id" | "email" | "phone" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -437,6 +446,9 @@ export type UserCreateInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -471,6 +483,9 @@ export type UserUncheckedCreateInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -505,6 +520,9 @@ export type UserUpdateInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -539,6 +557,9 @@ export type UserUncheckedUpdateInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -946,6 +967,50 @@ export type UserUpdateOneRequiredWithoutStaffNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutStaffInput, Prisma.UserUpdateWithoutStaffInput>, Prisma.UserUncheckedUpdateWithoutStaffInput>
 }
 
+export type UserCreateNestedOneWithoutAdminApprovalInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminApprovalInput, Prisma.UserUncheckedCreateWithoutAdminApprovalInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminApprovalInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutReviewedApprovalsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedApprovalsInput, Prisma.UserUncheckedCreateWithoutReviewedApprovalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedApprovalsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAdminApprovalNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminApprovalInput, Prisma.UserUncheckedCreateWithoutAdminApprovalInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminApprovalInput
+  upsert?: Prisma.UserUpsertWithoutAdminApprovalInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdminApprovalInput, Prisma.UserUpdateWithoutAdminApprovalInput>, Prisma.UserUncheckedUpdateWithoutAdminApprovalInput>
+}
+
+export type UserUpdateOneWithoutReviewedApprovalsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReviewedApprovalsInput, Prisma.UserUncheckedCreateWithoutReviewedApprovalsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReviewedApprovalsInput
+  upsert?: Prisma.UserUpsertWithoutReviewedApprovalsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReviewedApprovalsInput, Prisma.UserUpdateWithoutReviewedApprovalsInput>, Prisma.UserUncheckedUpdateWithoutReviewedApprovalsInput>
+}
+
+export type UserCreateNestedOneWithoutFeedbackInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFeedbackInput, Prisma.UserUncheckedCreateWithoutFeedbackInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFeedbackInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutFeedbackNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutFeedbackInput, Prisma.UserUncheckedCreateWithoutFeedbackInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutFeedbackInput
+  upsert?: Prisma.UserUpsertWithoutFeedbackInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutFeedbackInput, Prisma.UserUpdateWithoutFeedbackInput>, Prisma.UserUncheckedUpdateWithoutFeedbackInput>
+}
+
 export type UserCreateWithoutTenantInput = {
   id?: string
   email?: string | null
@@ -977,6 +1042,9 @@ export type UserCreateWithoutTenantInput = {
   staff?: Prisma.StaffCreateNestedOneWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTenantInput = {
@@ -1010,6 +1078,9 @@ export type UserUncheckedCreateWithoutTenantInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTenantInput = {
@@ -1091,6 +1162,9 @@ export type UserCreateWithoutSessionsInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1124,6 +1198,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1173,6 +1250,9 @@ export type UserUpdateWithoutSessionsInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1206,6 +1286,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -1239,6 +1322,9 @@ export type UserCreateWithoutRefreshTokensInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -1272,6 +1358,9 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -1321,6 +1410,9 @@ export type UserUpdateWithoutRefreshTokensInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -1354,6 +1446,9 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStudentInput = {
@@ -1387,6 +1482,9 @@ export type UserCreateWithoutStudentInput = {
   staff?: Prisma.StaffCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudentInput = {
@@ -1420,6 +1518,9 @@ export type UserUncheckedCreateWithoutStudentInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudentInput = {
@@ -1469,6 +1570,9 @@ export type UserUpdateWithoutStudentInput = {
   staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudentInput = {
@@ -1502,6 +1606,9 @@ export type UserUncheckedUpdateWithoutStudentInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutParentInput = {
@@ -1535,6 +1642,9 @@ export type UserCreateWithoutParentInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutParentInput = {
@@ -1568,6 +1678,9 @@ export type UserUncheckedCreateWithoutParentInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutParentInput = {
@@ -1617,6 +1730,9 @@ export type UserUpdateWithoutParentInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutParentInput = {
@@ -1650,6 +1766,9 @@ export type UserUncheckedUpdateWithoutParentInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTeacherInput = {
@@ -1683,6 +1802,9 @@ export type UserCreateWithoutTeacherInput = {
   staff?: Prisma.StaffCreateNestedOneWithoutUserInput
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTeacherInput = {
@@ -1716,6 +1838,9 @@ export type UserUncheckedCreateWithoutTeacherInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTeacherInput = {
@@ -1765,6 +1890,9 @@ export type UserUpdateWithoutTeacherInput = {
   staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeacherInput = {
@@ -1798,6 +1926,9 @@ export type UserUncheckedUpdateWithoutTeacherInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConductRecordsReportedInput = {
@@ -1831,6 +1962,9 @@ export type UserCreateWithoutConductRecordsReportedInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConductRecordsReportedInput = {
@@ -1864,6 +1998,9 @@ export type UserUncheckedCreateWithoutConductRecordsReportedInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConductRecordsReportedInput = {
@@ -1913,6 +2050,9 @@ export type UserUpdateWithoutConductRecordsReportedInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConductRecordsReportedInput = {
@@ -1946,6 +2086,9 @@ export type UserUncheckedUpdateWithoutConductRecordsReportedInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConversationParticipantsInput = {
@@ -1979,6 +2122,9 @@ export type UserCreateWithoutConversationParticipantsInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConversationParticipantsInput = {
@@ -2012,6 +2158,9 @@ export type UserUncheckedCreateWithoutConversationParticipantsInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConversationParticipantsInput = {
@@ -2061,6 +2210,9 @@ export type UserUpdateWithoutConversationParticipantsInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConversationParticipantsInput = {
@@ -2094,6 +2246,9 @@ export type UserUncheckedUpdateWithoutConversationParticipantsInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChatMessagesInput = {
@@ -2127,6 +2282,9 @@ export type UserCreateWithoutChatMessagesInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChatMessagesInput = {
@@ -2160,6 +2318,9 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChatMessagesInput = {
@@ -2209,6 +2370,9 @@ export type UserUpdateWithoutChatMessagesInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChatMessagesInput = {
@@ -2242,6 +2406,9 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPushTokensInput = {
@@ -2275,6 +2442,9 @@ export type UserCreateWithoutPushTokensInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPushTokensInput = {
@@ -2308,6 +2478,9 @@ export type UserUncheckedCreateWithoutPushTokensInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPushTokensInput = {
@@ -2357,6 +2530,9 @@ export type UserUpdateWithoutPushTokensInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPushTokensInput = {
@@ -2390,6 +2566,9 @@ export type UserUncheckedUpdateWithoutPushTokensInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReceivedMessagesInput = {
@@ -2423,6 +2602,9 @@ export type UserCreateWithoutReceivedMessagesInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReceivedMessagesInput = {
@@ -2456,6 +2638,9 @@ export type UserUncheckedCreateWithoutReceivedMessagesInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReceivedMessagesInput = {
@@ -2494,6 +2679,9 @@ export type UserCreateWithoutSentMessagesInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSentMessagesInput = {
@@ -2527,6 +2715,9 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSentMessagesInput = {
@@ -2576,6 +2767,9 @@ export type UserUpdateWithoutReceivedMessagesInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
@@ -2609,6 +2803,9 @@ export type UserUncheckedUpdateWithoutReceivedMessagesInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutSentMessagesInput = {
@@ -2653,6 +2850,9 @@ export type UserUpdateWithoutSentMessagesInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentMessagesInput = {
@@ -2686,6 +2886,9 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSentAnnouncementsInput = {
@@ -2719,6 +2922,9 @@ export type UserCreateWithoutSentAnnouncementsInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSentAnnouncementsInput = {
@@ -2752,6 +2958,9 @@ export type UserUncheckedCreateWithoutSentAnnouncementsInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSentAnnouncementsInput = {
@@ -2801,6 +3010,9 @@ export type UserUpdateWithoutSentAnnouncementsInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentAnnouncementsInput = {
@@ -2834,6 +3046,9 @@ export type UserUncheckedUpdateWithoutSentAnnouncementsInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSentNotificationsInput = {
@@ -2867,6 +3082,9 @@ export type UserCreateWithoutSentNotificationsInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSentNotificationsInput = {
@@ -2900,6 +3118,9 @@ export type UserUncheckedCreateWithoutSentNotificationsInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSentNotificationsInput = {
@@ -2949,6 +3170,9 @@ export type UserUpdateWithoutSentNotificationsInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSentNotificationsInput = {
@@ -2982,6 +3206,9 @@ export type UserUncheckedUpdateWithoutSentNotificationsInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReceivedNotificationsInput = {
@@ -3015,6 +3242,9 @@ export type UserCreateWithoutReceivedNotificationsInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
@@ -3048,6 +3278,9 @@ export type UserUncheckedCreateWithoutReceivedNotificationsInput = {
   staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReceivedNotificationsInput = {
@@ -3097,6 +3330,9 @@ export type UserUpdateWithoutReceivedNotificationsInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
@@ -3130,6 +3366,9 @@ export type UserUncheckedUpdateWithoutReceivedNotificationsInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStaffInput = {
@@ -3163,6 +3402,9 @@ export type UserCreateWithoutStaffInput = {
   student?: Prisma.StudentCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
   tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStaffInput = {
@@ -3196,6 +3438,9 @@ export type UserUncheckedCreateWithoutStaffInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
   teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStaffInput = {
@@ -3245,6 +3490,9 @@ export type UserUpdateWithoutStaffInput = {
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
   tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStaffInput = {
@@ -3278,6 +3526,489 @@ export type UserUncheckedUpdateWithoutStaffInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAdminApprovalInput = {
+  id?: string
+  email?: string | null
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  staff?: Prisma.StaffCreateNestedOneWithoutUserInput
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAdminApprovalInput = {
+  id?: string
+  tenantId?: string | null
+  email?: string | null
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAdminApprovalInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminApprovalInput, Prisma.UserUncheckedCreateWithoutAdminApprovalInput>
+}
+
+export type UserCreateWithoutReviewedApprovalsInput = {
+  id?: string
+  email?: string | null
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  staff?: Prisma.StaffCreateNestedOneWithoutUserInput
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReviewedApprovalsInput = {
+  id?: string
+  tenantId?: string | null
+  email?: string | null
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReviewedApprovalsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedApprovalsInput, Prisma.UserUncheckedCreateWithoutReviewedApprovalsInput>
+}
+
+export type UserUpsertWithoutAdminApprovalInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdminApprovalInput, Prisma.UserUncheckedUpdateWithoutAdminApprovalInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminApprovalInput, Prisma.UserUncheckedCreateWithoutAdminApprovalInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAdminApprovalInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdminApprovalInput, Prisma.UserUncheckedUpdateWithoutAdminApprovalInput>
+}
+
+export type UserUpdateWithoutAdminApprovalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAdminApprovalInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutReviewedApprovalsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReviewedApprovalsInput, Prisma.UserUncheckedUpdateWithoutReviewedApprovalsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReviewedApprovalsInput, Prisma.UserUncheckedCreateWithoutReviewedApprovalsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutReviewedApprovalsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReviewedApprovalsInput, Prisma.UserUncheckedUpdateWithoutReviewedApprovalsInput>
+}
+
+export type UserUpdateWithoutReviewedApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReviewedApprovalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutFeedbackInput = {
+  id?: string
+  email?: string | null
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  staff?: Prisma.StaffCreateNestedOneWithoutUserInput
+  student?: Prisma.StudentCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherCreateNestedOneWithoutUserInput
+  tenant?: Prisma.TenantCreateNestedOneWithoutUsersInput
+  adminApproval?: Prisma.AdminApprovalCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutReviewerInput
+}
+
+export type UserUncheckedCreateWithoutFeedbackInput = {
+  id?: string
+  tenantId?: string | null
+  email?: string | null
+  name: string
+  password: string
+  phone?: string | null
+  avatar?: string | null
+  role?: $Enums.Role
+  userType?: $Enums.UserType | null
+  status?: $Enums.Status
+  emailVerified?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  passwordChangedAt?: Date | string | null
+  username: string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutPublisherInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutReportedByUserInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedCreateNestedManyWithoutUserInput
+  receivedMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutReceiverInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSenderInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedCreateNestedManyWithoutUserInput
+  sentNotifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  parent?: Prisma.ParentUncheckedCreateNestedOneWithoutUserInput
+  pushTokens?: Prisma.PushTokenUncheckedCreateNestedManyWithoutUserInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  staff?: Prisma.StaffUncheckedCreateNestedOneWithoutUserInput
+  student?: Prisma.StudentUncheckedCreateNestedOneWithoutUserInput
+  teacher?: Prisma.TeacherUncheckedCreateNestedOneWithoutUserInput
+  adminApproval?: Prisma.AdminApprovalUncheckedCreateNestedOneWithoutUserInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutReviewerInput
+}
+
+export type UserCreateOrConnectWithoutFeedbackInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutFeedbackInput, Prisma.UserUncheckedCreateWithoutFeedbackInput>
+}
+
+export type UserUpsertWithoutFeedbackInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutFeedbackInput, Prisma.UserUncheckedUpdateWithoutFeedbackInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutFeedbackInput, Prisma.UserUncheckedCreateWithoutFeedbackInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutFeedbackInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutFeedbackInput, Prisma.UserUncheckedUpdateWithoutFeedbackInput>
+}
+
+export type UserUpdateWithoutFeedbackInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
+  student?: Prisma.StudentUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  tenant?: Prisma.TenantUpdateOneWithoutUsersNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutFeedbackInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  userType?: Prisma.NullableEnumUserTypeFieldUpdateOperationsInput | $Enums.UserType | null
+  status?: Prisma.EnumStatusFieldUpdateOperationsInput | $Enums.Status
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  passwordChangedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutPublisherNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+  conductRecordsReported?: Prisma.ConductRecordUncheckedUpdateManyWithoutReportedByUserNestedInput
+  conversationParticipants?: Prisma.ConversationParticipantUncheckedUpdateManyWithoutUserNestedInput
+  receivedMessages?: Prisma.MessageUncheckedUpdateManyWithoutReceiverNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSenderNestedInput
+  receivedNotifications?: Prisma.NotificationRecipientUncheckedUpdateManyWithoutUserNestedInput
+  sentNotifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  parent?: Prisma.ParentUncheckedUpdateOneWithoutUserNestedInput
+  pushTokens?: Prisma.PushTokenUncheckedUpdateManyWithoutUserNestedInput
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
+  student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
+  teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
 }
 
 export type UserCreateManyTenantInput = {
@@ -3329,6 +4060,9 @@ export type UserUpdateWithoutTenantInput = {
   staff?: Prisma.StaffUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTenantInput = {
@@ -3362,6 +4096,9 @@ export type UserUncheckedUpdateWithoutTenantInput = {
   staff?: Prisma.StaffUncheckedUpdateOneWithoutUserNestedInput
   student?: Prisma.StudentUncheckedUpdateOneWithoutUserNestedInput
   teacher?: Prisma.TeacherUncheckedUpdateOneWithoutUserNestedInput
+  adminApproval?: Prisma.AdminApprovalUncheckedUpdateOneWithoutUserNestedInput
+  reviewedApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutReviewerNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutTenantInput = {
@@ -3399,6 +4136,8 @@ export type UserCountOutputType = {
   pushTokens: number
   refreshTokens: number
   sessions: number
+  reviewedApprovals: number
+  feedback: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3413,6 +4152,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   pushTokens?: boolean | UserCountOutputTypeCountPushTokensArgs
   refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+  reviewedApprovals?: boolean | UserCountOutputTypeCountReviewedApprovalsArgs
+  feedback?: boolean | UserCountOutputTypeCountFeedbackArgs
 }
 
 /**
@@ -3502,6 +4243,20 @@ export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.SessionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountReviewedApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AdminApprovalWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountFeedbackArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FeedbackWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3536,6 +4291,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   teacher?: boolean | Prisma.User$teacherArgs<ExtArgs>
   tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
+  adminApproval?: boolean | Prisma.User$adminApprovalArgs<ExtArgs>
+  reviewedApprovals?: boolean | Prisma.User$reviewedApprovalsArgs<ExtArgs>
+  feedback?: boolean | Prisma.User$feedbackArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3616,6 +4374,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   student?: boolean | Prisma.User$studentArgs<ExtArgs>
   teacher?: boolean | Prisma.User$teacherArgs<ExtArgs>
   tenant?: boolean | Prisma.User$tenantArgs<ExtArgs>
+  adminApproval?: boolean | Prisma.User$adminApprovalArgs<ExtArgs>
+  reviewedApprovals?: boolean | Prisma.User$reviewedApprovalsArgs<ExtArgs>
+  feedback?: boolean | Prisma.User$feedbackArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3644,6 +4405,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     student: Prisma.$StudentPayload<ExtArgs> | null
     teacher: Prisma.$TeacherPayload<ExtArgs> | null
     tenant: Prisma.$TenantPayload<ExtArgs> | null
+    adminApproval: Prisma.$AdminApprovalPayload<ExtArgs> | null
+    reviewedApprovals: Prisma.$AdminApprovalPayload<ExtArgs>[]
+    feedback: Prisma.$FeedbackPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4072,6 +4836,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   student<T extends Prisma.User$studentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studentArgs<ExtArgs>>): Prisma.Prisma__StudentClient<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   teacher<T extends Prisma.User$teacherArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$teacherArgs<ExtArgs>>): Prisma.Prisma__TeacherClient<runtime.Types.Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tenant<T extends Prisma.User$tenantArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$tenantArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  adminApproval<T extends Prisma.User$adminApprovalArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminApprovalArgs<ExtArgs>>): Prisma.Prisma__AdminApprovalClient<runtime.Types.Result.GetResult<Prisma.$AdminApprovalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  reviewedApprovals<T extends Prisma.User$reviewedApprovalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reviewedApprovalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdminApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  feedback<T extends Prisma.User$feedbackArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$feedbackArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4869,6 +5636,73 @@ export type User$tenantArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   include?: Prisma.TenantInclude<ExtArgs> | null
   where?: Prisma.TenantWhereInput
+}
+
+/**
+ * User.adminApproval
+ */
+export type User$adminApprovalArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdminApproval
+   */
+  select?: Prisma.AdminApprovalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdminApproval
+   */
+  omit?: Prisma.AdminApprovalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdminApprovalInclude<ExtArgs> | null
+  where?: Prisma.AdminApprovalWhereInput
+}
+
+/**
+ * User.reviewedApprovals
+ */
+export type User$reviewedApprovalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdminApproval
+   */
+  select?: Prisma.AdminApprovalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdminApproval
+   */
+  omit?: Prisma.AdminApprovalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdminApprovalInclude<ExtArgs> | null
+  where?: Prisma.AdminApprovalWhereInput
+  orderBy?: Prisma.AdminApprovalOrderByWithRelationInput | Prisma.AdminApprovalOrderByWithRelationInput[]
+  cursor?: Prisma.AdminApprovalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AdminApprovalScalarFieldEnum | Prisma.AdminApprovalScalarFieldEnum[]
+}
+
+/**
+ * User.feedback
+ */
+export type User$feedbackArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Feedback
+   */
+  select?: Prisma.FeedbackSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Feedback
+   */
+  omit?: Prisma.FeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FeedbackInclude<ExtArgs> | null
+  where?: Prisma.FeedbackWhereInput
+  orderBy?: Prisma.FeedbackOrderByWithRelationInput | Prisma.FeedbackOrderByWithRelationInput[]
+  cursor?: Prisma.FeedbackWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FeedbackScalarFieldEnum | Prisma.FeedbackScalarFieldEnum[]
 }
 
 /**

@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -12,8 +14,10 @@ import {
   ApiBody,
   ApiConsumes,
   ApiOperation,
+  ApiProduces,
   ApiTags,
 } from '@nestjs/swagger';
+import { Response } from 'express';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
@@ -61,5 +65,47 @@ export class ImportController {
   })
   commit(@CurrentUser() user: AuthUser, @Body() preview: InvoiceImportPreview) {
     return this.importService.commitImport(user.tenantId, preview, user.id);
+  }
+
+  @Post('confirm-payments')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary:
+      'Confirm payments from preview - matches invoices and marks them paid',
+    description:
+      'Matches student+amount+dueDate and marks matching invoices as PAID. Used for cross-checking Excel uploads.',
+  })
+  confirmPayments(
+    @CurrentUser() user: AuthUser,
+    @Body() preview: InvoiceImportPreview,
+  ) {
+    return this.importService.commitPaymentConfirmations(
+      user.tenantId,
+      preview,
+      user.id,
+    );
+  }
+
+  @Get('template')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary: 'Download an Excel template for bulk invoice import',
+    description:
+      'Returns a .xlsx file with the expected column headers and one example row.',
+  })
+  @ApiProduces(
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  )
+  async downloadTemplate(@Res() res: Response) {
+    const buffer = await this.importService.generateTemplate();
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    );
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename="invoice_import_template.xlsx"',
+    );
+    res.end(buffer);
   }
 }

@@ -80,7 +80,14 @@ export class PermissionsController {
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
+  @Roles(
+    Role.ADMIN,
+    Role.SUPER_ADMIN,
+    Role.STAFF,
+    Role.TEACHER,
+    Role.STAFF,
+    Role.PARENT,
+  )
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all permissions with filters' })
   @ApiResponse({
@@ -131,7 +138,14 @@ export class PermissionsController {
 
   @Get(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
+  @Roles(
+    Role.ADMIN,
+    Role.SUPER_ADMIN,
+    Role.STAFF,
+    Role.TEACHER,
+    Role.STAFF,
+    Role.PARENT,
+  )
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get a single permission by ID' })
   @ApiParam({ name: 'id', description: 'Permission ID' })

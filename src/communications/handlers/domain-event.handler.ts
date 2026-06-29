@@ -13,6 +13,9 @@ import {
   PaymentApprovedEvent,
   PaymentRejectedEvent,
   PaymentPromisedEvent,
+  GraceApprovedEvent,
+  GraceRefusedEvent,
+  OverdueReminderEvent,
   PermissionRequestedEvent,
   PermissionApprovedEvent,
   PermissionRejectedEvent,
@@ -230,6 +233,72 @@ export class DomainEventHandler {
       body,
       {
         type: 'payment_promised',
+        invoiceId: event.invoiceId,
+      },
+    );
+  }
+
+  @OnEvent(GraceApprovedEvent.EVENT)
+  async handleGraceApproved(event: GraceApprovedEvent) {
+    if (!event.parentUserIds.length) return;
+
+    const due = new Date(event.newDueDate).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+    const title = 'Grace Request Approved ✓';
+    const body = event.approvalNote
+      ? `Your grace request has been approved. New due date: ${due}. Note: ${event.approvalNote}`
+      : `Your grace request has been approved. New due date: ${due}.`;
+
+    await this.enqueueAndNotify(
+      event.tenantId,
+      event.parentUserIds,
+      title,
+      body,
+      {
+        type: 'grace_approved',
+        invoiceId: event.invoiceId,
+      },
+    );
+  }
+
+  @OnEvent(GraceRefusedEvent.EVENT)
+  async handleGraceRefused(event: GraceRefusedEvent) {
+    if (!event.parentUserIds.length) return;
+
+    const title = 'Grace Request Refused';
+    const body = event.refusalNote
+      ? `Your grace request was refused. Reason: ${event.refusalNote}`
+      : 'Your grace request was refused. Please contact the bursar for more details.';
+
+    await this.enqueueAndNotify(
+      event.tenantId,
+      event.parentUserIds,
+      title,
+      body,
+      {
+        type: 'grace_refused',
+        invoiceId: event.invoiceId,
+      },
+    );
+  }
+
+  @OnEvent(OverdueReminderEvent.EVENT)
+  async handleOverdueReminder(event: OverdueReminderEvent) {
+    if (!event.parentUserIds.length) return;
+
+    const title = 'Payment Overdue Reminder';
+    const body = `${event.studentName} has an overdue balance of ${event.outstandingAmount}. Please make payment soon.`;
+
+    await this.enqueueAndNotify(
+      event.tenantId,
+      event.parentUserIds,
+      title,
+      body,
+      {
+        type: 'overdue_reminder',
         invoiceId: event.invoiceId,
       },
     );

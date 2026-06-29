@@ -210,7 +210,14 @@ export class StudentsService {
   async processBulkUpload(
     file: Express.Multer.File,
     tenantId: string,
-  ): Promise<{ success: number; failed: number; errors: any[] }> {
+    promotionId?: string,
+  ): Promise<{
+    success: number;
+    failed: number;
+    errors: any[];
+    cohort?: { id: string; name: string } | null;
+    classroomsLinked?: number;
+  }> {
     if (!file) {
       throw new BadRequestException('No file uploaded');
     }
@@ -223,11 +230,38 @@ export class StudentsService {
     const sheet = workbook.Sheets[sheetName];
     const data = XLSX.utils.sheet_to_json(sheet);
 
-    const results: { success: number; failed: number; errors: any[] } = {
+    const results: {
+      success: number;
+      failed: number;
+      errors: any[];
+      cohort?: { id: string; name: string } | null;
+      classroomsLinked?: number;
+    } = {
       success: 0,
       failed: 0,
       errors: [],
     };
+
+    // ── Resolve the target cohort (promotion) to link students/classrooms to ──
+    // Use the explicitly chosen cohort, otherwise fall back to the active one.
+    let targetCohort: { id: string; name: string } | null = null;
+    if (promotionId) {
+      const promo = await this.prisma.promotion.findFirst({
+        where: { id: promotionId, tenantId },
+        select: { id: true, name: true },
+      });
+      if (!promo) {
+        throw new BadRequestException('Selected cohort (promotion) not found.');
+      }
+      targetCohort = promo;
+    } else {
+      targetCohort = await this.prisma.promotion.findFirst({
+        where: { tenantId, isActive: true },
+        select: { id: true, name: true },
+        orderBy: { entryYear: 'desc' },
+      });
+    }
+    results.cohort = targetCohort;
 
     // Pre-fetch grades and sections for lookup
     const grades = await this.prisma.grade.findMany({
@@ -236,6 +270,16 @@ export class StudentsService {
     const sections = await this.prisma.section.findMany({
       where: { tenantId },
     });
+
+    // Track which sections we've already linked to the cohort this run
+    const linkedSectionIds = new Set<string>();
+
+    // Normalize helper for tolerant name/code matching
+    const norm = (v: unknown) =>
+      String(v ?? '')
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, ' ');
 
     for (const [index, row] of data.entries()) {
       try {
@@ -254,14 +298,52 @@ export class StudentsService {
         const gradeName = getVal('Grade');
         const sectionName = getVal('Section'); // Or 'Class'
 
-        const grade = grades.find((g) => g.name === gradeName);
+        // Match grade by name OR code, case/space-insensitive
+        const grade = grades.find(
+          (g) =>
+            norm(g.name) === norm(gradeName) ||
+            norm(g.code) === norm(gradeName),
+        );
         if (!grade) {
           throw new Error(`Grade not found: ${gradeName}`);
         }
 
-        const section = sections.find((s) => s.name === sectionName);
+        if (!sectionName || !String(sectionName).trim()) {
+          throw new Error('Section is required');
+        }
+
+        // Match section within the resolved grade. Import files often prefix the
+        // section with the grade code (e.g. "S1A" = grade S1 + section "A",
+        // "S4MPG" = grade S4 + section "MPG"), so we match the bare name as well
+        // as the grade-code-prefixed forms.
+        const target = norm(sectionName);
+        const section = sections.find((s) => {
+          if (s.gradeId !== grade.id) return false;
+          return (
+            target === norm(s.name) ||
+            target === norm(`${grade.code}${s.name}`) ||
+            target === norm(`${grade.code} ${s.name}`) ||
+            target === norm(`${grade.code}-${s.name}`)
+          );
+        });
         if (!section) {
-          throw new Error(`Section not found: ${sectionName}`);
+          throw new Error(
+            `Section "${sectionName}" not found in grade "${grade.name}"`,
+          );
+        }
+
+        // ── Link this classroom (section) to the target cohort, once ──
+        if (
+          targetCohort &&
+          section.promotionId !== targetCohort.id &&
+          !linkedSectionIds.has(section.id)
+        ) {
+          await this.prisma.section.update({
+            where: { id: section.id },
+            data: { promotionId: targetCohort.id },
+          });
+          section.promotionId = targetCohort.id; // keep in-memory copy fresh
+          linkedSectionIds.add(section.id);
         }
 
         const dto = new CreateStudentDto();
@@ -279,11 +361,11 @@ export class StudentsService {
           ? String(getVal('Nationality'))
           : undefined;
         dto.address = getVal('Address') ? String(getVal('Address')) : undefined;
-        dto.bloodGroup = getVal('BloodGroup')
-          ? String(getVal('BloodGroup'))
-          : undefined;
         dto.gradeId = grade.id;
         dto.sectionId = section.id;
+        // Link the student to the target cohort (falls back to the section's
+        // own promotion inside create() when no target cohort is set)
+        if (targetCohort) dto.promotionId = targetCohort.id;
 
         const admDate = getVal('AdmissionDate');
         dto.admissionDate =
@@ -344,6 +426,7 @@ export class StudentsService {
       }
     }
 
+    results.classroomsLinked = linkedSectionIds.size;
     return results;
   }
 
@@ -357,7 +440,6 @@ export class StudentsService {
       'Gender',
       'Nationality',
       'Address',
-      'Blood Group',
       'Grade',
       'Section',
       'Admission Date',
@@ -383,7 +465,6 @@ export class StudentsService {
         Gender: 'MALE',
         Nationality: 'American',
         Address: '123 Main St',
-        'Blood Group': 'O+',
         Grade: 'Senior 1',
         Section: 'S1A',
         'Admission Date': '2024-01-01',
@@ -402,7 +483,6 @@ export class StudentsService {
         Gender: 'FEMALE',
         Nationality: 'British',
         Address: '456 Oak Ave',
-        'Blood Group': 'A+',
         Grade: 'Senior 4',
         Section: 'S4MPGE',
         'Admission Date': '2024-01-01',
@@ -1087,8 +1167,8 @@ export class StudentsService {
           username: parentUsername,
           password: hashedParentPassword,
           phone: parentData.phone,
-          role: Role.STAFF,
-          userType: UserType.STAFF,
+          role: Role.PARENT,
+          userType: UserType.PARENT,
           status: Status.ACTIVE,
         },
         include: { parent: true },
@@ -1127,9 +1207,17 @@ export class StudentsService {
         },
       });
 
-      await tx.parent.update({
+      await tx.parent.upsert({
         where: { userId: user.id },
-        data: {
+        create: {
+          tenantId,
+          userId: user.id,
+          firstName: parentFirstName,
+          lastName: parentLastName,
+          relationship: parentData.relationship || null,
+          occupation: parentData.occupation || null,
+        },
+        update: {
           firstName: parentFirstName,
           lastName: parentLastName,
           relationship: parentData.relationship || undefined,

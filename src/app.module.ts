@@ -28,6 +28,8 @@ import { TenantsModule } from './tenants/tenants.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { StaffModule } from './identity/staff/staff.module';
 import { StudioModule } from './studio/studio.module';
+import { StudentsModule } from './students/students.module';
+import { ParentsModule } from './parents/parents.module';
 
 // ─── Academic Structure ───────────────────────────────────────────────────────
 import { GradesModule } from './grades/grades.module';
@@ -35,6 +37,7 @@ import { SectionsModule } from './sections/sections.module';
 import { PromotionsModule } from './promotions/promotions.module';
 import { CombinationsModule } from './combinations/combinations.module';
 import { SubjectsModule } from './subjects/subjects.module';
+import { TimetableModule } from './timetable/timetable.module';
 import { AcademicsModule } from './academics/academics.module';
 
 // ─── Core Domains ─────────────────────────────────────────────────────────────
@@ -56,6 +59,7 @@ import { EventsModule } from './events/events.module';
 import { SystemLogsModule } from './system-logs/system-logs.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics.module';
 
 // ─── DEFERRED (schema kept, module disabled) ──────────────────────────────────
 // TransportModule  — import './transport/transport.module' when needed
@@ -98,6 +102,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     TeachersModule,
     StaffModule,
     StudioModule,
+    StudentsModule,
+    ParentsModule,
 
     // ── Academic Structure ─────────────────────────────────────────────────────
     GradesModule,
@@ -105,6 +111,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     PromotionsModule,
     CombinationsModule,
     SubjectsModule,
+    TimetableModule,
     AcademicsModule,
 
     // ── Core Domains ───────────────────────────────────────────────────────────
@@ -126,6 +133,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     SystemLogsModule,
     SubscriptionsModule,
     DashboardModule,
+    PlatformAnalyticsModule,
   ],
   controllers: [AppController],
   providers: [

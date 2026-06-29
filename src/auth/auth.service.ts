@@ -3,12 +3,12 @@ import {
   UnauthorizedException,
   ConflictException,
   BadRequestException,
-  ForbiddenException,
 } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { AuthResponseDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { SupabaseService } from 'src/common/supabase/supabase.service';
 import * as bcrypt from 'bcryptjs';
 import { jwtConstants } from './constant';
 import { EmailService } from 'src/email/email.service';
@@ -42,6 +42,7 @@ export class AuthService {
     private emailService: EmailService,
     private inviteService: InviteService,
     private otpService: OtpService,
+    private supabase: SupabaseService,
   ) {}
 
   private getPasswordResetCooldownBoundary(): Date {
@@ -98,10 +99,20 @@ export class AuthService {
       data: { lastLoginAt: new Date() },
     });
 
+    // Attach staffRole so the client can route staff to their module
+    let staffRole: string | null = null;
+    if (user.role === Role.STAFF) {
+      const staff = await this.prisma.staff.findUnique({
+        where: { userId: user.id },
+        select: { staffRole: true },
+      });
+      staffRole = staff?.staffRole ?? null;
+    }
+
     return {
       accessToken,
       refreshToken,
-      user,
+      user: { ...user, staffRole },
     };
   }
 
@@ -449,6 +460,16 @@ export class AuthService {
 
     // Remove password and flatten tenant data
     const { password, tenant, teacher, student, ...userWithoutPassword } = user;
+
+    let staffRole: string | null = null;
+    if (user.role === Role.STAFF) {
+      const staff = await this.prisma.staff.findUnique({
+        where: { userId: user.id },
+        select: { staffRole: true },
+      });
+      staffRole = staff?.staffRole ?? null;
+    }
+
     return {
       ...userWithoutPassword,
       avatar:
@@ -461,7 +482,230 @@ export class AuthService {
       schoolName: tenant?.name,
       schoolLogo: tenant?.logo || null,
       brandColor: tenant?.brandColor || '#1e40af',
+      staffRole,
     };
+  }
+
+  async updateProfile(
+    userId: string,
+    dto: { name?: string; username?: string; email?: string; phone?: string },
+    avatarFile?: Express.Multer.File,
+  ): Promise<any> {
+    // Check username/email uniqueness if changing
+    if (dto.username) {
+      const existing = await this.prisma.user.findFirst({
+        where: { username: dto.username, id: { not: userId } },
+      });
+      if (existing) throw new ConflictException('Username already taken.');
+    }
+    if (dto.email) {
+      const existing = await this.prisma.user.findFirst({
+        where: { email: dto.email, id: { not: userId } },
+      });
+      if (existing) throw new ConflictException('Email already in use.');
+    }
+
+    let avatarUrl: string | undefined;
+    if (avatarFile) {
+      try {
+        const ext = avatarFile.originalname.split('.').pop() || 'jpg';
+        const filePath = `avatars/${userId}/avatar.${ext}`;
+        const { error } = await this.supabase.client.storage
+          .from('atlas-profiles')
+          .upload(filePath, avatarFile.buffer, {
+            contentType: avatarFile.mimetype,
+            upsert: true,
+            cacheControl: '3600',
+          });
+        if (!error) {
+          const { data } = this.supabase.client.storage
+            .from('atlas-profiles')
+            .getPublicUrl(filePath);
+          avatarUrl = data.publicUrl;
+        }
+      } catch {
+        /* non-fatal */
+      }
+    }
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(dto.name && { name: dto.name }),
+        ...(dto.username && { username: dto.username }),
+        ...(dto.email !== undefined && { email: dto.email || null }),
+        ...(dto.phone !== undefined && { phone: dto.phone || null }),
+        ...(avatarUrl !== undefined && { avatar: avatarUrl }),
+      },
+    });
+
+    return this.getProfile(userId);
+  }
+
+  /** Public peek at an AdminInvite — validates without claiming. */
+  async previewAdminInvite(token: string) {
+    const invite = await this.prisma.adminInvite.findUnique({
+      where: { token },
+      include: {
+        tenant: {
+          select: { id: true, name: true, logo: true, brandColor: true },
+        },
+      },
+    });
+    if (!invite)
+      throw new UnauthorizedException('Invalid or expired invite link.');
+    if (invite.status !== 'PENDING')
+      throw new BadRequestException(
+        'This invite has already been used or revoked.',
+      );
+    if (invite.expiresAt < new Date()) {
+      await this.prisma.adminInvite.update({
+        where: { id: invite.id },
+        data: { status: 'EXPIRED' },
+      });
+      throw new BadRequestException(
+        'This invite has expired. Contact your platform administrator.',
+      );
+    }
+    return {
+      email: invite.email,
+      name: invite.name,
+      role: invite.role,
+      tenantName: invite.tenant.name,
+      tenantLogo: invite.tenant.logo,
+      brandColor: invite.tenant.brandColor,
+    };
+  }
+
+  /** Complete admin onboarding: creates the User, claims the invite, issues tokens. */
+  async completeAdminInvite(dto: {
+    token: string;
+    name: string;
+    password: string;
+  }): Promise<AuthResponseDto> {
+    const invite = await this.prisma.adminInvite.findUnique({
+      where: { token: dto.token },
+      include: {
+        tenant: {
+          select: {
+            id: true,
+            name: true,
+            logo: true,
+            brandColor: true,
+            timezone: true,
+          },
+        },
+      },
+    });
+    if (!invite)
+      throw new UnauthorizedException('Invalid or expired invite link.');
+    if (invite.status !== 'PENDING')
+      throw new BadRequestException(
+        'This invite has already been used or revoked.',
+      );
+    if (invite.expiresAt < new Date()) {
+      await this.prisma.adminInvite.update({
+        where: { id: invite.id },
+        data: { status: 'EXPIRED' },
+      });
+      throw new BadRequestException('This invite has expired.');
+    }
+    if (!dto.password || dto.password.length < 8)
+      throw new BadRequestException('Password must be at least 8 characters.');
+
+    // Generate unique username
+    const base = invite.email
+      ? invite.email
+          .split('@')[0]
+          .replace(/[^a-z0-9]/gi, '')
+          .toLowerCase()
+      : dto.name
+          .toLowerCase()
+          .replace(/\s+/g, '')
+          .replace(/[^a-z0-9]/g, '');
+    const taken = await this.prisma.user.findUnique({
+      where: { username: base },
+    });
+    const username = taken ? `${base}${Date.now().toString().slice(-4)}` : base;
+
+    const hashed = await bcrypt.hash(dto.password, 12);
+
+    // If a user was pre-created for this email (e.g. from staff/register), update instead of create
+    const existingUser = invite.email
+      ? await this.prisma.user.findFirst({
+          where: { email: invite.email, tenantId: invite.tenantId },
+        })
+      : null;
+
+    const newUser = await this.prisma.$transaction(async (tx) => {
+      let created;
+      if (existingUser) {
+        created = await tx.user.update({
+          where: { id: existingUser.id },
+          data: {
+            name: dto.name,
+            password: hashed,
+            status: Status.ACTIVE,
+            emailVerified: true,
+          },
+        });
+      } else {
+        created = await tx.user.create({
+          data: {
+            tenantId: invite.tenantId,
+            name: dto.name,
+            email: invite.email ?? null,
+            phone: invite.phone ?? null,
+            username,
+            password: hashed,
+            role: invite.role,
+            status: Status.ACTIVE,
+            emailVerified: !!invite.email,
+          },
+        });
+      }
+      await tx.adminInvite.update({
+        where: { id: invite.id },
+        data: { status: 'CLAIMED', claimedAt: new Date() },
+      });
+      return created;
+    });
+
+    const authenticatedUser: AuthenticatedUser = {
+      ...newUser,
+      schoolName: invite.tenant.name ?? null,
+      schoolLogo: invite.tenant.logo ?? null,
+      brandColor: invite.tenant.brandColor ?? '#1e40af',
+      timezone: invite.tenant.timezone ?? 'UTC',
+    };
+
+    return this.login(authenticatedUser);
+  }
+
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<{ message: string }> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new UnauthorizedException('User not found.');
+
+    const valid = await bcrypt.compare(currentPassword, user.password);
+    if (!valid) throw new BadRequestException('Current password is incorrect.');
+
+    if (newPassword.length < 8) {
+      throw new BadRequestException(
+        'New password must be at least 8 characters.',
+      );
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 12);
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { password: hashed, passwordChangedAt: new Date() },
+    });
+
+    return { message: 'Password updated successfully.' };
   }
 
   /**
@@ -737,6 +981,7 @@ export class AuthService {
     const map: Partial<Record<Role, UserType>> = {
       [Role.STAFF]: UserType.STAFF,
       [Role.TEACHER]: UserType.TEACHER,
+      [Role.PARENT]: UserType.PARENT,
     };
     return map[role] ?? null;
   }
