@@ -258,6 +258,9 @@ export class ChatService {
               },
             },
           },
+          section: {
+            include: { grade: true },
+          },
         },
         orderBy: [
           { lastMessageAt: { sort: 'desc', nulls: 'last' } },
@@ -849,6 +852,33 @@ export class ChatService {
       throw new NotFoundException('Section not found');
     }
 
+    // Return existing group if one already exists for this section
+    const existing = await this.prisma.conversation.findFirst({
+      where: { tenantId, sectionId, type: 'GROUP', status: 'ACTIVE' },
+      include: {
+        participants: {
+          include: {
+            user: {
+              select: {
+                id: true, name: true, avatar: true, role: true, userType: true,
+                parent: {
+                  select: {
+                    relationship: true,
+                    children: { select: { student: { select: { firstName: true, lastName: true } } } },
+                  },
+                },
+              },
+            },
+          },
+        },
+        messages: { orderBy: { createdAt: 'desc' }, take: 1, include: { sender: { select: { id: true, name: true } } } },
+        section: { include: { grade: true } },
+      },
+    });
+    if (existing) {
+      return this.formatConversation(existing, creatorId);
+    }
+
     // Find all students in this section
     const students = await this.prisma.student.findMany({
       where: { tenantId, sectionId },
@@ -891,7 +921,7 @@ export class ChatService {
       }
     }
 
-    const groupName = `${section.name} Parents`;
+    const groupName = `${section.grade.code}${section.name} Parents`;
 
     // Build participant create data
     const participantData = [
@@ -954,6 +984,7 @@ export class ChatService {
             },
           },
         },
+        section: { include: { grade: true } },
       },
     });
 
@@ -1459,9 +1490,23 @@ export class ChatService {
     };
 
     if (conversation.type === 'GROUP' || conversation.type === 'CHANNEL') {
+      let displayName = conversation.name as string;
+      // Recompute section group names so they always reflect the correct grade code,
+      // regardless of what was stored in the DB.
+      if (conversation.sectionId) {
+        const section =
+          conversation.section ??
+          (await this.prisma.section.findUnique({
+            where: { id: conversation.sectionId },
+            include: { grade: true },
+          }));
+        if (section?.grade) {
+          displayName = `${section.grade.code}${section.name} Parents`;
+        }
+      }
       return {
         ...base,
-        name: conversation.name,
+        name: displayName,
         description: conversation.description,
         avatar: conversation.avatar,
         isReadOnly: conversation.isReadOnly || false,

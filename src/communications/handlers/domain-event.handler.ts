@@ -411,7 +411,7 @@ export class DomainEventHandler {
         ),
       );
 
-    // 2. Create in-app notification records
+    // 2. Create in-app notification records (push is already handled by BullMQ above)
     await this.notificationsService
       .createNotificationsForUsers({
         tenantId,
@@ -420,6 +420,7 @@ export class DomainEventHandler {
         message: body,
         type: data.type,
         data,
+        skipPush: true,
       })
       .catch((err) =>
         this.logger.error(

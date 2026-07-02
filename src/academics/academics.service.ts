@@ -629,7 +629,7 @@ export class AcademicsService {
   }
 
   async listExams(tenantId: string, query: ListAcademicsQueryDto) {
-    return this.prisma.academicExam.findMany({
+    const exams = await this.prisma.academicExam.findMany({
       where: {
         tenantId,
         ...(query.gradeId ? { gradeId: query.gradeId } : {}),
@@ -648,6 +648,7 @@ export class AcademicsService {
       orderBy: { examDate: 'asc' },
       take: query.limit || 200,
     });
+    return this.enrichAcademicItems(tenantId, exams);
   }
 
   async updateExam(tenantId: string, id: string, dto: UpdateAcademicExamDto) {
@@ -735,9 +736,18 @@ export class AcademicsService {
       }
     }
 
+    // Auto-derive gradeId from sectionId when not provided
+    if (!gradeId && sectionId) {
+      const section = await this.prisma.section.findFirst({
+        where: { id: sectionId, tenantId },
+        select: { gradeId: true },
+      });
+      gradeId = section?.gradeId;
+    }
+
     if (!gradeId) {
       throw new BadRequestException(
-        'gradeId is required (directly or via selected course)',
+        'gradeId is required (directly, via sectionId, or via selected course)',
       );
     }
 
@@ -764,28 +774,102 @@ export class AcademicsService {
     user: { id?: string; role?: string; userType?: string },
     query: ListAcademicsQueryDto,
   ) {
-    const createdByFilter = this.isTeacher(user) ? { createdBy: user.id } : {};
-    return this.prisma.academicAssignment.findMany({
-      where: {
-        tenantId,
-        ...createdByFilter,
-        ...(query.gradeId ? { gradeId: query.gradeId } : {}),
-        ...(query.sectionId ? { sectionId: query.sectionId } : {}),
-        ...(query.subjectId ? { subjectId: query.subjectId } : {}),
-        ...(query.courseId ? { courseId: query.courseId } : {}),
-        ...(query.term ? { term: query.term } : {}),
-        ...(query.dateFrom || query.dateTo
-          ? {
-              dueDate: {
-                ...(query.dateFrom ? { gte: new Date(query.dateFrom) } : {}),
-                ...(query.dateTo ? { lte: new Date(query.dateTo) } : {}),
-              },
-            }
-          : {}),
-      },
+    const where: any = { tenantId };
+
+    if (this.isTeacher(user)) {
+      const teacherId = await this.resolveTeacherIdForUser(tenantId, user);
+      if (!teacherId) {
+        throw new ForbiddenException('Teacher record not found');
+      }
+      const [classLinks, subjectLinks] = await Promise.all([
+        this.prisma.classTeacher.findMany({
+          where: { teacherId },
+          select: { sectionId: true },
+        }),
+        this.prisma.subjectTeacher.findMany({
+          where: { teacherId },
+          include: { subject: { select: { gradeId: true } } },
+        }),
+      ]);
+
+      const teacherSectionIds = classLinks.map((c) => c.sectionId);
+      const teacherGradeIds = Array.from(
+        new Set(subjectLinks.map((s) => s.subject.gradeId).filter(Boolean)),
+      );
+
+      if (query.sectionId) {
+        if (!teacherSectionIds.includes(query.sectionId)) {
+          throw new ForbiddenException(
+            'You are not assigned to the requested section',
+          );
+        }
+        where.sectionId = query.sectionId;
+      } else if (query.gradeId) {
+        where.gradeId = query.gradeId;
+      } else if (teacherSectionIds.length > 0 || teacherGradeIds.length > 0) {
+        where.OR = [
+          ...(teacherSectionIds.length > 0 ? [{ sectionId: { in: teacherSectionIds } }] : []),
+          ...(teacherGradeIds.length > 0 ? [{ gradeId: { in: teacherGradeIds } }] : []),
+        ];
+      }
+
+      if (query.subjectId && !subjectLinks.some((s) => s.subjectId === query.subjectId)) {
+        throw new ForbiddenException(
+          'You are not assigned to the requested subject',
+        );
+      }
+    }
+
+    if (this.isAdminLike(user)) {
+      if (query.gradeId) where.gradeId = query.gradeId;
+      if (query.sectionId) where.sectionId = query.sectionId;
+      if (query.subjectId) where.subjectId = query.subjectId;
+      if (query.courseId) where.courseId = query.courseId;
+    }
+
+    if (query.term) where.term = query.term;
+    if (query.dateFrom || query.dateTo) {
+      where.dueDate = {
+        ...(query.dateFrom ? { gte: new Date(query.dateFrom) } : {}),
+        ...(query.dateTo ? { lte: new Date(query.dateTo) } : {}),
+      };
+    }
+
+    const assignments = await this.prisma.academicAssignment.findMany({
+      where,
       orderBy: { dueDate: 'asc' },
       take: query.limit || 200,
     });
+    return this.enrichAcademicItems(tenantId, assignments);
+  }
+
+  private async enrichAcademicItems(tenantId: string, items: any[]) {
+    const gradeIds = [...new Set(items.map((i) => i.gradeId).filter(Boolean))];
+    const subjectIds = [...new Set(items.map((i) => i.subjectId).filter(Boolean))];
+    const sectionIds = [...new Set(items.map((i) => i.sectionId).filter(Boolean))];
+
+    const [grades, subjects, sections] = await Promise.all([
+      gradeIds.length
+        ? this.prisma.grade.findMany({ where: { id: { in: gradeIds as string[] }, tenantId }, select: { id: true, name: true, code: true } })
+        : [],
+      subjectIds.length
+        ? this.prisma.subject.findMany({ where: { id: { in: subjectIds as string[] }, tenantId }, select: { id: true, name: true, code: true } })
+        : [],
+      sectionIds.length
+        ? this.prisma.section.findMany({ where: { id: { in: sectionIds as string[] }, tenantId }, select: { id: true, name: true } })
+        : [],
+    ]);
+
+    const gradeMap = new Map(grades.map((g) => [g.id, g] as [string, typeof g]));
+    const subjectMap = new Map(subjects.map((s) => [s.id, s] as [string, typeof s]));
+    const sectionMap = new Map(sections.map((s) => [s.id, s] as [string, typeof s]));
+
+    return items.map((item) => ({
+      ...item,
+      grade: item.gradeId ? gradeMap.get(item.gradeId) ?? null : null,
+      subject: item.subjectId ? subjectMap.get(item.subjectId) ?? null : null,
+      section: item.sectionId ? sectionMap.get(item.sectionId) ?? null : null,
+    }));
   }
 
   async updateAssignment(
@@ -1106,7 +1190,7 @@ export class AcademicsService {
   async listStudentGrades(
     tenantId: string,
     user: { id?: string; role?: string; userType?: string },
-    query: { subjectId?: string; sectionId?: string; term?: string },
+    query: { subjectId?: string; sectionId?: string; studentId?: string; term?: string },
   ) {
     if (this.isTeacher(user)) {
       const teacher = await this.prisma.teacher.findFirst({
@@ -1154,8 +1238,10 @@ export class AcademicsService {
         tenantId,
         ...(query.subjectId ? { subjectId: query.subjectId } : {}),
         ...(query.term ? { term: query.term } : {}),
+        ...(query.studentId ? { studentId: query.studentId } : {}),
         ...(studentIds ? { studentId: { in: studentIds } } : {}),
       },
+      include: { subject: { select: { name: true, code: true } } },
       orderBy: { createdAt: 'desc' },
       take: 500,
     });

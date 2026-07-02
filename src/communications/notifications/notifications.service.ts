@@ -29,6 +29,7 @@ export class NotificationsService {
     message: string;
     type?: string;
     data?: Prisma.InputJsonValue;
+    skipPush?: boolean;
   }) {
     const uniqueRecipientIds = Array.from(
       new Set((params.userIds || []).filter(Boolean)),
@@ -97,15 +98,17 @@ export class NotificationsService {
         : params.type || 'GENERAL';
 
     const recipientIds = recipients.map((r) => r.id);
-    this.pushService
-      .sendToUsers(recipientIds, params.title, params.message, {
-        ...pushData,
-        type: typeValue,
-        notificationIds: notifications.map((n) => n.id),
-      })
-      .catch((err: { message: string }) =>
-        this.logger.warn(`Push notifications failed: ${err.message}`),
-      );
+    if (!params.skipPush) {
+      this.pushService
+        .sendToUsers(recipientIds, params.title, params.message, {
+          ...pushData,
+          type: typeValue,
+          notificationIds: notifications.map((n) => n.id),
+        })
+        .catch((err: { message: string }) =>
+          this.logger.warn(`Push notifications failed: ${err.message}`),
+        );
+    }
 
     return {
       success: true,

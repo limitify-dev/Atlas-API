@@ -172,6 +172,8 @@ export class InvoicesService {
       category,
       dueBefore,
       dueAfter,
+      sectionId,
+      gradeId,
     } = filters;
 
     const where: any = { tenantId };
@@ -183,6 +185,11 @@ export class InvoicesService {
       where.dueDate = {};
       if (dueBefore) where.dueDate.lte = new Date(dueBefore);
       if (dueAfter) where.dueDate.gte = new Date(dueAfter);
+    }
+    if (sectionId || gradeId) {
+      where.student = {};
+      if (sectionId) where.student.sectionId = sectionId;
+      if (gradeId) where.student.gradeId = gradeId;
     }
 
     const [total, data] = await Promise.all([

@@ -422,6 +422,8 @@ export const ModelName = {
   CardLog: 'CardLog',
   CardPermission: 'CardPermission',
   Event: 'Event',
+  Moment: 'Moment',
+  MomentLike: 'MomentLike',
   AcademicExam: 'AcademicExam',
   AcademicAssignment: 'AcademicAssignment',
   AcademicCourse: 'AcademicCourse',
@@ -462,7 +464,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "timetablePeriod" | "timetableEntry" | "attendance" | "teacherAttendance" | "book" | "bookCopy" | "bookTransaction" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "conversation" | "conversationParticipant" | "chatMessage" | "pushToken" | "message" | "announcement" | "notification" | "notificationRecipient" | "card" | "cardLog" | "cardPermission" | "event" | "academicExam" | "academicAssignment" | "academicCourse" | "academicAssignmentResult" | "academicReportCard" | "consultationBooking" | "device" | "deviceLog" | "systemLog" | "academicTimeline" | "promotion" | "staff" | "studentGrade" | "invoice" | "paymentSubmission" | "paymentPromise" | "invite" | "otpCode" | "studioModule" | "tenantModule" | "studioSubscription" | "adminInvite" | "tenantBilling" | "adminApproval" | "feedback"
+    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "timetablePeriod" | "timetableEntry" | "attendance" | "teacherAttendance" | "book" | "bookCopy" | "bookTransaction" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "conversation" | "conversationParticipant" | "chatMessage" | "pushToken" | "message" | "announcement" | "notification" | "notificationRecipient" | "card" | "cardLog" | "cardPermission" | "event" | "moment" | "momentLike" | "academicExam" | "academicAssignment" | "academicCourse" | "academicAssignmentResult" | "academicReportCard" | "consultationBooking" | "device" | "deviceLog" | "systemLog" | "academicTimeline" | "promotion" | "staff" | "studentGrade" | "invoice" | "paymentSubmission" | "paymentPromise" | "invite" | "otpCode" | "studioModule" | "tenantModule" | "studioSubscription" | "adminInvite" | "tenantBilling" | "adminApproval" | "feedback"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3278,6 +3280,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Moment: {
+      payload: Prisma.$MomentPayload<ExtArgs>
+      fields: Prisma.MomentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MomentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MomentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>
+        }
+        findFirst: {
+          args: Prisma.MomentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MomentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>
+        }
+        findMany: {
+          args: Prisma.MomentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>[]
+        }
+        create: {
+          args: Prisma.MomentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>
+        }
+        createMany: {
+          args: Prisma.MomentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MomentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>[]
+        }
+        delete: {
+          args: Prisma.MomentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>
+        }
+        update: {
+          args: Prisma.MomentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>
+        }
+        deleteMany: {
+          args: Prisma.MomentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MomentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MomentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>[]
+        }
+        upsert: {
+          args: Prisma.MomentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentPayload>
+        }
+        aggregate: {
+          args: Prisma.MomentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMoment>
+        }
+        groupBy: {
+          args: Prisma.MomentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MomentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MomentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MomentCountAggregateOutputType> | number
+        }
+      }
+    }
+    MomentLike: {
+      payload: Prisma.$MomentLikePayload<ExtArgs>
+      fields: Prisma.MomentLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MomentLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MomentLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>
+        }
+        findFirst: {
+          args: Prisma.MomentLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MomentLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>
+        }
+        findMany: {
+          args: Prisma.MomentLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>[]
+        }
+        create: {
+          args: Prisma.MomentLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>
+        }
+        createMany: {
+          args: Prisma.MomentLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MomentLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>[]
+        }
+        delete: {
+          args: Prisma.MomentLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>
+        }
+        update: {
+          args: Prisma.MomentLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.MomentLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MomentLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MomentLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.MomentLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MomentLikePayload>
+        }
+        aggregate: {
+          args: Prisma.MomentLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMomentLike>
+        }
+        groupBy: {
+          args: Prisma.MomentLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MomentLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MomentLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MomentLikeCountAggregateOutputType> | number
+        }
+      }
+    }
     AcademicExam: {
       payload: Prisma.$AcademicExamPayload<ExtArgs>
       fields: Prisma.AcademicExamFieldRefs
@@ -5789,13 +5939,45 @@ export const EventScalarFieldEnum = {
   title: 'title',
   description: 'description',
   eventDate: 'eventDate',
+  time: 'time',
+  endDate: 'endDate',
   location: 'location',
   organizer: 'organizer',
+  category: 'category',
+  gradeTarget: 'gradeTarget',
+  audience: 'audience',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const MomentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  teacherId: 'teacherId',
+  title: 'title',
+  caption: 'caption',
+  sectionId: 'sectionId',
+  classLabel: 'classLabel',
+  photoUrls: 'photoUrls',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MomentScalarFieldEnum = (typeof MomentScalarFieldEnum)[keyof typeof MomentScalarFieldEnum]
+
+
+export const MomentLikeScalarFieldEnum = {
+  id: 'id',
+  momentId: 'momentId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type MomentLikeScalarFieldEnum = (typeof MomentLikeScalarFieldEnum)[keyof typeof MomentLikeScalarFieldEnum]
 
 
 export const AcademicExamScalarFieldEnum = {
@@ -5832,7 +6014,8 @@ export const AcademicAssignmentScalarFieldEnum = {
   status: 'status',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  type: 'type'
 } as const
 
 export type AcademicAssignmentScalarFieldEnum = (typeof AcademicAssignmentScalarFieldEnum)[keyof typeof AcademicAssignmentScalarFieldEnum]
@@ -7158,6 +7341,8 @@ export type GlobalOmitConfig = {
   cardLog?: Prisma.CardLogOmit
   cardPermission?: Prisma.CardPermissionOmit
   event?: Prisma.EventOmit
+  moment?: Prisma.MomentOmit
+  momentLike?: Prisma.MomentLikeOmit
   academicExam?: Prisma.AcademicExamOmit
   academicAssignment?: Prisma.AcademicAssignmentOmit
   academicCourse?: Prisma.AcademicCourseOmit

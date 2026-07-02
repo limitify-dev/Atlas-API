@@ -50,6 +50,7 @@ export type AcademicAssignmentMinAggregateOutputType = {
   createdBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  type: string | null
 }
 
 export type AcademicAssignmentMaxAggregateOutputType = {
@@ -68,6 +69,7 @@ export type AcademicAssignmentMaxAggregateOutputType = {
   createdBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  type: string | null
 }
 
 export type AcademicAssignmentCountAggregateOutputType = {
@@ -86,6 +88,7 @@ export type AcademicAssignmentCountAggregateOutputType = {
   createdBy: number
   createdAt: number
   updatedAt: number
+  type: number
   _all: number
 }
 
@@ -114,6 +117,7 @@ export type AcademicAssignmentMinAggregateInputType = {
   createdBy?: true
   createdAt?: true
   updatedAt?: true
+  type?: true
 }
 
 export type AcademicAssignmentMaxAggregateInputType = {
@@ -132,6 +136,7 @@ export type AcademicAssignmentMaxAggregateInputType = {
   createdBy?: true
   createdAt?: true
   updatedAt?: true
+  type?: true
 }
 
 export type AcademicAssignmentCountAggregateInputType = {
@@ -150,6 +155,7 @@ export type AcademicAssignmentCountAggregateInputType = {
   createdBy?: true
   createdAt?: true
   updatedAt?: true
+  type?: true
   _all?: true
 }
 
@@ -255,6 +261,7 @@ export type AcademicAssignmentGroupByOutputType = {
   createdBy: string
   createdAt: Date
   updatedAt: Date
+  type: string | null
   _count: AcademicAssignmentCountAggregateOutputType | null
   _avg: AcademicAssignmentAvgAggregateOutputType | null
   _sum: AcademicAssignmentSumAggregateOutputType | null
@@ -296,6 +303,7 @@ export type AcademicAssignmentWhereInput = {
   createdBy?: Prisma.StringFilter<"AcademicAssignment"> | string
   createdAt?: Prisma.DateTimeFilter<"AcademicAssignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AcademicAssignment"> | Date | string
+  type?: Prisma.StringNullableFilter<"AcademicAssignment"> | string | null
 }
 
 export type AcademicAssignmentOrderByWithRelationInput = {
@@ -314,6 +322,7 @@ export type AcademicAssignmentOrderByWithRelationInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  type?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type AcademicAssignmentWhereUniqueInput = Prisma.AtLeast<{
@@ -335,6 +344,7 @@ export type AcademicAssignmentWhereUniqueInput = Prisma.AtLeast<{
   createdBy?: Prisma.StringFilter<"AcademicAssignment"> | string
   createdAt?: Prisma.DateTimeFilter<"AcademicAssignment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AcademicAssignment"> | Date | string
+  type?: Prisma.StringNullableFilter<"AcademicAssignment"> | string | null
 }, "id">
 
 export type AcademicAssignmentOrderByWithAggregationInput = {
@@ -353,6 +363,7 @@ export type AcademicAssignmentOrderByWithAggregationInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  type?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AcademicAssignmentCountOrderByAggregateInput
   _avg?: Prisma.AcademicAssignmentAvgOrderByAggregateInput
   _max?: Prisma.AcademicAssignmentMaxOrderByAggregateInput
@@ -379,6 +390,7 @@ export type AcademicAssignmentScalarWhereWithAggregatesInput = {
   createdBy?: Prisma.StringWithAggregatesFilter<"AcademicAssignment"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AcademicAssignment"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AcademicAssignment"> | Date | string
+  type?: Prisma.StringNullableWithAggregatesFilter<"AcademicAssignment"> | string | null
 }
 
 export type AcademicAssignmentCreateInput = {
@@ -397,6 +409,7 @@ export type AcademicAssignmentCreateInput = {
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  type?: string | null
 }
 
 export type AcademicAssignmentUncheckedCreateInput = {
@@ -415,6 +428,7 @@ export type AcademicAssignmentUncheckedCreateInput = {
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  type?: string | null
 }
 
 export type AcademicAssignmentUpdateInput = {
@@ -433,6 +447,7 @@ export type AcademicAssignmentUpdateInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AcademicAssignmentUncheckedUpdateInput = {
@@ -451,6 +466,7 @@ export type AcademicAssignmentUncheckedUpdateInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AcademicAssignmentCreateManyInput = {
@@ -469,6 +485,7 @@ export type AcademicAssignmentCreateManyInput = {
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  type?: string | null
 }
 
 export type AcademicAssignmentUpdateManyMutationInput = {
@@ -487,6 +504,7 @@ export type AcademicAssignmentUpdateManyMutationInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AcademicAssignmentUncheckedUpdateManyInput = {
@@ -505,6 +523,7 @@ export type AcademicAssignmentUncheckedUpdateManyInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AcademicAssignmentCountOrderByAggregateInput = {
@@ -523,6 +542,7 @@ export type AcademicAssignmentCountOrderByAggregateInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type AcademicAssignmentAvgOrderByAggregateInput = {
@@ -545,6 +565,7 @@ export type AcademicAssignmentMaxOrderByAggregateInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type AcademicAssignmentMinOrderByAggregateInput = {
@@ -563,6 +584,7 @@ export type AcademicAssignmentMinOrderByAggregateInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  type?: Prisma.SortOrder
 }
 
 export type AcademicAssignmentSumOrderByAggregateInput = {
@@ -587,6 +609,7 @@ export type AcademicAssignmentSelect<ExtArgs extends runtime.Types.Extensions.In
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  type?: boolean
 }, ExtArgs["result"]["academicAssignment"]>
 
 export type AcademicAssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -605,6 +628,7 @@ export type AcademicAssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  type?: boolean
 }, ExtArgs["result"]["academicAssignment"]>
 
 export type AcademicAssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -623,6 +647,7 @@ export type AcademicAssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  type?: boolean
 }, ExtArgs["result"]["academicAssignment"]>
 
 export type AcademicAssignmentSelectScalar = {
@@ -641,9 +666,10 @@ export type AcademicAssignmentSelectScalar = {
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  type?: boolean
 }
 
-export type AcademicAssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "courseId" | "title" | "description" | "term" | "dueDate" | "gradeId" | "sectionId" | "subjectId" | "maxScore" | "status" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["academicAssignment"]>
+export type AcademicAssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "courseId" | "title" | "description" | "term" | "dueDate" | "gradeId" | "sectionId" | "subjectId" | "maxScore" | "status" | "createdBy" | "createdAt" | "updatedAt" | "type", ExtArgs["result"]["academicAssignment"]>
 
 export type $AcademicAssignmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AcademicAssignment"
@@ -664,6 +690,7 @@ export type $AcademicAssignmentPayload<ExtArgs extends runtime.Types.Extensions.
     createdBy: string
     createdAt: Date
     updatedAt: Date
+    type: string | null
   }, ExtArgs["result"]["academicAssignment"]>
   composites: {}
 }
@@ -1102,6 +1129,7 @@ export interface AcademicAssignmentFieldRefs {
   readonly createdBy: Prisma.FieldRef<"AcademicAssignment", 'String'>
   readonly createdAt: Prisma.FieldRef<"AcademicAssignment", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AcademicAssignment", 'DateTime'>
+  readonly type: Prisma.FieldRef<"AcademicAssignment", 'String'>
 }
     
 

@@ -305,6 +305,18 @@ export const AssignmentResultStatus = {
 export type AssignmentResultStatus = (typeof AssignmentResultStatus)[keyof typeof AssignmentResultStatus]
 
 
+export const AssignmentType = {
+  HOMEWORK: 'HOMEWORK',
+  CLASSWORK: 'CLASSWORK',
+  QUIZ: 'QUIZ',
+  TEST: 'TEST',
+  PROJECT: 'PROJECT',
+  EXAM: 'EXAM'
+} as const
+
+export type AssignmentType = (typeof AssignmentType)[keyof typeof AssignmentType]
+
+
 export const ConsultationStatus = {
   SCHEDULED: 'SCHEDULED',
   COMPLETED: 'COMPLETED',

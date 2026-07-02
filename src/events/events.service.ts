@@ -13,8 +13,13 @@ export class EventsService {
         title: dto.title,
         description: dto.description,
         eventDate: new Date(dto.eventDate),
+        endDate: dto.endDate ? new Date(dto.endDate) : null,
+        time: dto.time,
         location: dto.location,
         organizer: dto.organizer,
+        category: dto.category ?? 'Academic',
+        gradeTarget: dto.gradeTarget,
+        audience: dto.audience ?? 'ALL',
       },
     });
   }
@@ -23,6 +28,7 @@ export class EventsService {
     return this.prisma.event.findMany({
       where: {
         tenantId,
+        ...(filters.category ? { category: filters.category } : {}),
         ...(filters.from || filters.to
           ? {
               eventDate: {
@@ -36,7 +42,6 @@ export class EventsService {
     });
   }
 
-  /** Upcoming events from now, limited. */
   findUpcoming(tenantId: string, limit = 10) {
     return this.prisma.event.findMany({
       where: { tenantId, eventDate: { gte: new Date() } },
@@ -59,14 +64,15 @@ export class EventsService {
       where: { id },
       data: {
         ...(dto.title !== undefined ? { title: dto.title } : {}),
-        ...(dto.description !== undefined
-          ? { description: dto.description }
-          : {}),
-        ...(dto.eventDate !== undefined
-          ? { eventDate: new Date(dto.eventDate) }
-          : {}),
+        ...(dto.description !== undefined ? { description: dto.description } : {}),
+        ...(dto.eventDate !== undefined ? { eventDate: new Date(dto.eventDate) } : {}),
+        ...(dto.endDate !== undefined ? { endDate: new Date(dto.endDate) } : {}),
+        ...(dto.time !== undefined ? { time: dto.time } : {}),
         ...(dto.location !== undefined ? { location: dto.location } : {}),
         ...(dto.organizer !== undefined ? { organizer: dto.organizer } : {}),
+        ...(dto.category !== undefined ? { category: dto.category } : {}),
+        ...(dto.gradeTarget !== undefined ? { gradeTarget: dto.gradeTarget } : {}),
+        ...(dto.audience !== undefined ? { audience: dto.audience } : {}),
       },
     });
   }

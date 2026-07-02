@@ -54,6 +54,8 @@ import { DeviceModule } from './device/device.module';
 import { LibraryModule } from './library/library.module';
 import { CardsModule } from './cards/cards.module';
 import { EventsModule } from './events/events.module';
+import { MomentsModule } from './moments/moments.module';
+import { UploadModule } from './upload/upload.module';
 
 // ─── Platform / Admin ─────────────────────────────────────────────────────────
 import { SystemLogsModule } from './system-logs/system-logs.module';
@@ -128,6 +130,8 @@ import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics
     LibraryModule,
     CardsModule,
     EventsModule,
+    MomentsModule,
+    UploadModule,
 
     // ── Platform / Admin ───────────────────────────────────────────────────────
     SystemLogsModule,

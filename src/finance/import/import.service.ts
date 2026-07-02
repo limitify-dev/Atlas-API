@@ -2,6 +2,8 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import * as XLSX from 'xlsx';
 import { PrismaService } from '../../prisma/prisma.service';
 import { InvoicesService } from '../invoices/invoices.service';
+import { DomainEventsService } from '../../domain-events/domain-events.service';
+import { PaymentApprovedEvent } from '../../domain-events/events';
 import { InvoiceStatus } from '../../../prisma/generated/client';
 import { Prisma } from '../../../prisma/generated/client';
 
@@ -36,6 +38,7 @@ export class ImportService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly invoicesService: InvoicesService,
+    private readonly events: DomainEventsService,
   ) {}
 
   async parseAndPreview(
@@ -165,12 +168,15 @@ export class ImportService {
       throw new BadRequestException('No valid rows to confirm.');
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    const confirmedEvents: { tenantId: string; invoiceId: string; parentUserIds: string[]; studentName: string }[] = [];
+
+    const result = await this.prisma.$transaction(async (tx) => {
       const results: Array<{
         studentId: string;
         success: boolean;
         error?: string;
       }> = [];
+
       for (const row of preview.valid) {
         const invoice = await tx.invoice.findFirst({
           where: {
@@ -186,17 +192,36 @@ export class ImportService {
               ],
             },
           },
+          include: {
+            student: {
+              include: {
+                parents: { include: { parent: { include: { user: true } } } },
+              },
+            },
+          },
         });
 
         if (invoice) {
+          const invoiceAmount = Number(invoice.amount);
           await tx.invoice.update({
             where: { id: invoice.id },
             data: {
               status: InvoiceStatus.PAID,
               paidAt: new Date(),
               lockedAt: null,
+              amountPaid: new Prisma.Decimal(invoiceAmount),
             },
           });
+
+          const parentUserIds = (invoice.student?.parents ?? [])
+            .map((sp) => sp.parent?.user?.id)
+            .filter(Boolean) as string[];
+
+          const studentName = invoice.student
+            ? `${invoice.student.firstName} ${invoice.student.lastName}`
+            : row._studentName;
+
+          confirmedEvents.push({ tenantId, invoiceId: invoice.id, parentUserIds, studentName });
           results.push({ studentId: row.studentId, success: true });
         } else {
           results.push({
@@ -206,11 +231,23 @@ export class ImportService {
           });
         }
       }
+
       return {
         confirmed: results.filter((r) => r.success).length,
         skipped: results.filter((r) => !r.success).length,
       };
     });
+
+    // Emit notifications after transaction commits
+    for (const ev of confirmedEvents) {
+      if (ev.parentUserIds.length > 0) {
+        this.events.emit(
+          new PaymentApprovedEvent(ev.tenantId, ev.invoiceId, null, ev.parentUserIds),
+        );
+      }
+    }
+
+    return result;
   }
 
   async generateTemplate(): Promise<Buffer> {

@@ -89,6 +89,8 @@ export const ModelName = {
   CardLog: 'CardLog',
   CardPermission: 'CardPermission',
   Event: 'Event',
+  Moment: 'Moment',
+  MomentLike: 'MomentLike',
   AcademicExam: 'AcademicExam',
   AcademicAssignment: 'AcademicAssignment',
   AcademicCourse: 'AcademicCourse',
@@ -754,13 +756,45 @@ export const EventScalarFieldEnum = {
   title: 'title',
   description: 'description',
   eventDate: 'eventDate',
+  time: 'time',
+  endDate: 'endDate',
   location: 'location',
   organizer: 'organizer',
+  category: 'category',
+  gradeTarget: 'gradeTarget',
+  audience: 'audience',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const MomentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  teacherId: 'teacherId',
+  title: 'title',
+  caption: 'caption',
+  sectionId: 'sectionId',
+  classLabel: 'classLabel',
+  photoUrls: 'photoUrls',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MomentScalarFieldEnum = (typeof MomentScalarFieldEnum)[keyof typeof MomentScalarFieldEnum]
+
+
+export const MomentLikeScalarFieldEnum = {
+  id: 'id',
+  momentId: 'momentId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type MomentLikeScalarFieldEnum = (typeof MomentLikeScalarFieldEnum)[keyof typeof MomentLikeScalarFieldEnum]
 
 
 export const AcademicExamScalarFieldEnum = {
@@ -797,7 +831,8 @@ export const AcademicAssignmentScalarFieldEnum = {
   status: 'status',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  type: 'type'
 } as const
 
 export type AcademicAssignmentScalarFieldEnum = (typeof AcademicAssignmentScalarFieldEnum)[keyof typeof AcademicAssignmentScalarFieldEnum]

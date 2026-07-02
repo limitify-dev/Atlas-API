@@ -24,6 +24,21 @@ export class PushService {
       throw new Error('Invalid Expo push token');
     }
 
+    // If registering with a known deviceId, deactivate stale tokens for that
+    // device first — Expo can re-issue a new token after reinstall/update,
+    // leaving the old one active and causing duplicate pushes.
+    if (deviceId) {
+      await this.prisma.pushToken.updateMany({
+        where: {
+          userId,
+          deviceId,
+          isActive: true,
+          NOT: { token },
+        },
+        data: { isActive: false },
+      });
+    }
+
     // Upsert: if token already exists, update it; otherwise create
     const existing = await this.prisma.pushToken.findUnique({
       where: { token },

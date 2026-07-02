@@ -47,6 +47,7 @@ model Tenant {
   deviceLogs               DeviceLog[]
   devices                  Device[]
   events                   Event[]
+  moments                  Moment[]
   grades                   Grade[]
   academicTimelines        AcademicTimeline[]
   invoices                 Invoice[]
@@ -119,6 +120,8 @@ model User {
   adminApproval            AdminApproval?            @relation("ApprovalUser")
   reviewedApprovals        AdminApproval[]           @relation("ApprovalReviewer")
   feedback                 Feedback[]
+  moments                  Moment[]                  @relation("TeacherMoments")
+  momentLikes              MomentLike[]              @relation("UserMomentLikes")
 
   @@index([tenantId])
   @@index([email])
@@ -924,15 +927,55 @@ model Event {
   title       String
   description String?
   eventDate   DateTime
+  time        String?
+  endDate     DateTime?
   location    String?
   organizer   String?
+  category    String   @default("Academic")
+  gradeTarget String?
+  audience    String   @default("ALL")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([eventDate])
+  @@index([category])
   @@map("events")
+}
+
+model Moment {
+  id         String       @id @default(uuid())
+  tenantId   String
+  teacherId  String
+  title      String
+  caption    String?
+  sectionId  String?
+  classLabel String?
+  photoUrls  String[]
+  status     String       @default("PUBLISHED")
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  tenant     Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  teacher    User         @relation("TeacherMoments", fields: [teacherId], references: [id])
+  likes      MomentLike[]
+
+  @@index([tenantId])
+  @@index([teacherId])
+  @@index([sectionId])
+  @@map("moments")
+}
+
+model MomentLike {
+  id        String   @id @default(uuid())
+  momentId  String
+  userId    String
+  createdAt DateTime @default(now())
+  moment    Moment   @relation(fields: [momentId], references: [id], onDelete: Cascade)
+  user      User     @relation("UserMomentLikes", fields: [userId], references: [id])
+
+  @@unique([momentId, userId])
+  @@map("moment_likes")
 }
 
 model AcademicExam {

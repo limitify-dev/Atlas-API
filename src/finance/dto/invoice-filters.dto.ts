@@ -21,6 +21,16 @@ export class InvoiceFiltersDto {
   @IsOptional()
   studentId?: string | string[];
 
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  sectionId?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  gradeId?: string;
+
   @ApiPropertyOptional({ example: '2025-T1' })
   @IsString()
   @IsOptional()

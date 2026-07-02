@@ -282,11 +282,13 @@ export class AcademicsController {
     @CurrentUser() user: AuthUser,
     @Query('subjectId') subjectId?: string,
     @Query('sectionId') sectionId?: string,
+    @Query('studentId') studentId?: string,
     @Query('term') term?: string,
   ) {
     return this.academicsService.listStudentGrades(user.tenantId, user, {
       subjectId,
       sectionId,
+      studentId,
       term,
     });
   }

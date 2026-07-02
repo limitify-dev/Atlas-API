@@ -94,10 +94,32 @@ export class AnnouncementsService {
     }
 
     if (announcement.status === 'ACTIVE' && targetUsers.length > 0) {
-      await this.sendAnnouncementPush(
-        announcement,
-        targetUsers.map((u) => u.id),
-      );
+      const userIds = targetUsers.map((u) => u.id);
+
+      // In-app notification records
+      await this.prisma.notification.createMany({
+        data: userIds.map((uid) => ({
+          tenantId,
+          userId: uid,
+          title: announcement.title,
+          message: String(announcement.content || '').slice(0, 300),
+          type: 'ANNOUNCEMENT',
+          data: {
+            type: 'announcement',
+            announcementId: announcement.id,
+            title: announcement.title,
+            content: announcement.content || '',
+            imageUrl: announcement.imageUrl || '',
+            ctaLabel: announcement.ctaLabel || '',
+            ctaType: announcement.ctaType || '',
+            ctaUrl: announcement.ctaUrl || '',
+            publishedAt: announcement.publishedAt?.toISOString() ?? new Date().toISOString(),
+          },
+        })),
+        skipDuplicates: true,
+      });
+
+      await this.sendAnnouncementPush(announcement, userIds);
     }
 
     return announcement;
@@ -320,10 +342,31 @@ export class AnnouncementsService {
     if (existing.status !== 'ACTIVE' && updated.status === 'ACTIVE') {
       const targetUsers = await this.getTargetUsers(tenantId, updated.audience);
       if (targetUsers.length > 0) {
-        await this.sendAnnouncementPush(
-          updated,
-          targetUsers.map((u) => u.id),
-        );
+        const userIds = targetUsers.map((u) => u.id);
+
+        await this.prisma.notification.createMany({
+          data: userIds.map((uid) => ({
+            tenantId,
+            userId: uid,
+            title: updated.title,
+            message: String(updated.content || '').slice(0, 300),
+            type: 'ANNOUNCEMENT',
+            data: {
+              type: 'announcement',
+              announcementId: updated.id,
+              title: updated.title,
+              content: updated.content || '',
+              imageUrl: updated.imageUrl || '',
+              ctaLabel: updated.ctaLabel || '',
+              ctaType: updated.ctaType || '',
+              ctaUrl: updated.ctaUrl || '',
+              publishedAt: updated.publishedAt?.toISOString() ?? new Date().toISOString(),
+            },
+          })),
+          skipDuplicates: true,
+        });
+
+        await this.sendAnnouncementPush(updated, userIds);
       }
     }
 

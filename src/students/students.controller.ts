@@ -130,7 +130,7 @@ export class StudentsController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Get all students with filtering and pagination' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -311,5 +311,28 @@ export class StudentsController {
     @CurrentUser() user: AuthUser,
   ): Promise<{ message: string }> {
     return this.studentsService.remove(id, user.tenantId);
+  }
+
+  @Post(':id/parents')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Link an existing parent (by email) to a student' })
+  async linkParent(
+    @Param('id') id: string,
+    @Body() dto: { name: string; email: string; phone: string; relationship?: string; isPrimary?: boolean },
+    @CurrentUser() user: AuthUser,
+  ) {
+    return this.studentsService.linkParent(id, user.tenantId, dto);
+  }
+
+  @Delete(':id/parents/:parentUserId')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Unlink a parent from a student' })
+  async unlinkParent(
+    @Param('id') id: string,
+    @Param('parentUserId') parentUserId: string,
+    @CurrentUser() user: AuthUser,
+  ): Promise<{ message: string }> {
+    return this.studentsService.unlinkParent(id, user.tenantId, parentUserId);
   }
 }

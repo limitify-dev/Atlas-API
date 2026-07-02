@@ -93,12 +93,23 @@ export class PaymentsService {
         }),
       ]);
 
-      // Resolve finance staff to notify
-      const financeStaff = await this.prisma.staff.findMany({
-        where: { tenantId, staffRole: 'finance' },
-        select: { userId: true },
-      });
-      const financeStaffUserIds = financeStaff.map((s) => s.userId);
+      // Resolve finance staff + admins to notify
+      const [financeStaff, adminUsers] = await Promise.all([
+        this.prisma.staff.findMany({
+          where: { tenantId, staffRole: 'finance' },
+          select: { userId: true },
+        }),
+        this.prisma.user.findMany({
+          where: { tenantId, role: 'ADMIN' },
+          select: { id: true },
+        }),
+      ]);
+      const financeStaffUserIds = [
+        ...new Set([
+          ...financeStaff.map((s) => s.userId),
+          ...adminUsers.map((u) => u.id),
+        ]),
+      ];
       const studentName = `${invoice.student.firstName} ${invoice.student.lastName}`;
 
       this.events.emit(
@@ -157,20 +168,21 @@ export class PaymentsService {
       },
     });
 
-    const financeStaff = await this.prisma.staff.findMany({
-      where: { tenantId, staffRole: 'finance' },
-      select: { userId: true },
-    });
+    const [financeStaff, adminUsers] = await Promise.all([
+      this.prisma.staff.findMany({
+        where: { tenantId, staffRole: 'finance' },
+        select: { userId: true },
+      }),
+      this.prisma.user.findMany({
+        where: { tenantId, role: 'ADMIN' },
+        select: { id: true },
+      }),
+    ]);
     const studentName = `${invoice.student.firstName} ${invoice.student.lastName}`;
+    const notifyIds = [...new Set([...financeStaff.map((s) => s.userId), ...adminUsers.map((u) => u.id)])];
 
     this.events.emit(
-      new PaymentPromisedEvent(
-        tenantId,
-        invoiceId,
-        promisedDate,
-        studentName,
-        financeStaff.map((s) => s.userId),
-      ),
+      new PaymentPromisedEvent(tenantId, invoiceId, promisedDate, studentName, notifyIds),
     );
 
     return promise;
@@ -209,6 +221,12 @@ export class PaymentsService {
         );
       }
 
+      if (submission.invoice.status === InvoiceStatus.PAID) {
+        throw new ConflictException(
+          'This invoice is already paid. The submission cannot be reviewed again.',
+        );
+      }
+
       const newSubmissionStatus = dto.approved
         ? PaymentSubmissionStatus.APPROVED
         : PaymentSubmissionStatus.REJECTED;
@@ -216,6 +234,11 @@ export class PaymentsService {
       const newInvoiceStatus = dto.approved
         ? InvoiceStatus.PAID
         : InvoiceStatus.UNPAID;
+
+      const invoiceAmount = Number(submission.invoice.amount);
+      const amountClaimed = submission.amountClaimed
+        ? Number(submission.amountClaimed)
+        : invoiceAmount;
 
       const [updatedSubmission] = await Promise.all([
         tx.paymentSubmission.update({
@@ -232,18 +255,45 @@ export class PaymentsService {
           data: {
             status: newInvoiceStatus,
             lockedAt: null,
+            ...(dto.approved
+              ? {
+                  amountPaid: new Prisma.Decimal(amountClaimed),
+                  paidAt: new Date(),
+                }
+              : {}),
           },
         }),
       ]);
 
-      // If approved, fulfill any active promises
       if (dto.approved) {
+        // Fulfill any open promises (pending or granted grace periods)
         await tx.paymentPromise.updateMany({
           where: {
             invoiceId: submission.invoiceId,
-            status: PaymentPromiseStatus.ACTIVE,
+            status: {
+              in: [
+                PaymentPromiseStatus.ACTIVE,
+                PaymentPromiseStatus.APPROVED,
+              ],
+            },
           },
           data: { status: PaymentPromiseStatus.FULFILLED },
+        });
+
+        // Close out any other pending submissions for the same invoice so
+        // they can't be reviewed again and re-emit approval notifications
+        await tx.paymentSubmission.updateMany({
+          where: {
+            invoiceId: submission.invoiceId,
+            id: { not: submissionId },
+            status: PaymentSubmissionStatus.PENDING_REVIEW,
+          },
+          data: {
+            status: PaymentSubmissionStatus.REJECTED,
+            reviewedBy: staffUserId,
+            reviewedAt: new Date(),
+            reviewNote: 'Superseded — invoice settled by another submission.',
+          },
         });
       }
 

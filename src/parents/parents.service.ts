@@ -349,6 +349,17 @@ export class ParentsService {
             grade: { select: { id: true, name: true } },
           },
         },
+        promises: {
+          where: { status: { in: ['ACTIVE', 'APPROVED'] } },
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+          select: {
+            id: true,
+            status: true,
+            promisedDate: true,
+            note: true,
+          },
+        },
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -401,13 +412,14 @@ export class ParentsService {
           returnDate: null,
           remarks: null,
         },
+        activePromise: inv.promises?.[0] ?? null,
       };
     });
 
     const allInvoices = [...libraryInvoices, ...feeInvoiceItems] as any[];
     const totalOutstanding = allInvoices.reduce(
       (sum: number, inv: any) =>
-        sum + (inv.amountOutstanding || inv.amount || 0),
+        sum + (inv.amountOutstanding ?? inv.amount ?? 0),
       0,
     );
 

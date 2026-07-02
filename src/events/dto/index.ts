@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDateString,
+  IsIn,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -21,6 +22,16 @@ export class CreateEventDto {
   @IsDateString()
   eventDate: string;
 
+  @ApiProperty({ required: false, description: 'End date/time for multi-day events' })
+  @IsOptional()
+  @IsDateString()
+  endDate?: string;
+
+  @ApiProperty({ required: false, example: '8:00 AM – 3:00 PM' })
+  @IsOptional()
+  @IsString()
+  time?: string;
+
   @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
@@ -30,6 +41,29 @@ export class CreateEventDto {
   @IsOptional()
   @IsString()
   organizer?: string;
+
+  @ApiProperty({
+    required: false,
+    enum: ['Academic', 'Sports', 'Cultural', 'Admin'],
+    default: 'Academic',
+  })
+  @IsOptional()
+  @IsIn(['Academic', 'Sports', 'Cultural', 'Admin'])
+  category?: string;
+
+  @ApiProperty({ required: false, example: 'All Grades' })
+  @IsOptional()
+  @IsString()
+  gradeTarget?: string;
+
+  @ApiProperty({
+    required: false,
+    enum: ['ALL', 'PARENTS', 'STAFF', 'TEACHERS'],
+    default: 'ALL',
+  })
+  @IsOptional()
+  @IsIn(['ALL', 'PARENTS', 'STAFF', 'TEACHERS'])
+  audience?: string;
 }
 
 export class UpdateEventDto {
@@ -47,12 +81,32 @@ export class UpdateEventDto {
   eventDate?: string;
 
   @IsOptional()
+  @IsDateString()
+  endDate?: string;
+
+  @IsOptional()
+  @IsString()
+  time?: string;
+
+  @IsOptional()
   @IsString()
   location?: string;
 
   @IsOptional()
   @IsString()
   organizer?: string;
+
+  @IsOptional()
+  @IsIn(['Academic', 'Sports', 'Cultural', 'Admin'])
+  category?: string;
+
+  @IsOptional()
+  @IsString()
+  gradeTarget?: string;
+
+  @IsOptional()
+  @IsIn(['ALL', 'PARENTS', 'STAFF', 'TEACHERS'])
+  audience?: string;
 }
 
 export class EventFiltersDto {
@@ -63,4 +117,8 @@ export class EventFiltersDto {
   @IsOptional()
   @IsDateString()
   to?: string;
+
+  @IsOptional()
+  @IsIn(['Academic', 'Sports', 'Cultural', 'Admin'])
+  category?: string;
 }

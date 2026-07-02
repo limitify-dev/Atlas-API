@@ -1233,4 +1233,47 @@ export class StudentsService {
 
     return user!.parent!;
   }
+
+  async linkParent(
+    studentId: string,
+    tenantId: string,
+    dto: { name: string; email: string; phone: string; relationship?: string; isPrimary?: boolean },
+  ) {
+    return this.prisma.$transaction(async (tx) => {
+      const student = await tx.student.findFirst({ where: { id: studentId, tenantId } });
+      if (!student) throw new NotFoundException('Student not found.');
+
+      const parent = await this.getOrCreateParent(tx, tenantId, dto);
+
+      await tx.studentParent.upsert({
+        where: { studentId_parentId: { studentId, parentId: parent.id } },
+        create: { studentId, parentId: parent.id, isPrimary: dto.isPrimary ?? false },
+        update: { isPrimary: dto.isPrimary ?? false },
+      });
+
+      return this.findOne(studentId, tenantId);
+    });
+  }
+
+  async unlinkParent(studentId: string, tenantId: string, parentUserId: string) {
+    const student = await this.prisma.student.findFirst({ where: { id: studentId, tenantId } });
+    if (!student) throw new NotFoundException('Student not found.');
+
+    const parent = await this.prisma.parent.findFirst({ where: { userId: parentUserId, tenantId } });
+    if (!parent) throw new NotFoundException('Parent not found.');
+
+    const link = await this.prisma.studentParent.findUnique({
+      where: { studentId_parentId: { studentId, parentId: parent.id } },
+    });
+    if (!link) throw new NotFoundException('Parent is not linked to this student.');
+
+    const count = await this.prisma.studentParent.count({ where: { studentId } });
+    if (count <= 1) throw new BadRequestException('Cannot remove the only parent linked to this student.');
+
+    await this.prisma.studentParent.delete({
+      where: { studentId_parentId: { studentId, parentId: parent.id } },
+    });
+
+    return { message: 'Parent unlinked successfully.' };
+  }
 }

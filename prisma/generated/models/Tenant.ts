@@ -383,6 +383,7 @@ export type TenantWhereInput = {
   deviceLogs?: Prisma.DeviceLogListRelationFilter
   devices?: Prisma.DeviceListRelationFilter
   events?: Prisma.EventListRelationFilter
+  moments?: Prisma.MomentListRelationFilter
   grades?: Prisma.GradeListRelationFilter
   academicTimelines?: Prisma.AcademicTimelineListRelationFilter
   invoices?: Prisma.InvoiceListRelationFilter
@@ -454,6 +455,7 @@ export type TenantOrderByWithRelationInput = {
   deviceLogs?: Prisma.DeviceLogOrderByRelationAggregateInput
   devices?: Prisma.DeviceOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
+  moments?: Prisma.MomentOrderByRelationAggregateInput
   grades?: Prisma.GradeOrderByRelationAggregateInput
   academicTimelines?: Prisma.AcademicTimelineOrderByRelationAggregateInput
   invoices?: Prisma.InvoiceOrderByRelationAggregateInput
@@ -528,6 +530,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   deviceLogs?: Prisma.DeviceLogListRelationFilter
   devices?: Prisma.DeviceListRelationFilter
   events?: Prisma.EventListRelationFilter
+  moments?: Prisma.MomentListRelationFilter
   grades?: Prisma.GradeListRelationFilter
   academicTimelines?: Prisma.AcademicTimelineListRelationFilter
   invoices?: Prisma.InvoiceListRelationFilter
@@ -661,6 +664,7 @@ export type TenantCreateInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -732,6 +736,7 @@ export type TenantUncheckedCreateInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -803,6 +808,7 @@ export type TenantUpdateInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -874,6 +880,7 @@ export type TenantUncheckedUpdateInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -1511,6 +1518,20 @@ export type TenantUpdateOneRequiredWithoutEventsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutEventsInput, Prisma.TenantUpdateWithoutEventsInput>, Prisma.TenantUncheckedUpdateWithoutEventsInput>
 }
 
+export type TenantCreateNestedOneWithoutMomentsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutMomentsInput, Prisma.TenantUncheckedCreateWithoutMomentsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutMomentsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutMomentsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutMomentsInput, Prisma.TenantUncheckedCreateWithoutMomentsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutMomentsInput
+  upsert?: Prisma.TenantUpsertWithoutMomentsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutMomentsInput, Prisma.TenantUpdateWithoutMomentsInput>, Prisma.TenantUncheckedUpdateWithoutMomentsInput>
+}
+
 export type TenantCreateNestedOneWithoutDevicesInput = {
   create?: Prisma.XOR<Prisma.TenantCreateWithoutDevicesInput, Prisma.TenantUncheckedCreateWithoutDevicesInput>
   connectOrCreate?: Prisma.TenantCreateOrConnectWithoutDevicesInput
@@ -1775,6 +1796,7 @@ export type TenantCreateWithoutUsersInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -1845,6 +1867,7 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -1931,6 +1954,7 @@ export type TenantUpdateWithoutUsersInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -2001,6 +2025,7 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -2071,6 +2096,7 @@ export type TenantCreateWithoutStudentsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -2141,6 +2167,7 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -2227,6 +2254,7 @@ export type TenantUpdateWithoutStudentsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -2297,6 +2325,7 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -2367,6 +2396,7 @@ export type TenantCreateWithoutParentsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -2437,6 +2467,7 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -2523,6 +2554,7 @@ export type TenantUpdateWithoutParentsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -2593,6 +2625,7 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -2663,6 +2696,7 @@ export type TenantCreateWithoutTeachersInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -2733,6 +2767,7 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -2819,6 +2854,7 @@ export type TenantUpdateWithoutTeachersInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -2889,6 +2925,7 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -2959,6 +2996,7 @@ export type TenantCreateWithoutGradesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
   messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
@@ -3029,6 +3067,7 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
@@ -3115,6 +3154,7 @@ export type TenantUpdateWithoutGradesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
   messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
@@ -3185,6 +3225,7 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
@@ -3254,6 +3295,7 @@ export type TenantCreateWithoutCombinationsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -3324,6 +3366,7 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -3410,6 +3453,7 @@ export type TenantUpdateWithoutCombinationsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -3480,6 +3524,7 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -3551,6 +3596,7 @@ export type TenantCreateWithoutSectionsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -3621,6 +3667,7 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -3707,6 +3754,7 @@ export type TenantUpdateWithoutSectionsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -3777,6 +3825,7 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -3847,6 +3896,7 @@ export type TenantCreateWithoutSubjectsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -3917,6 +3967,7 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -4003,6 +4054,7 @@ export type TenantUpdateWithoutSubjectsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -4073,6 +4125,7 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -4143,6 +4196,7 @@ export type TenantCreateWithoutTimetablePeriodsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -4213,6 +4267,7 @@ export type TenantUncheckedCreateWithoutTimetablePeriodsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -4299,6 +4354,7 @@ export type TenantUpdateWithoutTimetablePeriodsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -4369,6 +4425,7 @@ export type TenantUncheckedUpdateWithoutTimetablePeriodsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -4439,6 +4496,7 @@ export type TenantCreateWithoutTimetableEntriesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -4509,6 +4567,7 @@ export type TenantUncheckedCreateWithoutTimetableEntriesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -4595,6 +4654,7 @@ export type TenantUpdateWithoutTimetableEntriesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -4665,6 +4725,7 @@ export type TenantUncheckedUpdateWithoutTimetableEntriesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -4734,6 +4795,7 @@ export type TenantCreateWithoutAttendancesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -4804,6 +4866,7 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -4890,6 +4953,7 @@ export type TenantUpdateWithoutAttendancesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -4960,6 +5024,7 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -5031,6 +5096,7 @@ export type TenantCreateWithoutTeacherAttendancesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -5101,6 +5167,7 @@ export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -5187,6 +5254,7 @@ export type TenantUpdateWithoutTeacherAttendancesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -5257,6 +5325,7 @@ export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -5326,6 +5395,7 @@ export type TenantCreateWithoutBooksInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -5396,6 +5466,7 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -5482,6 +5553,7 @@ export type TenantUpdateWithoutBooksInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -5552,6 +5624,7 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -5622,6 +5695,7 @@ export type TenantCreateWithoutBookCopiesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -5692,6 +5766,7 @@ export type TenantUncheckedCreateWithoutBookCopiesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -5778,6 +5853,7 @@ export type TenantUpdateWithoutBookCopiesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -5848,6 +5924,7 @@ export type TenantUncheckedUpdateWithoutBookCopiesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -5918,6 +5995,7 @@ export type TenantCreateWithoutBookTransactionsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -5988,6 +6066,7 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -6074,6 +6153,7 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -6144,6 +6224,7 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -6215,6 +6296,7 @@ export type TenantCreateWithoutPermissionsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -6285,6 +6367,7 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -6371,6 +6454,7 @@ export type TenantUpdateWithoutPermissionsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -6441,6 +6525,7 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -6511,6 +6596,7 @@ export type TenantCreateWithoutPermissionUsagesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -6581,6 +6667,7 @@ export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -6667,6 +6754,7 @@ export type TenantUpdateWithoutPermissionUsagesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -6737,6 +6825,7 @@ export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -6806,6 +6895,7 @@ export type TenantCreateWithoutConductRecordsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -6876,6 +6966,7 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -6962,6 +7053,7 @@ export type TenantUpdateWithoutConductRecordsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -7032,6 +7124,7 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -7103,6 +7196,7 @@ export type TenantCreateWithoutStudentConductPointsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -7173,6 +7267,7 @@ export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -7259,6 +7354,7 @@ export type TenantUpdateWithoutStudentConductPointsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -7329,6 +7425,7 @@ export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -7398,6 +7495,7 @@ export type TenantCreateWithoutConductPointTransactionsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -7468,6 +7566,7 @@ export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -7554,6 +7653,7 @@ export type TenantUpdateWithoutConductPointTransactionsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -7624,6 +7724,7 @@ export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -7694,6 +7795,7 @@ export type TenantCreateWithoutConversationsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -7764,6 +7866,7 @@ export type TenantUncheckedCreateWithoutConversationsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -7850,6 +7953,7 @@ export type TenantUpdateWithoutConversationsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -7920,6 +8024,7 @@ export type TenantUncheckedUpdateWithoutConversationsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -7991,6 +8096,7 @@ export type TenantCreateWithoutMessagesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -8061,6 +8167,7 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -8147,6 +8254,7 @@ export type TenantUpdateWithoutMessagesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -8217,6 +8325,7 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -8286,6 +8395,7 @@ export type TenantCreateWithoutAnnouncementsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -8356,6 +8466,7 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -8442,6 +8553,7 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -8512,6 +8624,7 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -8583,6 +8696,7 @@ export type TenantCreateWithoutNotificationsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -8653,6 +8767,7 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -8739,6 +8854,7 @@ export type TenantUpdateWithoutNotificationsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -8809,6 +8925,7 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -8878,6 +8995,7 @@ export type TenantCreateWithoutCardsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -8948,6 +9066,7 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -9034,6 +9153,7 @@ export type TenantUpdateWithoutCardsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -9104,6 +9224,7 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -9174,6 +9295,7 @@ export type TenantCreateWithoutCardLogsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -9244,6 +9366,7 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -9330,6 +9453,7 @@ export type TenantUpdateWithoutCardLogsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -9400,6 +9524,7 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -9470,6 +9595,7 @@ export type TenantCreateWithoutCardPermissionsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -9540,6 +9666,7 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -9626,6 +9753,7 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -9696,6 +9824,7 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -9766,6 +9895,7 @@ export type TenantCreateWithoutEventsInput = {
   conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -9836,6 +9966,7 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -9922,6 +10053,7 @@ export type TenantUpdateWithoutEventsInput = {
   conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -9992,6 +10124,307 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  promotions?: Prisma.PromotionUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  invites?: Prisma.InviteUncheckedUpdateManyWithoutTenantNestedInput
+  paymentPromises?: Prisma.PaymentPromiseUncheckedUpdateManyWithoutTenantNestedInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  staff?: Prisma.StaffUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  studentGrades?: Prisma.StudentGradeUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  timetablePeriods?: Prisma.TimetablePeriodUncheckedUpdateManyWithoutTenantNestedInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutTenantNestedInput
+  tenantModules?: Prisma.TenantModuleUncheckedUpdateManyWithoutTenantNestedInput
+  studioSubscription?: Prisma.StudioSubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  adminInvites?: Prisma.AdminInviteUncheckedUpdateManyWithoutTenantNestedInput
+  tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
+  adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutMomentsInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  promotions?: Prisma.PromotionCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  invites?: Prisma.InviteCreateNestedManyWithoutTenantInput
+  paymentPromises?: Prisma.PaymentPromiseCreateNestedManyWithoutTenantInput
+  paymentSubmissions?: Prisma.PaymentSubmissionCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  staff?: Prisma.StaffCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  studentGrades?: Prisma.StudentGradeCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  timetablePeriods?: Prisma.TimetablePeriodCreateNestedManyWithoutTenantInput
+  timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutTenantInput
+  tenantModules?: Prisma.TenantModuleCreateNestedManyWithoutTenantInput
+  studioSubscription?: Prisma.StudioSubscriptionCreateNestedOneWithoutTenantInput
+  adminInvites?: Prisma.AdminInviteCreateNestedManyWithoutTenantInput
+  tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
+  adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutMomentsInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  promotions?: Prisma.PromotionUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  invites?: Prisma.InviteUncheckedCreateNestedManyWithoutTenantInput
+  paymentPromises?: Prisma.PaymentPromiseUncheckedCreateNestedManyWithoutTenantInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  staff?: Prisma.StaffUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  studentGrades?: Prisma.StudentGradeUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  timetablePeriods?: Prisma.TimetablePeriodUncheckedCreateNestedManyWithoutTenantInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutTenantInput
+  tenantModules?: Prisma.TenantModuleUncheckedCreateNestedManyWithoutTenantInput
+  studioSubscription?: Prisma.StudioSubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  adminInvites?: Prisma.AdminInviteUncheckedCreateNestedManyWithoutTenantInput
+  tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
+  adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutMomentsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutMomentsInput, Prisma.TenantUncheckedCreateWithoutMomentsInput>
+}
+
+export type TenantUpsertWithoutMomentsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutMomentsInput, Prisma.TenantUncheckedUpdateWithoutMomentsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutMomentsInput, Prisma.TenantUncheckedCreateWithoutMomentsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutMomentsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutMomentsInput, Prisma.TenantUncheckedUpdateWithoutMomentsInput>
+}
+
+export type TenantUpdateWithoutMomentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  promotions?: Prisma.PromotionUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  invites?: Prisma.InviteUpdateManyWithoutTenantNestedInput
+  paymentPromises?: Prisma.PaymentPromiseUpdateManyWithoutTenantNestedInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  staff?: Prisma.StaffUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  studentGrades?: Prisma.StudentGradeUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  timetablePeriods?: Prisma.TimetablePeriodUpdateManyWithoutTenantNestedInput
+  timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutTenantNestedInput
+  tenantModules?: Prisma.TenantModuleUpdateManyWithoutTenantNestedInput
+  studioSubscription?: Prisma.StudioSubscriptionUpdateOneWithoutTenantNestedInput
+  adminInvites?: Prisma.AdminInviteUpdateManyWithoutTenantNestedInput
+  tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
+  adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutMomentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -10062,6 +10495,7 @@ export type TenantCreateWithoutDevicesInput = {
   conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -10132,6 +10566,7 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -10218,6 +10653,7 @@ export type TenantUpdateWithoutDevicesInput = {
   conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -10288,6 +10724,7 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -10358,6 +10795,7 @@ export type TenantCreateWithoutDeviceLogsInput = {
   conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -10428,6 +10866,7 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -10514,6 +10953,7 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -10584,6 +11024,7 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -10655,6 +11096,7 @@ export type TenantCreateWithoutAcademicTimelinesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
   messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
@@ -10725,6 +11167,7 @@ export type TenantUncheckedCreateWithoutAcademicTimelinesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
@@ -10811,6 +11254,7 @@ export type TenantUpdateWithoutAcademicTimelinesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
   messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
@@ -10881,6 +11325,7 @@ export type TenantUncheckedUpdateWithoutAcademicTimelinesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
@@ -10951,6 +11396,7 @@ export type TenantCreateWithoutPromotionsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -11021,6 +11467,7 @@ export type TenantUncheckedCreateWithoutPromotionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -11107,6 +11554,7 @@ export type TenantUpdateWithoutPromotionsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -11177,6 +11625,7 @@ export type TenantUncheckedUpdateWithoutPromotionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -11247,6 +11696,7 @@ export type TenantCreateWithoutStaffInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -11317,6 +11767,7 @@ export type TenantUncheckedCreateWithoutStaffInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -11403,6 +11854,7 @@ export type TenantUpdateWithoutStaffInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -11473,6 +11925,7 @@ export type TenantUncheckedUpdateWithoutStaffInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -11543,6 +11996,7 @@ export type TenantCreateWithoutStudentGradesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -11613,6 +12067,7 @@ export type TenantUncheckedCreateWithoutStudentGradesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -11699,6 +12154,7 @@ export type TenantUpdateWithoutStudentGradesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -11769,6 +12225,7 @@ export type TenantUncheckedUpdateWithoutStudentGradesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -11839,6 +12296,7 @@ export type TenantCreateWithoutInvoicesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
@@ -11909,6 +12367,7 @@ export type TenantUncheckedCreateWithoutInvoicesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
@@ -11995,6 +12454,7 @@ export type TenantUpdateWithoutInvoicesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
@@ -12065,6 +12525,7 @@ export type TenantUncheckedUpdateWithoutInvoicesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
@@ -12135,6 +12596,7 @@ export type TenantCreateWithoutPaymentSubmissionsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -12205,6 +12667,7 @@ export type TenantUncheckedCreateWithoutPaymentSubmissionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -12291,6 +12754,7 @@ export type TenantUpdateWithoutPaymentSubmissionsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -12361,6 +12825,7 @@ export type TenantUncheckedUpdateWithoutPaymentSubmissionsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -12431,6 +12896,7 @@ export type TenantCreateWithoutPaymentPromisesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -12501,6 +12967,7 @@ export type TenantUncheckedCreateWithoutPaymentPromisesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -12587,6 +13054,7 @@ export type TenantUpdateWithoutPaymentPromisesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -12657,6 +13125,7 @@ export type TenantUncheckedUpdateWithoutPaymentPromisesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -12727,6 +13196,7 @@ export type TenantCreateWithoutInvitesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -12797,6 +13267,7 @@ export type TenantUncheckedCreateWithoutInvitesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -12883,6 +13354,7 @@ export type TenantUpdateWithoutInvitesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -12953,6 +13425,7 @@ export type TenantUncheckedUpdateWithoutInvitesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -13023,6 +13496,7 @@ export type TenantCreateWithoutTenantModulesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -13093,6 +13567,7 @@ export type TenantUncheckedCreateWithoutTenantModulesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -13179,6 +13654,7 @@ export type TenantUpdateWithoutTenantModulesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -13249,6 +13725,7 @@ export type TenantUncheckedUpdateWithoutTenantModulesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -13319,6 +13796,7 @@ export type TenantCreateWithoutStudioSubscriptionInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -13389,6 +13867,7 @@ export type TenantUncheckedCreateWithoutStudioSubscriptionInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -13475,6 +13954,7 @@ export type TenantUpdateWithoutStudioSubscriptionInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -13545,6 +14025,7 @@ export type TenantUncheckedUpdateWithoutStudioSubscriptionInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -13615,6 +14096,7 @@ export type TenantCreateWithoutAdminInvitesInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -13685,6 +14167,7 @@ export type TenantUncheckedCreateWithoutAdminInvitesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -13771,6 +14254,7 @@ export type TenantUpdateWithoutAdminInvitesInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -13841,6 +14325,7 @@ export type TenantUncheckedUpdateWithoutAdminInvitesInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -13911,6 +14396,7 @@ export type TenantCreateWithoutTenantBillingsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -13981,6 +14467,7 @@ export type TenantUncheckedCreateWithoutTenantBillingsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -14067,6 +14554,7 @@ export type TenantUpdateWithoutTenantBillingsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -14137,6 +14625,7 @@ export type TenantUncheckedUpdateWithoutTenantBillingsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -14207,6 +14696,7 @@ export type TenantCreateWithoutAdminApprovalsInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -14277,6 +14767,7 @@ export type TenantUncheckedCreateWithoutAdminApprovalsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -14363,6 +14854,7 @@ export type TenantUpdateWithoutAdminApprovalsInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -14433,6 +14925,7 @@ export type TenantUncheckedUpdateWithoutAdminApprovalsInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -14503,6 +14996,7 @@ export type TenantCreateWithoutFeedbackInput = {
   deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
   events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
@@ -14573,6 +15067,7 @@ export type TenantUncheckedCreateWithoutFeedbackInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
   devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
   grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
@@ -14659,6 +15154,7 @@ export type TenantUpdateWithoutFeedbackInput = {
   deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
@@ -14729,6 +15225,7 @@ export type TenantUncheckedUpdateWithoutFeedbackInput = {
   deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
   devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
   grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
   academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
@@ -14780,6 +15277,7 @@ export type TenantCountOutputType = {
   deviceLogs: number
   devices: number
   events: number
+  moments: number
   grades: number
   academicTimelines: number
   invoices: number
@@ -14826,6 +15324,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   deviceLogs?: boolean | TenantCountOutputTypeCountDeviceLogsArgs
   devices?: boolean | TenantCountOutputTypeCountDevicesArgs
   events?: boolean | TenantCountOutputTypeCountEventsArgs
+  moments?: boolean | TenantCountOutputTypeCountMomentsArgs
   grades?: boolean | TenantCountOutputTypeCountGradesArgs
   academicTimelines?: boolean | TenantCountOutputTypeCountAcademicTimelinesArgs
   invoices?: boolean | TenantCountOutputTypeCountInvoicesArgs
@@ -14969,6 +15468,13 @@ export type TenantCountOutputTypeCountDevicesArgs<ExtArgs extends runtime.Types.
  */
 export type TenantCountOutputTypeCountEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.EventWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountMomentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MomentWhereInput
 }
 
 /**
@@ -15208,6 +15714,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   deviceLogs?: boolean | Prisma.Tenant$deviceLogsArgs<ExtArgs>
   devices?: boolean | Prisma.Tenant$devicesArgs<ExtArgs>
   events?: boolean | Prisma.Tenant$eventsArgs<ExtArgs>
+  moments?: boolean | Prisma.Tenant$momentsArgs<ExtArgs>
   grades?: boolean | Prisma.Tenant$gradesArgs<ExtArgs>
   academicTimelines?: boolean | Prisma.Tenant$academicTimelinesArgs<ExtArgs>
   invoices?: boolean | Prisma.Tenant$invoicesArgs<ExtArgs>
@@ -15338,6 +15845,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   deviceLogs?: boolean | Prisma.Tenant$deviceLogsArgs<ExtArgs>
   devices?: boolean | Prisma.Tenant$devicesArgs<ExtArgs>
   events?: boolean | Prisma.Tenant$eventsArgs<ExtArgs>
+  moments?: boolean | Prisma.Tenant$momentsArgs<ExtArgs>
   grades?: boolean | Prisma.Tenant$gradesArgs<ExtArgs>
   academicTimelines?: boolean | Prisma.Tenant$academicTimelinesArgs<ExtArgs>
   invoices?: boolean | Prisma.Tenant$invoicesArgs<ExtArgs>
@@ -15390,6 +15898,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     deviceLogs: Prisma.$DeviceLogPayload<ExtArgs>[]
     devices: Prisma.$DevicePayload<ExtArgs>[]
     events: Prisma.$EventPayload<ExtArgs>[]
+    moments: Prisma.$MomentPayload<ExtArgs>[]
     grades: Prisma.$GradePayload<ExtArgs>[]
     academicTimelines: Prisma.$AcademicTimelinePayload<ExtArgs>[]
     invoices: Prisma.$InvoicePayload<ExtArgs>[]
@@ -15854,6 +16363,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   deviceLogs<T extends Prisma.Tenant$deviceLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$deviceLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   devices<T extends Prisma.Tenant$devicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$devicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   events<T extends Prisma.Tenant$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  moments<T extends Prisma.Tenant$momentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$momentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MomentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   grades<T extends Prisma.Tenant$gradesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$gradesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   academicTimelines<T extends Prisma.Tenant$academicTimelinesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$academicTimelinesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AcademicTimelinePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invoices<T extends Prisma.Tenant$invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -16681,6 +17191,30 @@ export type Tenant$eventsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.EventScalarFieldEnum | Prisma.EventScalarFieldEnum[]
+}
+
+/**
+ * Tenant.moments
+ */
+export type Tenant$momentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Moment
+   */
+  select?: Prisma.MomentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Moment
+   */
+  omit?: Prisma.MomentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MomentInclude<ExtArgs> | null
+  where?: Prisma.MomentWhereInput
+  orderBy?: Prisma.MomentOrderByWithRelationInput | Prisma.MomentOrderByWithRelationInput[]
+  cursor?: Prisma.MomentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MomentScalarFieldEnum | Prisma.MomentScalarFieldEnum[]
 }
 
 /**

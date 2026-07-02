@@ -209,6 +209,16 @@ export type CardPermission = Prisma.CardPermissionModel
  */
 export type Event = Prisma.EventModel
 /**
+ * Model Moment
+ * 
+ */
+export type Moment = Prisma.MomentModel
+/**
+ * Model MomentLike
+ * 
+ */
+export type MomentLike = Prisma.MomentLikeModel
+/**
  * Model AcademicExam
  * 
  */
