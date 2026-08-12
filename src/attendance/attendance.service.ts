@@ -383,6 +383,17 @@ export class AttendanceService {
       );
     }
 
+    // Attendance changed → drop the cached stats overviews that include it so
+    // the dashboard and attendance stats reflect the mark immediately rather
+    // than waiting out the 30s TTL. This is the single write choke point for
+    // student attendance (manual marks and card check-ins both land here), so
+    // invalidating here covers every path. delByPattern clears every cached
+    // date for the tenant.
+    await Promise.all([
+      this.cache.delByPattern(`attendance:stats:${data.tenantId}:*`),
+      this.cache.del(`dashboard:stats:${data.tenantId}`),
+    ]);
+
     return {
       ...attendance,
       method: data.isManual ? 'manual' : 'auto',
