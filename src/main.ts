@@ -94,6 +94,10 @@ async function bootstrap() {
     );
   }
 
+  // Run onModuleDestroy hooks on SIGTERM/SIGINT so Prisma disconnects and
+  // BullMQ/Redis clients close cleanly on container stop and restarts.
+  app.enableShutdownHooks();
+
   await app.listen(process.env.PORT ?? 4000);
   console.log(
     `Application is running on: http://localhost:${process.env.PORT ?? 4000}`,

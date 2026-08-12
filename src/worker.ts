@@ -17,7 +17,10 @@ import { WorkerModule } from './worker.module';
  */
 async function bootstrap() {
   const logger = new Logger('Worker');
-  await NestFactory.createApplicationContext(WorkerModule);
+  const app = await NestFactory.createApplicationContext(WorkerModule);
+  // Drain BullMQ workers and disconnect Prisma cleanly on SIGTERM/SIGINT so
+  // in-flight jobs aren't cut off when the container stops/restarts.
+  app.enableShutdownHooks();
   logger.log('Worker process started — listening for queued jobs.');
 }
 bootstrap().catch((err) => {
