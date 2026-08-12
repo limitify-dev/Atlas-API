@@ -27,6 +27,13 @@ async function bootstrap() {
   // and makes request logs useless.
   app.set('trust proxy', 1);
 
+  // Raise the request body limit above Express's 100kb default so bulk JSON
+  // endpoints (e.g. bulk invoice creation for hundreds of students, rich
+  // announcement content) don't fail with 413. Multipart file uploads go
+  // through Multer and are unaffected by this.
+  app.useBodyParser('json', { limit: '5mb' });
+  app.useBodyParser('urlencoded', { limit: '5mb', extended: true });
+
   // Socket.IO adapter backed by Redis pub/sub — required so realtime events
   // (chat, presence) still reach every connected client once the API runs
   // as more than one instance/replica. With the default in-memory adapter,
@@ -64,32 +71,38 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Swagger/OpenAPI configuration
-  const config = new DocumentBuilder()
-    .setTitle('Atlas API')
-    .setDescription('API documentation for Atlas School Management System')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+  // Swagger/OpenAPI + Scalar API reference — development only. In production
+  // the full API surface must not be publicly browsable at /doc.
+  const isProduction = process.env.NODE_ENV === 'production';
+  if (!isProduction) {
+    const config = new DocumentBuilder()
+      .setTitle('Atlas API')
+      .setDescription('API documentation for Atlas School Management System')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+    const document = SwaggerModule.createDocument(app, config);
 
-  // Scalar API Reference
-  app.use(
-    '/doc',
-    apiReference({
-      theme: 'kepler',
-      content: document,
-    }),
-  );
+    // Scalar API Reference
+    app.use(
+      '/doc',
+      apiReference({
+        theme: 'kepler',
+        content: document,
+      }),
+    );
+  }
 
   await app.listen(process.env.PORT ?? 4000);
   console.log(
     `Application is running on: http://localhost:${process.env.PORT ?? 4000}`,
   );
-  console.log(
-    `API Documentation: http://localhost:${process.env.PORT ?? 4000}/doc`,
-  );
+  if (!isProduction) {
+    console.log(
+      `API Documentation: http://localhost:${process.env.PORT ?? 4000}/doc`,
+    );
+  }
   // console.log(
   //   `CORS allowed origins: ${allowedOrigins.join(', ') || '(none configured)'}`,
   // );
