@@ -5,7 +5,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import * as crypto from 'crypto';
-import { AuthResponseDto } from './dto';
+import { AuthResponseDto, PendingApprovalResponseDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SupabaseService } from 'src/common/supabase/supabase.service';
@@ -22,6 +22,9 @@ import {
 import { InviteService } from './invite.service';
 import { OtpService } from './otp.service';
 import { CompleteOnboardingDto } from './dto';
+import { SubscriptionBillingService } from '../subscription/services/subscription-billing.service';
+import { SystemSettingsService } from '../subscription/services/system-settings.service';
+import { AdminApprovalService } from '../studio/services/admin-approval.service';
 
 export type AuthenticatedUser = Omit<User, 'password'> & {
   schoolName: string | null;
@@ -43,6 +46,9 @@ export class AuthService {
     private inviteService: InviteService,
     private otpService: OtpService,
     private supabase: SupabaseService,
+    private subscriptionBilling: SubscriptionBillingService,
+    private systemSettings: SystemSettingsService,
+    private adminApproval: AdminApprovalService,
   ) {}
 
   private getPasswordResetCooldownBoundary(): Date {
@@ -57,6 +63,28 @@ export class AuthService {
    * @returns Authentication response with tokens and user info
    */
   async login(user: AuthenticatedUser): Promise<AuthResponseDto> {
+    // Subscription enforcement: block tenant users whose subscription has
+    // lapsed or who have been manually suspended — before any token is issued.
+    if (user.role !== Role.SUPER_ADMIN && user.tenantId) {
+      const state = await this.subscriptionBilling.getEnforcementState(
+        user.tenantId,
+      );
+      if (state.isBlocked) {
+        const support = await this.systemSettings
+          .getSupportContact()
+          .catch(() => null);
+        throw new UnauthorizedException({
+          code: 'SUBSCRIPTION_ENDED',
+          message:
+            state.blockedReason === 'suspended'
+              ? 'This tenant has been suspended by the system administrator.'
+              : 'This tenant’s subscription has ended.',
+          reason: state.blockedReason,
+          support,
+        });
+      }
+    }
+
     const payload = {
       sub: user.id,
       username: user.username,
@@ -577,12 +605,16 @@ export class AuthService {
     };
   }
 
-  /** Complete admin onboarding: creates the User, claims the invite, issues tokens. */
+  /**
+   * Complete admin onboarding: creates the User and claims the invite, but
+   * does NOT issue tokens — the account sits PENDING until a platform admin
+   * approves it in Atlas Studio (see AdminApprovalService.review()).
+   */
   async completeAdminInvite(dto: {
     token: string;
     name: string;
     password: string;
-  }): Promise<AuthResponseDto> {
+  }): Promise<PendingApprovalResponseDto> {
     const invite = await this.prisma.adminInvite.findUnique({
       where: { token: dto.token },
       include: {
@@ -645,7 +677,7 @@ export class AuthService {
           data: {
             name: dto.name,
             password: hashed,
-            status: Status.ACTIVE,
+            status: Status.PENDING,
             emailVerified: true,
           },
         });
@@ -659,7 +691,7 @@ export class AuthService {
             username,
             password: hashed,
             role: invite.role,
-            status: Status.ACTIVE,
+            status: Status.PENDING,
             emailVerified: !!invite.email,
           },
         });
@@ -671,15 +703,13 @@ export class AuthService {
       return created;
     });
 
-    const authenticatedUser: AuthenticatedUser = {
-      ...newUser,
-      schoolName: invite.tenant.name ?? null,
-      schoolLogo: invite.tenant.logo ?? null,
-      brandColor: invite.tenant.brandColor ?? '#1e40af',
-      timezone: invite.tenant.timezone ?? 'UTC',
-    };
+    await this.adminApproval.createForUser(invite.tenantId, newUser.id);
 
-    return this.login(authenticatedUser);
+    return {
+      pendingApproval: true,
+      message:
+        'Your account has been created and is pending platform approval. You’ll be able to sign in once an administrator approves your access.',
+    };
   }
 
   async changePassword(

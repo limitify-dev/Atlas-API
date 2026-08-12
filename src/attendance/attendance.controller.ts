@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Patch,
   Post,
   Body,
   Param,
@@ -28,7 +29,13 @@ import { AttendanceService } from './attendance.service';
 import { AttendanceAnalyticsService } from './attendance-analytics.service';
 import { TeacherAttendanceAnalyticsService } from './teacher-attendance-analytics.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../../prisma/generated/client';
 import { DeviceApiKeyGuard } from '../device/guards/device-api-key.guard';
+import { StaffRoleGuard } from '../common/guards/staff-role.guard';
+import { RequiresStaffRole } from '../common/decorators/staff-role.decorator';
+import { ACADEMICS_STAFF_ROLES } from '../common/constants/staff-roles';
 import {
   AutoCheckInDto,
   MarkAttendanceDto,
@@ -163,6 +170,35 @@ export class AttendanceController {
     private readonly teacherAnalyticsService: TeacherAttendanceAnalyticsService,
   ) {}
 
+  @Get('settings')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get tenant attendance schedule' })
+  getAttendanceSettings(@CurrentUser() user: CurrentAuthUser) {
+    return this.attendanceService.getAttendanceSettings(user.tenantId);
+  }
+
+  @Patch('settings')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Update tenant attendance schedule' })
+  updateAttendanceSettings(
+    @CurrentUser() user: CurrentAuthUser,
+    @Body()
+    schedule: {
+      startTime: string;
+      endTime: string;
+      schoolDays?: number[];
+      timezone?: string;
+    },
+  ) {
+    return this.attendanceService.updateAttendanceSettings(
+      user.tenantId,
+      schedule,
+    );
+  }
+
   @Get('students')
   @UseGuards(JwtAuthGuard)
   async getStudentsByClassroom(
@@ -185,7 +221,8 @@ export class AttendanceController {
   }
 
   @Post('mark')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, StaffRoleGuard)
+  @RequiresStaffRole(...ACADEMICS_STAFF_ROLES)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Mark student attendance manually',
@@ -217,6 +254,7 @@ export class AttendanceController {
       studentId: data.studentId,
       status: data.status,
       isManual: data.isManual,
+      date: data.date,
       checkInTime: data.checkInTime,
       checkInDateTime: data.checkInDateTime
         ? new Date(data.checkInDateTime)
@@ -226,7 +264,8 @@ export class AttendanceController {
   }
 
   @Post('mark-bulk')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, StaffRoleGuard)
+  @RequiresStaffRole(...ACADEMICS_STAFF_ROLES)
   @ApiBearerAuth()
   @ApiOperation({
     summary: 'Bulk mark student attendance manually',
@@ -260,6 +299,7 @@ export class AttendanceController {
     required: false,
     description: 'Date in YYYY-MM-DD format',
   })
+  @ApiQuery({ name: 'studentId', required: false })
   @ApiQuery({ name: 'sectionId', required: false })
   @ApiQuery({ name: 'gradeId', required: false })
   @ApiQuery({ name: 'page', required: false })
@@ -267,6 +307,7 @@ export class AttendanceController {
   async getAttendanceRecords(
     @Request() req: AuthUser,
     @Query('date') date?: string,
+    @Query('studentId') studentId?: string,
     @Query('sectionId') sectionId?: string,
     @Query('gradeId') gradeId?: string,
     @Query('page') page?: number,
@@ -283,6 +324,7 @@ export class AttendanceController {
       gradeId,
       page || 1,
       limit || 100,
+      studentId,
     );
   }
 
@@ -297,7 +339,8 @@ export class AttendanceController {
       **Date Format:** ISO 8601 (YYYY-MM-DDTHH:mm:ss.sssZ)
       - Example: 2024-01-15T08:30:00.000Z
       - The date field should contain the exact timestamp from the external device
-      - The timestamp is used to determine if the student is late (after 8:00 AM)
+      - The timestamp is evaluated in the tenant timezone
+      - The tenant's configured school start time determines whether the student is late
 
       **Authentication:** Requires device API key in X-API-Key header
 
@@ -327,7 +370,8 @@ export class AttendanceController {
           date: '2024-01-15T08:15:00.000Z',
           location: 'main gate',
         },
-        description: 'After 8:00 AM - will be marked as LATE',
+        description:
+          'After the configured school start time - will be marked as LATE',
       },
     },
   })

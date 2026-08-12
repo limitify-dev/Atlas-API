@@ -1,19 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { getTenantDayRange } from '../attendance/attendance-day';
 
 @Injectable()
 export class DashboardService {
   constructor(private prisma: PrismaService) {}
 
   async getStats(tenantId: string) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const weekAgo = new Date(today);
-    weekAgo.setDate(weekAgo.getDate() - 7);
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { timezone: true },
+    });
+    const timezone = tenant?.timezone || 'UTC';
+    const todayRange = getTenantDayRange(new Date(), timezone);
+    const yesterdayRange = getTenantDayRange(
+      new Date(todayRange.start.getTime() - 1),
+      timezone,
+    );
+    const today = todayRange.start;
+    const tomorrow = todayRange.end;
+    const yesterday = yesterdayRange.start;
+    const weekAgo = new Date(today.getTime() - 7 * 86_400_000);
 
     const [
       totalStudents,
@@ -34,6 +41,10 @@ export class DashboardService {
       todayApprovedPermissions,
       // Conduct
       activeIncidents,
+      // Finance
+      openInvoices,
+      pendingPaymentSubmissions,
+      partiallyPaidInvoices,
       // Recent attendance activity
       recentAttendance,
       // Recent permissions
@@ -47,11 +58,15 @@ export class DashboardService {
 
       // Today's attendance
       this.prisma.attendance.count({
-        where: { tenantId, createdAt: { gte: today }, status: 'PRESENT' },
+        where: {
+          tenantId,
+          createdAt: { gte: today, lt: tomorrow },
+          status: 'PRESENT',
+        },
       }),
-      this.prisma.attendance.count({
-        where: { tenantId, createdAt: { gte: today } },
-      }),
+      // The denominator is the full student population, including students
+      // whose attendance has not been logged yet.
+      this.prisma.student.count({ where: { tenantId } }),
 
       // Yesterday's attendance
       this.prisma.attendance.count({
@@ -61,9 +76,7 @@ export class DashboardService {
           status: 'PRESENT',
         },
       }),
-      this.prisma.attendance.count({
-        where: { tenantId, createdAt: { gte: yesterday, lt: today } },
-      }),
+      this.prisma.student.count({ where: { tenantId } }),
 
       // Weekly attendance (last 7 days)
       this.prisma.attendance.groupBy({
@@ -88,13 +101,28 @@ export class DashboardService {
         where: {
           tenantId,
           status: 'APPROVED',
-          approvedAt: { gte: today },
+          approvedAt: { gte: today, lt: tomorrow },
         },
       }),
 
       // Active conduct incidents
       this.prisma.conductRecord.count({
         where: { tenantId, incidentStatus: 'ACTIVE' },
+      }),
+
+      this.prisma.invoice.count({
+        where: {
+          tenantId,
+          status: {
+            in: ['UNPAID', 'OVERDUE', 'PARTIALLY_PAID', 'PENDING_VERIFICATION'],
+          },
+        },
+      }),
+      this.prisma.paymentSubmission.count({
+        where: { tenantId, status: 'PENDING_REVIEW' },
+      }),
+      this.prisma.invoice.count({
+        where: { tenantId, status: 'PARTIALLY_PAID' },
       }),
 
       // Recent attendance (last 10) - Only auto mode (card-based) entries with checkInTime from today
@@ -104,6 +132,7 @@ export class DashboardService {
           checkInTime: {
             not: null, // Only show card-based auto check-ins
             gte: today, // Only today's records
+            lt: tomorrow,
           },
         },
         orderBy: { checkInTime: 'desc' }, // Order by actual check-in time
@@ -156,9 +185,11 @@ export class DashboardService {
 
     // Initialize last 7 days
     for (let i = 6; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      const key = d.toISOString().split('T')[0];
+      const day = getTenantDayRange(
+        new Date(today.getTime() - i * 86_400_000),
+        timezone,
+      );
+      const key = day.dateKey;
       dayMap.set(key, { present: 0, total: 0 });
     }
 
@@ -169,7 +200,7 @@ export class DashboardService {
     });
 
     weeklyRaw.forEach((record) => {
-      const key = record.createdAt.toISOString().split('T')[0];
+      const key = getTenantDayRange(record.createdAt, timezone).dateKey;
       const entry = dayMap.get(key);
       if (entry) {
         entry.total += 1;
@@ -214,6 +245,11 @@ export class DashboardService {
 
       // Conduct
       activeIncidents,
+
+      // Finance
+      openInvoices,
+      pendingPaymentSubmissions,
+      partiallyPaidInvoices,
 
       // Charts
       weeklyChartData,

@@ -122,6 +122,8 @@ export class InvoicesService {
 
     if (dto.scope === FeeScope.SECTION) {
       studentWhere.sectionId = dto.sectionId;
+    } else if (dto.scope === FeeScope.SECTIONS) {
+      studentWhere.sectionId = { in: dto.sectionIds };
     } else if (dto.scope === FeeScope.GRADE) {
       studentWhere.gradeId = dto.gradeId;
     } else if (dto.scope === FeeScope.STUDENTS) {
@@ -170,6 +172,7 @@ export class InvoicesService {
       studentId,
       term,
       category,
+      archived,
       dueBefore,
       dueAfter,
       sectionId,
@@ -177,6 +180,7 @@ export class InvoicesService {
     } = filters;
 
     const where: any = { tenantId };
+    where.archivedAt = archived ? { not: null } : null;
     if (status) where.status = status;
     if (studentId) where.studentId = studentId;
     if (term) where.term = term;
@@ -220,6 +224,53 @@ export class InvoicesService {
     ]);
 
     return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
+  }
+
+  async getSummary(tenantId: string) {
+    const [totalInvoices, paidAmountResult, outstandingTotalResult, paidInvoices, pendingInvoices, overdueAccounts] =
+      await Promise.all([
+        this.prisma.invoice.count({ where: { tenantId, archivedAt: null } }),
+        this.prisma.invoice.aggregate({
+          _sum: { amountPaid: true },
+          where: { tenantId, status: InvoiceStatus.PAID, archivedAt: null },
+        }),
+        this.prisma.invoice.aggregate({
+          _sum: { amount: true },
+          where: {
+            tenantId,
+            status: { notIn: [InvoiceStatus.PAID, InvoiceStatus.CANCELLED] },
+            archivedAt: null,
+          },
+        }),
+        this.prisma.invoice.count({ where: { tenantId, status: InvoiceStatus.PAID, archivedAt: null } }),
+        this.prisma.invoice.count({
+          where: {
+            tenantId,
+            status: { notIn: [InvoiceStatus.PAID, InvoiceStatus.CANCELLED] },
+            archivedAt: null,
+          },
+        }),
+        this.prisma.invoice.count({
+          where: {
+            tenantId,
+            status: { in: [InvoiceStatus.UNPAID, InvoiceStatus.PARTIALLY_PAID] },
+            dueDate: { lt: new Date() },
+            archivedAt: null,
+          },
+        }),
+      ]);
+
+    return {
+      totalInvoices,
+      paidAmount: Number(paidAmountResult._sum.amountPaid ?? 0),
+      outstandingTotal: Number(outstandingTotalResult._sum.amount ?? 0),
+      pendingAmount: Number(outstandingTotalResult._sum.amount ?? 0),
+      overdueAccounts,
+      promiseToPay: 0,
+      reminderDeliveryRate: 0,
+      paidInvoices,
+      pendingInvoices,
+    };
   }
 
   async findOne(tenantId: string, id: string) {
@@ -288,6 +339,87 @@ export class InvoicesService {
       where: { id },
       data: { status: InvoiceStatus.CANCELLED },
     });
+  }
+
+  async remove(tenantId: string, id: string) {
+    const invoice = await this.prisma.invoice.findFirst({
+      where: { id, tenantId },
+    });
+
+    if (!invoice) throw new NotFoundException('Invoice not found.');
+
+    if (invoice.status === InvoiceStatus.PAID) {
+      throw new ConflictException(
+        'Cannot delete a paid invoice. Cancel or archive it instead.',
+      );
+    }
+    if (invoice.status === InvoiceStatus.PENDING_VERIFICATION) {
+      throw new ConflictException(
+        'Invoice is under review. Reject the submission first before deleting.',
+      );
+    }
+
+    await this.prisma.invoice.delete({ where: { id } });
+    return { deleted: true, id };
+  }
+
+  async bulkDelete(tenantId: string, invoiceIds: string[]) {
+    if (!invoiceIds?.length) {
+      throw new BadRequestException('invoiceIds must be a non-empty array.');
+    }
+
+    const invoices = await this.prisma.invoice.findMany({
+      where: { id: { in: invoiceIds }, tenantId },
+      select: { id: true, status: true },
+    });
+
+    const deletableIds = invoices
+      .filter(
+        (i) =>
+          i.status !== InvoiceStatus.PAID &&
+          i.status !== InvoiceStatus.PENDING_VERIFICATION,
+      )
+      .map((i) => i.id);
+    const skipped = invoices.length - deletableIds.length;
+
+    if (deletableIds.length > 0) {
+      await this.prisma.invoice.deleteMany({
+        where: { id: { in: deletableIds }, tenantId },
+      });
+    }
+
+    return {
+      requested: invoiceIds.length,
+      deleted: deletableIds.length,
+      skipped,
+      notFound: invoiceIds.length - invoices.length,
+    };
+  }
+
+  async bulkArchive(tenantId: string, invoiceIds: string[]) {
+    if (!invoiceIds?.length) {
+      throw new BadRequestException('invoiceIds must be a non-empty array.');
+    }
+
+    const result = await this.prisma.invoice.updateMany({
+      where: { id: { in: invoiceIds }, tenantId, archivedAt: null },
+      data: { archivedAt: new Date() },
+    });
+
+    return { requested: invoiceIds.length, archived: result.count };
+  }
+
+  async bulkUnarchive(tenantId: string, invoiceIds: string[]) {
+    if (!invoiceIds?.length) {
+      throw new BadRequestException('invoiceIds must be a non-empty array.');
+    }
+
+    const result = await this.prisma.invoice.updateMany({
+      where: { id: { in: invoiceIds }, tenantId, archivedAt: { not: null } },
+      data: { archivedAt: null },
+    });
+
+    return { requested: invoiceIds.length, unarchived: result.count };
   }
 
   async update(
@@ -401,5 +533,101 @@ export class InvoicesService {
     );
 
     return { success: true, sentTo: parentUserIds.length };
+  }
+
+  async sendReminders(
+    tenantId: string,
+    invoiceIds: string[],
+    channel: 'sms' | 'email' | 'both',
+    customMessage?: string,
+  ) {
+    if (!invoiceIds?.length) {
+      throw new BadRequestException('invoiceIds must be a non-empty array.');
+    }
+
+    const invoices = await this.prisma.invoice.findMany({
+      where: { id: { in: invoiceIds }, tenantId },
+      include: {
+        student: {
+          include: {
+            parents: {
+              include: { parent: { include: { user: true } } },
+            },
+          },
+        },
+      },
+    });
+
+    const invoiceMap = new Map(invoices.map((invoice) => [invoice.id, invoice]));
+    const notFound = invoiceIds.filter((id) => !invoiceMap.has(id)).length;
+    let processed = 0;
+
+    for (const invoiceId of invoiceIds) {
+      const invoice = invoiceMap.get(invoiceId);
+      if (!invoice) continue;
+
+      const parentUserIds =
+        invoice.student?.parents
+          ?.map((sp) => sp.parent?.user?.id)
+          .filter(Boolean) ?? [];
+
+      const studentName = invoice.student
+        ? `${invoice.student.firstName} ${invoice.student.lastName}`
+        : 'Student';
+
+      this.events.emit(
+        new OverdueReminderEvent(
+          tenantId,
+          invoice.id,
+          studentName,
+          parentUserIds,
+          Number(invoice.amount) - Number(invoice.amountPaid || 0),
+          channel,
+          customMessage,
+        ),
+      );
+      processed++;
+    }
+
+    return {
+      requested: invoiceIds.length,
+      processed,
+      notFound,
+    };
+  }
+
+  async bulkUpdate(
+    tenantId: string,
+    invoiceIds: string[],
+    dto: {
+      amount?: number;
+      currency?: string;
+      dueDate?: string;
+      description?: string;
+    },
+  ) {
+    if (!invoiceIds?.length) {
+      throw new BadRequestException('invoiceIds must be a non-empty array.');
+    }
+
+    const data: any = {};
+    if (dto.amount !== undefined) data.amount = new Prisma.Decimal(dto.amount);
+    if (dto.currency !== undefined) data.currency = dto.currency;
+    if (dto.dueDate !== undefined) data.dueDate = new Date(dto.dueDate);
+    if (dto.description !== undefined) data.description = dto.description;
+
+    if (Object.keys(data).length === 0) {
+      throw new BadRequestException('At least one update field must be provided.');
+    }
+
+    const result = await this.prisma.invoice.updateMany({
+      where: { id: { in: invoiceIds }, tenantId },
+      data,
+    });
+
+    return {
+      requested: invoiceIds.length,
+      updated: result.count,
+    };
   }
 }

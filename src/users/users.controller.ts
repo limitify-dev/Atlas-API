@@ -57,11 +57,25 @@ export class UsersController {
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'List of all users' })
   findAll(
+    @CurrentUser() user: AuthUser,
     @Query('tenantId') tenantId?: string,
     @Query('role') role?: Role,
     @Query('noTenant') noTenant?: boolean,
+    @Query('search') search?: string,
+    @Query('userType') userType?: string,
   ) {
-    return this.usersService.findAll(tenantId, role, noTenant);
+    // Non-super-admins can only ever list their own tenant's users —
+    // TenantGuard rejects a *mismatched* supplied tenantId, but an
+    // *omitted* one would otherwise fall through to every tenant's users.
+    const effectiveTenantId =
+      user.role === Role.SUPER_ADMIN ? tenantId : user.tenantId;
+    return this.usersService.findAll(
+      effectiveTenantId,
+      role,
+      noTenant,
+      search,
+      userType,
+    );
   }
 
   @Get(':id')
@@ -77,7 +91,10 @@ export class UsersController {
     ) {
       throw new ForbiddenException('You can only view your own profile');
     }
-    return this.usersService.findOne(id);
+    return this.usersService.findOne(
+      id,
+      user.role === Role.SUPER_ADMIN ? null : user.tenantId,
+    );
   }
 
   @Patch(':id')
@@ -89,13 +106,6 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @CurrentUser() user: AuthUser,
   ) {
-    // Role-based protection: Students cannot update their own profiles
-    if (user.role === Role.STAFF) {
-      throw new ForbiddenException(
-        'Student profiles can only be updated by administrators',
-      );
-    }
-
     // Users can only update their own profile unless they're admin
     if (
       user.userId !== id &&
@@ -104,7 +114,11 @@ export class UsersController {
     ) {
       throw new ForbiddenException('You can only update your own profile');
     }
-    return this.usersService.update(id, updateUserDto);
+    return this.usersService.update(
+      id,
+      updateUserDto,
+      user.role === Role.SUPER_ADMIN ? null : user.tenantId,
+    );
   }
 
   @Patch(':id/avatar')
@@ -124,13 +138,6 @@ export class UsersController {
     file: Express.Multer.File,
     @CurrentUser() user: AuthUser,
   ) {
-    // Role-based protection: Students cannot update their own profiles
-    if (user.role === Role.STAFF) {
-      throw new ForbiddenException(
-        'Student profiles can only be updated by administrators',
-      );
-    }
-
     // Users can only update their own profile unless they're admin
     if (
       user.userId !== id &&
@@ -139,7 +146,11 @@ export class UsersController {
     ) {
       throw new ForbiddenException('You can only update your own profile');
     }
-    return this.usersService.updateAvatar(id, file);
+    return this.usersService.updateAvatar(
+      id,
+      file,
+      user.role === Role.SUPER_ADMIN ? null : user.tenantId,
+    );
   }
 
   @Delete(':id')
@@ -150,7 +161,10 @@ export class UsersController {
     status: 403,
     description: 'Forbidden - Admin access required',
   })
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() user: AuthUser) {
+    return this.usersService.remove(
+      id,
+      user.role === Role.SUPER_ADMIN ? null : user.tenantId,
+    );
   }
 }

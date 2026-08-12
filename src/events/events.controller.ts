@@ -26,7 +26,7 @@ export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
   @Post()
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Create a calendar event' })
   create(@CurrentUser() user: AuthUser, @Body() dto: CreateEventDto) {
     return this.eventsService.create(user.tenantId, dto);
@@ -60,7 +60,7 @@ export class EventsController {
   }
 
   @Patch(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Update an event' })
   update(
     @CurrentUser() user: AuthUser,
@@ -71,7 +71,7 @@ export class EventsController {
   }
 
   @Delete(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Delete an event' })
   remove(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.eventsService.remove(user.tenantId, id);

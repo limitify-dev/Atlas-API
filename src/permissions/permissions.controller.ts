@@ -42,6 +42,9 @@ import {
   AuthUser,
 } from '../auth/decorators/current-user.decorator';
 import { DeviceApiKeyGuard } from '../device/guards/device-api-key.guard';
+import { StaffRoleGuard } from '../common/guards/staff-role.guard';
+import { RequiresStaffRole } from '../common/decorators/staff-role.decorator';
+import { ACADEMICS_STAFF_ROLES } from '../common/constants/staff-roles';
 
 @ApiTags('Permissions')
 @Controller('permissions')
@@ -54,7 +57,7 @@ export class PermissionsController {
 
   @Post()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.PARENT)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new permission' })
   @ApiResponse({
@@ -219,8 +222,9 @@ export class PermissionsController {
   }
 
   @Post(':id/approve')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard, StaffRoleGuard)
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @RequiresStaffRole(...ACADEMICS_STAFF_ROLES)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Approve a pending permission' })
   @ApiParam({ name: 'id', description: 'Permission ID' })
@@ -247,8 +251,9 @@ export class PermissionsController {
   }
 
   @Post(':id/reject')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard, StaffRoleGuard)
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @RequiresStaffRole(...ACADEMICS_STAFF_ROLES)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Reject a pending permission' })
   @ApiParam({ name: 'id', description: 'Permission ID' })

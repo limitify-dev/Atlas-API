@@ -20,6 +20,7 @@ export class EventsService {
         category: dto.category ?? 'Academic',
         gradeTarget: dto.gradeTarget,
         audience: dto.audience ?? 'ALL',
+        thumbnailUrl: dto.thumbnailUrl,
       },
     });
   }
@@ -73,6 +74,7 @@ export class EventsService {
         ...(dto.category !== undefined ? { category: dto.category } : {}),
         ...(dto.gradeTarget !== undefined ? { gradeTarget: dto.gradeTarget } : {}),
         ...(dto.audience !== undefined ? { audience: dto.audience } : {}),
+        ...(dto.thumbnailUrl !== undefined ? { thumbnailUrl: dto.thumbnailUrl } : {}),
       },
     });
   }

@@ -11,6 +11,7 @@ import { jwtConstants } from './constant';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { EmailModule } from 'src/email/email.module';
+import { StudioModule } from '../studio/studio.module';
 
 @Module({
   controllers: [AuthController],
@@ -25,6 +26,7 @@ import { EmailModule } from 'src/email/email.module';
   imports: [
     PrismaModule,
     EmailModule,
+    StudioModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: jwtConstants.secret,

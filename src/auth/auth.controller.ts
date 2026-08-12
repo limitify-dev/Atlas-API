@@ -20,6 +20,7 @@ import {
   ApiUnauthorizedResponse,
   ApiConflictResponse,
 } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { AuthService, AuthenticatedUser } from './auth.service';
 import {
   AuthResponseDto,
@@ -39,6 +40,11 @@ import { InviteService, CreateInviteInput } from './invite.service';
 import { OtpService } from './otp.service';
 import { OtpPurpose, Role, User } from '../../prisma/generated/client';
 
+// Tighter limit for endpoints attackers would otherwise use for credential
+// stuffing / OTP brute-forcing / password-reset spam — well below the
+// global default (100/min) set in AppModule.
+const AUTH_THROTTLE = { default: { limit: 5, ttl: 60_000 } };
+
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
@@ -49,6 +55,7 @@ export class AuthController {
   ) {}
 
   @Public()
+  @Throttle(AUTH_THROTTLE)
   @Post('register')
   @ApiOperation({
     summary: 'Register a new user',
@@ -83,6 +90,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Public()
+  @Throttle(AUTH_THROTTLE)
   @Post('login')
   @ApiOperation({
     summary: 'User login',
@@ -258,6 +266,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle(AUTH_THROTTLE)
   @Post('request-password-reset')
   @ApiOperation({
     summary: 'Request password reset',
@@ -281,6 +290,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle(AUTH_THROTTLE)
   @Post('reset-password')
   @ApiOperation({
     summary: 'Reset password',
@@ -389,6 +399,7 @@ export class AuthController {
   // ─── OTP ───────────────────────────────────────────────────────────────────
 
   @Public()
+  @Throttle(AUTH_THROTTLE)
   @Post('otp/send')
   @ApiOperation({
     summary: 'Send an OTP',
@@ -418,6 +429,7 @@ export class AuthController {
   }
 
   @Public()
+  @Throttle(AUTH_THROTTLE)
   @Post('otp/verify')
   @ApiOperation({
     summary: 'Verify an OTP',

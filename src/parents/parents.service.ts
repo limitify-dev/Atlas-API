@@ -1,33 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { AcademicsService } from '../academics/academics.service';
 import {
   AttendanceStatus,
   BookStatus,
   InvoiceStatus,
+  AcademicRecordStatus,
+  Prisma,
 } from '../../prisma/generated/client';
+import { UpdateParentContactDto } from './dto';
 
 @Injectable()
 export class ParentsService {
-  constructor(private readonly prisma: PrismaService) {}
-
-  private formatTime(totalMinutes: number) {
-    const safeMinutes = ((totalMinutes % (24 * 60)) + 24 * 60) % (24 * 60);
-    const hours = Math.floor(safeMinutes / 60);
-    const minutes = safeMinutes % 60;
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-  }
-
-  private parseTimeToMinutes(value?: string | null, fallback: number = 9 * 60) {
-    if (!value) return fallback;
-    const match = /^(\d{1,2}):(\d{2})$/.exec(value.trim());
-    if (!match) return fallback;
-    const hours = Number(match[1]);
-    const minutes = Number(match[2]);
-    if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return fallback;
-    return (
-      Math.max(0, Math.min(23, hours)) * 60 + Math.max(0, Math.min(59, minutes))
-    );
-  }
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly academicsService: AcademicsService,
+  ) {}
 
   private stableHash(input: string) {
     let hash = 0;
@@ -37,64 +25,281 @@ export class ParentsService {
     return hash;
   }
 
-  private async getLatestConsultationAnnouncement(tenantId: string) {
-    return this.prisma.announcement.findFirst({
-      where: {
-        tenantId,
-        status: 'ACTIVE',
-        ctaType: {
-          in: ['CONSULTATION_DAY', 'ACADEMICS_CONSULTATION'],
-        },
-      },
-      orderBy: { publishedAt: 'desc' },
-    });
-  }
-
-  private getConsultationConfig(
-    announcement?: {
-      ctaUrl?: string | null;
-      publishedAt?: Date | null;
-    } | null,
+  async getDirectory(
+    tenantId: string,
+    filters?: { search?: string; page?: number; limit?: number },
   ) {
-    const fallbackDate = new Date();
-    fallbackDate.setDate(fallbackDate.getDate() + 7);
-    const fallbackDateStr = fallbackDate.toISOString().slice(0, 10);
-
-    const fallback = {
-      date: fallbackDateStr,
-      startTime: '09:00',
-      durationMinutes: 12,
-      location: 'School Campus',
-      source: 'SYSTEM_DEFAULT',
+    const normalizedSearch = filters?.search?.trim();
+    const page = Math.max(1, filters?.page ?? 1);
+    const limit = Math.min(100, Math.max(1, filters?.limit ?? 20));
+    const where = {
+      tenantId,
+      ...(normalizedSearch
+        ? {
+            OR: [
+              {
+                firstName: {
+                  contains: normalizedSearch,
+                  mode: 'insensitive' as const,
+                },
+              },
+              {
+                lastName: {
+                  contains: normalizedSearch,
+                  mode: 'insensitive' as const,
+                },
+              },
+              {
+                user: {
+                  OR: [
+                    {
+                      email: {
+                        contains: normalizedSearch,
+                        mode: 'insensitive' as const,
+                      },
+                    },
+                    {
+                      phone: {
+                        contains: normalizedSearch,
+                        mode: 'insensitive' as const,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                children: {
+                  some: {
+                    student: {
+                      OR: [
+                        {
+                          firstName: {
+                            contains: normalizedSearch,
+                            mode: 'insensitive' as const,
+                          },
+                        },
+                        {
+                          lastName: {
+                            contains: normalizedSearch,
+                            mode: 'insensitive' as const,
+                          },
+                        },
+                        {
+                          studentId: {
+                            contains: normalizedSearch,
+                            mode: 'insensitive' as const,
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            ],
+          }
+        : {}),
     };
 
-    if (!announcement?.ctaUrl) return fallback;
+    const [parents, total] = await Promise.all([
+      this.prisma.parent.findMany({
+        where,
+        select: {
+          id: true,
+          userId: true,
+          firstName: true,
+          lastName: true,
+          relationship: true,
+          occupation: true,
+          createdAt: true,
+          user: {
+            select: {
+              email: true,
+              phone: true,
+              status: true,
+            },
+          },
+          children: {
+            orderBy: [{ isPrimary: 'desc' }, { createdAt: 'asc' }],
+            select: {
+              isPrimary: true,
+              student: {
+                select: {
+                  id: true,
+                  studentId: true,
+                  firstName: true,
+                  lastName: true,
+                  photoUrl: true,
+                  grade: { select: { name: true } },
+                  section: { select: { name: true } },
+                },
+              },
+            },
+          },
+        },
+        orderBy: [{ firstName: 'asc' }, { lastName: 'asc' }],
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.parent.count({ where }),
+    ]);
 
-    try {
-      const url = new URL(announcement.ctaUrl, 'https://atlas.local');
-      const date = url.searchParams.get('date') || fallback.date;
-      const startTime = url.searchParams.get('start') || fallback.startTime;
-      const duration = Number(
-        url.searchParams.get('duration') || fallback.durationMinutes,
-      );
-      const location = url.searchParams.get('location') || fallback.location;
+    return {
+      data: parents.map((parent) => ({
+        id: parent.id,
+        userId: parent.userId,
+        firstName: parent.firstName,
+        lastName: parent.lastName,
+        relationship: parent.relationship,
+        occupation: parent.occupation,
+        email: parent.user.email,
+        phone: parent.user.phone,
+        status: parent.user.status,
+        createdAt: parent.createdAt,
+        children: parent.children.map((link) => ({
+          ...link.student,
+          isPrimaryContact: link.isPrimary,
+          gradeName: link.student.grade.name,
+          sectionName: link.student.section.name,
+        })),
+      })),
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
 
-      return {
-        date,
-        startTime,
-        durationMinutes:
-          Number.isFinite(duration) && duration > 0
-            ? Math.min(Math.floor(duration), 90)
-            : fallback.durationMinutes,
-        location,
-        source: 'ANNOUNCEMENT',
-      };
-    } catch {
-      return fallback;
+  async getDirectoryProfile(tenantId: string, parentId: string) {
+    const parent = await this.prisma.parent.findFirst({
+      where: { id: parentId, tenantId },
+      select: {
+        id: true,
+        userId: true,
+        firstName: true,
+        lastName: true,
+        relationship: true,
+        occupation: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            email: true,
+            phone: true,
+            status: true,
+            lastLoginAt: true,
+            createdAt: true,
+          },
+        },
+        children: {
+          orderBy: [{ isPrimary: 'desc' }, { createdAt: 'asc' }],
+          select: {
+            isPrimary: true,
+            createdAt: true,
+            student: {
+              select: {
+                id: true,
+                studentId: true,
+                firstName: true,
+                lastName: true,
+                photoUrl: true,
+                dateOfBirth: true,
+                email: true,
+                phone: true,
+                grade: { select: { name: true } },
+                section: { select: { name: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!parent) {
+      throw new NotFoundException('Parent profile not found');
     }
+
+    return {
+      id: parent.id,
+      userId: parent.userId,
+      firstName: parent.firstName,
+      lastName: parent.lastName,
+      relationship: parent.relationship,
+      occupation: parent.occupation,
+      email: parent.user.email,
+      phone: parent.user.phone,
+      status: parent.user.status,
+      createdAt: parent.createdAt,
+      updatedAt: parent.updatedAt,
+      lastLoginAt: parent.user.lastLoginAt,
+      accountCreatedAt: parent.user.createdAt,
+      children: parent.children.map((link) => ({
+        ...link.student,
+        linkedAt: link.createdAt,
+        isPrimaryContact: link.isPrimary,
+        gradeName: link.student.grade.name,
+        sectionName: link.student.section.name,
+      })),
+    };
+  }
+
+  async updateContactInfo(
+    tenantId: string,
+    parentId: string,
+    dto: UpdateParentContactDto,
+  ) {
+    const parent = await this.prisma.parent.findFirst({
+      where: { id: parentId, tenantId },
+      select: { userId: true },
+    });
+
+    if (!parent) {
+      throw new NotFoundException('Parent profile not found');
+    }
+
+    const data: Prisma.UserUpdateInput = {};
+    if (dto.email !== undefined) data.email = dto.email || null;
+    if (dto.phone !== undefined) data.phone = dto.phone || null;
+
+    if (Object.keys(data).length > 0) {
+      try {
+        await this.prisma.user.update({
+          where: { id: parent.userId },
+          data,
+        });
+      } catch (error) {
+        if (
+          error instanceof Prisma.PrismaClientKnownRequestError &&
+          error.code === 'P2002'
+        ) {
+          const target = (error.meta?.target as string[]) || [];
+          if (target.includes('email')) {
+            throw new ConflictException('Email already in use');
+          }
+          if (target.includes('phone')) {
+            throw new ConflictException('Phone number already in use');
+          }
+          throw new ConflictException(
+            `Duplicate value: ${target.join(', ')}`,
+          );
+        }
+        throw error;
+      }
+    }
+
+    return this.getDirectoryProfile(tenantId, parentId);
   }
 
   private async getParentChildrenLite(userId: string, tenantId: string) {
+    const student = await this.prisma.student.findFirst({
+      where: { userId, tenantId },
+      include: {
+        grade: { select: { id: true, name: true } },
+        section: { select: { id: true, name: true } },
+      },
+    });
+
+    if (student) return [student];
+
     const parent = await this.prisma.parent.findFirst({
       where: { userId, tenantId },
       include: {
@@ -390,6 +595,7 @@ export class ParentsService {
         gracePeriodApproved: inv.gracePeriodApproved,
         amountPaid,
         amountOutstanding: outstanding,
+        paidAt: inv.paidAt,
         student: student
           ? {
               id: student.id,
@@ -738,6 +944,7 @@ export class ParentsService {
               id: `${assignment.id}:${student.id}`,
               assignmentId: assignment.id,
               title: assignment.title,
+              type: assignment.type || 'HOMEWORK',
               subject: assignment.subjectId
                 ? subjectMap.get(assignment.subjectId) || 'Subject'
                 : 'General',
@@ -778,6 +985,8 @@ export class ParentsService {
       where: {
         tenantId,
         studentId: { in: selectedChildren.map((c) => c.id) },
+        // Parents only see published report cards, never drafts.
+        status: AcademicRecordStatus.PUBLISHED,
       },
       orderBy: { updatedAt: 'desc' },
       take: params?.limit || 100,
@@ -802,6 +1011,8 @@ export class ParentsService {
         date: (card.publishedAt || card.updatedAt).toISOString(),
         status: card.status,
         details: card.remarks || '',
+        fileUrl: card.fileUrl,
+        fileName: card.fileName,
       }));
     }
 
@@ -953,115 +1164,36 @@ export class ParentsService {
       };
     }
 
-    const consultationAnnouncement =
-      await this.getLatestConsultationAnnouncement(tenantId);
-    const config = this.getConsultationConfig(consultationAnnouncement);
-    const baseMinutes = this.parseTimeToMinutes(config.startTime, 9 * 60);
-
-    const sectionIds = Array.from(
-      new Set(selectedChildren.map((c) => c.sectionId)),
-    );
-    const gradeIds = Array.from(
-      new Set(selectedChildren.map((c) => c.gradeId)),
-    );
-
-    const [classTeachers, gradeSubjects] = await Promise.all([
-      this.prisma.classTeacher.findMany({
-        where: { sectionId: { in: sectionIds } },
-        include: {
-          teacher: {
-            select: { id: true, firstName: true, lastName: true },
-          },
-          section: {
-            select: { id: true, name: true },
-          },
-        },
-      }),
-      this.prisma.subject.findMany({
-        where: { tenantId, gradeId: { in: gradeIds } },
-        include: {
-          teachers: {
-            include: {
-              teacher: {
-                select: { id: true, firstName: true, lastName: true },
-              },
-            },
-          },
-          grade: {
-            select: { id: true, name: true },
-          },
-        },
-      }),
-    ]);
-
-    const items = selectedChildren.flatMap((student) => {
-      const classTeacherLinks = classTeachers
-        .filter((ct) => ct.sectionId === student.sectionId)
-        .map((ct) => ({
-          teacherId: ct.teacher.id,
-          teacherName: `${ct.teacher.firstName} ${ct.teacher.lastName}`.trim(),
-          subject: 'Class Teacher',
-          sectionName: ct.section?.name || student.section?.name || '',
-        }));
-
-      const subjectTeacherLinks = gradeSubjects
-        .filter((subject) => subject.gradeId === student.gradeId)
-        .flatMap((subject) =>
-          subject.teachers.map((st) => ({
-            teacherId: st.teacher.id,
-            teacherName:
-              `${st.teacher.firstName} ${st.teacher.lastName}`.trim(),
-            subject: subject.name,
-            sectionName: student.section?.name || '',
-          })),
-        );
-
-      const deduped = Array.from(
-        new Map(
-          [...classTeacherLinks, ...subjectTeacherLinks].map((link) => [
-            `${link.teacherId}:${link.subject}`,
-            link,
-          ]),
-        ).values(),
+    // ── No staff-placed bookings — fall back to the generated schedule ─────────
+    // Delegate to AcademicsService so parents see slots drawn from the exact
+    // same tenant-wide, collision-free schedule staff preview — never a
+    // separately (and inconsistently) recomputed one for just this family.
+    const generated =
+      await this.academicsService.getConsultationScheduleForStudents(
+        tenantId,
+        selectedChildren.map((c) => c.id),
       );
 
-      return deduped.map((link) => {
-        const hash = this.stableHash(
-          `${config.date}:${student.id}:${link.teacherId}:${link.subject}`,
-        );
-        const slotIndex = hash % 30;
-        const startMinutes = baseMinutes + slotIndex * config.durationMinutes;
-        const endMinutes = startMinutes + config.durationMinutes;
-
-        return {
-          id: `${student.id}:${link.teacherId}:${link.subject}:${config.date}`,
-          studentId: student.id,
-          studentName: `${student.firstName} ${student.lastName}`.trim(),
-          teacherId: link.teacherId,
-          teacherName: link.teacherName,
-          subject: link.subject,
-          section: link.sectionName || null,
-          date: config.date,
-          startTime: this.formatTime(startMinutes),
-          endTime: this.formatTime(endMinutes),
-          location: config.location,
-          source: config.source,
-        };
-      });
-    });
-
-    const sorted = items.sort((a, b) => {
-      const aKey = `${a.date} ${a.startTime}`;
-      const bKey = `${b.date} ${b.startTime}`;
-      return aKey.localeCompare(bKey);
-    });
-
     return {
-      date: config.date,
-      startTime: config.startTime,
-      durationMinutes: config.durationMinutes,
-      location: config.location,
-      items: sorted.slice(0, params?.limit || 200),
+      date: generated.date,
+      startTime: generated.startTime,
+      durationMinutes: generated.durationMinutes,
+      location: generated.location,
+      items: generated.items.slice(0, params?.limit || 200).map((item) => ({
+        id: `${item.studentId}:${item.teacherId}:${item.subject}:${item.date}`,
+        studentId: item.studentId,
+        studentName: item.studentName,
+        teacherId: item.teacherId,
+        teacherName: item.teacherName,
+        subject: item.subject,
+        section: item.sectionName || null,
+        date: item.date,
+        startTime: item.startTime,
+        endTime: item.endTime,
+        location: item.location,
+        performance: item.performance,
+        source: 'CONFIG',
+      })),
     };
   }
 }

@@ -43,6 +43,9 @@ import {
   CurrentUser,
   AuthUser,
 } from '../auth/decorators/current-user.decorator';
+import { StaffRoleGuard } from '../common/guards/staff-role.guard';
+import { RequiresStaffRole } from '../common/decorators/staff-role.decorator';
+import { ACADEMICS_STAFF_ROLES } from '../common/constants/staff-roles';
 
 @ApiTags('Conduct')
 @ApiBearerAuth()
@@ -79,7 +82,7 @@ export class ConductController {
   }
 
   @Get('records')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.PARENT)
   @ApiOperation({ summary: 'Get all conduct records with filters' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -90,7 +93,12 @@ export class ConductController {
     @Query() query: QueryConductRecordsDto,
     @CurrentUser() user: AuthUser,
   ): Promise<ConductRecordListResponseDto> {
-    return this.conductService.findAllConductRecords(user.tenantId, query);
+    return this.conductService.findAllConductRecords(
+      user.tenantId,
+      query,
+      user.role as Role,
+      user.id,
+    );
   }
 
   @Get('records/:id')
@@ -196,7 +204,6 @@ export class ConductController {
     Role.SUPER_ADMIN,
     Role.STAFF,
     Role.TEACHER,
-    Role.STAFF,
     Role.PARENT,
   )
   @ApiOperation({ summary: 'Get student conduct points with history' })
@@ -210,7 +217,13 @@ export class ConductController {
     @Param('studentId') studentId: string,
     @CurrentUser() user: AuthUser,
   ): Promise<StudentPointsResponseDto> {
-    return this.conductService.getStudentPoints(studentId, user.tenantId);
+    return this.conductService.getStudentPoints(
+      studentId,
+      user.tenantId,
+      true,
+      user.role as Role,
+      user.id,
+    );
   }
 
   @Post('points/deduct')
@@ -229,7 +242,9 @@ export class ConductController {
   }
 
   @Post('points/add')
+  @UseGuards(StaffRoleGuard)
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @RequiresStaffRole(...ACADEMICS_STAFF_ROLES)
   @ApiOperation({ summary: 'Add points to a student (for good behavior)' })
   @ApiResponse({
     status: HttpStatus.OK,

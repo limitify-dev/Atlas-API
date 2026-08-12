@@ -197,6 +197,18 @@ export class BulkAttendanceRecordDto {
   studentId: string;
 
   @ApiProperty({
+    description: 'Attendance date in YYYY-MM-DD format',
+    example: '2026-07-30',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'Date must use YYYY-MM-DD format',
+  })
+  date?: string;
+
+  @ApiProperty({
     description: 'Attendance status',
     enum: ['PRESENT', 'ABSENT', 'LATE', 'EXCUSED'],
     example: 'PRESENT',

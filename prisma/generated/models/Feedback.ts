@@ -31,6 +31,8 @@ export type FeedbackMinAggregateOutputType = {
   category: $Enums.FeedbackCategory | null
   message: string | null
   status: $Enums.FeedbackStatus | null
+  priority: $Enums.FeedbackPriority | null
+  plannedRelease: string | null
   createdAt: Date | null
   resolvedAt: Date | null
 }
@@ -42,6 +44,8 @@ export type FeedbackMaxAggregateOutputType = {
   category: $Enums.FeedbackCategory | null
   message: string | null
   status: $Enums.FeedbackStatus | null
+  priority: $Enums.FeedbackPriority | null
+  plannedRelease: string | null
   createdAt: Date | null
   resolvedAt: Date | null
 }
@@ -53,6 +57,8 @@ export type FeedbackCountAggregateOutputType = {
   category: number
   message: number
   status: number
+  priority: number
+  plannedRelease: number
   createdAt: number
   resolvedAt: number
   _all: number
@@ -66,6 +72,8 @@ export type FeedbackMinAggregateInputType = {
   category?: true
   message?: true
   status?: true
+  priority?: true
+  plannedRelease?: true
   createdAt?: true
   resolvedAt?: true
 }
@@ -77,6 +85,8 @@ export type FeedbackMaxAggregateInputType = {
   category?: true
   message?: true
   status?: true
+  priority?: true
+  plannedRelease?: true
   createdAt?: true
   resolvedAt?: true
 }
@@ -88,6 +98,8 @@ export type FeedbackCountAggregateInputType = {
   category?: true
   message?: true
   status?: true
+  priority?: true
+  plannedRelease?: true
   createdAt?: true
   resolvedAt?: true
   _all?: true
@@ -172,6 +184,8 @@ export type FeedbackGroupByOutputType = {
   category: $Enums.FeedbackCategory
   message: string
   status: $Enums.FeedbackStatus
+  priority: $Enums.FeedbackPriority
+  plannedRelease: string | null
   createdAt: Date
   resolvedAt: Date | null
   _count: FeedbackCountAggregateOutputType | null
@@ -204,6 +218,8 @@ export type FeedbackWhereInput = {
   category?: Prisma.EnumFeedbackCategoryFilter<"Feedback"> | $Enums.FeedbackCategory
   message?: Prisma.StringFilter<"Feedback"> | string
   status?: Prisma.EnumFeedbackStatusFilter<"Feedback"> | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFilter<"Feedback"> | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.StringNullableFilter<"Feedback"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Feedback"> | Date | string
   resolvedAt?: Prisma.DateTimeNullableFilter<"Feedback"> | Date | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -217,6 +233,8 @@ export type FeedbackOrderByWithRelationInput = {
   category?: Prisma.SortOrder
   message?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  plannedRelease?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -233,6 +251,8 @@ export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.EnumFeedbackCategoryFilter<"Feedback"> | $Enums.FeedbackCategory
   message?: Prisma.StringFilter<"Feedback"> | string
   status?: Prisma.EnumFeedbackStatusFilter<"Feedback"> | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFilter<"Feedback"> | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.StringNullableFilter<"Feedback"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Feedback"> | Date | string
   resolvedAt?: Prisma.DateTimeNullableFilter<"Feedback"> | Date | string | null
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -246,6 +266,8 @@ export type FeedbackOrderByWithAggregationInput = {
   category?: Prisma.SortOrder
   message?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  plannedRelease?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   resolvedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FeedbackCountOrderByAggregateInput
@@ -263,6 +285,8 @@ export type FeedbackScalarWhereWithAggregatesInput = {
   category?: Prisma.EnumFeedbackCategoryWithAggregatesFilter<"Feedback"> | $Enums.FeedbackCategory
   message?: Prisma.StringWithAggregatesFilter<"Feedback"> | string
   status?: Prisma.EnumFeedbackStatusWithAggregatesFilter<"Feedback"> | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityWithAggregatesFilter<"Feedback"> | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.StringNullableWithAggregatesFilter<"Feedback"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Feedback"> | Date | string
   resolvedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Feedback"> | Date | string | null
 }
@@ -272,6 +296,8 @@ export type FeedbackCreateInput = {
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutFeedbackInput
@@ -285,6 +311,8 @@ export type FeedbackUncheckedCreateInput = {
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
 }
@@ -294,6 +322,8 @@ export type FeedbackUpdateInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutFeedbackNestedInput
@@ -307,6 +337,8 @@ export type FeedbackUncheckedUpdateInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -318,6 +350,8 @@ export type FeedbackCreateManyInput = {
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
 }
@@ -327,6 +361,8 @@ export type FeedbackUpdateManyMutationInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -338,6 +374,8 @@ export type FeedbackUncheckedUpdateManyInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -359,6 +397,8 @@ export type FeedbackCountOrderByAggregateInput = {
   category?: Prisma.SortOrder
   message?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  plannedRelease?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   resolvedAt?: Prisma.SortOrder
 }
@@ -370,6 +410,8 @@ export type FeedbackMaxOrderByAggregateInput = {
   category?: Prisma.SortOrder
   message?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  plannedRelease?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   resolvedAt?: Prisma.SortOrder
 }
@@ -381,6 +423,8 @@ export type FeedbackMinOrderByAggregateInput = {
   category?: Prisma.SortOrder
   message?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+  plannedRelease?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   resolvedAt?: Prisma.SortOrder
 }
@@ -477,11 +521,17 @@ export type EnumFeedbackStatusFieldUpdateOperationsInput = {
   set?: $Enums.FeedbackStatus
 }
 
+export type EnumFeedbackPriorityFieldUpdateOperationsInput = {
+  set?: $Enums.FeedbackPriority
+}
+
 export type FeedbackCreateWithoutTenantInput = {
   id?: string
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutFeedbackInput
@@ -493,6 +543,8 @@ export type FeedbackUncheckedCreateWithoutTenantInput = {
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
 }
@@ -533,6 +585,8 @@ export type FeedbackScalarWhereInput = {
   category?: Prisma.EnumFeedbackCategoryFilter<"Feedback"> | $Enums.FeedbackCategory
   message?: Prisma.StringFilter<"Feedback"> | string
   status?: Prisma.EnumFeedbackStatusFilter<"Feedback"> | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFilter<"Feedback"> | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.StringNullableFilter<"Feedback"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Feedback"> | Date | string
   resolvedAt?: Prisma.DateTimeNullableFilter<"Feedback"> | Date | string | null
 }
@@ -542,6 +596,8 @@ export type FeedbackCreateWithoutUserInput = {
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
   tenant: Prisma.TenantCreateNestedOneWithoutFeedbackInput
@@ -553,6 +609,8 @@ export type FeedbackUncheckedCreateWithoutUserInput = {
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
 }
@@ -589,6 +647,8 @@ export type FeedbackCreateManyTenantInput = {
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
 }
@@ -598,6 +658,8 @@ export type FeedbackUpdateWithoutTenantInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutFeedbackNestedInput
@@ -609,6 +671,8 @@ export type FeedbackUncheckedUpdateWithoutTenantInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -619,6 +683,8 @@ export type FeedbackUncheckedUpdateManyWithoutTenantInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -629,6 +695,8 @@ export type FeedbackCreateManyUserInput = {
   category: $Enums.FeedbackCategory
   message: string
   status?: $Enums.FeedbackStatus
+  priority?: $Enums.FeedbackPriority
+  plannedRelease?: string | null
   createdAt?: Date | string
   resolvedAt?: Date | string | null
 }
@@ -638,6 +706,8 @@ export type FeedbackUpdateWithoutUserInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tenant?: Prisma.TenantUpdateOneRequiredWithoutFeedbackNestedInput
@@ -649,6 +719,8 @@ export type FeedbackUncheckedUpdateWithoutUserInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -659,6 +731,8 @@ export type FeedbackUncheckedUpdateManyWithoutUserInput = {
   category?: Prisma.EnumFeedbackCategoryFieldUpdateOperationsInput | $Enums.FeedbackCategory
   message?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumFeedbackStatusFieldUpdateOperationsInput | $Enums.FeedbackStatus
+  priority?: Prisma.EnumFeedbackPriorityFieldUpdateOperationsInput | $Enums.FeedbackPriority
+  plannedRelease?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resolvedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -672,6 +746,8 @@ export type FeedbackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   category?: boolean
   message?: boolean
   status?: boolean
+  priority?: boolean
+  plannedRelease?: boolean
   createdAt?: boolean
   resolvedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -685,6 +761,8 @@ export type FeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   category?: boolean
   message?: boolean
   status?: boolean
+  priority?: boolean
+  plannedRelease?: boolean
   createdAt?: boolean
   resolvedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -698,6 +776,8 @@ export type FeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   category?: boolean
   message?: boolean
   status?: boolean
+  priority?: boolean
+  plannedRelease?: boolean
   createdAt?: boolean
   resolvedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -711,11 +791,13 @@ export type FeedbackSelectScalar = {
   category?: boolean
   message?: boolean
   status?: boolean
+  priority?: boolean
+  plannedRelease?: boolean
   createdAt?: boolean
   resolvedAt?: boolean
 }
 
-export type FeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "userId" | "category" | "message" | "status" | "createdAt" | "resolvedAt", ExtArgs["result"]["feedback"]>
+export type FeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "userId" | "category" | "message" | "status" | "priority" | "plannedRelease" | "createdAt" | "resolvedAt", ExtArgs["result"]["feedback"]>
 export type FeedbackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -742,6 +824,8 @@ export type $FeedbackPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     category: $Enums.FeedbackCategory
     message: string
     status: $Enums.FeedbackStatus
+    priority: $Enums.FeedbackPriority
+    plannedRelease: string | null
     createdAt: Date
     resolvedAt: Date | null
   }, ExtArgs["result"]["feedback"]>
@@ -1175,6 +1259,8 @@ export interface FeedbackFieldRefs {
   readonly category: Prisma.FieldRef<"Feedback", 'FeedbackCategory'>
   readonly message: Prisma.FieldRef<"Feedback", 'String'>
   readonly status: Prisma.FieldRef<"Feedback", 'FeedbackStatus'>
+  readonly priority: Prisma.FieldRef<"Feedback", 'FeedbackPriority'>
+  readonly plannedRelease: Prisma.FieldRef<"Feedback", 'String'>
   readonly createdAt: Prisma.FieldRef<"Feedback", 'DateTime'>
   readonly resolvedAt: Prisma.FieldRef<"Feedback", 'DateTime'>
 }

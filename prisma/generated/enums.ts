@@ -237,10 +237,21 @@ export const AnnouncementStatus = {
 export type AnnouncementStatus = (typeof AnnouncementStatus)[keyof typeof AnnouncementStatus]
 
 
+export const PollStatus = {
+  ACTIVE: 'ACTIVE',
+  CLOSED: 'CLOSED',
+  DRAFT: 'DRAFT'
+} as const
+
+export type PollStatus = (typeof PollStatus)[keyof typeof PollStatus]
+
+
 export const MessageType = {
   TEXT: 'TEXT',
   IMAGE: 'IMAGE',
   FILE: 'FILE',
+  AUDIO: 'AUDIO',
+  VIDEO: 'VIDEO',
   SYSTEM: 'SYSTEM'
 } as const
 
@@ -446,6 +457,14 @@ export const BillingStatus = {
 export type BillingStatus = (typeof BillingStatus)[keyof typeof BillingStatus]
 
 
+export const BillingSource = {
+  MANUAL: 'MANUAL',
+  AUTO: 'AUTO'
+} as const
+
+export type BillingSource = (typeof BillingSource)[keyof typeof BillingSource]
+
+
 export const AdminApprovalStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
@@ -453,6 +472,24 @@ export const AdminApprovalStatus = {
 } as const
 
 export type AdminApprovalStatus = (typeof AdminApprovalStatus)[keyof typeof AdminApprovalStatus]
+
+
+export const OnboardingRequestIntent = {
+  GET_STARTED: 'GET_STARTED',
+  REQUEST_DEMO: 'REQUEST_DEMO',
+  ENROLL_NOW: 'ENROLL_NOW'
+} as const
+
+export type OnboardingRequestIntent = (typeof OnboardingRequestIntent)[keyof typeof OnboardingRequestIntent]
+
+
+export const OnboardingRequestStatus = {
+  NEW: 'NEW',
+  CONTACTED: 'CONTACTED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type OnboardingRequestStatus = (typeof OnboardingRequestStatus)[keyof typeof OnboardingRequestStatus]
 
 
 export const FeedbackCategory = {
@@ -472,3 +509,64 @@ export const FeedbackStatus = {
 } as const
 
 export type FeedbackStatus = (typeof FeedbackStatus)[keyof typeof FeedbackStatus]
+
+
+export const FeedbackPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH'
+} as const
+
+export type FeedbackPriority = (typeof FeedbackPriority)[keyof typeof FeedbackPriority]
+
+
+export const TenantSubscriptionStatus = {
+  ACTIVE: 'ACTIVE',
+  EXPIRING_SOON: 'EXPIRING_SOON',
+  EXPIRED: 'EXPIRED',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type TenantSubscriptionStatus = (typeof TenantSubscriptionStatus)[keyof typeof TenantSubscriptionStatus]
+
+
+export const SubscriptionPaymentMethod = {
+  BANK_TRANSFER: 'BANK_TRANSFER',
+  CASH: 'CASH',
+  CHEQUE: 'CHEQUE',
+  MOBILE_MONEY: 'MOBILE_MONEY',
+  CARD: 'CARD',
+  OTHER: 'OTHER'
+} as const
+
+export type SubscriptionPaymentMethod = (typeof SubscriptionPaymentMethod)[keyof typeof SubscriptionPaymentMethod]
+
+
+export const SubscriptionCurrency = {
+  USD: 'USD',
+  EUR: 'EUR',
+  GBP: 'GBP',
+  UGX: 'UGX',
+  KES: 'KES',
+  TZS: 'TZS',
+  NGN: 'NGN',
+  ZAR: 'ZAR',
+  RWF: 'RWF',
+  GHS: 'GHS'
+} as const
+
+export type SubscriptionCurrency = (typeof SubscriptionCurrency)[keyof typeof SubscriptionCurrency]
+
+
+export const SubscriptionAuditAction = {
+  PAYMENT_LOGGED: 'PAYMENT_LOGGED',
+  MANUALLY_EXTENDED: 'MANUALLY_EXTENDED',
+  MANUALLY_SUSPENDED: 'MANUALLY_SUSPENDED',
+  MANUALLY_REACTIVATED: 'MANUALLY_REACTIVATED',
+  STATUS_AUTO_EXPIRED: 'STATUS_AUTO_EXPIRED',
+  STATUS_RECALCULATED: 'STATUS_RECALCULATED',
+  PAYMENT_DELETED: 'PAYMENT_DELETED',
+  GRACE_PERIOD_UPDATED: 'GRACE_PERIOD_UPDATED'
+} as const
+
+export type SubscriptionAuditAction = (typeof SubscriptionAuditAction)[keyof typeof SubscriptionAuditAction]

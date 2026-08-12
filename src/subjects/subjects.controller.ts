@@ -16,6 +16,7 @@ import {
   AuthUser,
 } from '../auth/decorators/current-user.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { HttpCache } from '../common/decorators/http-cache.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { SubjectsService } from './subjects.service';
@@ -36,6 +37,7 @@ export class SubjectsController {
   }
 
   @Get()
+  @HttpCache('private, max-age=30, stale-while-revalidate=120')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Get all subjects' })
   findAll(@CurrentUser() user: AuthUser, @Query('gradeId') gradeId?: string) {

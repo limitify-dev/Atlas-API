@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   ConflictException,
   NotFoundException,
@@ -7,6 +8,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { SupabaseService } from '../../common/supabase/supabase.service';
 import {
   CreateStudioTenantDto,
+  UpdateTenantAttendanceScheduleDto,
   UpdateTenantStatusDto,
   UpdateTenantDto,
 } from '../dto';
@@ -15,6 +17,7 @@ import { StudioSubscriptionService } from './studio-subscription.service';
 import { AdminProvisionService } from './admin-provision.service';
 import {
   AdminInvite,
+  Prisma,
   SubscriptionPlan,
 } from '../../../prisma/generated/client';
 
@@ -47,7 +50,7 @@ export class StudioTenantsService {
       include: {
         studioSubscription: true,
         tenantModules: { include: { module: true } },
-        adminInvites: { orderBy: { createdAt: 'desc' }, take: 5 },
+        adminInvites: { orderBy: { createdAt: 'desc' } },
         _count: {
           select: { users: true, teachers: true, grades: true, sections: true },
         },
@@ -73,6 +76,14 @@ export class StudioTenantsService {
         'A tenant with this name or slug already exists.',
       );
 
+    const attendanceStartTime = dto.attendanceStartTime || '08:00';
+    const attendanceEndTime = dto.attendanceEndTime || '17:00';
+    if (attendanceStartTime >= attendanceEndTime) {
+      throw new BadRequestException(
+        'School start time must be earlier than school end time.',
+      );
+    }
+
     const tenant = await this.prisma.tenant.create({
       data: {
         name: dto.name,
@@ -80,18 +91,24 @@ export class StudioTenantsService {
         timezone: dto.timezone || 'UTC',
         brandColor: dto.brandColor || '#1e40af',
         status: 'TRIAL',
+        settings: {
+          attendance: {
+            startTime: attendanceStartTime,
+            endTime: attendanceEndTime,
+            schoolDays: dto.schoolDays || [1, 2, 3, 4, 5],
+          },
+        },
       },
     });
 
-    // Parallel: subscription + modules
-    await Promise.all([
-      this.subscriptionService.createTrial(
-        tenant.id,
-        (dto.plan as SubscriptionPlan) || SubscriptionPlan.BASIC,
-        dto.trialDays ?? 30,
-      ),
-      this.modulesService.enableDefaults(tenant.id),
-    ]);
+    // Subscription + modules. createTrial() syncs the Tenant's legacy plan
+    // fields and the computed billing engine's period window/status itself.
+    await this.subscriptionService.createTrial(
+      tenant.id,
+      (dto.plan as SubscriptionPlan) || SubscriptionPlan.BASIC,
+      dto.trialDays ?? 30,
+    );
+    await this.modulesService.enableDefaults(tenant.id);
 
     // Admin invite if contact provided
     let invite: AdminInvite | null = null;
@@ -105,6 +122,39 @@ export class StudioTenantsService {
     }
 
     return { tenant, invite };
+  }
+
+  async updateAttendanceSchedule(
+    id: string,
+    dto: UpdateTenantAttendanceScheduleDto,
+  ) {
+    if (dto.startTime >= dto.endTime) {
+      throw new BadRequestException(
+        'School start time must be earlier than school end time.',
+      );
+    }
+
+    const tenant = await this.findOne(id);
+    const current =
+      tenant.settings &&
+      typeof tenant.settings === 'object' &&
+      !Array.isArray(tenant.settings)
+        ? tenant.settings
+        : {};
+
+    return this.prisma.tenant.update({
+      where: { id },
+      data: {
+        settings: {
+          ...current,
+          attendance: {
+            startTime: dto.startTime,
+            endTime: dto.endTime,
+            schoolDays: dto.schoolDays,
+          },
+        } as Prisma.InputJsonValue,
+      },
+    });
   }
 
   async update(

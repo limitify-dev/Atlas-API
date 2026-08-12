@@ -64,6 +64,11 @@ export class CreateEventDto {
   @IsOptional()
   @IsIn(['ALL', 'PARENTS', 'STAFF', 'TEACHERS'])
   audience?: string;
+
+  @ApiProperty({ required: false, description: 'Cover image URL for the event' })
+  @IsOptional()
+  @IsString()
+  thumbnailUrl?: string;
 }
 
 export class UpdateEventDto {
@@ -107,6 +112,10 @@ export class UpdateEventDto {
   @IsOptional()
   @IsIn(['ALL', 'PARENTS', 'STAFF', 'TEACHERS'])
   audience?: string;
+
+  @IsOptional()
+  @IsString()
+  thumbnailUrl?: string;
 }
 
 export class EventFiltersDto {

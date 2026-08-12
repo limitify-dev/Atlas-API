@@ -1,19 +1,50 @@
 import {
   Injectable,
+  Logger,
   NotFoundException,
   ForbiddenException,
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { SupabaseService } from '../../common/supabase/supabase.service';
 import { CreateChannelDto, CreateGroupDto, UpdateGroupDto } from './dto';
 import {
   PARENT_MESSAGING_STAFF_ROLES,
   resolveContactDisplayRole,
 } from '../../common/constants/staff-roles';
+import { Role, Prisma, ConversationType } from '../../../prisma/generated/client';
+
+const CHAT_ATTACHMENT_BUCKET = 'atlas-chat';
 
 @Injectable()
 export class ChatService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(ChatService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly supabase: SupabaseService,
+  ) { }
+
+  /**
+   * Best-effort removal of a chat attachment's underlying file from storage.
+   * Never throws — a storage cleanup failure shouldn't block message deletion,
+   * since the message is already gone from the chat either way.
+   */
+  private async deleteAttachmentFile(fileUrl?: string | null): Promise<void> {
+    if (!fileUrl) return;
+    const marker = `/${CHAT_ATTACHMENT_BUCKET}/`;
+    const markerIndex = fileUrl.indexOf(marker);
+    if (markerIndex === -1) return;
+
+    const storagePath = decodeURIComponent(fileUrl.slice(markerIndex + marker.length));
+    const { error } = await this.supabase.client.storage
+      .from(CHAT_ATTACHMENT_BUCKET)
+      .remove([storagePath]);
+
+    if (error) {
+      this.logger.warn(`Failed to remove chat attachment "${storagePath}": ${error.message}`);
+    }
+  }
 
   private hasTenantAccess(tenantId?: string | null): tenantId is string {
     return Boolean(tenantId && tenantId.trim().length > 0);
@@ -62,6 +93,52 @@ export class ChatService {
   }
 
   /**
+   * Parent communication is admin/staff-only — a teacher may never message a
+   * parent directly or belong to a group that includes one. Throws if
+   * `actorRole` is TEACHER and any of `participantRoles` is PARENT.
+   */
+  private assertTeacherNotMessagingParents(
+    actorRole: string | undefined,
+    participantRoles: (string | null | undefined)[],
+  ): void {
+    if (actorRole !== 'TEACHER') return;
+    if (participantRoles.includes('PARENT')) {
+      throw new ForbiddenException(
+        'Teachers cannot message parents directly or belong to parent groups. Please contact an admin or staff member.',
+      );
+    }
+  }
+
+  /** Whether any participant of this conversation is a PARENT. */
+  private async conversationHasParentParticipant(
+    conversationId: string,
+  ): Promise<boolean> {
+    const parentParticipant =
+      await this.prisma.conversationParticipant.findFirst({
+        where: { conversationId, user: { role: Role.PARENT } },
+        select: { id: true },
+      });
+    return !!parentParticipant;
+  }
+
+  /**
+   * Defense-in-depth for conversations a teacher may already be part of
+   * (e.g. created before this restriction existed) — blocks viewing or
+   * sending into any conversation that includes a parent.
+   */
+  private async assertTeacherNotAccessingParentConversation(
+    conversationId: string,
+    actorRole: string | undefined,
+  ): Promise<void> {
+    if (actorRole !== 'TEACHER') return;
+    if (await this.conversationHasParentParticipant(conversationId)) {
+      throw new ForbiddenException(
+        'Teachers cannot access conversations that include parents.',
+      );
+    }
+  }
+
+  /**
    * Get or create a 1-on-1 conversation between two users.
    * Returns existing conversation if one already exists.
    */
@@ -69,6 +146,7 @@ export class ChatService {
     tenantId: string,
     userId: string,
     participantId: string,
+    actorRole?: string,
   ) {
     if (userId === participantId) {
       throw new BadRequestException(
@@ -78,7 +156,7 @@ export class ChatService {
 
     // Verify both users belong to the same tenant
     const participant = await this.prisma.user.findFirst({
-      where: { id: participantId, tenantId, status: 'ACTIVE' },
+      where: { id: participantId, tenantId, status: { in: ['ACTIVE', 'PENDING'] } },
       select: {
         id: true,
         name: true,
@@ -103,6 +181,10 @@ export class ChatService {
     if (!participant) {
       throw new NotFoundException('Participant not found');
     }
+
+    // Applies whether or not a conversation with this parent already exists
+    // — teachers can't resume talking to a parent either.
+    this.assertTeacherNotMessagingParents(actorRole, [participant.role]);
 
     // Check if conversation already exists between these two users
     const existing = await this.prisma.conversation.findFirst({
@@ -212,6 +294,60 @@ export class ChatService {
   }
 
   /**
+   * Sections a teacher actually teaches — either as the subject teacher for
+   * some scheduled period (TimetableEntry) or as the section's homeroom
+   * teacher (ClassTeacher). Used to scope which class/section GROUP
+   * conversations a teacher may see. Recomputed fresh on every call (not
+   * cached), so it self-corrects the moment a teaching assignment changes —
+   * no sync job needed to keep group visibility in step with the timetable.
+   */
+  private async getTeacherSectionIds(
+    userId: string,
+    tenantId: string,
+  ): Promise<string[]> {
+    const teacher = await this.prisma.teacher.findFirst({
+      where: { userId, tenantId },
+      select: { id: true },
+    });
+    if (!teacher) return [];
+
+    const [timetableRows, classTeacherRows] = await Promise.all([
+      this.prisma.timetableEntry.findMany({
+        where: { tenantId, teacherId: teacher.id },
+        select: { sectionId: true },
+        distinct: ['sectionId'],
+      }),
+      this.prisma.classTeacher.findMany({
+        where: { teacherId: teacher.id },
+        select: { sectionId: true },
+      }),
+    ]);
+
+    return Array.from(
+      new Set([
+        ...timetableRows.map((r) => r.sectionId),
+        ...classTeacherRows.map((r) => r.sectionId),
+      ]),
+    );
+  }
+
+  /**
+   * Restricts GROUP conversations to ones whose section is in `sectionIds`.
+   * DIRECT/CHANNEL conversations and section-less (ad-hoc) GROUPs pass
+   * through untouched — this only closes the "teacher sees a class group for
+   * a section they don't teach" gap, not general manual group membership.
+   */
+  private teacherGroupScopeFilter(sectionIds: string[]): Prisma.ConversationWhereInput {
+    return {
+      OR: [
+        { type: { not: ConversationType.GROUP } },
+        { sectionId: null },
+        { sectionId: { in: sectionIds } },
+      ],
+    };
+  }
+
+  /**
    * Get paginated list of conversations for a user
    */
   async getUserConversations(
@@ -219,6 +355,7 @@ export class ChatService {
     tenantId?: string | null,
     page: number = 1,
     limit: number = 20,
+    actorRole?: string,
   ) {
     if (!this.hasTenantAccess(tenantId)) {
       return {
@@ -234,13 +371,32 @@ export class ChatService {
 
     const skip = (page - 1) * limit;
 
+    // Teachers shouldn't see parent conversations in their inbox at all —
+    // even ones they were somehow already added to.
+    const excludeParentGroups =
+      actorRole === 'TEACHER'
+        ? { NOT: { participants: { some: { user: { role: Role.PARENT } } } } }
+        : {};
+
+    // And class/section GROUPs are scoped to sections they actually teach.
+    const teacherGroupScope =
+      actorRole === 'TEACHER'
+        ? this.teacherGroupScopeFilter(
+            await this.getTeacherSectionIds(userId, tenantId),
+          )
+        : {};
+
+    const where: Prisma.ConversationWhereInput = {
+      tenantId,
+      participants: { some: { userId } },
+      status: 'ACTIVE',
+      ...excludeParentGroups,
+      ...teacherGroupScope,
+    };
+
     const [conversations, total] = await Promise.all([
       this.prisma.conversation.findMany({
-        where: {
-          tenantId,
-          participants: { some: { userId } },
-          status: 'ACTIVE',
-        },
+        where,
         include: {
           participants: {
             include: {
@@ -269,17 +425,14 @@ export class ChatService {
         skip,
         take: limit,
       }),
-      this.prisma.conversation.count({
-        where: {
-          tenantId,
-          participants: { some: { userId } },
-          status: 'ACTIVE',
-        },
-      }),
+      this.prisma.conversation.count({ where }),
     ]);
 
+    const conversationIds = conversations.map(c => c.id);
+    const unreadCounts = await this.batchGetUnreadCounts(userId, conversationIds);
+
     const formatted = await Promise.all(
-      conversations.map((conv) => this.formatConversation(conv, userId)),
+      conversations.map((conv) => this.formatConversation(conv, userId, unreadCounts.get(conv.id))),
     );
 
     return {
@@ -300,10 +453,18 @@ export class ChatService {
     conversationId: string,
     userId: string,
     tenantId?: string | null,
+    actorRole?: string,
   ) {
     if (!this.hasTenantAccess(tenantId)) {
       throw new NotFoundException('Conversation not found');
     }
+
+    const teacherGroupScope =
+      actorRole === 'TEACHER'
+        ? this.teacherGroupScopeFilter(
+            await this.getTeacherSectionIds(userId, tenantId),
+          )
+        : {};
 
     const conversation = await this.prisma.conversation.findFirst({
       where: {
@@ -311,6 +472,10 @@ export class ChatService {
         tenantId,
         status: 'ACTIVE',
         participants: { some: { userId } },
+        ...(actorRole === 'TEACHER'
+          ? { NOT: { participants: { some: { user: { role: Role.PARENT } } } } }
+          : {}),
+        ...teacherGroupScope,
       },
       include: {
         participants: {
@@ -365,11 +530,16 @@ export class ChatService {
     userId: string,
     cursor?: string,
     limit: number = 50,
+    actorRole?: string,
   ) {
     // Verify user is a participant and get other participant's read status
     const participants = await this.prisma.conversationParticipant.findMany({
       where: { conversationId },
-      select: { userId: true, lastReadAt: true },
+      select: {
+        userId: true,
+        lastReadAt: true,
+        user: { select: { role: true } },
+      },
     });
 
     const participant = participants.find((p) => p.userId === userId);
@@ -380,10 +550,15 @@ export class ChatService {
       );
     }
 
+    this.assertTeacherNotMessagingParents(
+      actorRole,
+      participants.map((p) => p.user.role),
+    );
+
     const otherParticipant = participants.find((p) => p.userId !== userId);
 
     const messages = await this.prisma.chatMessage.findMany({
-      where: { conversationId },
+      where: { conversationId, deletedAt: null },
       ...(cursor && {
         cursor: { id: cursor },
         skip: 1, // Skip the cursor itself
@@ -394,6 +569,14 @@ export class ChatService {
         sender: {
           select: { id: true, name: true, avatar: true },
         },
+        replyTo: {
+          select: {
+            id: true,
+            content: true,
+            type: true,
+            sender: { select: { id: true, name: true } },
+          }
+        }
       },
     });
 
@@ -424,6 +607,8 @@ export class ChatService {
     senderId: string,
     content: string,
     type: string = 'TEXT',
+    attachment?: any,
+    replyToId?: string,
   ) {
     // Verify sender is a participant
     const participant = await this.prisma.conversationParticipant.findUnique({
@@ -442,6 +627,11 @@ export class ChatService {
       );
     }
 
+    await this.assertTeacherNotAccessingParentConversation(
+      conversationId,
+      participant.user.role,
+    );
+
     // Channels are always admin-only for posting. Keep isReadOnly as additional guard.
     const isChannel = participant.conversation.type === 'CHANNEL';
     if (
@@ -459,6 +649,8 @@ export class ChatService {
           senderId,
           content,
           type: type as any,
+          metadata: attachment ? (attachment as any) : undefined,
+          replyToId,
         },
         include: {
           sender: {
@@ -471,6 +663,14 @@ export class ChatService {
               name: true,
               avatar: true,
               isReadOnly: true,
+            },
+          },
+          replyTo: {
+            select: {
+              id: true,
+              content: true,
+              type: true,
+              sender: { select: { id: true, name: true } },
             },
           },
         },
@@ -508,6 +708,121 @@ export class ChatService {
     return { success: true };
   }
 
+  // ─── Message Lifecycle (Edit, Delete, Search, Threading, Media) ───
+
+  async deleteMessage(messageId: string, userId: string, scope: 'SELF' | 'EVERYONE') {
+    const message = await this.prisma.chatMessage.findUnique({
+      where: { id: messageId },
+      include: { conversation: { include: { participants: { where: { userId } } } } },
+    });
+
+    if (!message) throw new NotFoundException('Message not found');
+
+    const participant = message.conversation.participants[0];
+    if (!participant) throw new ForbiddenException('Not a participant');
+
+    if (scope === 'EVERYONE' && message.senderId !== userId && participant.role !== 'ADMIN') {
+      throw new ForbiddenException('Cannot delete this message for everyone');
+    }
+
+    await this.prisma.chatMessage.update({
+      where: { id: messageId },
+      data: { deletedAt: new Date() },
+    });
+
+    const metadata = message.metadata as { fileUrl?: string } | null;
+    await this.deleteAttachmentFile(metadata?.fileUrl);
+
+    return { success: true };
+  }
+
+  async editMessage(messageId: string, userId: string, content: string) {
+    const message = await this.prisma.chatMessage.findUnique({
+      where: { id: messageId },
+    });
+
+    if (!message) throw new NotFoundException('Message not found');
+    if (message.senderId !== userId) throw new ForbiddenException('Cannot edit others messages');
+    if (message.deletedAt) throw new BadRequestException('Cannot edit a deleted message');
+
+    return this.prisma.chatMessage.update({
+      where: { id: messageId },
+      data: { content, editedAt: new Date() },
+      include: { sender: { select: { id: true, name: true, avatar: true } } },
+    });
+  }
+
+  async getMessageReplies(messageId: string, userId: string) {
+    const message = await this.prisma.chatMessage.findUnique({
+      where: { id: messageId },
+      include: { conversation: { include: { participants: { where: { userId } } } } },
+    });
+
+    if (!message) throw new NotFoundException('Message not found');
+    if (message.conversation.participants.length === 0) throw new ForbiddenException('Not a participant');
+
+    return this.prisma.chatMessage.findMany({
+      where: { replyToId: messageId, deletedAt: null },
+      orderBy: { createdAt: 'asc' },
+      include: { sender: { select: { id: true, name: true, avatar: true } } },
+    });
+  }
+
+  async searchMessages(userId: string, tenantId: string, query: string, conversationId?: string) {
+    // Note: In a real system, you'd want to use full-text search features of Prisma/Postgres
+    // For simplicity in Prisma without raw queries on JSON fields, we use contains
+
+    if (!query || query.length < 2) return [];
+
+    const messages = await this.prisma.chatMessage.findMany({
+      where: {
+        content: { contains: query, mode: 'insensitive' },
+        deletedAt: null,
+        conversation: {
+          tenantId,
+          participants: { some: { userId } },
+          ...(conversationId ? { id: conversationId } : {}),
+        }
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 20,
+      include: {
+        sender: { select: { id: true, name: true, avatar: true } },
+        conversation: { select: { id: true, type: true, name: true } },
+      }
+    });
+
+    return messages;
+  }
+
+  async getConversationMedia(conversationId: string, userId: string, cursor?: string, limit: number = 20) {
+    const participant = await this.prisma.conversationParticipant.findUnique({
+      where: { conversationId_userId: { conversationId, userId } },
+    });
+
+    if (!participant) throw new ForbiddenException('Not a participant');
+
+    const messages = await this.prisma.chatMessage.findMany({
+      where: {
+        conversationId,
+        deletedAt: null,
+        type: { in: ['IMAGE', 'FILE', 'AUDIO', 'VIDEO'] },
+      },
+      ...(cursor && {
+        cursor: { id: cursor },
+        skip: 1,
+      }),
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      include: { sender: { select: { id: true, name: true } } },
+    });
+
+    const hasMore = messages.length === limit;
+    const nextCursor = hasMore ? messages[messages.length - 1].id : null;
+
+    return { data: messages, meta: { hasMore, nextCursor } };
+  }
+
   /**
    * Get total unread message count across all conversations
    */
@@ -516,32 +831,47 @@ export class ChatService {
       return { unreadCount: 0 };
     }
 
-    const participants = await this.prisma.conversationParticipant.findMany({
-      where: {
-        userId,
-        conversation: { is: { tenantId, status: 'ACTIVE' } },
-      },
-      select: {
-        conversationId: true,
-        lastReadAt: true,
-      },
-    });
+    const result = await this.prisma.$queryRaw<{ unread: number }[]>`
+      SELECT COUNT(m.id)::int AS unread
+      FROM conversation_participants p
+      JOIN conversations c ON c.id = p."conversationId"
+      LEFT JOIN chat_messages m
+        ON m."conversationId" = p."conversationId"
+        AND m."senderId" != p."userId"
+        AND (p."lastReadAt" IS NULL OR m."createdAt" > p."lastReadAt")
+        AND m."deletedAt" IS NULL
+      WHERE p."userId" = ${userId}
+        AND c."tenantId" = ${tenantId}
+        AND c.status = 'ACTIVE'
+    `;
 
-    let totalUnread = 0;
+    return { unreadCount: result[0]?.unread || 0 };
+  }
 
-    for (const p of participants) {
-      const count = await this.prisma.chatMessage.count({
-        where: {
-          conversationId: p.conversationId,
-          senderId: { not: userId },
-          ...(p.lastReadAt && { createdAt: { gt: p.lastReadAt } }),
-          ...(!p.lastReadAt && {}), // All messages are unread if never read
-        },
-      });
-      totalUnread += count;
+  /**
+   * Batch fetch unread message counts for multiple conversations to avoid N+1 queries.
+   */
+  private async batchGetUnreadCounts(userId: string, conversationIds: string[]): Promise<Map<string, number>> {
+    const map = new Map<string, number>();
+    if (!conversationIds.length) return map;
+
+    const results = await this.prisma.$queryRaw<{ conversationId: string; unread: number }[]>`
+      SELECT p."conversationId", COUNT(m.id)::int AS unread
+      FROM conversation_participants p
+      LEFT JOIN chat_messages m
+        ON m."conversationId" = p."conversationId"
+        AND m."senderId" != p."userId"
+        AND (p."lastReadAt" IS NULL OR m."createdAt" > p."lastReadAt")
+        AND m."deletedAt" IS NULL
+      WHERE p."userId" = ${userId}
+        AND p."conversationId" IN (${Prisma.join(conversationIds)})
+      GROUP BY p."conversationId"
+    `;
+
+    for (const res of results) {
+      map.set(res.conversationId, res.unread);
     }
-
-    return { unreadCount: totalUnread };
+    return map;
   }
 
   /**
@@ -707,7 +1037,7 @@ export class ChatService {
         ...(tenantId && { tenantId }),
         id: { not: userId },
         role: {
-          in: ['ADMIN', 'STAFF', 'TEACHER', 'SUPER_ADMIN'],
+          in: ['ADMIN', 'STAFF', 'TEACHER', 'SUPER_ADMIN', 'PARENT'],
         },
         status: { in: ['ACTIVE', 'PENDING'] },
       },
@@ -738,7 +1068,12 @@ export class ChatService {
   /**
    * Create a group conversation
    */
-  async createGroup(tenantId: string, creatorId: string, dto: CreateGroupDto) {
+  async createGroup(
+    tenantId: string,
+    creatorId: string,
+    dto: CreateGroupDto,
+    actorRole?: string,
+  ) {
     const tenantLogo = await this.getTenantLogo(tenantId);
 
     if (dto.sectionId) {
@@ -760,8 +1095,14 @@ export class ChatService {
         id: { in: requestedParticipantIds },
         status: { in: ['ACTIVE', 'PENDING'] },
       },
-      select: { id: true },
+      select: { id: true, role: true },
     });
+    this.assertTeacherNotMessagingParents(
+      actorRole,
+      validParticipants
+        .filter((u) => u.id !== creatorId)
+        .map((u) => u.role),
+    );
     const validIds = new Set(validParticipants.map((u) => u.id));
     if (!validIds.has(creatorId)) {
       throw new ForbiddenException('Creator is not part of this tenant');
@@ -831,18 +1172,26 @@ export class ChatService {
   }
 
   /**
-   * Create a group for a school section (class) with parents and teachers
+   * Create a group for a school section (class) with all of its parents.
+   * Admin/staff only — teachers are never participants of this group.
    */
   async createSectionGroup(
     tenantId: string,
     sectionId: string,
     creatorId: string,
+    actorRole?: string,
   ) {
+    if (actorRole === 'TEACHER') {
+      throw new ForbiddenException(
+        'Teachers cannot create parent groups. Please contact an admin or staff member.',
+      );
+    }
+
     const tenantLogo = await this.getTenantLogo(tenantId);
 
     // Find the section with grade info
-    const section = await this.prisma.section.findUnique({
-      where: { id: sectionId },
+    const section = await this.prisma.section.findFirst({
+      where: { id: sectionId, tenantId },
       include: {
         grade: true,
       },
@@ -903,23 +1252,10 @@ export class ChatService {
       }
     }
 
-    // Find class teachers for this section
-    const classTeachers = await this.prisma.classTeacher.findMany({
-      where: { sectionId },
-      include: {
-        teacher: {
-          select: { userId: true },
-        },
-      },
-    });
-
-    const adminUserIds = new Set<string>();
-    adminUserIds.add(creatorId);
-    for (const ct of classTeachers) {
-      if (ct.teacher.userId) {
-        adminUserIds.add(ct.teacher.userId);
-      }
-    }
+    // Note: class teachers are deliberately NOT added here — parent
+    // communication is admin/staff-only, so teachers never become
+    // participants of a section's parent group.
+    const adminUserIds = new Set<string>([creatorId]);
 
     const groupName = `${section.grade.code}${section.name} Parents`;
 
@@ -1215,6 +1551,7 @@ export class ChatService {
     conversationId: string,
     userId: string,
     participantIds: string[],
+    actorRole?: string,
   ) {
     // Verify user is ADMIN participant
     const adminParticipant =
@@ -1258,8 +1595,12 @@ export class ChatService {
           tenantId: adminParticipant.conversation.tenantId,
           status: { in: ['ACTIVE', 'PENDING'] },
         },
-        select: { id: true },
+        select: { id: true, role: true },
       });
+      this.assertTeacherNotMessagingParents(
+        actorRole,
+        tenantScopedUsers.map((u) => u.role),
+      );
 
       const validNewIds = tenantScopedUsers.map((u) => u.id);
       await this.prisma.conversationParticipant.createMany({
@@ -1426,15 +1767,23 @@ export class ChatService {
   async getUserConversationIds(
     userId: string,
     tenantId?: string | null,
+    actorRole?: string,
   ): Promise<string[]> {
     if (!this.hasTenantAccess(tenantId)) {
       return [];
     }
 
+    const teacherGroupScope =
+      actorRole === 'TEACHER'
+        ? this.teacherGroupScopeFilter(
+            await this.getTeacherSectionIds(userId, tenantId),
+          )
+        : {};
+
     const participants = await this.prisma.conversationParticipant.findMany({
       where: {
         userId,
-        conversation: { is: { tenantId, status: 'ACTIVE' } },
+        conversation: { is: { tenantId, status: 'ACTIVE', ...teacherGroupScope } },
       },
       select: { conversationId: true },
     });
@@ -1448,7 +1797,7 @@ export class ChatService {
    * Format a conversation with unread count and participant info.
    * Handles DIRECT, GROUP, and CHANNEL types.
    */
-  private async formatConversation(conversation: any, userId: string) {
+  private async formatConversation(conversation: any, userId: string, precomputedUnreadCount?: number) {
     const myParticipant = conversation.participants.find(
       (p: any) => p.userId === userId,
     );
@@ -1456,12 +1805,13 @@ export class ChatService {
     const lastMessage = conversation.messages?.[0] || null;
 
     // Count unread messages
-    let unreadCount = 0;
-    if (myParticipant) {
+    let unreadCount = precomputedUnreadCount ?? 0;
+    if (precomputedUnreadCount === undefined && myParticipant) {
       unreadCount = await this.prisma.chatMessage.count({
         where: {
           conversationId: conversation.id,
           senderId: { not: userId },
+          deletedAt: null,
           ...(myParticipant.lastReadAt && {
             createdAt: { gt: myParticipant.lastReadAt },
           }),
@@ -1477,13 +1827,13 @@ export class ChatService {
       createdAt: conversation.createdAt,
       lastMessage: lastMessage
         ? {
-            id: lastMessage.id,
-            content: lastMessage.content,
-            type: lastMessage.type,
-            senderId: lastMessage.senderId,
-            senderName: lastMessage.sender.name,
-            createdAt: lastMessage.createdAt,
-          }
+          id: lastMessage.id,
+          content: lastMessage.content,
+          type: lastMessage.type,
+          senderId: lastMessage.senderId,
+          senderName: lastMessage.sender.name,
+          createdAt: lastMessage.createdAt,
+        }
         : null,
       unreadCount,
       isMuted: myParticipant?.isMuted || false,

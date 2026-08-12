@@ -93,8 +93,8 @@ export class BooksService {
     bookId: string,
     dt: { tenantId: string; count: number },
   ) {
-    const book = await this.prisma.book.findUnique({
-      where: { id: bookId },
+    const book = await this.prisma.book.findFirst({
+      where: { id: bookId, tenantId: dt.tenantId },
       include: { copies: { take: 1 } },
     });
     if (!book) throw new NotFoundException('Book not found');
@@ -130,9 +130,11 @@ export class BooksService {
   }
 
   async addCopy(createCopyDto: CreateBookCopyDto) {
-    // Check if book exists
-    const book = await this.prisma.book.findUnique({
-      where: { id: createCopyDto.bookId },
+    // Check if book exists *and belongs to the same tenant* — bookId is a
+    // client-supplied path/body param, so without this a copy could be
+    // attached to another tenant's book.
+    const book = await this.prisma.book.findFirst({
+      where: { id: createCopyDto.bookId, tenantId: createCopyDto.tenantId },
       include: { copies: { take: 1 } },
     });
     if (!book) throw new NotFoundException('Book not found');
@@ -290,9 +292,9 @@ export class BooksService {
     };
   }
 
-  async findOne(id: string) {
-    const book = await this.prisma.book.findUnique({
-      where: { id },
+  async findOne(id: string, tenantId: string) {
+    const book = await this.prisma.book.findFirst({
+      where: { id, tenantId },
       include: {
         copies: true,
         _count: {
@@ -327,26 +329,44 @@ export class BooksService {
     return copy;
   }
 
-  async update(id: string, updateBookDto: UpdateBookDto) {
+  async update(id: string, updateBookDto: UpdateBookDto, tenantId: string) {
+    await this.assertBookOwnedByTenant(id, tenantId);
     return this.prisma.book.update({
       where: { id },
       data: updateBookDto,
     });
   }
 
-  async remove(id: string) {
+  async remove(id: string, tenantId: string) {
+    await this.assertBookOwnedByTenant(id, tenantId);
     return this.prisma.book.delete({
       where: { id },
     });
   }
 
-  async removeCopy(copyId: string) {
+  async removeCopy(copyId: string, tenantId: string) {
+    const existing = await this.prisma.bookCopy.findFirst({
+      where: { id: copyId, tenantId },
+      select: { id: true },
+    });
+    if (!existing) throw new NotFoundException('Book copy not found');
+
     const copy = await this.prisma.bookCopy.delete({
       where: { id: copyId },
     });
     // Update counts
     await this.updateBookCounts(copy.bookId);
     return copy;
+  }
+
+  /** `id` is the primary key, so update/delete can't filter by tenantId
+   * directly — verify ownership first, same pattern as UsersService. */
+  private async assertBookOwnedByTenant(id: string, tenantId: string) {
+    const book = await this.prisma.book.findFirst({
+      where: { id, tenantId },
+      select: { id: true },
+    });
+    if (!book) throw new NotFoundException('Book not found');
   }
 
   // Helper to maintain counters if needed, though with relations we can just count()

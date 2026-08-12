@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -53,10 +54,18 @@ export class UsersService {
     return userWithoutPassword;
   }
 
-  async findAll(tenantId?: string, role?: string, noTenant?: boolean) {
+  async findAll(
+    tenantId?: string,
+    role?: string,
+    noTenant?: boolean,
+    search?: string,
+    userType?: string,
+  ) {
     const where: {
       tenantId?: string | null;
       role?: Role | { not: Role };
+      userType?: any;
+      OR?: any[];
     } = {};
 
     // If tenantId is provided, filter by it
@@ -79,6 +88,18 @@ export class UsersService {
       };
     }
 
+    if (userType) {
+      where.userType = userType;
+    }
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+        { username: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
     const users = await this.prisma.user.findMany({
       where,
       include: {
@@ -89,19 +110,30 @@ export class UsersService {
             slug: true,
           },
         },
+        staff: { select: { staffRole: true, department: true, photoUrl: true } },
+        teacher: {
+          select: { specialization: true, department: true, photoUrl: true },
+        },
       },
       orderBy: {
         createdAt: 'desc',
       },
+      take: search ? 20 : undefined,
     });
 
     return users.map(({ password: _password, ...user }) => user);
   }
 
-  async findOne(id: string) {
+  /**
+   * @param callerTenantId The requesting user's own tenant, or `null` for
+   *   SUPER_ADMIN (unrestricted). Non-null values scope the lookup so a
+   *   user id belonging to another tenant is treated as not found.
+   */
+  async findOne(id: string, callerTenantId: string | null) {
     const user = await this.prisma.user.findFirst({
       where: {
-        id: id,
+        id,
+        ...(callerTenantId !== null && { tenantId: callerTenantId }),
       },
       include: {
         tenant: {
@@ -121,6 +153,23 @@ export class UsersService {
     //Remove password from response
     const { password: _password, ...userWithoutPassword } = user;
     return userWithoutPassword;
+  }
+
+  /**
+   * Throws if `id` doesn't belong to `callerTenantId` (no-op for
+   * SUPER_ADMIN, signalled by `callerTenantId === null`). `id` is the
+   * primary key, so Prisma's `update`/`delete` can't take `tenantId` in
+   * the same `where` — this check has to happen as a separate step first.
+   */
+  private async assertOwnedByTenant(id: string, callerTenantId: string | null) {
+    if (callerTenantId === null) return;
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: { tenantId: true },
+    });
+    if (!user || user.tenantId !== callerTenantId) {
+      throw new NotFoundException('User not found');
+    }
   }
 
   async findByUsername(username: string) {
@@ -138,7 +187,13 @@ export class UsersService {
     const { password: _password, ...userWithoutPassword } = user;
     return userWithoutPassword;
   }
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+    callerTenantId: string | null,
+  ) {
+    await this.assertOwnedByTenant(id, callerTenantId);
+
     const data: Record<string, unknown> = {};
 
     if (updateUserDto.email !== undefined) {
@@ -213,7 +268,8 @@ export class UsersService {
     return userWithoutPassword;
   }
 
-  async remove(id: string) {
+  async remove(id: string, callerTenantId: string | null) {
+    await this.assertOwnedByTenant(id, callerTenantId);
     return this.prisma.user.delete({
       where: {
         id: id,
@@ -231,9 +287,16 @@ export class UsersService {
     return userWithoutPassword;
   }
 
-  async updateAvatar(id: string, file: Express.Multer.File) {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
+  async updateAvatar(
+    id: string,
+    file: Express.Multer.File,
+    callerTenantId: string | null,
+  ) {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        id,
+        ...(callerTenantId !== null && { tenantId: callerTenantId }),
+      },
     });
 
     if (!user) {

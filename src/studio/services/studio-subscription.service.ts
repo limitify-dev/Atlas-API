@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UpdateSubscriptionDto } from '../dto';
+import { SubscriptionBillingService } from '../../subscription/services/subscription-billing.service';
 import {
   SubscriptionPlan,
   SubscriptionStatus,
@@ -8,7 +9,10 @@ import {
 
 @Injectable()
 export class StudioSubscriptionService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly subscriptionBilling: SubscriptionBillingService,
+  ) {}
 
   async findByTenant(tenantId: string) {
     return this.prisma.studioSubscription.findUnique({ where: { tenantId } });
@@ -23,24 +27,56 @@ export class StudioSubscriptionService {
     });
   }
 
+  /**
+   * Sync the flat/legacy Tenant fields and the computed billing engine's
+   * period window from a StudioSubscription row. StudioSubscription is what
+   * platform admins edit (and the only place Trial is modeled); this keeps
+   * every other reader of subscription data (platform analytics, the
+   * enforcement engine, login gating) from drifting out of sync with it.
+   */
+  private async syncTenant(
+    tenantId: string,
+    plan: SubscriptionPlan,
+    startDate: Date,
+    endDate: Date | null,
+  ) {
+    await this.prisma.tenant.update({
+      where: { id: tenantId },
+      data: {
+        subscriptionPlan: plan,
+        subscriptionStartDate: startDate,
+        ...(endDate && { subscriptionEndDate: endDate }),
+      },
+    });
+    if (endDate) {
+      await this.subscriptionBilling.recalculateStatus(tenantId, {
+        periodStart: startDate,
+        periodEnd: endDate,
+      });
+    }
+  }
+
   /** Create initial trial subscription for a new tenant */
   async createTrial(
     tenantId: string,
     plan: SubscriptionPlan = SubscriptionPlan.BASIC,
     trialDays = 30,
   ) {
+    const startDate = new Date();
     const trialEnd = new Date();
     trialEnd.setDate(trialEnd.getDate() + trialDays);
 
-    return this.prisma.studioSubscription.create({
+    const subscription = await this.prisma.studioSubscription.create({
       data: {
         tenantId,
         plan,
         status: SubscriptionStatus.TRIAL,
-        startDate: new Date(),
+        startDate,
         endDate: trialEnd,
       },
     });
+    await this.syncTenant(tenantId, plan, startDate, trialEnd);
+    return subscription;
   }
 
   async update(tenantId: string, dto: UpdateSubscriptionDto) {
@@ -51,7 +87,7 @@ export class StudioSubscriptionService {
       ...(dto.notes !== undefined && { notes: dto.notes }),
     };
 
-    return this.prisma.studioSubscription.upsert({
+    const subscription = await this.prisma.studioSubscription.upsert({
       where: { tenantId },
       update: updateData,
       create: {
@@ -63,16 +99,12 @@ export class StudioSubscriptionService {
         ...(dto.notes !== undefined && { notes: dto.notes }),
       },
     });
-  }
-
-  /** Expire subscriptions that have passed their endDate */
-  async expireOverdue() {
-    return this.prisma.studioSubscription.updateMany({
-      where: {
-        status: { in: ['ACTIVE', 'TRIAL'] },
-        endDate: { lt: new Date() },
-      },
-      data: { status: 'EXPIRED' },
-    });
+    await this.syncTenant(
+      tenantId,
+      subscription.plan,
+      subscription.startDate,
+      subscription.endDate,
+    );
+    return subscription;
   }
 }

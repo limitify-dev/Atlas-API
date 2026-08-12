@@ -26,6 +26,7 @@ import { UpdateSectionDto } from './dto/update-section.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { HttpCache } from '../common/decorators/http-cache.decorator';
 import { Role } from '../../prisma/generated/client';
 import {
   CurrentUser,
@@ -55,6 +56,7 @@ export class SectionsController {
   }
 
   @Get()
+  @HttpCache('private, max-age=30, stale-while-revalidate=120')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER, Role.STAFF)
   @ApiOperation({
     summary: 'List classrooms — filter by grade, promotion, or active status',

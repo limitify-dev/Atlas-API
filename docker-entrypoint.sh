@@ -1,7 +1,13 @@
 #!/bin/sh
 set -e
 
-echo "Starting Atlas API..."
+# Which role this container plays: "api" (default) or "worker". Set via the
+# first CMD arg — see docker-compose.yml's `worker` service. Only the api
+# role runs migrations, so two containers starting at once can never race
+# to apply the same migration.
+ROLE="${1:-api}"
+
+echo "Starting Atlas API (role: $ROLE)..."
 
 # Function to wait for PostgreSQL to be ready
 wait_for_postgres() {
@@ -109,18 +115,26 @@ main() {
     # Wait for redis to be ready
     wait_for_redis
 
-    # Run migrations
-    run_migrations
-    
-    # Generate Prisma client (in case schema changed)
-    generate_prisma_client
-    
-    echo "Starting NestJS application..."
-    echo "Port: ${PORT:-4000}"
-    echo "Environment: ${NODE_ENV:-production}"
-    
-    # Start the application
-    exec node dist/src/main.js
+    if [ "$ROLE" = "api" ]; then
+        # Only the api container runs migrations — avoids two containers
+        # (api + worker) racing to apply the same migration on startup.
+        run_migrations
+        generate_prisma_client
+
+        echo "Starting NestJS API..."
+        echo "Port: ${PORT:-4000}"
+        echo "Environment: ${NODE_ENV:-production}"
+        exec node dist/src/main.js
+    elif [ "$ROLE" = "worker" ]; then
+        generate_prisma_client
+
+        echo "Starting background worker..."
+        echo "Environment: ${NODE_ENV:-production}"
+        exec node dist/src/worker.js
+    else
+        echo "Unknown ROLE '$ROLE' — expected 'api' or 'worker'."
+        exit 1
+    fi
 }
 
 # Run main function

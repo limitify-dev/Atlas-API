@@ -2,17 +2,153 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  Logger,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AttendanceStatus } from '../../prisma/generated/client';
+import { DomainEventsService } from '../domain-events/domain-events.service';
+import { AttendanceMarkedEvent } from '../domain-events/events';
+import { AttendanceStatus, Prisma } from '../../prisma/generated/client';
 import type { AttendanceWhereInput } from '../../prisma/generated/models/Attendance';
 import type { AttendanceGetPayload } from '../../prisma/generated/models/Attendance';
 import type { StudentGetPayload } from '../../prisma/generated/models/Student';
 import type { TeacherAttendanceGetPayload } from '../../prisma/generated/models/TeacherAttendance';
+import {
+  AttendanceSettings,
+  getLocalDateParts,
+  getTenantDateRange,
+  getTenantDayRange,
+  parseTimeToMinutes,
+  resolveAttendanceEndTime,
+  resolveAttendanceStartTime,
+  resolveSchoolDays,
+} from './attendance-day';
 
 @Injectable()
 export class AttendanceService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(AttendanceService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly events: DomainEventsService,
+  ) {}
+
+  private normalizeSettings(settings: unknown): AttendanceSettings {
+    return settings && typeof settings === 'object' && !Array.isArray(settings)
+      ? (settings as AttendanceSettings)
+      : {};
+  }
+
+  async getAttendanceSettings(tenantId: string) {
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { timezone: true, settings: true },
+    });
+    if (!tenant) throw new NotFoundException('Tenant not found');
+
+    const settings = this.normalizeSettings(tenant.settings);
+    return {
+      timezone: tenant.timezone || 'UTC',
+      startTime: resolveAttendanceStartTime(settings),
+      endTime: resolveAttendanceEndTime(settings),
+      schoolDays: resolveSchoolDays(settings),
+      configured:
+        resolveAttendanceStartTime(settings) !== null &&
+        resolveAttendanceEndTime(settings) !== null,
+    };
+  }
+
+  async updateAttendanceSettings(
+    tenantId: string,
+    schedule: {
+      startTime: string;
+      endTime: string;
+      schoolDays?: number[];
+      timezone?: string;
+    },
+  ) {
+    const startMinutes = parseTimeToMinutes(schedule.startTime);
+    const endMinutes = parseTimeToMinutes(schedule.endTime);
+    if (
+      startMinutes === null ||
+      endMinutes === null ||
+      startMinutes >= endMinutes
+    ) {
+      throw new BadRequestException(
+        'School start time must be earlier than school end time',
+      );
+    }
+
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { settings: true },
+    });
+    if (!tenant) throw new NotFoundException('Tenant not found');
+
+    if (schedule.timezone) {
+      try {
+        new Intl.DateTimeFormat('en-US', {
+          timeZone: schedule.timezone,
+        }).format();
+      } catch {
+        throw new BadRequestException('Enter a valid IANA timezone');
+      }
+    }
+
+    const current = this.normalizeSettings(tenant.settings);
+    const schoolDays = resolveSchoolDays({
+      schoolDays: schedule.schoolDays,
+    });
+    await this.prisma.tenant.update({
+      where: { id: tenantId },
+      data: {
+        ...(schedule.timezone && { timezone: schedule.timezone }),
+        settings: {
+          ...current,
+          attendance: {
+            ...(current.attendance ?? {}),
+            startTime: schedule.startTime,
+            endTime: schedule.endTime,
+            schoolDays,
+          },
+        } as Prisma.InputJsonValue,
+      },
+    });
+
+    return this.getAttendanceSettings(tenantId);
+  }
+
+  /**
+   * Notify parents that a student was marked LATE or ABSENT.
+   * Emits AttendanceMarkedEvent with pre-resolved parent userIds.
+   */
+  private async emitAttendanceMarked(
+    tenantId: string,
+    studentId: string,
+    status: AttendanceStatus,
+  ) {
+    const student = await this.prisma.student.findFirst({
+      where: { id: studentId, tenantId },
+      include: {
+        parents: { include: { parent: { include: { user: true } } } },
+      },
+    });
+    if (!student) return;
+
+    const parentUserIds = student.parents
+      .map((sp) => sp.parent?.user?.id)
+      .filter((id): id is string => Boolean(id));
+
+    this.events.emit(
+      new AttendanceMarkedEvent(
+        tenantId,
+        studentId,
+        `${student.firstName} ${student.lastName}`,
+        status,
+        new Date(),
+        parentUserIds,
+      ),
+    );
+  }
 
   async getStudentsByClassroom(
     tenantId: string,
@@ -32,17 +168,14 @@ export class AttendanceService {
       where.gradeId = gradeId;
     }
 
-    // Parse date and create date range for filtering (start of day to end of day)
-    let startOfDay: Date | undefined;
-    let endOfDay: Date | undefined;
-
-    if (date) {
-      const targetDate = new Date(date);
-      startOfDay = new Date(targetDate);
-      startOfDay.setUTCHours(0, 0, 0, 0);
-      endOfDay = new Date(targetDate);
-      endOfDay.setUTCHours(23, 59, 59, 999);
-    }
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { timezone: true },
+    });
+    const timezone = tenant?.timezone || 'UTC';
+    const dayRange = date
+      ? getTenantDateRange(date.slice(0, 10), timezone)
+      : getTenantDayRange(new Date(), timezone);
 
     const students = await this.prisma.student.findMany({
       where,
@@ -52,26 +185,18 @@ export class AttendanceService {
             grade: true,
           },
         },
-        attendances:
-          startOfDay && endOfDay
-            ? {
-                where: {
-                  createdAt: {
-                    gte: startOfDay,
-                    lte: endOfDay,
-                  },
-                },
-                orderBy: {
-                  createdAt: 'desc',
-                },
-                take: 1,
-              }
-            : {
-                orderBy: {
-                  createdAt: 'desc',
-                },
-                take: 1,
-              },
+        attendances: {
+          where: {
+            createdAt: {
+              gte: dayRange.start,
+              lt: dayRange.end,
+            },
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+          take: 1,
+        },
         card: true,
       },
       orderBy: [{ lastName: 'asc' }, { firstName: 'asc' }],
@@ -130,6 +255,7 @@ export class AttendanceService {
     studentId: string;
     status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
     isManual: boolean;
+    date?: string;
     checkInTime?: string;
     checkInDateTime?: Date;
     remarks?: string;
@@ -144,28 +270,32 @@ export class AttendanceService {
       };
     }>;
 
-    const student = await this.prisma.student.findUnique({
-      where: { id: data.studentId },
+    const student = await this.prisma.student.findFirst({
+      where: { id: data.studentId, tenantId: data.tenantId },
     });
 
     if (!student) {
       throw new NotFoundException('Student not found');
     }
 
-    // Check if attendance already exists for today
-    const today = new Date();
-    const startOfDay = new Date(today);
-    startOfDay.setUTCHours(0, 0, 0, 0);
-    const endOfDay = new Date(today);
-    endOfDay.setUTCHours(23, 59, 59, 999);
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: data.tenantId },
+      select: { timezone: true },
+    });
+    const dayRange = data.date
+      ? getTenantDateRange(data.date.slice(0, 10), tenant?.timezone || 'UTC')
+      : getTenantDayRange(
+          data.checkInDateTime ?? new Date(),
+          tenant?.timezone || 'UTC',
+        );
 
     const existingAttendance = await this.prisma.attendance.findFirst({
       where: {
         tenantId: data.tenantId,
         studentId: data.studentId,
         createdAt: {
-          gte: startOfDay,
-          lte: endOfDay,
+          gte: dayRange.start,
+          lt: dayRange.end,
         },
       },
       include: {
@@ -218,6 +348,12 @@ export class AttendanceService {
           studentId: data.studentId,
           status: data.status as AttendanceStatus,
           checkInTime: data.checkInDateTime || null,
+          createdAt: data.date
+            ? new Date(
+                dayRange.start.getTime() +
+                  (dayRange.end.getTime() - dayRange.start.getTime()) / 2,
+              )
+            : undefined,
           remarks: data.isManual
             ? `Manual entry${data.remarks ? `: ${data.remarks}` : ''}`
             : data.remarks || 'Auto check-in',
@@ -230,6 +366,19 @@ export class AttendanceService {
           },
         },
       });
+    }
+
+    // Notify parents only for LATE / ABSENT, and only when the status is new
+    // or actually changed (re-saving the same status must not re-notify).
+    const statusChanged =
+      !existingAttendance ||
+      existingAttendance.status !== (data.status as AttendanceStatus);
+    if (statusChanged && (data.status === 'ABSENT' || data.status === 'LATE')) {
+      await this.emitAttendanceMarked(
+        data.tenantId,
+        data.studentId,
+        data.status as AttendanceStatus,
+      );
     }
 
     return {
@@ -273,16 +422,22 @@ export class AttendanceService {
       throw new NotFoundException('Card not found or inactive');
     }
 
-    // Parse the current datetime
     const checkInDateTime = dateEntry;
-
-    // Format check-in time for display (HH:mm) - use UTC to avoid timezone conversion
-    const hour = checkInDateTime.getUTCHours();
-    const minute = checkInDateTime.getUTCMinutes();
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: data.tenantId },
+      select: { timezone: true, settings: true },
+    });
+    const timezone = tenant?.timezone || 'UTC';
+    const settings = this.normalizeSettings(tenant?.settings);
+    const local = getLocalDateParts(checkInDateTime, timezone);
+    const hour = local.hour;
+    const minute = local.minute;
     const checkInTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 
-    // Determine if late (after 8:00 AM) - use UTC hours
-    const isLate = hour > 8 || (hour === 8 && minute > 0);
+    const startMinutes = parseTimeToMinutes(
+      resolveAttendanceStartTime(settings),
+    );
+    const isLate = startMinutes !== null && hour * 60 + minute > startMinutes;
 
     const status: AttendanceStatus = isLate ? 'LATE' : 'PRESENT';
 
@@ -323,11 +478,7 @@ export class AttendanceService {
         status,
       };
     } else if (card.teacher) {
-      // Teacher check-in (auto only) - use date from request body
-      const startOfDay = new Date(dateEntry);
-      startOfDay.setUTCHours(0, 0, 0, 0);
-      const endOfDay = new Date(dateEntry);
-      endOfDay.setUTCHours(23, 59, 59, 999);
+      const dayRange = getTenantDayRange(dateEntry, timezone);
 
       // Check if teacher already checked in today
       const existingAttendance = await this.prisma.teacherAttendance.findFirst({
@@ -335,8 +486,8 @@ export class AttendanceService {
           tenantId: data.tenantId,
           teacherId: card.teacherId!,
           createdAt: {
-            gte: startOfDay,
-            lte: endOfDay,
+            gte: dayRange.start,
+            lt: dayRange.end,
           },
         },
       });
@@ -414,12 +565,15 @@ export class AttendanceService {
     gradeId?: string,
     page: number = 1,
     limit: number = 100,
+    studentId?: string,
   ) {
     const where: AttendanceWhereInput = {
       tenantId,
     };
 
-    if (sectionId) {
+    if (studentId) {
+      where.studentId = studentId;
+    } else if (sectionId) {
       where.student = { sectionId };
     } else if (gradeId) {
       where.student = { gradeId };
@@ -427,15 +581,18 @@ export class AttendanceService {
 
     // Add date filtering if provided
     if (date) {
-      const targetDate = new Date(date);
-      const startOfDay = new Date(targetDate);
-      startOfDay.setUTCHours(0, 0, 0, 0);
-      const endOfDay = new Date(targetDate);
-      endOfDay.setUTCHours(23, 59, 59, 999);
+      const tenant = await this.prisma.tenant.findUnique({
+        where: { id: tenantId },
+        select: { timezone: true },
+      });
+      const dayRange = getTenantDateRange(
+        date.slice(0, 10),
+        tenant?.timezone || 'UTC',
+      );
 
       where.createdAt = {
-        gte: startOfDay,
-        lte: endOfDay,
+        gte: dayRange.start,
+        lt: dayRange.end,
       };
     }
 
@@ -478,6 +635,7 @@ export class AttendanceService {
     records: Array<{
       studentId: string;
       status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
+      date?: string;
       remarks?: string;
     }>,
   ) {
@@ -491,6 +649,7 @@ export class AttendanceService {
         studentId: record.studentId,
         status: record.status,
         isManual: true,
+        date: record.date,
         remarks: record.remarks,
       });
       results.push(result);
@@ -557,20 +716,22 @@ export class AttendanceService {
   }
 
   async getAttendanceStats(tenantId: string, date?: string) {
-    // Parse date and create date range for filtering (start of day to end of day)
-    const targetDate = date ? new Date(date) : new Date();
-    const startOfDay = new Date(targetDate);
-    startOfDay.setUTCHours(0, 0, 0, 0);
-    const endOfDay = new Date(targetDate);
-    endOfDay.setUTCHours(23, 59, 59, 999);
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { timezone: true },
+    });
+    const timezone = tenant?.timezone || 'UTC';
+    const dayRange = date
+      ? getTenantDateRange(date.slice(0, 10), timezone)
+      : getTenantDayRange(new Date(), timezone);
 
     const stats = await this.prisma.attendance.groupBy({
       by: ['status'],
       where: {
         tenantId,
         createdAt: {
-          gte: startOfDay,
-          lte: endOfDay,
+          gte: dayRange.start,
+          lt: dayRange.end,
         },
       },
       _count: {
@@ -601,14 +762,23 @@ export class AttendanceService {
       (sum, stat) => sum + stat._count.status,
       0,
     );
+    const notMarkedCount = Math.max(totalStudents - markedCount, 0);
+    const attendanceRate =
+      totalStudents > 0 ? (statsMap.present / totalStudents) * 100 : 0;
 
     return {
       present: statsMap.present,
       absent: statsMap.absent,
       late: statsMap.late,
       excused: statsMap.excused,
+      // Keep `total` for existing mobile consumers and expose the documented
+      // fields used by both admin attendance dashboards.
       total: totalStudents,
-      markedCount: markedCount,
+      totalStudents,
+      markedCount,
+      notMarkedCount,
+      attendanceRate: Math.round(attendanceRate * 10) / 10,
+      date: date ?? dayRange.dateKey,
     };
   }
 

@@ -63,6 +63,45 @@ services:
     networks:
       - atlas-network
 
+  # ============================================
+  # Development Worker Service (background jobs)
+  # ============================================
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: atlas-worker-dev
+    restart: unless-stopped
+
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+      - /app/node_modules
+
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-atlas}:${POSTGRES_PASSWORD:-atlas}@postgres:5432/${POSTGRES_DB:-atlas}?schema=public}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+      REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+    env_file:
+      - .env
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+    command: sh -c "npm run start:worker:dev"
+
+    networks:
+      - atlas-network
+
   cloudbeaver:
     image: dbeaver/cloudbeaver:latest
     container_name: atlas-cloudbeaver-dev

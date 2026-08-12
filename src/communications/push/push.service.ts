@@ -39,32 +39,28 @@ export class PushService {
       });
     }
 
-    // Upsert: if token already exists, update it; otherwise create
-    const existing = await this.prisma.pushToken.findUnique({
+    // Atomic upsert — a manual findUnique-then-create/update here is
+    // subject to a TOCTOU race (two concurrent registrations for the same
+    // token both pass the "doesn't exist yet" check before either commits,
+    // then the second create() hits the unique constraint on `token`).
+    return this.prisma.pushToken.upsert({
       where: { token },
-    });
-
-    if (existing) {
-      return this.prisma.pushToken.update({
-        where: { token },
-        data: { userId, platform, deviceId, isActive: true },
-      });
-    }
-
-    return this.prisma.pushToken.create({
-      data: { userId, token, platform, deviceId, isActive: true },
+      update: { userId, platform, deviceId, isActive: true },
+      create: { userId, token, platform, deviceId, isActive: true },
     });
   }
 
   /**
-   * Unregister (deactivate) a push token
+   * Unregister (deactivate) a push token. Scoped to the caller's own
+   * userId — without this, any authenticated user who obtained/guessed
+   * another user's token string could deactivate their push notifications.
    */
-  async unregisterToken(token: string) {
+  async unregisterToken(token: string, userId: string) {
     const existing = await this.prisma.pushToken.findUnique({
       where: { token },
     });
 
-    if (existing) {
+    if (existing && existing.userId === userId) {
       await this.prisma.pushToken.update({
         where: { token },
         data: { isActive: false },
@@ -171,24 +167,27 @@ export class PushService {
       try {
         const ticketChunk = await this.expo.sendPushNotificationsAsync(chunk);
 
-        // Check for errors and deactivate invalid tokens
+        // Check for errors. Only DeviceNotRegistered identifies a bad device
+        // token. InvalidCredentials is an app-level APNs/FCM configuration
+        // problem and must not disable valid tokens for every user.
         for (let i = 0; i < ticketChunk.length; i++) {
           const ticket = ticketChunk[i];
+          const token = String(chunk[i]?.to || 'unknown');
           if (ticket.status === 'error') {
             this.logger.warn(
-              `Push error for token ${tokens[i]}: ${ticket.message}`,
+              `Push error for token ${token}: ${ticket.message}`,
             );
 
-            // Deactivate token if it's invalid
-            if (
-              ticket.details?.error === 'DeviceNotRegistered' ||
-              ticket.details?.error === 'InvalidCredentials'
-            ) {
+            if (ticket.details?.error === 'DeviceNotRegistered') {
               await this.prisma.pushToken.update({
-                where: { token: tokens[i] },
+                where: { token },
                 data: { isActive: false },
               });
-              this.logger.log(`Deactivated invalid token: ${tokens[i]}`);
+              this.logger.log(`Deactivated unregistered token: ${token}`);
+            } else if (ticket.details?.error === 'InvalidCredentials') {
+              this.logger.error(
+                'Push provider credentials are invalid or missing; keeping the device token active so delivery resumes after APNs/FCM credentials are repaired.',
+              );
             }
           }
         }

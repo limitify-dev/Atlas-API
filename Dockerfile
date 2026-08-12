@@ -55,7 +55,7 @@ COPY prisma ./prisma/
 
 # Install only production dependencies
 RUN npm ci --only=production && \
-    npm install --no-save prisma@7.1.0 && \
+    npm install --no-save prisma@7.4.2 && \
     npm cache clean --force
 
 # Copy built application from builder stage

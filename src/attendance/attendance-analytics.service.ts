@@ -928,8 +928,8 @@ export class AttendanceAnalyticsService {
           customEnd,
           sectionId,
         );
-        const section = await this.prisma.section.findUnique({
-          where: { id: sectionId },
+        const section = await this.prisma.section.findFirst({
+          where: { id: sectionId, tenantId },
           include: { grade: true },
         });
         return {

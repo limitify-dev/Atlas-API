@@ -1,1 +1,1 @@
-// TODO: Add DTOs for parent operations
+export { UpdateParentContactDto } from './update-parent-contact.dto';

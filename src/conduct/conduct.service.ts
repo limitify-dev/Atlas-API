@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import {
@@ -23,6 +24,7 @@ import {
   IncidentStatus,
   PointTransactionType,
   Prisma,
+  Role,
 } from '../../prisma/generated/client';
 
 type ConductRecordWithRelations = Prisma.ConductRecordGetPayload<{
@@ -111,9 +113,33 @@ export class ConductService {
     return this.formatConductRecordResponse(record);
   }
 
+  // Parents may only view conduct data for their own children.
+  private async assertParentOwnsStudent(
+    userId: string,
+    tenantId: string,
+    studentId: string,
+  ): Promise<void> {
+    const parent = await this.prisma.parent.findFirst({
+      where: { userId, tenantId },
+    });
+    if (!parent) {
+      throw new ForbiddenException('Parent profile not found');
+    }
+    const owns = await this.prisma.studentParent.findFirst({
+      where: { studentId, parentId: parent.id },
+    });
+    if (!owns) {
+      throw new ForbiddenException(
+        'You can only view conduct records for your own children',
+      );
+    }
+  }
+
   async findAllConductRecords(
     tenantId: string,
     query: QueryConductRecordsDto,
+    userRole?: Role,
+    userId?: string,
   ): Promise<ConductRecordListResponseDto> {
     const {
       search,
@@ -128,6 +154,15 @@ export class ConductService {
       page = 1,
       limit = 10,
     } = query;
+
+    if (userRole === Role.PARENT) {
+      if (!studentId) {
+        throw new BadRequestException(
+          'studentId is required when requesting conduct records as a parent',
+        );
+      }
+      await this.assertParentOwnsStudent(userId!, tenantId, studentId);
+    }
 
     const where: Prisma.ConductRecordWhereInput = { tenantId };
 
@@ -336,9 +371,10 @@ export class ConductService {
     studentId: string,
     tenantId: string,
   ): Promise<StudentPointsResponseDto> {
-    // Check if already exists
-    const existing = await this.prisma.studentConductPoints.findUnique({
-      where: { studentId },
+    // Check if already exists (scoped — studentId is globally unique, but
+    // without the tenantId filter a foreign tenant's record would match)
+    const existing = await this.prisma.studentConductPoints.findFirst({
+      where: { studentId, tenantId },
     });
 
     if (existing) {
@@ -382,9 +418,14 @@ export class ConductService {
     studentId: string,
     tenantId: string,
     includeTransactions = true,
+    userRole?: Role,
+    userId?: string,
   ): Promise<StudentPointsResponseDto> {
-    const pointsRecord = await this.prisma.studentConductPoints.findUnique({
-      where: { studentId },
+    if (userRole === Role.PARENT) {
+      await this.assertParentOwnsStudent(userId!, tenantId, studentId);
+    }
+    const pointsRecord = await this.prisma.studentConductPoints.findFirst({
+      where: { studentId, tenantId },
       include: {
         student: {
           include: {
@@ -544,14 +585,14 @@ export class ConductService {
     tenantId: string,
     recordedById: string,
   ): Promise<StudentPointsResponseDto> {
-    let pointsRecord = await this.prisma.studentConductPoints.findUnique({
-      where: { studentId: dto.studentId },
+    let pointsRecord = await this.prisma.studentConductPoints.findFirst({
+      where: { studentId: dto.studentId, tenantId },
     });
 
     if (!pointsRecord) {
       await this.initializeStudentPoints(dto.studentId, tenantId);
-      pointsRecord = await this.prisma.studentConductPoints.findUnique({
-        where: { studentId: dto.studentId },
+      pointsRecord = await this.prisma.studentConductPoints.findFirst({
+        where: { studentId: dto.studentId, tenantId },
       });
     }
 
@@ -589,8 +630,8 @@ export class ConductService {
     tenantId: string,
     recordedById: string,
   ): Promise<StudentPointsResponseDto> {
-    const pointsRecord = await this.prisma.studentConductPoints.findUnique({
-      where: { studentId },
+    const pointsRecord = await this.prisma.studentConductPoints.findFirst({
+      where: { studentId, tenantId },
     });
 
     if (!pointsRecord) {
@@ -775,14 +816,14 @@ export class ConductService {
     recordedById: string,
     conductRecordId?: string,
   ): Promise<void> {
-    let pointsRecord = await this.prisma.studentConductPoints.findUnique({
-      where: { studentId },
+    let pointsRecord = await this.prisma.studentConductPoints.findFirst({
+      where: { studentId, tenantId },
     });
 
     if (!pointsRecord) {
       await this.initializeStudentPoints(studentId, tenantId);
-      pointsRecord = await this.prisma.studentConductPoints.findUnique({
-        where: { studentId },
+      pointsRecord = await this.prisma.studentConductPoints.findFirst({
+        where: { studentId, tenantId },
       });
     }
 

@@ -118,7 +118,7 @@ export class StudentsController {
   }
 
   @Get('statistics')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'Get student statistics' })
   @ApiResponse({
     status: HttpStatus.OK,

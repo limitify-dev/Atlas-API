@@ -1,4 +1,12 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ParentsService } from './parents.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -8,11 +16,46 @@ import {
   CurrentUser,
   AuthUser,
 } from '../auth/decorators/current-user.decorator';
+import { UpdateParentContactDto } from './dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('parents')
 export class ParentsController {
   constructor(private readonly parentsService: ParentsService) {}
+
+  @Get('directory')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  async getDirectory(
+    @CurrentUser() user: AuthUser,
+    @Query('search') search?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.parentsService.getDirectory(user.tenantId, {
+      search,
+      page: page ? Number(page) : undefined,
+      limit: limit ? Number(limit) : undefined,
+    });
+  }
+
+  @Get('directory/:id')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  async getDirectoryProfile(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+  ) {
+    return this.parentsService.getDirectoryProfile(user.tenantId, id);
+  }
+
+  @Patch('directory/:id')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  async updateContactInfo(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+    @Body() dto: UpdateParentContactDto,
+  ) {
+    return this.parentsService.updateContactInfo(user.tenantId, id, dto);
+  }
 
   @Get('my-children')
   @Roles(Role.STAFF, Role.PARENT)
@@ -95,7 +138,7 @@ export class ParentsController {
   }
 
   @Get('consultation-slots')
-  @Roles(Role.STAFF)
+  @Roles(Role.STAFF, Role.PARENT)
   async getMyConsultationSlots(
     @CurrentUser() user: AuthUser,
     @Query('studentId') studentId?: string,

@@ -55,7 +55,10 @@ export class PushController {
 
   @Delete('unregister')
   @ApiOperation({ summary: 'Unregister a push notification token' })
-  async unregisterToken(@Body() dto: UnregisterPushTokenDto) {
-    return this.pushService.unregisterToken(dto.token);
+  async unregisterToken(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: UnregisterPushTokenDto,
+  ) {
+    return this.pushService.unregisterToken(dto.token, user.id);
   }
 }

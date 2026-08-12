@@ -1,4 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Prisma, Role, UserType } from '../../../prisma/generated/client';
 import {
@@ -578,5 +579,25 @@ export class NotificationsService {
     });
 
     return { unreadCount: count };
+  }
+
+  /**
+   * Delete notifications older than 30 days (NotificationRecipient rows
+   * cascade-delete automatically via the schema's onDelete: Cascade).
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async cleanupOldNotifications() {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 30);
+
+    const result = await this.prisma.notification.deleteMany({
+      where: { createdAt: { lt: cutoff } },
+    });
+
+    if (result.count > 0) {
+      this.logger.log(
+        `Deleted ${result.count} notifications older than 30 days`,
+      );
+    }
   }
 }

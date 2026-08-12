@@ -42,6 +42,8 @@ export type AcademicReportCardMinAggregateOutputType = {
   overallScore: number | null
   grade: string | null
   remarks: string | null
+  fileUrl: string | null
+  fileName: string | null
   publishedAt: Date | null
   publishedBy: string | null
   status: $Enums.AcademicRecordStatus | null
@@ -57,6 +59,8 @@ export type AcademicReportCardMaxAggregateOutputType = {
   overallScore: number | null
   grade: string | null
   remarks: string | null
+  fileUrl: string | null
+  fileName: string | null
   publishedAt: Date | null
   publishedBy: string | null
   status: $Enums.AcademicRecordStatus | null
@@ -72,6 +76,8 @@ export type AcademicReportCardCountAggregateOutputType = {
   overallScore: number
   grade: number
   remarks: number
+  fileUrl: number
+  fileName: number
   publishedAt: number
   publishedBy: number
   status: number
@@ -98,6 +104,8 @@ export type AcademicReportCardMinAggregateInputType = {
   overallScore?: true
   grade?: true
   remarks?: true
+  fileUrl?: true
+  fileName?: true
   publishedAt?: true
   publishedBy?: true
   status?: true
@@ -113,6 +121,8 @@ export type AcademicReportCardMaxAggregateInputType = {
   overallScore?: true
   grade?: true
   remarks?: true
+  fileUrl?: true
+  fileName?: true
   publishedAt?: true
   publishedBy?: true
   status?: true
@@ -128,6 +138,8 @@ export type AcademicReportCardCountAggregateInputType = {
   overallScore?: true
   grade?: true
   remarks?: true
+  fileUrl?: true
+  fileName?: true
   publishedAt?: true
   publishedBy?: true
   status?: true
@@ -231,6 +243,8 @@ export type AcademicReportCardGroupByOutputType = {
   overallScore: number | null
   grade: string | null
   remarks: string | null
+  fileUrl: string | null
+  fileName: string | null
   publishedAt: Date | null
   publishedBy: string
   status: $Enums.AcademicRecordStatus
@@ -270,6 +284,8 @@ export type AcademicReportCardWhereInput = {
   overallScore?: Prisma.FloatNullableFilter<"AcademicReportCard"> | number | null
   grade?: Prisma.StringNullableFilter<"AcademicReportCard"> | string | null
   remarks?: Prisma.StringNullableFilter<"AcademicReportCard"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"AcademicReportCard"> | string | null
+  fileName?: Prisma.StringNullableFilter<"AcademicReportCard"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"AcademicReportCard"> | Date | string | null
   publishedBy?: Prisma.StringFilter<"AcademicReportCard"> | string
   status?: Prisma.EnumAcademicRecordStatusFilter<"AcademicReportCard"> | $Enums.AcademicRecordStatus
@@ -286,6 +302,8 @@ export type AcademicReportCardOrderByWithRelationInput = {
   overallScore?: Prisma.SortOrderInput | Prisma.SortOrder
   grade?: Prisma.SortOrderInput | Prisma.SortOrder
   remarks?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileName?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -306,6 +324,8 @@ export type AcademicReportCardWhereUniqueInput = Prisma.AtLeast<{
   overallScore?: Prisma.FloatNullableFilter<"AcademicReportCard"> | number | null
   grade?: Prisma.StringNullableFilter<"AcademicReportCard"> | string | null
   remarks?: Prisma.StringNullableFilter<"AcademicReportCard"> | string | null
+  fileUrl?: Prisma.StringNullableFilter<"AcademicReportCard"> | string | null
+  fileName?: Prisma.StringNullableFilter<"AcademicReportCard"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"AcademicReportCard"> | Date | string | null
   publishedBy?: Prisma.StringFilter<"AcademicReportCard"> | string
   status?: Prisma.EnumAcademicRecordStatusFilter<"AcademicReportCard"> | $Enums.AcademicRecordStatus
@@ -322,6 +342,8 @@ export type AcademicReportCardOrderByWithAggregationInput = {
   overallScore?: Prisma.SortOrderInput | Prisma.SortOrder
   grade?: Prisma.SortOrderInput | Prisma.SortOrder
   remarks?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  fileName?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -346,6 +368,8 @@ export type AcademicReportCardScalarWhereWithAggregatesInput = {
   overallScore?: Prisma.FloatNullableWithAggregatesFilter<"AcademicReportCard"> | number | null
   grade?: Prisma.StringNullableWithAggregatesFilter<"AcademicReportCard"> | string | null
   remarks?: Prisma.StringNullableWithAggregatesFilter<"AcademicReportCard"> | string | null
+  fileUrl?: Prisma.StringNullableWithAggregatesFilter<"AcademicReportCard"> | string | null
+  fileName?: Prisma.StringNullableWithAggregatesFilter<"AcademicReportCard"> | string | null
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AcademicReportCard"> | Date | string | null
   publishedBy?: Prisma.StringWithAggregatesFilter<"AcademicReportCard"> | string
   status?: Prisma.EnumAcademicRecordStatusWithAggregatesFilter<"AcademicReportCard"> | $Enums.AcademicRecordStatus
@@ -362,6 +386,8 @@ export type AcademicReportCardCreateInput = {
   overallScore?: number | null
   grade?: string | null
   remarks?: string | null
+  fileUrl?: string | null
+  fileName?: string | null
   publishedAt?: Date | string | null
   publishedBy: string
   status?: $Enums.AcademicRecordStatus
@@ -378,6 +404,8 @@ export type AcademicReportCardUncheckedCreateInput = {
   overallScore?: number | null
   grade?: string | null
   remarks?: string | null
+  fileUrl?: string | null
+  fileName?: string | null
   publishedAt?: Date | string | null
   publishedBy: string
   status?: $Enums.AcademicRecordStatus
@@ -394,6 +422,8 @@ export type AcademicReportCardUpdateInput = {
   overallScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAcademicRecordStatusFieldUpdateOperationsInput | $Enums.AcademicRecordStatus
@@ -410,6 +440,8 @@ export type AcademicReportCardUncheckedUpdateInput = {
   overallScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAcademicRecordStatusFieldUpdateOperationsInput | $Enums.AcademicRecordStatus
@@ -426,6 +458,8 @@ export type AcademicReportCardCreateManyInput = {
   overallScore?: number | null
   grade?: string | null
   remarks?: string | null
+  fileUrl?: string | null
+  fileName?: string | null
   publishedAt?: Date | string | null
   publishedBy: string
   status?: $Enums.AcademicRecordStatus
@@ -442,6 +476,8 @@ export type AcademicReportCardUpdateManyMutationInput = {
   overallScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAcademicRecordStatusFieldUpdateOperationsInput | $Enums.AcademicRecordStatus
@@ -458,6 +494,8 @@ export type AcademicReportCardUncheckedUpdateManyInput = {
   overallScore?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   grade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fileName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   publishedBy?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumAcademicRecordStatusFieldUpdateOperationsInput | $Enums.AcademicRecordStatus
@@ -480,6 +518,8 @@ export type AcademicReportCardCountOrderByAggregateInput = {
   overallScore?: Prisma.SortOrder
   grade?: Prisma.SortOrder
   remarks?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
+  fileName?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -500,6 +540,8 @@ export type AcademicReportCardMaxOrderByAggregateInput = {
   overallScore?: Prisma.SortOrder
   grade?: Prisma.SortOrder
   remarks?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
+  fileName?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -515,6 +557,8 @@ export type AcademicReportCardMinOrderByAggregateInput = {
   overallScore?: Prisma.SortOrder
   grade?: Prisma.SortOrder
   remarks?: Prisma.SortOrder
+  fileUrl?: Prisma.SortOrder
+  fileName?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   publishedBy?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -536,6 +580,8 @@ export type AcademicReportCardSelect<ExtArgs extends runtime.Types.Extensions.In
   overallScore?: boolean
   grade?: boolean
   remarks?: boolean
+  fileUrl?: boolean
+  fileName?: boolean
   publishedAt?: boolean
   publishedBy?: boolean
   status?: boolean
@@ -552,6 +598,8 @@ export type AcademicReportCardSelectCreateManyAndReturn<ExtArgs extends runtime.
   overallScore?: boolean
   grade?: boolean
   remarks?: boolean
+  fileUrl?: boolean
+  fileName?: boolean
   publishedAt?: boolean
   publishedBy?: boolean
   status?: boolean
@@ -568,6 +616,8 @@ export type AcademicReportCardSelectUpdateManyAndReturn<ExtArgs extends runtime.
   overallScore?: boolean
   grade?: boolean
   remarks?: boolean
+  fileUrl?: boolean
+  fileName?: boolean
   publishedAt?: boolean
   publishedBy?: boolean
   status?: boolean
@@ -584,6 +634,8 @@ export type AcademicReportCardSelectScalar = {
   overallScore?: boolean
   grade?: boolean
   remarks?: boolean
+  fileUrl?: boolean
+  fileName?: boolean
   publishedAt?: boolean
   publishedBy?: boolean
   status?: boolean
@@ -592,7 +644,7 @@ export type AcademicReportCardSelectScalar = {
   updatedAt?: boolean
 }
 
-export type AcademicReportCardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "studentId" | "term" | "overallScore" | "grade" | "remarks" | "publishedAt" | "publishedBy" | "status" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["academicReportCard"]>
+export type AcademicReportCardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "studentId" | "term" | "overallScore" | "grade" | "remarks" | "fileUrl" | "fileName" | "publishedAt" | "publishedBy" | "status" | "metadata" | "createdAt" | "updatedAt", ExtArgs["result"]["academicReportCard"]>
 
 export type $AcademicReportCardPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AcademicReportCard"
@@ -605,6 +657,8 @@ export type $AcademicReportCardPayload<ExtArgs extends runtime.Types.Extensions.
     overallScore: number | null
     grade: string | null
     remarks: string | null
+    fileUrl: string | null
+    fileName: string | null
     publishedAt: Date | null
     publishedBy: string
     status: $Enums.AcademicRecordStatus
@@ -1041,6 +1095,8 @@ export interface AcademicReportCardFieldRefs {
   readonly overallScore: Prisma.FieldRef<"AcademicReportCard", 'Float'>
   readonly grade: Prisma.FieldRef<"AcademicReportCard", 'String'>
   readonly remarks: Prisma.FieldRef<"AcademicReportCard", 'String'>
+  readonly fileUrl: Prisma.FieldRef<"AcademicReportCard", 'String'>
+  readonly fileName: Prisma.FieldRef<"AcademicReportCard", 'String'>
   readonly publishedAt: Prisma.FieldRef<"AcademicReportCard", 'DateTime'>
   readonly publishedBy: Prisma.FieldRef<"AcademicReportCard", 'String'>
   readonly status: Prisma.FieldRef<"AcademicReportCard", 'AcademicRecordStatus'>

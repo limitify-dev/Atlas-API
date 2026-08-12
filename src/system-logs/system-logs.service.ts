@@ -175,9 +175,12 @@ export class SystemLogsService {
   /**
    * Get a single log by ID
    */
-  async getLogById(id: string) {
-    return this.prisma.systemLog.findUnique({
-      where: { id },
+  async getLogById(id: string, callerTenantId: string | null) {
+    return this.prisma.systemLog.findFirst({
+      where: {
+        id,
+        ...(callerTenantId !== null && { tenantId: callerTenantId }),
+      },
     });
   }
 

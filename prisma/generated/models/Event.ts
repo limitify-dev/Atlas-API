@@ -37,6 +37,7 @@ export type EventMinAggregateOutputType = {
   category: string | null
   gradeTarget: string | null
   audience: string | null
+  thumbnailUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +55,7 @@ export type EventMaxAggregateOutputType = {
   category: string | null
   gradeTarget: string | null
   audience: string | null
+  thumbnailUrl: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -71,6 +73,7 @@ export type EventCountAggregateOutputType = {
   category: number
   gradeTarget: number
   audience: number
+  thumbnailUrl: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -90,6 +93,7 @@ export type EventMinAggregateInputType = {
   category?: true
   gradeTarget?: true
   audience?: true
+  thumbnailUrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -107,6 +111,7 @@ export type EventMaxAggregateInputType = {
   category?: true
   gradeTarget?: true
   audience?: true
+  thumbnailUrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,6 +129,7 @@ export type EventCountAggregateInputType = {
   category?: true
   gradeTarget?: true
   audience?: true
+  thumbnailUrl?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -214,6 +220,7 @@ export type EventGroupByOutputType = {
   category: string
   gradeTarget: string | null
   audience: string
+  thumbnailUrl: string | null
   createdAt: Date
   updatedAt: Date
   _count: EventCountAggregateOutputType | null
@@ -252,6 +259,7 @@ export type EventWhereInput = {
   category?: Prisma.StringFilter<"Event"> | string
   gradeTarget?: Prisma.StringNullableFilter<"Event"> | string | null
   audience?: Prisma.StringFilter<"Event"> | string
+  thumbnailUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -270,6 +278,7 @@ export type EventOrderByWithRelationInput = {
   category?: Prisma.SortOrder
   gradeTarget?: Prisma.SortOrderInput | Prisma.SortOrder
   audience?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -291,6 +300,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.StringFilter<"Event"> | string
   gradeTarget?: Prisma.StringNullableFilter<"Event"> | string | null
   audience?: Prisma.StringFilter<"Event"> | string
+  thumbnailUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -309,6 +319,7 @@ export type EventOrderByWithAggregationInput = {
   category?: Prisma.SortOrder
   gradeTarget?: Prisma.SortOrderInput | Prisma.SortOrder
   audience?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.EventCountOrderByAggregateInput
@@ -332,6 +343,7 @@ export type EventScalarWhereWithAggregatesInput = {
   category?: Prisma.StringWithAggregatesFilter<"Event"> | string
   gradeTarget?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   audience?: Prisma.StringWithAggregatesFilter<"Event"> | string
+  thumbnailUrl?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
 }
@@ -348,6 +360,7 @@ export type EventCreateInput = {
   category?: string
   gradeTarget?: string | null
   audience?: string
+  thumbnailUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutEventsInput
@@ -366,6 +379,7 @@ export type EventUncheckedCreateInput = {
   category?: string
   gradeTarget?: string | null
   audience?: string
+  thumbnailUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -382,6 +396,7 @@ export type EventUpdateInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   gradeTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   audience?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutEventsNestedInput
@@ -400,6 +415,7 @@ export type EventUncheckedUpdateInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   gradeTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   audience?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -417,6 +433,7 @@ export type EventCreateManyInput = {
   category?: string
   gradeTarget?: string | null
   audience?: string
+  thumbnailUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -433,6 +450,7 @@ export type EventUpdateManyMutationInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   gradeTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   audience?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -450,6 +468,7 @@ export type EventUncheckedUpdateManyInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   gradeTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   audience?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -477,6 +496,7 @@ export type EventCountOrderByAggregateInput = {
   category?: Prisma.SortOrder
   gradeTarget?: Prisma.SortOrder
   audience?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -494,6 +514,7 @@ export type EventMaxOrderByAggregateInput = {
   category?: Prisma.SortOrder
   gradeTarget?: Prisma.SortOrder
   audience?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -511,6 +532,7 @@ export type EventMinOrderByAggregateInput = {
   category?: Prisma.SortOrder
   gradeTarget?: Prisma.SortOrder
   audience?: Prisma.SortOrder
+  thumbnailUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -569,6 +591,7 @@ export type EventCreateWithoutTenantInput = {
   category?: string
   gradeTarget?: string | null
   audience?: string
+  thumbnailUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -585,6 +608,7 @@ export type EventUncheckedCreateWithoutTenantInput = {
   category?: string
   gradeTarget?: string | null
   audience?: string
+  thumbnailUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -631,6 +655,7 @@ export type EventScalarWhereInput = {
   category?: Prisma.StringFilter<"Event"> | string
   gradeTarget?: Prisma.StringNullableFilter<"Event"> | string | null
   audience?: Prisma.StringFilter<"Event"> | string
+  thumbnailUrl?: Prisma.StringNullableFilter<"Event"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
 }
@@ -647,6 +672,7 @@ export type EventCreateManyTenantInput = {
   category?: string
   gradeTarget?: string | null
   audience?: string
+  thumbnailUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -663,6 +689,7 @@ export type EventUpdateWithoutTenantInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   gradeTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   audience?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -679,6 +706,7 @@ export type EventUncheckedUpdateWithoutTenantInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   gradeTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   audience?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -695,6 +723,7 @@ export type EventUncheckedUpdateManyWithoutTenantInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   gradeTarget?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   audience?: Prisma.StringFieldUpdateOperationsInput | string
+  thumbnailUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -714,6 +743,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   category?: boolean
   gradeTarget?: boolean
   audience?: boolean
+  thumbnailUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -732,6 +762,7 @@ export type EventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   category?: boolean
   gradeTarget?: boolean
   audience?: boolean
+  thumbnailUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -750,6 +781,7 @@ export type EventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   category?: boolean
   gradeTarget?: boolean
   audience?: boolean
+  thumbnailUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -768,11 +800,12 @@ export type EventSelectScalar = {
   category?: boolean
   gradeTarget?: boolean
   audience?: boolean
+  thumbnailUrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "eventDate" | "time" | "endDate" | "location" | "organizer" | "category" | "gradeTarget" | "audience" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "title" | "description" | "eventDate" | "time" | "endDate" | "location" | "organizer" | "category" | "gradeTarget" | "audience" | "thumbnailUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
@@ -801,6 +834,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     category: string
     gradeTarget: string | null
     audience: string
+    thumbnailUrl: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["event"]>
@@ -1239,6 +1273,7 @@ export interface EventFieldRefs {
   readonly category: Prisma.FieldRef<"Event", 'String'>
   readonly gradeTarget: Prisma.FieldRef<"Event", 'String'>
   readonly audience: Prisma.FieldRef<"Event", 'String'>
+  readonly thumbnailUrl: Prisma.FieldRef<"Event", 'String'>
   readonly createdAt: Prisma.FieldRef<"Event", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Event", 'DateTime'>
 }

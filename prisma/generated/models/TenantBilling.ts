@@ -44,6 +44,7 @@ export type TenantBillingMinAggregateOutputType = {
   periodStart: Date | null
   periodEnd: Date | null
   status: $Enums.BillingStatus | null
+  source: $Enums.BillingSource | null
   notes: string | null
   paidAt: Date | null
   createdAt: Date | null
@@ -60,6 +61,7 @@ export type TenantBillingMaxAggregateOutputType = {
   periodStart: Date | null
   periodEnd: Date | null
   status: $Enums.BillingStatus | null
+  source: $Enums.BillingSource | null
   notes: string | null
   paidAt: Date | null
   createdAt: Date | null
@@ -76,6 +78,7 @@ export type TenantBillingCountAggregateOutputType = {
   periodStart: number
   periodEnd: number
   status: number
+  source: number
   notes: number
   paidAt: number
   createdAt: number
@@ -102,6 +105,7 @@ export type TenantBillingMinAggregateInputType = {
   periodStart?: true
   periodEnd?: true
   status?: true
+  source?: true
   notes?: true
   paidAt?: true
   createdAt?: true
@@ -118,6 +122,7 @@ export type TenantBillingMaxAggregateInputType = {
   periodStart?: true
   periodEnd?: true
   status?: true
+  source?: true
   notes?: true
   paidAt?: true
   createdAt?: true
@@ -134,6 +139,7 @@ export type TenantBillingCountAggregateInputType = {
   periodStart?: true
   periodEnd?: true
   status?: true
+  source?: true
   notes?: true
   paidAt?: true
   createdAt?: true
@@ -237,6 +243,7 @@ export type TenantBillingGroupByOutputType = {
   periodStart: Date
   periodEnd: Date
   status: $Enums.BillingStatus
+  source: $Enums.BillingSource
   notes: string | null
   paidAt: Date | null
   createdAt: Date
@@ -276,6 +283,7 @@ export type TenantBillingWhereInput = {
   periodStart?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
   periodEnd?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
   status?: Prisma.EnumBillingStatusFilter<"TenantBilling"> | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFilter<"TenantBilling"> | $Enums.BillingSource
   notes?: Prisma.StringNullableFilter<"TenantBilling"> | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"TenantBilling"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
@@ -293,6 +301,7 @@ export type TenantBillingOrderByWithRelationInput = {
   periodStart?: Prisma.SortOrder
   periodEnd?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -313,6 +322,7 @@ export type TenantBillingWhereUniqueInput = Prisma.AtLeast<{
   periodStart?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
   periodEnd?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
   status?: Prisma.EnumBillingStatusFilter<"TenantBilling"> | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFilter<"TenantBilling"> | $Enums.BillingSource
   notes?: Prisma.StringNullableFilter<"TenantBilling"> | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"TenantBilling"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
@@ -330,6 +340,7 @@ export type TenantBillingOrderByWithAggregationInput = {
   periodStart?: Prisma.SortOrder
   periodEnd?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -354,6 +365,7 @@ export type TenantBillingScalarWhereWithAggregatesInput = {
   periodStart?: Prisma.DateTimeWithAggregatesFilter<"TenantBilling"> | Date | string
   periodEnd?: Prisma.DateTimeWithAggregatesFilter<"TenantBilling"> | Date | string
   status?: Prisma.EnumBillingStatusWithAggregatesFilter<"TenantBilling"> | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceWithAggregatesFilter<"TenantBilling"> | $Enums.BillingSource
   notes?: Prisma.StringNullableWithAggregatesFilter<"TenantBilling"> | string | null
   paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"TenantBilling"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TenantBilling"> | Date | string
@@ -369,6 +381,7 @@ export type TenantBillingCreateInput = {
   periodStart: Date | string
   periodEnd: Date | string
   status?: $Enums.BillingStatus
+  source?: $Enums.BillingSource
   notes?: string | null
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -386,6 +399,7 @@ export type TenantBillingUncheckedCreateInput = {
   periodStart: Date | string
   periodEnd: Date | string
   status?: $Enums.BillingStatus
+  source?: $Enums.BillingSource
   notes?: string | null
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -401,6 +415,7 @@ export type TenantBillingUpdateInput = {
   periodStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   periodEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumBillingStatusFieldUpdateOperationsInput | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFieldUpdateOperationsInput | $Enums.BillingSource
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -418,6 +433,7 @@ export type TenantBillingUncheckedUpdateInput = {
   periodStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   periodEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumBillingStatusFieldUpdateOperationsInput | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFieldUpdateOperationsInput | $Enums.BillingSource
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -434,6 +450,7 @@ export type TenantBillingCreateManyInput = {
   periodStart: Date | string
   periodEnd: Date | string
   status?: $Enums.BillingStatus
+  source?: $Enums.BillingSource
   notes?: string | null
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -449,6 +466,7 @@ export type TenantBillingUpdateManyMutationInput = {
   periodStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   periodEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumBillingStatusFieldUpdateOperationsInput | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFieldUpdateOperationsInput | $Enums.BillingSource
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -465,6 +483,7 @@ export type TenantBillingUncheckedUpdateManyInput = {
   periodStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   periodEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumBillingStatusFieldUpdateOperationsInput | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFieldUpdateOperationsInput | $Enums.BillingSource
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -491,6 +510,7 @@ export type TenantBillingCountOrderByAggregateInput = {
   periodStart?: Prisma.SortOrder
   periodEnd?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -511,6 +531,7 @@ export type TenantBillingMaxOrderByAggregateInput = {
   periodStart?: Prisma.SortOrder
   periodEnd?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -527,6 +548,7 @@ export type TenantBillingMinOrderByAggregateInput = {
   periodStart?: Prisma.SortOrder
   periodEnd?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -587,6 +609,10 @@ export type EnumBillingStatusFieldUpdateOperationsInput = {
   set?: $Enums.BillingStatus
 }
 
+export type EnumBillingSourceFieldUpdateOperationsInput = {
+  set?: $Enums.BillingSource
+}
+
 export type TenantBillingCreateWithoutTenantInput = {
   id?: string
   billingCycle: $Enums.BillingCycle
@@ -596,6 +622,7 @@ export type TenantBillingCreateWithoutTenantInput = {
   periodStart: Date | string
   periodEnd: Date | string
   status?: $Enums.BillingStatus
+  source?: $Enums.BillingSource
   notes?: string | null
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -611,6 +638,7 @@ export type TenantBillingUncheckedCreateWithoutTenantInput = {
   periodStart: Date | string
   periodEnd: Date | string
   status?: $Enums.BillingStatus
+  source?: $Enums.BillingSource
   notes?: string | null
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -656,6 +684,7 @@ export type TenantBillingScalarWhereInput = {
   periodStart?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
   periodEnd?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
   status?: Prisma.EnumBillingStatusFilter<"TenantBilling"> | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFilter<"TenantBilling"> | $Enums.BillingSource
   notes?: Prisma.StringNullableFilter<"TenantBilling"> | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"TenantBilling"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"TenantBilling"> | Date | string
@@ -671,6 +700,7 @@ export type TenantBillingCreateManyTenantInput = {
   periodStart: Date | string
   periodEnd: Date | string
   status?: $Enums.BillingStatus
+  source?: $Enums.BillingSource
   notes?: string | null
   paidAt?: Date | string | null
   createdAt?: Date | string
@@ -686,6 +716,7 @@ export type TenantBillingUpdateWithoutTenantInput = {
   periodStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   periodEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumBillingStatusFieldUpdateOperationsInput | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFieldUpdateOperationsInput | $Enums.BillingSource
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -701,6 +732,7 @@ export type TenantBillingUncheckedUpdateWithoutTenantInput = {
   periodStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   periodEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumBillingStatusFieldUpdateOperationsInput | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFieldUpdateOperationsInput | $Enums.BillingSource
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -716,6 +748,7 @@ export type TenantBillingUncheckedUpdateManyWithoutTenantInput = {
   periodStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   periodEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   status?: Prisma.EnumBillingStatusFieldUpdateOperationsInput | $Enums.BillingStatus
+  source?: Prisma.EnumBillingSourceFieldUpdateOperationsInput | $Enums.BillingSource
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -734,6 +767,7 @@ export type TenantBillingSelect<ExtArgs extends runtime.Types.Extensions.Interna
   periodStart?: boolean
   periodEnd?: boolean
   status?: boolean
+  source?: boolean
   notes?: boolean
   paidAt?: boolean
   createdAt?: boolean
@@ -751,6 +785,7 @@ export type TenantBillingSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   periodStart?: boolean
   periodEnd?: boolean
   status?: boolean
+  source?: boolean
   notes?: boolean
   paidAt?: boolean
   createdAt?: boolean
@@ -768,6 +803,7 @@ export type TenantBillingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   periodStart?: boolean
   periodEnd?: boolean
   status?: boolean
+  source?: boolean
   notes?: boolean
   paidAt?: boolean
   createdAt?: boolean
@@ -785,13 +821,14 @@ export type TenantBillingSelectScalar = {
   periodStart?: boolean
   periodEnd?: boolean
   status?: boolean
+  source?: boolean
   notes?: boolean
   paidAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TenantBillingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "billingCycle" | "amount" | "currency" | "dueDate" | "periodStart" | "periodEnd" | "status" | "notes" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantBilling"]>
+export type TenantBillingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "billingCycle" | "amount" | "currency" | "dueDate" | "periodStart" | "periodEnd" | "status" | "source" | "notes" | "paidAt" | "createdAt" | "updatedAt", ExtArgs["result"]["tenantBilling"]>
 export type TenantBillingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
 }
@@ -817,6 +854,7 @@ export type $TenantBillingPayload<ExtArgs extends runtime.Types.Extensions.Inter
     periodStart: Date
     periodEnd: Date
     status: $Enums.BillingStatus
+    source: $Enums.BillingSource
     notes: string | null
     paidAt: Date | null
     createdAt: Date
@@ -1254,6 +1292,7 @@ export interface TenantBillingFieldRefs {
   readonly periodStart: Prisma.FieldRef<"TenantBilling", 'DateTime'>
   readonly periodEnd: Prisma.FieldRef<"TenantBilling", 'DateTime'>
   readonly status: Prisma.FieldRef<"TenantBilling", 'BillingStatus'>
+  readonly source: Prisma.FieldRef<"TenantBilling", 'BillingSource'>
   readonly notes: Prisma.FieldRef<"TenantBilling", 'String'>
   readonly paidAt: Prisma.FieldRef<"TenantBilling", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"TenantBilling", 'DateTime'>

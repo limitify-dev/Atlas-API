@@ -44,11 +44,18 @@ export class DomainEventHandler {
 
   @OnEvent(AttendanceMarkedEvent.EVENT)
   async handleAttendanceMarked(event: AttendanceMarkedEvent) {
-    if (event.status !== AttendanceStatus.ABSENT) return;
+    if (
+      event.status !== AttendanceStatus.ABSENT &&
+      event.status !== AttendanceStatus.LATE
+    )
+      return;
     if (!event.parentUserIds.length) return;
 
     const title = 'Attendance Alert';
-    const body = `${event.studentName} was marked absent today.`;
+    const body =
+      event.status === AttendanceStatus.ABSENT
+        ? `${event.studentName} was marked absent today.`
+        : `${event.studentName} arrived late to school today.`;
 
     await this.enqueueAndNotify(
       event.tenantId,
@@ -341,6 +348,7 @@ export class DomainEventHandler {
       {
         type: 'permission_approved',
         permissionId: event.permissionId,
+        studentId: event.studentId,
       },
     );
   }
@@ -362,6 +370,7 @@ export class DomainEventHandler {
       {
         type: 'permission_rejected',
         permissionId: event.permissionId,
+        studentId: event.studentId,
       },
     );
   }

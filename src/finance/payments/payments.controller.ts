@@ -12,6 +12,7 @@ import { PaymentsService } from './payments.service';
 import { SubmitProofDto } from '../dto/submit-proof.dto';
 import { PromiseToPayDto } from '../dto/promise-to-pay.dto';
 import { ReviewSubmissionDto } from '../dto/review-submission.dto';
+import { BulkReviewSubmissionsDto } from '../dto/bulk-review-submissions.dto';
 import { ReviewPromiseDto } from '../dto/review-promise.dto';
 
 @ApiTags('Finance — Payments')
@@ -80,6 +81,16 @@ export class PaymentsController {
       dto,
       user.id,
     );
+  }
+
+  @Post('submissions/bulk-review')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Approve or reject a batch of payment submissions in one request' })
+  bulkReview(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: BulkReviewSubmissionsDto,
+  ) {
+    return this.paymentsService.bulkReview(user.tenantId, dto, user.id);
   }
 
   @Get('promises/pending')

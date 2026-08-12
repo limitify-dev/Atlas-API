@@ -51,6 +51,7 @@ export class ChatController {
       user.tenantId,
       page,
       limit,
+      user.role,
     );
   }
 
@@ -64,6 +65,7 @@ export class ChatController {
       user.tenantId,
       user.id,
       dto.participantId,
+      user.role,
     );
   }
 
@@ -77,6 +79,7 @@ export class ChatController {
       conversationId,
       user.id,
       user.tenantId,
+      user.role,
     );
   }
 
@@ -95,6 +98,7 @@ export class ChatController {
       user.id,
       cursor,
       limit,
+      user.role,
     );
   }
 
@@ -110,6 +114,8 @@ export class ChatController {
       user.id,
       dto.content,
       dto.type,
+      dto.attachment,
+      (dto as any).replyToId,
     );
   }
 
@@ -134,6 +140,63 @@ export class ChatController {
     return this.chatService.getUnreadCount(user.id, user.tenantId);
   }
 
+  // ─── Message Lifecycle & Search ────────────────────────────────────
+
+  @Delete('conversations/:id/messages/:messageId')
+  @ApiOperation({ summary: 'Delete a message' })
+  @ApiQuery({ name: 'scope', required: false, enum: ['SELF', 'EVERYONE'] })
+  async deleteMessage(
+    @CurrentUser() user: AuthUser,
+    @Param('messageId') messageId: string,
+    @Query('scope') scope: 'SELF' | 'EVERYONE' = 'EVERYONE',
+  ) {
+    return this.chatService.deleteMessage(messageId, user.id, scope);
+  }
+
+  @Patch('conversations/:id/messages/:messageId')
+  @ApiOperation({ summary: 'Edit a message' })
+  async editMessage(
+    @CurrentUser() user: AuthUser,
+    @Param('messageId') messageId: string,
+    @Body('content') content: string,
+  ) {
+    return this.chatService.editMessage(messageId, user.id, content);
+  }
+
+  @Get('conversations/:id/messages/:messageId/replies')
+  @ApiOperation({ summary: 'Get replies to a message' })
+  async getMessageReplies(
+    @CurrentUser() user: AuthUser,
+    @Param('messageId') messageId: string,
+  ) {
+    return this.chatService.getMessageReplies(messageId, user.id);
+  }
+
+  @Get('search')
+  @ApiOperation({ summary: 'Search messages across conversations' })
+  @ApiQuery({ name: 'q', required: true, type: String })
+  @ApiQuery({ name: 'conversationId', required: false, type: String })
+  async searchMessages(
+    @CurrentUser() user: AuthUser,
+    @Query('q') q: string,
+    @Query('conversationId') conversationId?: string,
+  ) {
+    return this.chatService.searchMessages(user.id, user.tenantId, q, conversationId);
+  }
+
+  @Get('conversations/:id/media')
+  @ApiOperation({ summary: 'Get media gallery for a conversation' })
+  @ApiQuery({ name: 'cursor', required: false, type: String })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  async getConversationMedia(
+    @CurrentUser() user: AuthUser,
+    @Param('id') conversationId: string,
+    @Query('cursor') cursor?: string,
+    @Query('limit') limit: number = 20,
+  ) {
+    return this.chatService.getConversationMedia(conversationId, user.id, cursor, limit);
+  }
+
   // ─── Group Endpoints ───────────────────────────────────────────────
 
   @Post('groups')
@@ -142,7 +205,12 @@ export class ChatController {
     @CurrentUser() user: AuthUser,
     @Body() dto: CreateGroupDto,
   ) {
-    return this.chatService.createGroup(user.tenantId, user.id, dto);
+    return this.chatService.createGroup(
+      user.tenantId,
+      user.id,
+      dto,
+      user.role,
+    );
   }
 
   @Post('groups/section')
@@ -155,6 +223,7 @@ export class ChatController {
       user.tenantId,
       body.sectionId,
       user.id,
+      user.role,
     );
   }
 
@@ -179,6 +248,7 @@ export class ChatController {
       groupId,
       user.id,
       dto.participantIds,
+      user.role,
     );
   }
 

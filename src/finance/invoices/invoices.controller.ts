@@ -1,6 +1,8 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -9,6 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../auth/decorators/roles.decorator';
@@ -20,10 +23,14 @@ import { Role } from '../../../prisma/generated/client';
 import { InvoicesService } from './invoices.service';
 import {
   BulkCreateInvoiceDto,
+  BulkUpdateInvoiceDto,
   CreateInvoiceDto,
   InvoiceFiltersDto,
   PostFeeDto,
+  SendInvoiceReminderDto,
 } from '../dto';
+
+const READ_THROTTLE = { default: { limit: 200, ttl: 60_000 } };
 
 @ApiTags('Finance — Invoices')
 @ApiBearerAuth()
@@ -61,31 +68,52 @@ export class InvoicesController {
   }
 
   @Post('reminders/send')
+  @Throttle(READ_THROTTLE)
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
-  @ApiOperation({ summary: 'Send payment reminder for an invoice to parent' })
+  @ApiOperation({
+    summary: 'Send payment reminder(s) for one or more invoices to parent(s)',
+  })
   sendReminder(
     @CurrentUser() user: AuthUser,
-    @Body()
-    dto: {
-      invoiceId: string;
-      channel?: 'sms' | 'email' | 'both';
-      customMessage?: string;
-    },
+    @Body() dto: SendInvoiceReminderDto,
   ) {
-    const { invoiceId, channel, customMessage } = dto;
-    return this.invoicesService.sendReminder(
+    const { invoiceId, invoiceIds, channel, customMessage } = dto;
+    const targets = invoiceIds?.length ? invoiceIds : invoiceId ? [invoiceId] : [];
+    if (!targets.length) {
+      throw new BadRequestException(
+        'invoiceId or invoiceIds must be provided.',
+      );
+    }
+    if (targets.length === 1) {
+      return this.invoicesService.sendReminder(
+        user.tenantId,
+        targets[0],
+        channel ?? 'both',
+        customMessage,
+      );
+    }
+    return this.invoicesService.sendReminders(
       user.tenantId,
-      invoiceId,
+      targets,
       channel ?? 'both',
       customMessage,
     );
   }
 
   @Get()
+  @Throttle(READ_THROTTLE)
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'List all invoices (admin / staff view)' })
   findAll(@CurrentUser() user: AuthUser, @Query() filters: InvoiceFiltersDto) {
     return this.invoicesService.findAll(user.tenantId, filters);
+  }
+
+  @Get('summary')
+  @Throttle(READ_THROTTLE)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
+  @ApiOperation({ summary: 'Get tenant invoice summary totals' })
+  summary(@CurrentUser() user: AuthUser) {
+    return this.invoicesService.getSummary(user.tenantId);
   }
 
   @Get('my')
@@ -112,7 +140,7 @@ export class InvoicesController {
   @Get('student/:studentId/summary')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'Get payment summary counts for a student' })
-  summary(
+  summaryForStudent(
     @CurrentUser() user: AuthUser,
     @Param('studentId') studentId: string,
   ) {
@@ -124,6 +152,40 @@ export class InvoicesController {
   @ApiOperation({ summary: 'Cancel an invoice (cannot cancel PAID invoices)' })
   cancel(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.invoicesService.cancel(user.tenantId, id, user.id);
+  }
+
+  @Post('bulk-delete')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary: 'Delete multiple invoices (skips PAID / under-review ones)',
+  })
+  bulkDelete(@CurrentUser() user: AuthUser, @Body() dto: { invoiceIds: string[] }) {
+    return this.invoicesService.bulkDelete(user.tenantId, dto.invoiceIds);
+  }
+
+  @Delete(':id')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary: 'Delete an invoice (cannot delete PAID or under-review invoices)',
+  })
+  remove(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.invoicesService.remove(user.tenantId, id);
+  }
+
+  @Post('bulk-archive')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary: 'Archive multiple invoices (reversible; any status, including PAID)',
+  })
+  bulkArchive(@CurrentUser() user: AuthUser, @Body() dto: { invoiceIds: string[] }) {
+    return this.invoicesService.bulkArchive(user.tenantId, dto.invoiceIds);
+  }
+
+  @Post('bulk-unarchive')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Restore multiple archived invoices' })
+  bulkUnarchive(@CurrentUser() user: AuthUser, @Body() dto: { invoiceIds: string[] }) {
+    return this.invoicesService.bulkUnarchive(user.tenantId, dto.invoiceIds);
   }
 
   @Patch(':id')
@@ -141,5 +203,19 @@ export class InvoicesController {
     },
   ) {
     return this.invoicesService.update(user.tenantId, id, dto);
+  }
+
+  @Patch('bulk')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Update multiple invoices at once' })
+  bulkUpdate(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: BulkUpdateInvoiceDto,
+  ) {
+    return this.invoicesService.bulkUpdate(
+      user.tenantId,
+      dto.invoiceIds,
+      dto,
+    );
   }
 }

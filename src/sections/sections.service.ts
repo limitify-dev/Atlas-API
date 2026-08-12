@@ -45,8 +45,8 @@ export class SectionsService {
       );
     }
 
-    const grade = await this.prisma.grade.findUnique({
-      where: { id: dto.gradeId },
+    const grade = await this.prisma.grade.findFirst({
+      where: { id: dto.gradeId, tenantId },
       select: { educationLevel: true },
     });
     if (!grade) throw new NotFoundException(`Grade ${dto.gradeId} not found.`);

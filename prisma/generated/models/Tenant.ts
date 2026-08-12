@@ -27,11 +27,13 @@ export type AggregateTenant = {
 }
 
 export type TenantAvgAggregateOutputType = {
+  gracePeriodDays: number | null
   maxStudents: number | null
   maxTeachers: number | null
 }
 
 export type TenantSumAggregateOutputType = {
+  gracePeriodDays: number | null
   maxStudents: number | null
   maxTeachers: number | null
 }
@@ -54,6 +56,12 @@ export type TenantMinAggregateOutputType = {
   subscriptionPlan: $Enums.SubscriptionPlan | null
   subscriptionStartDate: Date | null
   subscriptionEndDate: Date | null
+  subscriptionStatus: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart: Date | null
+  currentPeriodEnd: Date | null
+  gracePeriodDays: number | null
+  suspendedManually: boolean | null
+  suspensionReason: string | null
   maxStudents: number | null
   maxTeachers: number | null
   createdAt: Date | null
@@ -80,6 +88,12 @@ export type TenantMaxAggregateOutputType = {
   subscriptionPlan: $Enums.SubscriptionPlan | null
   subscriptionStartDate: Date | null
   subscriptionEndDate: Date | null
+  subscriptionStatus: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart: Date | null
+  currentPeriodEnd: Date | null
+  gracePeriodDays: number | null
+  suspendedManually: boolean | null
+  suspensionReason: string | null
   maxStudents: number | null
   maxTeachers: number | null
   createdAt: Date | null
@@ -106,6 +120,12 @@ export type TenantCountAggregateOutputType = {
   subscriptionPlan: number
   subscriptionStartDate: number
   subscriptionEndDate: number
+  subscriptionStatus: number
+  currentPeriodStart: number
+  currentPeriodEnd: number
+  gracePeriodDays: number
+  suspendedManually: number
+  suspensionReason: number
   maxStudents: number
   maxTeachers: number
   settings: number
@@ -118,11 +138,13 @@ export type TenantCountAggregateOutputType = {
 
 
 export type TenantAvgAggregateInputType = {
+  gracePeriodDays?: true
   maxStudents?: true
   maxTeachers?: true
 }
 
 export type TenantSumAggregateInputType = {
+  gracePeriodDays?: true
   maxStudents?: true
   maxTeachers?: true
 }
@@ -145,6 +167,12 @@ export type TenantMinAggregateInputType = {
   subscriptionPlan?: true
   subscriptionStartDate?: true
   subscriptionEndDate?: true
+  subscriptionStatus?: true
+  currentPeriodStart?: true
+  currentPeriodEnd?: true
+  gracePeriodDays?: true
+  suspendedManually?: true
+  suspensionReason?: true
   maxStudents?: true
   maxTeachers?: true
   createdAt?: true
@@ -171,6 +199,12 @@ export type TenantMaxAggregateInputType = {
   subscriptionPlan?: true
   subscriptionStartDate?: true
   subscriptionEndDate?: true
+  subscriptionStatus?: true
+  currentPeriodStart?: true
+  currentPeriodEnd?: true
+  gracePeriodDays?: true
+  suspendedManually?: true
+  suspensionReason?: true
   maxStudents?: true
   maxTeachers?: true
   createdAt?: true
@@ -197,6 +231,12 @@ export type TenantCountAggregateInputType = {
   subscriptionPlan?: true
   subscriptionStartDate?: true
   subscriptionEndDate?: true
+  subscriptionStatus?: true
+  currentPeriodStart?: true
+  currentPeriodEnd?: true
+  gracePeriodDays?: true
+  suspendedManually?: true
+  suspensionReason?: true
   maxStudents?: true
   maxTeachers?: true
   settings?: true
@@ -311,6 +351,12 @@ export type TenantGroupByOutputType = {
   subscriptionPlan: $Enums.SubscriptionPlan
   subscriptionStartDate: Date | null
   subscriptionEndDate: Date | null
+  subscriptionStatus: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart: Date | null
+  currentPeriodEnd: Date | null
+  gracePeriodDays: number
+  suspendedManually: boolean
+  suspensionReason: string | null
   maxStudents: number
   maxTeachers: number
   settings: runtime.JsonValue | null
@@ -361,6 +407,12 @@ export type TenantWhereInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
   subscriptionEndDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  subscriptionStatus?: Prisma.EnumTenantSubscriptionStatusNullableFilter<"Tenant"> | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  currentPeriodEnd?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  gracePeriodDays?: Prisma.IntFilter<"Tenant"> | number
+  suspendedManually?: Prisma.BoolFilter<"Tenant"> | boolean
+  suspensionReason?: Prisma.StringNullableFilter<"Tenant"> | string | null
   maxStudents?: Prisma.IntFilter<"Tenant"> | number
   maxTeachers?: Prisma.IntFilter<"Tenant"> | number
   settings?: Prisma.JsonNullableFilter<"Tenant">
@@ -413,6 +465,8 @@ export type TenantWhereInput = {
   tenantBillings?: Prisma.TenantBillingListRelationFilter
   adminApprovals?: Prisma.AdminApprovalListRelationFilter
   feedback?: Prisma.FeedbackListRelationFilter
+  subscriptionPayments?: Prisma.SubscriptionPaymentListRelationFilter
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogListRelationFilter
 }
 
 export type TenantOrderByWithRelationInput = {
@@ -433,6 +487,12 @@ export type TenantOrderByWithRelationInput = {
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
   subscriptionEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentPeriodStart?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrderInput | Prisma.SortOrder
+  gracePeriodDays?: Prisma.SortOrder
+  suspendedManually?: Prisma.SortOrder
+  suspensionReason?: Prisma.SortOrderInput | Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   maxTeachers?: Prisma.SortOrder
   settings?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -485,6 +545,8 @@ export type TenantOrderByWithRelationInput = {
   tenantBillings?: Prisma.TenantBillingOrderByRelationAggregateInput
   adminApprovals?: Prisma.AdminApprovalOrderByRelationAggregateInput
   feedback?: Prisma.FeedbackOrderByRelationAggregateInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentOrderByRelationAggregateInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogOrderByRelationAggregateInput
 }
 
 export type TenantWhereUniqueInput = Prisma.AtLeast<{
@@ -508,6 +570,12 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
   subscriptionEndDate?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  subscriptionStatus?: Prisma.EnumTenantSubscriptionStatusNullableFilter<"Tenant"> | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  currentPeriodEnd?: Prisma.DateTimeNullableFilter<"Tenant"> | Date | string | null
+  gracePeriodDays?: Prisma.IntFilter<"Tenant"> | number
+  suspendedManually?: Prisma.BoolFilter<"Tenant"> | boolean
+  suspensionReason?: Prisma.StringNullableFilter<"Tenant"> | string | null
   maxStudents?: Prisma.IntFilter<"Tenant"> | number
   maxTeachers?: Prisma.IntFilter<"Tenant"> | number
   settings?: Prisma.JsonNullableFilter<"Tenant">
@@ -560,6 +628,8 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   tenantBillings?: Prisma.TenantBillingListRelationFilter
   adminApprovals?: Prisma.AdminApprovalListRelationFilter
   feedback?: Prisma.FeedbackListRelationFilter
+  subscriptionPayments?: Prisma.SubscriptionPaymentListRelationFilter
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogListRelationFilter
 }, "id" | "slug" | "domain">
 
 export type TenantOrderByWithAggregationInput = {
@@ -580,6 +650,12 @@ export type TenantOrderByWithAggregationInput = {
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrderInput | Prisma.SortOrder
   subscriptionEndDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentPeriodStart?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrderInput | Prisma.SortOrder
+  gracePeriodDays?: Prisma.SortOrder
+  suspendedManually?: Prisma.SortOrder
+  suspensionReason?: Prisma.SortOrderInput | Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   maxTeachers?: Prisma.SortOrder
   settings?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -615,6 +691,12 @@ export type TenantScalarWhereWithAggregatesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanWithAggregatesFilter<"Tenant"> | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
   subscriptionEndDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+  subscriptionStatus?: Prisma.EnumTenantSubscriptionStatusNullableWithAggregatesFilter<"Tenant"> | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+  currentPeriodEnd?: Prisma.DateTimeNullableWithAggregatesFilter<"Tenant"> | Date | string | null
+  gracePeriodDays?: Prisma.IntWithAggregatesFilter<"Tenant"> | number
+  suspendedManually?: Prisma.BoolWithAggregatesFilter<"Tenant"> | boolean
+  suspensionReason?: Prisma.StringNullableWithAggregatesFilter<"Tenant"> | string | null
   maxStudents?: Prisma.IntWithAggregatesFilter<"Tenant"> | number
   maxTeachers?: Prisma.IntWithAggregatesFilter<"Tenant"> | number
   settings?: Prisma.JsonNullableWithAggregatesFilter<"Tenant">
@@ -642,6 +724,12 @@ export type TenantCreateInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -694,6 +782,8 @@ export type TenantCreateInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateInput = {
@@ -714,6 +804,12 @@ export type TenantUncheckedCreateInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -766,6 +862,8 @@ export type TenantUncheckedCreateInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUpdateInput = {
@@ -786,6 +884,12 @@ export type TenantUpdateInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -838,6 +942,8 @@ export type TenantUpdateInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateInput = {
@@ -858,6 +964,12 @@ export type TenantUncheckedUpdateInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -910,6 +1022,8 @@ export type TenantUncheckedUpdateInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateManyInput = {
@@ -930,6 +1044,12 @@ export type TenantCreateManyInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -957,6 +1077,12 @@ export type TenantUpdateManyMutationInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -984,6 +1110,12 @@ export type TenantUncheckedUpdateManyInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1011,6 +1143,12 @@ export type TenantCountOrderByAggregateInput = {
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
   subscriptionEndDate?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  currentPeriodStart?: Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrder
+  gracePeriodDays?: Prisma.SortOrder
+  suspendedManually?: Prisma.SortOrder
+  suspensionReason?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   maxTeachers?: Prisma.SortOrder
   settings?: Prisma.SortOrder
@@ -1021,6 +1159,7 @@ export type TenantCountOrderByAggregateInput = {
 }
 
 export type TenantAvgOrderByAggregateInput = {
+  gracePeriodDays?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   maxTeachers?: Prisma.SortOrder
 }
@@ -1043,6 +1182,12 @@ export type TenantMaxOrderByAggregateInput = {
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
   subscriptionEndDate?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  currentPeriodStart?: Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrder
+  gracePeriodDays?: Prisma.SortOrder
+  suspendedManually?: Prisma.SortOrder
+  suspensionReason?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   maxTeachers?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -1069,6 +1214,12 @@ export type TenantMinOrderByAggregateInput = {
   subscriptionPlan?: Prisma.SortOrder
   subscriptionStartDate?: Prisma.SortOrder
   subscriptionEndDate?: Prisma.SortOrder
+  subscriptionStatus?: Prisma.SortOrder
+  currentPeriodStart?: Prisma.SortOrder
+  currentPeriodEnd?: Prisma.SortOrder
+  gracePeriodDays?: Prisma.SortOrder
+  suspendedManually?: Prisma.SortOrder
+  suspensionReason?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   maxTeachers?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -1078,6 +1229,7 @@ export type TenantMinOrderByAggregateInput = {
 }
 
 export type TenantSumOrderByAggregateInput = {
+  gracePeriodDays?: Prisma.SortOrder
   maxStudents?: Prisma.SortOrder
   maxTeachers?: Prisma.SortOrder
 }
@@ -1112,12 +1264,20 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.TenantSubscriptionStatus | null
+}
+
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -1756,6 +1916,34 @@ export type TenantUpdateOneRequiredWithoutFeedbackNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutFeedbackInput, Prisma.TenantUpdateWithoutFeedbackInput>, Prisma.TenantUncheckedUpdateWithoutFeedbackInput>
 }
 
+export type TenantCreateNestedOneWithoutSubscriptionPaymentsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSubscriptionPaymentsInput, Prisma.TenantUncheckedCreateWithoutSubscriptionPaymentsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSubscriptionPaymentsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutSubscriptionPaymentsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSubscriptionPaymentsInput, Prisma.TenantUncheckedCreateWithoutSubscriptionPaymentsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSubscriptionPaymentsInput
+  upsert?: Prisma.TenantUpsertWithoutSubscriptionPaymentsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSubscriptionPaymentsInput, Prisma.TenantUpdateWithoutSubscriptionPaymentsInput>, Prisma.TenantUncheckedUpdateWithoutSubscriptionPaymentsInput>
+}
+
+export type TenantCreateNestedOneWithoutSubscriptionAuditLogsInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSubscriptionAuditLogsInput, Prisma.TenantUncheckedCreateWithoutSubscriptionAuditLogsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSubscriptionAuditLogsInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneRequiredWithoutSubscriptionAuditLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutSubscriptionAuditLogsInput, Prisma.TenantUncheckedCreateWithoutSubscriptionAuditLogsInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutSubscriptionAuditLogsInput
+  upsert?: Prisma.TenantUpsertWithoutSubscriptionAuditLogsInput
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutSubscriptionAuditLogsInput, Prisma.TenantUpdateWithoutSubscriptionAuditLogsInput>, Prisma.TenantUncheckedUpdateWithoutSubscriptionAuditLogsInput>
+}
+
 export type TenantCreateWithoutUsersInput = {
   id?: string
   name: string
@@ -1774,6 +1962,12 @@ export type TenantCreateWithoutUsersInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1825,6 +2019,8 @@ export type TenantCreateWithoutUsersInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutUsersInput = {
@@ -1845,6 +2041,12 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1896,6 +2098,8 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutUsersInput = {
@@ -1932,6 +2136,12 @@ export type TenantUpdateWithoutUsersInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -1983,6 +2193,8 @@ export type TenantUpdateWithoutUsersInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutUsersInput = {
@@ -2003,6 +2215,12 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2054,6 +2272,8 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutStudentsInput = {
@@ -2074,6 +2294,12 @@ export type TenantCreateWithoutStudentsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2125,6 +2351,8 @@ export type TenantCreateWithoutStudentsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutStudentsInput = {
@@ -2145,6 +2373,12 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2196,6 +2430,8 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutStudentsInput = {
@@ -2232,6 +2468,12 @@ export type TenantUpdateWithoutStudentsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2283,6 +2525,8 @@ export type TenantUpdateWithoutStudentsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutStudentsInput = {
@@ -2303,6 +2547,12 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2354,6 +2604,8 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutParentsInput = {
@@ -2374,6 +2626,12 @@ export type TenantCreateWithoutParentsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2425,6 +2683,8 @@ export type TenantCreateWithoutParentsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutParentsInput = {
@@ -2445,6 +2705,12 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2496,6 +2762,8 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutParentsInput = {
@@ -2532,6 +2800,12 @@ export type TenantUpdateWithoutParentsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2583,6 +2857,8 @@ export type TenantUpdateWithoutParentsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutParentsInput = {
@@ -2603,6 +2879,12 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2654,6 +2936,8 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTeachersInput = {
@@ -2674,6 +2958,12 @@ export type TenantCreateWithoutTeachersInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2725,6 +3015,8 @@ export type TenantCreateWithoutTeachersInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTeachersInput = {
@@ -2745,6 +3037,12 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2796,6 +3094,8 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTeachersInput = {
@@ -2832,6 +3132,12 @@ export type TenantUpdateWithoutTeachersInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2883,6 +3189,8 @@ export type TenantUpdateWithoutTeachersInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTeachersInput = {
@@ -2903,6 +3211,12 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -2954,6 +3268,8 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutGradesInput = {
@@ -2974,6 +3290,12 @@ export type TenantCreateWithoutGradesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3025,6 +3347,8 @@ export type TenantCreateWithoutGradesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutGradesInput = {
@@ -3045,6 +3369,12 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3096,6 +3426,8 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutGradesInput = {
@@ -3132,6 +3464,12 @@ export type TenantUpdateWithoutGradesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3183,6 +3521,8 @@ export type TenantUpdateWithoutGradesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutGradesInput = {
@@ -3203,6 +3543,12 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3254,6 +3600,8 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCombinationsInput = {
@@ -3274,6 +3622,12 @@ export type TenantCreateWithoutCombinationsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3325,6 +3679,8 @@ export type TenantCreateWithoutCombinationsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCombinationsInput = {
@@ -3345,6 +3701,12 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3396,6 +3758,8 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCombinationsInput = {
@@ -3432,6 +3796,12 @@ export type TenantUpdateWithoutCombinationsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3483,6 +3853,8 @@ export type TenantUpdateWithoutCombinationsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCombinationsInput = {
@@ -3503,6 +3875,12 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3554,6 +3932,8 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSectionsInput = {
@@ -3574,6 +3954,12 @@ export type TenantCreateWithoutSectionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3625,6 +4011,8 @@ export type TenantCreateWithoutSectionsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSectionsInput = {
@@ -3645,6 +4033,12 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3696,6 +4090,8 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSectionsInput = {
@@ -3732,6 +4128,12 @@ export type TenantUpdateWithoutSectionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3783,6 +4185,8 @@ export type TenantUpdateWithoutSectionsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSectionsInput = {
@@ -3803,6 +4207,12 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3854,6 +4264,8 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutSubjectsInput = {
@@ -3874,6 +4286,12 @@ export type TenantCreateWithoutSubjectsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3925,6 +4343,8 @@ export type TenantCreateWithoutSubjectsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutSubjectsInput = {
@@ -3945,6 +4365,12 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -3996,6 +4422,8 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutSubjectsInput = {
@@ -4032,6 +4460,12 @@ export type TenantUpdateWithoutSubjectsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4083,6 +4517,8 @@ export type TenantUpdateWithoutSubjectsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutSubjectsInput = {
@@ -4103,6 +4539,12 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4154,6 +4596,8 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTimetablePeriodsInput = {
@@ -4174,6 +4618,12 @@ export type TenantCreateWithoutTimetablePeriodsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4225,6 +4675,8 @@ export type TenantCreateWithoutTimetablePeriodsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTimetablePeriodsInput = {
@@ -4245,6 +4697,12 @@ export type TenantUncheckedCreateWithoutTimetablePeriodsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4296,6 +4754,8 @@ export type TenantUncheckedCreateWithoutTimetablePeriodsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTimetablePeriodsInput = {
@@ -4332,6 +4792,12 @@ export type TenantUpdateWithoutTimetablePeriodsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4383,6 +4849,8 @@ export type TenantUpdateWithoutTimetablePeriodsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTimetablePeriodsInput = {
@@ -4403,6 +4871,12 @@ export type TenantUncheckedUpdateWithoutTimetablePeriodsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4454,6 +4928,8 @@ export type TenantUncheckedUpdateWithoutTimetablePeriodsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTimetableEntriesInput = {
@@ -4474,6 +4950,12 @@ export type TenantCreateWithoutTimetableEntriesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4525,6 +5007,8 @@ export type TenantCreateWithoutTimetableEntriesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTimetableEntriesInput = {
@@ -4545,6 +5029,12 @@ export type TenantUncheckedCreateWithoutTimetableEntriesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4596,6 +5086,8 @@ export type TenantUncheckedCreateWithoutTimetableEntriesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTimetableEntriesInput = {
@@ -4632,6 +5124,12 @@ export type TenantUpdateWithoutTimetableEntriesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4683,6 +5181,8 @@ export type TenantUpdateWithoutTimetableEntriesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTimetableEntriesInput = {
@@ -4703,6 +5203,12 @@ export type TenantUncheckedUpdateWithoutTimetableEntriesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4754,6 +5260,8 @@ export type TenantUncheckedUpdateWithoutTimetableEntriesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAttendancesInput = {
@@ -4774,6 +5282,12 @@ export type TenantCreateWithoutAttendancesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4825,6 +5339,8 @@ export type TenantCreateWithoutAttendancesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAttendancesInput = {
@@ -4845,6 +5361,12 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4896,6 +5418,8 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAttendancesInput = {
@@ -4932,6 +5456,12 @@ export type TenantUpdateWithoutAttendancesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -4983,6 +5513,8 @@ export type TenantUpdateWithoutAttendancesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAttendancesInput = {
@@ -5003,6 +5535,12 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5054,6 +5592,8 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTeacherAttendancesInput = {
@@ -5074,6 +5614,12 @@ export type TenantCreateWithoutTeacherAttendancesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5125,6 +5671,8 @@ export type TenantCreateWithoutTeacherAttendancesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
@@ -5145,6 +5693,12 @@ export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5196,6 +5750,8 @@ export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTeacherAttendancesInput = {
@@ -5232,6 +5788,12 @@ export type TenantUpdateWithoutTeacherAttendancesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5283,6 +5845,8 @@ export type TenantUpdateWithoutTeacherAttendancesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
@@ -5303,6 +5867,12 @@ export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5354,6 +5924,8 @@ export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutBooksInput = {
@@ -5374,6 +5946,12 @@ export type TenantCreateWithoutBooksInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5425,6 +6003,8 @@ export type TenantCreateWithoutBooksInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutBooksInput = {
@@ -5445,6 +6025,12 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5496,6 +6082,8 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutBooksInput = {
@@ -5532,6 +6120,12 @@ export type TenantUpdateWithoutBooksInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5583,6 +6177,8 @@ export type TenantUpdateWithoutBooksInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutBooksInput = {
@@ -5603,6 +6199,12 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5654,6 +6256,8 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutBookCopiesInput = {
@@ -5674,6 +6278,12 @@ export type TenantCreateWithoutBookCopiesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5725,6 +6335,8 @@ export type TenantCreateWithoutBookCopiesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutBookCopiesInput = {
@@ -5745,6 +6357,12 @@ export type TenantUncheckedCreateWithoutBookCopiesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5796,6 +6414,8 @@ export type TenantUncheckedCreateWithoutBookCopiesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutBookCopiesInput = {
@@ -5832,6 +6452,12 @@ export type TenantUpdateWithoutBookCopiesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5883,6 +6509,8 @@ export type TenantUpdateWithoutBookCopiesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutBookCopiesInput = {
@@ -5903,6 +6531,12 @@ export type TenantUncheckedUpdateWithoutBookCopiesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -5954,6 +6588,8 @@ export type TenantUncheckedUpdateWithoutBookCopiesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutBookTransactionsInput = {
@@ -5974,6 +6610,12 @@ export type TenantCreateWithoutBookTransactionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6025,6 +6667,8 @@ export type TenantCreateWithoutBookTransactionsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutBookTransactionsInput = {
@@ -6045,6 +6689,12 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6096,6 +6746,8 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutBookTransactionsInput = {
@@ -6132,6 +6784,12 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6183,6 +6841,8 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
@@ -6203,6 +6863,12 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6254,6 +6920,8 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPermissionsInput = {
@@ -6274,6 +6942,12 @@ export type TenantCreateWithoutPermissionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6325,6 +6999,8 @@ export type TenantCreateWithoutPermissionsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPermissionsInput = {
@@ -6345,6 +7021,12 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6396,6 +7078,8 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPermissionsInput = {
@@ -6432,6 +7116,12 @@ export type TenantUpdateWithoutPermissionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6483,6 +7173,8 @@ export type TenantUpdateWithoutPermissionsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPermissionsInput = {
@@ -6503,6 +7195,12 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6554,6 +7252,8 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPermissionUsagesInput = {
@@ -6574,6 +7274,12 @@ export type TenantCreateWithoutPermissionUsagesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6625,6 +7331,8 @@ export type TenantCreateWithoutPermissionUsagesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
@@ -6645,6 +7353,12 @@ export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6696,6 +7410,8 @@ export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPermissionUsagesInput = {
@@ -6732,6 +7448,12 @@ export type TenantUpdateWithoutPermissionUsagesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6783,6 +7505,8 @@ export type TenantUpdateWithoutPermissionUsagesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
@@ -6803,6 +7527,12 @@ export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6854,6 +7584,8 @@ export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConductRecordsInput = {
@@ -6874,6 +7606,12 @@ export type TenantCreateWithoutConductRecordsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6925,6 +7663,8 @@ export type TenantCreateWithoutConductRecordsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConductRecordsInput = {
@@ -6945,6 +7685,12 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -6996,6 +7742,8 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConductRecordsInput = {
@@ -7032,6 +7780,12 @@ export type TenantUpdateWithoutConductRecordsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7083,6 +7837,8 @@ export type TenantUpdateWithoutConductRecordsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConductRecordsInput = {
@@ -7103,6 +7859,12 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7154,6 +7916,8 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutStudentConductPointsInput = {
@@ -7174,6 +7938,12 @@ export type TenantCreateWithoutStudentConductPointsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7225,6 +7995,8 @@ export type TenantCreateWithoutStudentConductPointsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
@@ -7245,6 +8017,12 @@ export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7296,6 +8074,8 @@ export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutStudentConductPointsInput = {
@@ -7332,6 +8112,12 @@ export type TenantUpdateWithoutStudentConductPointsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7383,6 +8169,8 @@ export type TenantUpdateWithoutStudentConductPointsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
@@ -7403,6 +8191,12 @@ export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7454,6 +8248,8 @@ export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConductPointTransactionsInput = {
@@ -7474,6 +8270,12 @@ export type TenantCreateWithoutConductPointTransactionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7525,6 +8327,8 @@ export type TenantCreateWithoutConductPointTransactionsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
@@ -7545,6 +8349,12 @@ export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7596,6 +8406,8 @@ export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConductPointTransactionsInput = {
@@ -7632,6 +8444,12 @@ export type TenantUpdateWithoutConductPointTransactionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7683,6 +8501,8 @@ export type TenantUpdateWithoutConductPointTransactionsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
@@ -7703,6 +8523,12 @@ export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7754,6 +8580,8 @@ export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutConversationsInput = {
@@ -7774,6 +8602,12 @@ export type TenantCreateWithoutConversationsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7825,6 +8659,8 @@ export type TenantCreateWithoutConversationsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutConversationsInput = {
@@ -7845,6 +8681,12 @@ export type TenantUncheckedCreateWithoutConversationsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7896,6 +8738,8 @@ export type TenantUncheckedCreateWithoutConversationsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutConversationsInput = {
@@ -7932,6 +8776,12 @@ export type TenantUpdateWithoutConversationsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -7983,6 +8833,8 @@ export type TenantUpdateWithoutConversationsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutConversationsInput = {
@@ -8003,6 +8855,12 @@ export type TenantUncheckedUpdateWithoutConversationsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8054,6 +8912,8 @@ export type TenantUncheckedUpdateWithoutConversationsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutMessagesInput = {
@@ -8074,6 +8934,12 @@ export type TenantCreateWithoutMessagesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8125,6 +8991,8 @@ export type TenantCreateWithoutMessagesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutMessagesInput = {
@@ -8145,6 +9013,12 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8196,6 +9070,8 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutMessagesInput = {
@@ -8232,6 +9108,12 @@ export type TenantUpdateWithoutMessagesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8283,6 +9165,8 @@ export type TenantUpdateWithoutMessagesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutMessagesInput = {
@@ -8303,6 +9187,12 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8354,6 +9244,8 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAnnouncementsInput = {
@@ -8374,6 +9266,12 @@ export type TenantCreateWithoutAnnouncementsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8425,6 +9323,8 @@ export type TenantCreateWithoutAnnouncementsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAnnouncementsInput = {
@@ -8445,6 +9345,12 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8496,6 +9402,8 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAnnouncementsInput = {
@@ -8532,6 +9440,12 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8583,6 +9497,8 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
@@ -8603,6 +9519,12 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8654,6 +9576,8 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutNotificationsInput = {
@@ -8674,6 +9598,12 @@ export type TenantCreateWithoutNotificationsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8725,6 +9655,8 @@ export type TenantCreateWithoutNotificationsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutNotificationsInput = {
@@ -8745,6 +9677,12 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8796,6 +9734,8 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutNotificationsInput = {
@@ -8832,6 +9772,12 @@ export type TenantUpdateWithoutNotificationsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8883,6 +9829,8 @@ export type TenantUpdateWithoutNotificationsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutNotificationsInput = {
@@ -8903,6 +9851,12 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -8954,6 +9908,8 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCardsInput = {
@@ -8974,6 +9930,12 @@ export type TenantCreateWithoutCardsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9025,6 +9987,8 @@ export type TenantCreateWithoutCardsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCardsInput = {
@@ -9045,6 +10009,12 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9096,6 +10066,8 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCardsInput = {
@@ -9132,6 +10104,12 @@ export type TenantUpdateWithoutCardsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9183,6 +10161,8 @@ export type TenantUpdateWithoutCardsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCardsInput = {
@@ -9203,6 +10183,12 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9254,6 +10240,8 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCardLogsInput = {
@@ -9274,6 +10262,12 @@ export type TenantCreateWithoutCardLogsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9325,6 +10319,8 @@ export type TenantCreateWithoutCardLogsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCardLogsInput = {
@@ -9345,6 +10341,12 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9396,6 +10398,8 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCardLogsInput = {
@@ -9432,6 +10436,12 @@ export type TenantUpdateWithoutCardLogsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9483,6 +10493,8 @@ export type TenantUpdateWithoutCardLogsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCardLogsInput = {
@@ -9503,6 +10515,12 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9554,6 +10572,8 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutCardPermissionsInput = {
@@ -9574,6 +10594,12 @@ export type TenantCreateWithoutCardPermissionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9625,6 +10651,8 @@ export type TenantCreateWithoutCardPermissionsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutCardPermissionsInput = {
@@ -9645,6 +10673,12 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9696,6 +10730,8 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutCardPermissionsInput = {
@@ -9732,6 +10768,12 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9783,6 +10825,8 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
@@ -9803,6 +10847,12 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9854,6 +10904,8 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutEventsInput = {
@@ -9874,6 +10926,12 @@ export type TenantCreateWithoutEventsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9925,6 +10983,8 @@ export type TenantCreateWithoutEventsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutEventsInput = {
@@ -9945,6 +11005,12 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -9996,6 +11062,8 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutEventsInput = {
@@ -10032,6 +11100,12 @@ export type TenantUpdateWithoutEventsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10083,6 +11157,8 @@ export type TenantUpdateWithoutEventsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutEventsInput = {
@@ -10103,6 +11179,12 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10154,6 +11236,8 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutMomentsInput = {
@@ -10174,6 +11258,12 @@ export type TenantCreateWithoutMomentsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10225,6 +11315,8 @@ export type TenantCreateWithoutMomentsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutMomentsInput = {
@@ -10245,6 +11337,12 @@ export type TenantUncheckedCreateWithoutMomentsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10296,6 +11394,8 @@ export type TenantUncheckedCreateWithoutMomentsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutMomentsInput = {
@@ -10332,6 +11432,12 @@ export type TenantUpdateWithoutMomentsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10383,6 +11489,8 @@ export type TenantUpdateWithoutMomentsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutMomentsInput = {
@@ -10403,6 +11511,12 @@ export type TenantUncheckedUpdateWithoutMomentsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10454,6 +11568,8 @@ export type TenantUncheckedUpdateWithoutMomentsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDevicesInput = {
@@ -10474,6 +11590,12 @@ export type TenantCreateWithoutDevicesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10525,6 +11647,8 @@ export type TenantCreateWithoutDevicesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDevicesInput = {
@@ -10545,6 +11669,12 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10596,6 +11726,8 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDevicesInput = {
@@ -10632,6 +11764,12 @@ export type TenantUpdateWithoutDevicesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10683,6 +11821,8 @@ export type TenantUpdateWithoutDevicesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDevicesInput = {
@@ -10703,6 +11843,12 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10754,6 +11900,8 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutDeviceLogsInput = {
@@ -10774,6 +11922,12 @@ export type TenantCreateWithoutDeviceLogsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10825,6 +11979,8 @@ export type TenantCreateWithoutDeviceLogsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutDeviceLogsInput = {
@@ -10845,6 +12001,12 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10896,6 +12058,8 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutDeviceLogsInput = {
@@ -10932,6 +12096,12 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -10983,6 +12153,8 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
@@ -11003,6 +12175,12 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11054,6 +12232,8 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAcademicTimelinesInput = {
@@ -11074,6 +12254,12 @@ export type TenantCreateWithoutAcademicTimelinesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11125,6 +12311,8 @@ export type TenantCreateWithoutAcademicTimelinesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAcademicTimelinesInput = {
@@ -11145,6 +12333,12 @@ export type TenantUncheckedCreateWithoutAcademicTimelinesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11196,6 +12390,8 @@ export type TenantUncheckedCreateWithoutAcademicTimelinesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAcademicTimelinesInput = {
@@ -11232,6 +12428,12 @@ export type TenantUpdateWithoutAcademicTimelinesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11283,6 +12485,8 @@ export type TenantUpdateWithoutAcademicTimelinesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAcademicTimelinesInput = {
@@ -11303,6 +12507,12 @@ export type TenantUncheckedUpdateWithoutAcademicTimelinesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11354,6 +12564,8 @@ export type TenantUncheckedUpdateWithoutAcademicTimelinesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPromotionsInput = {
@@ -11374,6 +12586,12 @@ export type TenantCreateWithoutPromotionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11425,6 +12643,8 @@ export type TenantCreateWithoutPromotionsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPromotionsInput = {
@@ -11445,6 +12665,12 @@ export type TenantUncheckedCreateWithoutPromotionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11496,6 +12722,8 @@ export type TenantUncheckedCreateWithoutPromotionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPromotionsInput = {
@@ -11532,6 +12760,12 @@ export type TenantUpdateWithoutPromotionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11583,6 +12817,8 @@ export type TenantUpdateWithoutPromotionsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPromotionsInput = {
@@ -11603,6 +12839,12 @@ export type TenantUncheckedUpdateWithoutPromotionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11654,6 +12896,8 @@ export type TenantUncheckedUpdateWithoutPromotionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutStaffInput = {
@@ -11674,6 +12918,12 @@ export type TenantCreateWithoutStaffInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11725,6 +12975,8 @@ export type TenantCreateWithoutStaffInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutStaffInput = {
@@ -11745,6 +12997,12 @@ export type TenantUncheckedCreateWithoutStaffInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11796,6 +13054,8 @@ export type TenantUncheckedCreateWithoutStaffInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutStaffInput = {
@@ -11832,6 +13092,12 @@ export type TenantUpdateWithoutStaffInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11883,6 +13149,8 @@ export type TenantUpdateWithoutStaffInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutStaffInput = {
@@ -11903,6 +13171,12 @@ export type TenantUncheckedUpdateWithoutStaffInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -11954,6 +13228,8 @@ export type TenantUncheckedUpdateWithoutStaffInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutStudentGradesInput = {
@@ -11974,6 +13250,12 @@ export type TenantCreateWithoutStudentGradesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12025,6 +13307,8 @@ export type TenantCreateWithoutStudentGradesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutStudentGradesInput = {
@@ -12045,6 +13329,12 @@ export type TenantUncheckedCreateWithoutStudentGradesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12096,6 +13386,8 @@ export type TenantUncheckedCreateWithoutStudentGradesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutStudentGradesInput = {
@@ -12132,6 +13424,12 @@ export type TenantUpdateWithoutStudentGradesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12183,6 +13481,8 @@ export type TenantUpdateWithoutStudentGradesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutStudentGradesInput = {
@@ -12203,6 +13503,12 @@ export type TenantUncheckedUpdateWithoutStudentGradesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12254,6 +13560,8 @@ export type TenantUncheckedUpdateWithoutStudentGradesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutInvoicesInput = {
@@ -12274,6 +13582,12 @@ export type TenantCreateWithoutInvoicesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12325,6 +13639,8 @@ export type TenantCreateWithoutInvoicesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutInvoicesInput = {
@@ -12345,6 +13661,12 @@ export type TenantUncheckedCreateWithoutInvoicesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12396,6 +13718,8 @@ export type TenantUncheckedCreateWithoutInvoicesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutInvoicesInput = {
@@ -12432,6 +13756,12 @@ export type TenantUpdateWithoutInvoicesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12483,6 +13813,8 @@ export type TenantUpdateWithoutInvoicesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutInvoicesInput = {
@@ -12503,6 +13835,12 @@ export type TenantUncheckedUpdateWithoutInvoicesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12554,6 +13892,8 @@ export type TenantUncheckedUpdateWithoutInvoicesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPaymentSubmissionsInput = {
@@ -12574,6 +13914,12 @@ export type TenantCreateWithoutPaymentSubmissionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12625,6 +13971,8 @@ export type TenantCreateWithoutPaymentSubmissionsInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPaymentSubmissionsInput = {
@@ -12645,6 +13993,12 @@ export type TenantUncheckedCreateWithoutPaymentSubmissionsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12696,6 +14050,8 @@ export type TenantUncheckedCreateWithoutPaymentSubmissionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPaymentSubmissionsInput = {
@@ -12732,6 +14088,12 @@ export type TenantUpdateWithoutPaymentSubmissionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12783,6 +14145,8 @@ export type TenantUpdateWithoutPaymentSubmissionsInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPaymentSubmissionsInput = {
@@ -12803,6 +14167,12 @@ export type TenantUncheckedUpdateWithoutPaymentSubmissionsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12854,6 +14224,8 @@ export type TenantUncheckedUpdateWithoutPaymentSubmissionsInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutPaymentPromisesInput = {
@@ -12874,6 +14246,12 @@ export type TenantCreateWithoutPaymentPromisesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12925,6 +14303,8 @@ export type TenantCreateWithoutPaymentPromisesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutPaymentPromisesInput = {
@@ -12945,6 +14325,12 @@ export type TenantUncheckedCreateWithoutPaymentPromisesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -12996,6 +14382,8 @@ export type TenantUncheckedCreateWithoutPaymentPromisesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutPaymentPromisesInput = {
@@ -13032,6 +14420,12 @@ export type TenantUpdateWithoutPaymentPromisesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13083,6 +14477,8 @@ export type TenantUpdateWithoutPaymentPromisesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutPaymentPromisesInput = {
@@ -13103,6 +14499,12 @@ export type TenantUncheckedUpdateWithoutPaymentPromisesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13154,6 +14556,8 @@ export type TenantUncheckedUpdateWithoutPaymentPromisesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutInvitesInput = {
@@ -13174,6 +14578,12 @@ export type TenantCreateWithoutInvitesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13225,6 +14635,8 @@ export type TenantCreateWithoutInvitesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutInvitesInput = {
@@ -13245,6 +14657,12 @@ export type TenantUncheckedCreateWithoutInvitesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13296,6 +14714,8 @@ export type TenantUncheckedCreateWithoutInvitesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutInvitesInput = {
@@ -13332,6 +14752,12 @@ export type TenantUpdateWithoutInvitesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13383,6 +14809,8 @@ export type TenantUpdateWithoutInvitesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutInvitesInput = {
@@ -13403,6 +14831,12 @@ export type TenantUncheckedUpdateWithoutInvitesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13454,6 +14888,8 @@ export type TenantUncheckedUpdateWithoutInvitesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTenantModulesInput = {
@@ -13474,6 +14910,12 @@ export type TenantCreateWithoutTenantModulesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13525,6 +14967,8 @@ export type TenantCreateWithoutTenantModulesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTenantModulesInput = {
@@ -13545,6 +14989,12 @@ export type TenantUncheckedCreateWithoutTenantModulesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13596,6 +15046,8 @@ export type TenantUncheckedCreateWithoutTenantModulesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTenantModulesInput = {
@@ -13632,6 +15084,12 @@ export type TenantUpdateWithoutTenantModulesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13683,6 +15141,8 @@ export type TenantUpdateWithoutTenantModulesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTenantModulesInput = {
@@ -13703,6 +15163,12 @@ export type TenantUncheckedUpdateWithoutTenantModulesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13754,6 +15220,8 @@ export type TenantUncheckedUpdateWithoutTenantModulesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutStudioSubscriptionInput = {
@@ -13774,6 +15242,12 @@ export type TenantCreateWithoutStudioSubscriptionInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13825,6 +15299,8 @@ export type TenantCreateWithoutStudioSubscriptionInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutStudioSubscriptionInput = {
@@ -13845,6 +15321,12 @@ export type TenantUncheckedCreateWithoutStudioSubscriptionInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13896,6 +15378,8 @@ export type TenantUncheckedCreateWithoutStudioSubscriptionInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutStudioSubscriptionInput = {
@@ -13932,6 +15416,12 @@ export type TenantUpdateWithoutStudioSubscriptionInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -13983,6 +15473,8 @@ export type TenantUpdateWithoutStudioSubscriptionInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutStudioSubscriptionInput = {
@@ -14003,6 +15495,12 @@ export type TenantUncheckedUpdateWithoutStudioSubscriptionInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14054,6 +15552,8 @@ export type TenantUncheckedUpdateWithoutStudioSubscriptionInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAdminInvitesInput = {
@@ -14074,6 +15574,12 @@ export type TenantCreateWithoutAdminInvitesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14125,6 +15631,8 @@ export type TenantCreateWithoutAdminInvitesInput = {
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAdminInvitesInput = {
@@ -14145,6 +15653,12 @@ export type TenantUncheckedCreateWithoutAdminInvitesInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14196,6 +15710,8 @@ export type TenantUncheckedCreateWithoutAdminInvitesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAdminInvitesInput = {
@@ -14232,6 +15748,12 @@ export type TenantUpdateWithoutAdminInvitesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14283,6 +15805,8 @@ export type TenantUpdateWithoutAdminInvitesInput = {
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAdminInvitesInput = {
@@ -14303,6 +15827,12 @@ export type TenantUncheckedUpdateWithoutAdminInvitesInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14354,6 +15884,8 @@ export type TenantUncheckedUpdateWithoutAdminInvitesInput = {
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutTenantBillingsInput = {
@@ -14374,6 +15906,12 @@ export type TenantCreateWithoutTenantBillingsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14425,6 +15963,8 @@ export type TenantCreateWithoutTenantBillingsInput = {
   adminInvites?: Prisma.AdminInviteCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutTenantBillingsInput = {
@@ -14445,6 +15985,12 @@ export type TenantUncheckedCreateWithoutTenantBillingsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14496,6 +16042,8 @@ export type TenantUncheckedCreateWithoutTenantBillingsInput = {
   adminInvites?: Prisma.AdminInviteUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutTenantBillingsInput = {
@@ -14532,6 +16080,12 @@ export type TenantUpdateWithoutTenantBillingsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14583,6 +16137,8 @@ export type TenantUpdateWithoutTenantBillingsInput = {
   adminInvites?: Prisma.AdminInviteUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutTenantBillingsInput = {
@@ -14603,6 +16159,12 @@ export type TenantUncheckedUpdateWithoutTenantBillingsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14654,6 +16216,8 @@ export type TenantUncheckedUpdateWithoutTenantBillingsInput = {
   adminInvites?: Prisma.AdminInviteUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutAdminApprovalsInput = {
@@ -14674,6 +16238,12 @@ export type TenantCreateWithoutAdminApprovalsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14725,6 +16295,8 @@ export type TenantCreateWithoutAdminApprovalsInput = {
   adminInvites?: Prisma.AdminInviteCreateNestedManyWithoutTenantInput
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutAdminApprovalsInput = {
@@ -14745,6 +16317,12 @@ export type TenantUncheckedCreateWithoutAdminApprovalsInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14796,6 +16374,8 @@ export type TenantUncheckedCreateWithoutAdminApprovalsInput = {
   adminInvites?: Prisma.AdminInviteUncheckedCreateNestedManyWithoutTenantInput
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutAdminApprovalsInput = {
@@ -14832,6 +16412,12 @@ export type TenantUpdateWithoutAdminApprovalsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14883,6 +16469,8 @@ export type TenantUpdateWithoutAdminApprovalsInput = {
   adminInvites?: Prisma.AdminInviteUpdateManyWithoutTenantNestedInput
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutAdminApprovalsInput = {
@@ -14903,6 +16491,12 @@ export type TenantUncheckedUpdateWithoutAdminApprovalsInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -14954,6 +16548,8 @@ export type TenantUncheckedUpdateWithoutAdminApprovalsInput = {
   adminInvites?: Prisma.AdminInviteUncheckedUpdateManyWithoutTenantNestedInput
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantCreateWithoutFeedbackInput = {
@@ -14974,6 +16570,12 @@ export type TenantCreateWithoutFeedbackInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -15025,6 +16627,8 @@ export type TenantCreateWithoutFeedbackInput = {
   adminInvites?: Prisma.AdminInviteCreateNestedManyWithoutTenantInput
   tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
 }
 
 export type TenantUncheckedCreateWithoutFeedbackInput = {
@@ -15045,6 +16649,12 @@ export type TenantUncheckedCreateWithoutFeedbackInput = {
   subscriptionPlan?: $Enums.SubscriptionPlan
   subscriptionStartDate?: Date | string | null
   subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
   maxStudents?: number
   maxTeachers?: number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -15096,6 +16706,8 @@ export type TenantUncheckedCreateWithoutFeedbackInput = {
   adminInvites?: Prisma.AdminInviteUncheckedCreateNestedManyWithoutTenantInput
   tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
   adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
 }
 
 export type TenantCreateOrConnectWithoutFeedbackInput = {
@@ -15132,6 +16744,12 @@ export type TenantUpdateWithoutFeedbackInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -15183,6 +16801,8 @@ export type TenantUpdateWithoutFeedbackInput = {
   adminInvites?: Prisma.AdminInviteUpdateManyWithoutTenantNestedInput
   tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
 }
 
 export type TenantUncheckedUpdateWithoutFeedbackInput = {
@@ -15203,6 +16823,12 @@ export type TenantUncheckedUpdateWithoutFeedbackInput = {
   subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
   subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
   maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
   settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -15254,6 +16880,672 @@ export type TenantUncheckedUpdateWithoutFeedbackInput = {
   adminInvites?: Prisma.AdminInviteUncheckedUpdateManyWithoutTenantNestedInput
   tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
   adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutSubscriptionPaymentsInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  promotions?: Prisma.PromotionCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  invites?: Prisma.InviteCreateNestedManyWithoutTenantInput
+  paymentPromises?: Prisma.PaymentPromiseCreateNestedManyWithoutTenantInput
+  paymentSubmissions?: Prisma.PaymentSubmissionCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  staff?: Prisma.StaffCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  studentGrades?: Prisma.StudentGradeCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  timetablePeriods?: Prisma.TimetablePeriodCreateNestedManyWithoutTenantInput
+  timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutTenantInput
+  tenantModules?: Prisma.TenantModuleCreateNestedManyWithoutTenantInput
+  studioSubscription?: Prisma.StudioSubscriptionCreateNestedOneWithoutTenantInput
+  adminInvites?: Prisma.AdminInviteCreateNestedManyWithoutTenantInput
+  tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
+  adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutSubscriptionPaymentsInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  promotions?: Prisma.PromotionUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  invites?: Prisma.InviteUncheckedCreateNestedManyWithoutTenantInput
+  paymentPromises?: Prisma.PaymentPromiseUncheckedCreateNestedManyWithoutTenantInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  staff?: Prisma.StaffUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  studentGrades?: Prisma.StudentGradeUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  timetablePeriods?: Prisma.TimetablePeriodUncheckedCreateNestedManyWithoutTenantInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutTenantInput
+  tenantModules?: Prisma.TenantModuleUncheckedCreateNestedManyWithoutTenantInput
+  studioSubscription?: Prisma.StudioSubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  adminInvites?: Prisma.AdminInviteUncheckedCreateNestedManyWithoutTenantInput
+  tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
+  adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutSubscriptionPaymentsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSubscriptionPaymentsInput, Prisma.TenantUncheckedCreateWithoutSubscriptionPaymentsInput>
+}
+
+export type TenantUpsertWithoutSubscriptionPaymentsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutSubscriptionPaymentsInput, Prisma.TenantUncheckedUpdateWithoutSubscriptionPaymentsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSubscriptionPaymentsInput, Prisma.TenantUncheckedCreateWithoutSubscriptionPaymentsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutSubscriptionPaymentsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutSubscriptionPaymentsInput, Prisma.TenantUncheckedUpdateWithoutSubscriptionPaymentsInput>
+}
+
+export type TenantUpdateWithoutSubscriptionPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  promotions?: Prisma.PromotionUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  invites?: Prisma.InviteUpdateManyWithoutTenantNestedInput
+  paymentPromises?: Prisma.PaymentPromiseUpdateManyWithoutTenantNestedInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  staff?: Prisma.StaffUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  studentGrades?: Prisma.StudentGradeUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  timetablePeriods?: Prisma.TimetablePeriodUpdateManyWithoutTenantNestedInput
+  timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutTenantNestedInput
+  tenantModules?: Prisma.TenantModuleUpdateManyWithoutTenantNestedInput
+  studioSubscription?: Prisma.StudioSubscriptionUpdateOneWithoutTenantNestedInput
+  adminInvites?: Prisma.AdminInviteUpdateManyWithoutTenantNestedInput
+  tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
+  adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutSubscriptionPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  promotions?: Prisma.PromotionUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  invites?: Prisma.InviteUncheckedUpdateManyWithoutTenantNestedInput
+  paymentPromises?: Prisma.PaymentPromiseUncheckedUpdateManyWithoutTenantNestedInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  staff?: Prisma.StaffUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  studentGrades?: Prisma.StudentGradeUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  timetablePeriods?: Prisma.TimetablePeriodUncheckedUpdateManyWithoutTenantNestedInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutTenantNestedInput
+  tenantModules?: Prisma.TenantModuleUncheckedUpdateManyWithoutTenantNestedInput
+  studioSubscription?: Prisma.StudioSubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  adminInvites?: Prisma.AdminInviteUncheckedUpdateManyWithoutTenantNestedInput
+  tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
+  adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutSubscriptionAuditLogsInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  promotions?: Prisma.PromotionCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  invites?: Prisma.InviteCreateNestedManyWithoutTenantInput
+  paymentPromises?: Prisma.PaymentPromiseCreateNestedManyWithoutTenantInput
+  paymentSubmissions?: Prisma.PaymentSubmissionCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  staff?: Prisma.StaffCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  studentGrades?: Prisma.StudentGradeCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  timetablePeriods?: Prisma.TimetablePeriodCreateNestedManyWithoutTenantInput
+  timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutTenantInput
+  tenantModules?: Prisma.TenantModuleCreateNestedManyWithoutTenantInput
+  studioSubscription?: Prisma.StudioSubscriptionCreateNestedOneWithoutTenantInput
+  adminInvites?: Prisma.AdminInviteCreateNestedManyWithoutTenantInput
+  tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
+  adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutSubscriptionAuditLogsInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  promotions?: Prisma.PromotionUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  invites?: Prisma.InviteUncheckedCreateNestedManyWithoutTenantInput
+  paymentPromises?: Prisma.PaymentPromiseUncheckedCreateNestedManyWithoutTenantInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  staff?: Prisma.StaffUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  studentGrades?: Prisma.StudentGradeUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  timetablePeriods?: Prisma.TimetablePeriodUncheckedCreateNestedManyWithoutTenantInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutTenantInput
+  tenantModules?: Prisma.TenantModuleUncheckedCreateNestedManyWithoutTenantInput
+  studioSubscription?: Prisma.StudioSubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  adminInvites?: Prisma.AdminInviteUncheckedCreateNestedManyWithoutTenantInput
+  tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
+  adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutSubscriptionAuditLogsInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSubscriptionAuditLogsInput, Prisma.TenantUncheckedCreateWithoutSubscriptionAuditLogsInput>
+}
+
+export type TenantUpsertWithoutSubscriptionAuditLogsInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutSubscriptionAuditLogsInput, Prisma.TenantUncheckedUpdateWithoutSubscriptionAuditLogsInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutSubscriptionAuditLogsInput, Prisma.TenantUncheckedCreateWithoutSubscriptionAuditLogsInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutSubscriptionAuditLogsInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutSubscriptionAuditLogsInput, Prisma.TenantUncheckedUpdateWithoutSubscriptionAuditLogsInput>
+}
+
+export type TenantUpdateWithoutSubscriptionAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  promotions?: Prisma.PromotionUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  invites?: Prisma.InviteUpdateManyWithoutTenantNestedInput
+  paymentPromises?: Prisma.PaymentPromiseUpdateManyWithoutTenantNestedInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  staff?: Prisma.StaffUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  studentGrades?: Prisma.StudentGradeUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  timetablePeriods?: Prisma.TimetablePeriodUpdateManyWithoutTenantNestedInput
+  timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutTenantNestedInput
+  tenantModules?: Prisma.TenantModuleUpdateManyWithoutTenantNestedInput
+  studioSubscription?: Prisma.StudioSubscriptionUpdateOneWithoutTenantNestedInput
+  adminInvites?: Prisma.AdminInviteUpdateManyWithoutTenantNestedInput
+  tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
+  adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutSubscriptionAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  promotions?: Prisma.PromotionUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  invites?: Prisma.InviteUncheckedUpdateManyWithoutTenantNestedInput
+  paymentPromises?: Prisma.PaymentPromiseUncheckedUpdateManyWithoutTenantNestedInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  staff?: Prisma.StaffUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  studentGrades?: Prisma.StudentGradeUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  timetablePeriods?: Prisma.TimetablePeriodUncheckedUpdateManyWithoutTenantNestedInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutTenantNestedInput
+  tenantModules?: Prisma.TenantModuleUncheckedUpdateManyWithoutTenantNestedInput
+  studioSubscription?: Prisma.StudioSubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  adminInvites?: Prisma.AdminInviteUncheckedUpdateManyWithoutTenantNestedInput
+  tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
+  adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
 }
 
 
@@ -15306,6 +17598,8 @@ export type TenantCountOutputType = {
   tenantBillings: number
   adminApprovals: number
   feedback: number
+  subscriptionPayments: number
+  subscriptionAuditLogs: number
 }
 
 export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -15353,6 +17647,8 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   tenantBillings?: boolean | TenantCountOutputTypeCountTenantBillingsArgs
   adminApprovals?: boolean | TenantCountOutputTypeCountAdminApprovalsArgs
   feedback?: boolean | TenantCountOutputTypeCountFeedbackArgs
+  subscriptionPayments?: boolean | TenantCountOutputTypeCountSubscriptionPaymentsArgs
+  subscriptionAuditLogs?: boolean | TenantCountOutputTypeCountSubscriptionAuditLogsArgs
 }
 
 /**
@@ -15673,6 +17969,20 @@ export type TenantCountOutputTypeCountFeedbackArgs<ExtArgs extends runtime.Types
   where?: Prisma.FeedbackWhereInput
 }
 
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountSubscriptionPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubscriptionPaymentWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountSubscriptionAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubscriptionAuditLogWhereInput
+}
+
 
 export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -15692,6 +18002,12 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
   subscriptionEndDate?: boolean
+  subscriptionStatus?: boolean
+  currentPeriodStart?: boolean
+  currentPeriodEnd?: boolean
+  gracePeriodDays?: boolean
+  suspendedManually?: boolean
+  suspensionReason?: boolean
   maxStudents?: boolean
   maxTeachers?: boolean
   settings?: boolean
@@ -15744,6 +18060,8 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   tenantBillings?: boolean | Prisma.Tenant$tenantBillingsArgs<ExtArgs>
   adminApprovals?: boolean | Prisma.Tenant$adminApprovalsArgs<ExtArgs>
   feedback?: boolean | Prisma.Tenant$feedbackArgs<ExtArgs>
+  subscriptionPayments?: boolean | Prisma.Tenant$subscriptionPaymentsArgs<ExtArgs>
+  subscriptionAuditLogs?: boolean | Prisma.Tenant$subscriptionAuditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tenant"]>
 
@@ -15765,6 +18083,12 @@ export type TenantSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
   subscriptionEndDate?: boolean
+  subscriptionStatus?: boolean
+  currentPeriodStart?: boolean
+  currentPeriodEnd?: boolean
+  gracePeriodDays?: boolean
+  suspendedManually?: boolean
+  suspensionReason?: boolean
   maxStudents?: boolean
   maxTeachers?: boolean
   settings?: boolean
@@ -15792,6 +18116,12 @@ export type TenantSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
   subscriptionEndDate?: boolean
+  subscriptionStatus?: boolean
+  currentPeriodStart?: boolean
+  currentPeriodEnd?: boolean
+  gracePeriodDays?: boolean
+  suspendedManually?: boolean
+  suspensionReason?: boolean
   maxStudents?: boolean
   maxTeachers?: boolean
   settings?: boolean
@@ -15819,6 +18149,12 @@ export type TenantSelectScalar = {
   subscriptionPlan?: boolean
   subscriptionStartDate?: boolean
   subscriptionEndDate?: boolean
+  subscriptionStatus?: boolean
+  currentPeriodStart?: boolean
+  currentPeriodEnd?: boolean
+  gracePeriodDays?: boolean
+  suspendedManually?: boolean
+  suspensionReason?: boolean
   maxStudents?: boolean
   maxTeachers?: boolean
   settings?: boolean
@@ -15828,7 +18164,7 @@ export type TenantSelectScalar = {
   brandColor?: boolean
 }
 
-export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "address" | "city" | "state" | "country" | "zipCode" | "phone" | "email" | "website" | "status" | "subscriptionPlan" | "subscriptionStartDate" | "subscriptionEndDate" | "maxStudents" | "maxTeachers" | "settings" | "createdAt" | "updatedAt" | "timezone" | "brandColor", ExtArgs["result"]["tenant"]>
+export type TenantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "domain" | "logo" | "address" | "city" | "state" | "country" | "zipCode" | "phone" | "email" | "website" | "status" | "subscriptionPlan" | "subscriptionStartDate" | "subscriptionEndDate" | "subscriptionStatus" | "currentPeriodStart" | "currentPeriodEnd" | "gracePeriodDays" | "suspendedManually" | "suspensionReason" | "maxStudents" | "maxTeachers" | "settings" | "createdAt" | "updatedAt" | "timezone" | "brandColor", ExtArgs["result"]["tenant"]>
 export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   announcements?: boolean | Prisma.Tenant$announcementsArgs<ExtArgs>
   attendances?: boolean | Prisma.Tenant$attendancesArgs<ExtArgs>
@@ -15875,6 +18211,8 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tenantBillings?: boolean | Prisma.Tenant$tenantBillingsArgs<ExtArgs>
   adminApprovals?: boolean | Prisma.Tenant$adminApprovalsArgs<ExtArgs>
   feedback?: boolean | Prisma.Tenant$feedbackArgs<ExtArgs>
+  subscriptionPayments?: boolean | Prisma.Tenant$subscriptionPaymentsArgs<ExtArgs>
+  subscriptionAuditLogs?: boolean | Prisma.Tenant$subscriptionAuditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.TenantCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type TenantIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -15928,6 +18266,8 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     tenantBillings: Prisma.$TenantBillingPayload<ExtArgs>[]
     adminApprovals: Prisma.$AdminApprovalPayload<ExtArgs>[]
     feedback: Prisma.$FeedbackPayload<ExtArgs>[]
+    subscriptionPayments: Prisma.$SubscriptionPaymentPayload<ExtArgs>[]
+    subscriptionAuditLogs: Prisma.$SubscriptionAuditLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -15947,6 +18287,12 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     subscriptionPlan: $Enums.SubscriptionPlan
     subscriptionStartDate: Date | null
     subscriptionEndDate: Date | null
+    subscriptionStatus: $Enums.TenantSubscriptionStatus | null
+    currentPeriodStart: Date | null
+    currentPeriodEnd: Date | null
+    gracePeriodDays: number
+    suspendedManually: boolean
+    suspensionReason: string | null
     maxStudents: number
     maxTeachers: number
     settings: runtime.JsonValue | null
@@ -16393,6 +18739,8 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   tenantBillings<T extends Prisma.Tenant$tenantBillingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$tenantBillingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TenantBillingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   adminApprovals<T extends Prisma.Tenant$adminApprovalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$adminApprovalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdminApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   feedback<T extends Prisma.Tenant$feedbackArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$feedbackArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subscriptionPayments<T extends Prisma.Tenant$subscriptionPaymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subscriptionPaymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subscriptionAuditLogs<T extends Prisma.Tenant$subscriptionAuditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$subscriptionAuditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionAuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16439,6 +18787,12 @@ export interface TenantFieldRefs {
   readonly subscriptionPlan: Prisma.FieldRef<"Tenant", 'SubscriptionPlan'>
   readonly subscriptionStartDate: Prisma.FieldRef<"Tenant", 'DateTime'>
   readonly subscriptionEndDate: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly subscriptionStatus: Prisma.FieldRef<"Tenant", 'TenantSubscriptionStatus'>
+  readonly currentPeriodStart: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly currentPeriodEnd: Prisma.FieldRef<"Tenant", 'DateTime'>
+  readonly gracePeriodDays: Prisma.FieldRef<"Tenant", 'Int'>
+  readonly suspendedManually: Prisma.FieldRef<"Tenant", 'Boolean'>
+  readonly suspensionReason: Prisma.FieldRef<"Tenant", 'String'>
   readonly maxStudents: Prisma.FieldRef<"Tenant", 'Int'>
   readonly maxTeachers: Prisma.FieldRef<"Tenant", 'Int'>
   readonly settings: Prisma.FieldRef<"Tenant", 'Json'>
@@ -17906,6 +20260,54 @@ export type Tenant$feedbackArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.FeedbackScalarFieldEnum | Prisma.FeedbackScalarFieldEnum[]
+}
+
+/**
+ * Tenant.subscriptionPayments
+ */
+export type Tenant$subscriptionPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubscriptionPayment
+   */
+  select?: Prisma.SubscriptionPaymentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubscriptionPayment
+   */
+  omit?: Prisma.SubscriptionPaymentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubscriptionPaymentInclude<ExtArgs> | null
+  where?: Prisma.SubscriptionPaymentWhereInput
+  orderBy?: Prisma.SubscriptionPaymentOrderByWithRelationInput | Prisma.SubscriptionPaymentOrderByWithRelationInput[]
+  cursor?: Prisma.SubscriptionPaymentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubscriptionPaymentScalarFieldEnum | Prisma.SubscriptionPaymentScalarFieldEnum[]
+}
+
+/**
+ * Tenant.subscriptionAuditLogs
+ */
+export type Tenant$subscriptionAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SubscriptionAuditLog
+   */
+  select?: Prisma.SubscriptionAuditLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SubscriptionAuditLog
+   */
+  omit?: Prisma.SubscriptionAuditLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubscriptionAuditLogInclude<ExtArgs> | null
+  where?: Prisma.SubscriptionAuditLogWhereInput
+  orderBy?: Prisma.SubscriptionAuditLogOrderByWithRelationInput | Prisma.SubscriptionAuditLogOrderByWithRelationInput[]
+  cursor?: Prisma.SubscriptionAuditLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubscriptionAuditLogScalarFieldEnum | Prisma.SubscriptionAuditLogScalarFieldEnum[]
 }
 
 /**

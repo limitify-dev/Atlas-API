@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bullmq';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 
 import { AppController } from './app.controller';
@@ -20,6 +21,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { TenantGuard } from './common/guards/tenant.guard';
 import { RolesGuard } from './auth/guards/roles.guard';
+import { SubscriptionEnforcementGuard } from './common/guards/subscription-enforcement.guard';
 
 // ─── Identity ─────────────────────────────────────────────────────────────────
 import { AuthModule } from './auth/auth.module';
@@ -28,6 +30,8 @@ import { TenantsModule } from './tenants/tenants.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { StaffModule } from './identity/staff/staff.module';
 import { StudioModule } from './studio/studio.module';
+import { FeedbackModule } from './feedback/feedback.module';
+import { SubscriptionModule } from './subscription/subscription.module';
 import { StudentsModule } from './students/students.module';
 import { ParentsModule } from './parents/parents.module';
 
@@ -55,6 +59,7 @@ import { LibraryModule } from './library/library.module';
 import { CardsModule } from './cards/cards.module';
 import { EventsModule } from './events/events.module';
 import { MomentsModule } from './moments/moments.module';
+import { PollsModule } from './polls/polls.module';
 import { UploadModule } from './upload/upload.module';
 
 // ─── Platform / Admin ─────────────────────────────────────────────────────────
@@ -62,6 +67,7 @@ import { SystemLogsModule } from './system-logs/system-logs.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics.module';
+import { OnboardingRequestsModule } from './onboarding-requests/onboarding-requests.module';
 
 // ─── DEFERRED (schema kept, module disabled) ──────────────────────────────────
 // TransportModule  — import './transport/transport.module' when needed
@@ -87,6 +93,12 @@ import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics
         },
       }),
     }),
+    // Default rate limit for every route; endpoints prone to abuse (login,
+    // OTP, password reset) override this with a tighter @Throttle(). Storage
+    // is in-memory, which is fine for a single API instance — once running
+    // multiple replicas, swap in a Redis-backed ThrottlerStorage so the
+    // limit is enforced across instances rather than per-instance.
+    ThrottlerModule.forRoot([{ name: 'default', ttl: 60_000, limit: 100 }]),
 
     // ── Infrastructure ─────────────────────────────────────────────────────────
     RedisModule,
@@ -104,6 +116,8 @@ import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics
     TeachersModule,
     StaffModule,
     StudioModule,
+    FeedbackModule,
+    SubscriptionModule,
     StudentsModule,
     ParentsModule,
 
@@ -131,6 +145,7 @@ import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics
     CardsModule,
     EventsModule,
     MomentsModule,
+    PollsModule,
     UploadModule,
 
     // ── Platform / Admin ───────────────────────────────────────────────────────
@@ -138,14 +153,17 @@ import { PlatformAnalyticsModule } from './platform-analytics/platform-analytics
     SubscriptionsModule,
     DashboardModule,
     PlatformAnalyticsModule,
+    OnboardingRequestsModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     LoggingInterceptor,
-    // Global guard chain: JWT → Tenant → Roles
+    // Global guard chain: Throttle → JWT → Tenant → Roles
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: TenantGuard },
+    { provide: APP_GUARD, useClass: SubscriptionEnforcementGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })

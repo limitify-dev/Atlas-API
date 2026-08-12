@@ -3,6 +3,10 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { SupabaseService } from '../../common/supabase/supabase.service';
 import { PushService } from '../push/push.service';
 import {
+  announcementContentToPlainText,
+  sanitizeAnnouncementContent,
+} from './announcement-html';
+import {
   AnnouncementFiltersDto,
   CreateAnnouncementDto,
   UpdateAnnouncementDto,
@@ -57,7 +61,7 @@ export class AnnouncementsService {
         tenantId,
         publishedBy: userId,
         title: dto.title,
-        content: dto.content,
+        content: sanitizeAnnouncementContent(dto.content),
         imageUrl: dto.imageUrl || null,
         ctaLabel: dto.ctaLabel || null,
         ctaType: dto.ctaType || null,
@@ -102,7 +106,9 @@ export class AnnouncementsService {
           tenantId,
           userId: uid,
           title: announcement.title,
-          message: String(announcement.content || '').slice(0, 300),
+          message: announcementContentToPlainText(
+            announcement.content || '',
+          ).slice(0, 300),
           type: 'ANNOUNCEMENT',
           data: {
             type: 'announcement',
@@ -307,7 +313,8 @@ export class AnnouncementsService {
 
     const data: Prisma.AnnouncementUpdateInput = {};
     if (dto.title !== undefined) data.title = dto.title;
-    if (dto.content !== undefined) data.content = dto.content;
+    if (dto.content !== undefined)
+      data.content = sanitizeAnnouncementContent(dto.content);
     if (dto.imageUrl !== undefined) data.imageUrl = dto.imageUrl || null;
     if (dto.ctaLabel !== undefined) data.ctaLabel = dto.ctaLabel || null;
     if (dto.ctaType !== undefined) data.ctaType = dto.ctaType || null;
@@ -407,9 +414,9 @@ export class AnnouncementsService {
     });
   }
 
-  async markAsRead(announcementId: string, userId: string) {
-    const announcement = await this.prisma.announcement.findUnique({
-      where: { id: announcementId },
+  async markAsRead(announcementId: string, userId: string, tenantId: string) {
+    const announcement = await this.prisma.announcement.findFirst({
+      where: { id: announcementId, tenantId },
       select: { id: true },
     });
 
@@ -524,9 +531,7 @@ export class AnnouncementsService {
     userIds: string[],
   ) {
     const title = announcement.title || 'New Announcement';
-    const content = String(announcement.content || '')
-      .replace(/\s+/g, ' ')
-      .trim();
+    const content = announcementContentToPlainText(announcement.content || '');
     const body =
       content.length > 160
         ? `${content.slice(0, 157).trimEnd()}...`

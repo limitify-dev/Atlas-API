@@ -4,7 +4,7 @@ import {
   FeedbackCategory,
   FeedbackStatus,
 } from '../../../prisma/generated/client';
-import { UpdateFeedbackDto } from '../dto';
+import { CreateFeedbackDto, UpdateFeedbackDto } from '../dto';
 
 interface FeedbackFilters {
   tenantId?: string;
@@ -15,6 +15,17 @@ interface FeedbackFilters {
 @Injectable()
 export class FeedbackService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async create(tenantId: string, userId: string, dto: CreateFeedbackDto) {
+    return this.prisma.feedback.create({
+      data: {
+        tenantId,
+        userId,
+        category: dto.category,
+        message: dto.message,
+      },
+    });
+  }
 
   async findAll(filters: FeedbackFilters = {}) {
     return this.prisma.feedback.findMany({
@@ -48,9 +59,13 @@ export class FeedbackService {
     return this.prisma.feedback.update({
       where: { id },
       data: {
-        status: dto.status,
+        ...(dto.status && { status: dto.status }),
         ...(dto.status === FeedbackStatus.RESOLVED && {
           resolvedAt: new Date(),
+        }),
+        ...(dto.priority && { priority: dto.priority }),
+        ...(dto.plannedRelease !== undefined && {
+          plannedRelease: dto.plannedRelease,
         }),
       },
     });

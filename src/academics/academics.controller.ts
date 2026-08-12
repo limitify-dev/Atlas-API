@@ -10,7 +10,13 @@ import {
   Put,
   Query,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  FileTypeValidator,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   CurrentUser,
@@ -35,6 +41,7 @@ import {
   UpdateConsultationBookingDto,
   UpdateReportCardDto,
   UpsertAssignmentResultsDto,
+  UpsertConsultationConfigDto,
 } from './dto';
 
 @ApiTags('Academics')
@@ -303,6 +310,46 @@ export class AcademicsController {
     return this.academicsService.createReportCard(user.tenantId, user.id, dto);
   }
 
+  @Post('report-cards/upload')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({
+    summary: 'Upload a report-card PDF (bulk wizard) and upsert its record',
+  })
+  uploadReportCard(
+    @CurrentUser() user: AuthUser,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 15 }), // 15MB
+          new FileTypeValidator({ fileType: 'application/pdf' }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @Body('term') term: string,
+    @Body('studentId') studentId?: string,
+  ) {
+    return this.academicsService.uploadReportCard(user.tenantId, user.id, file, {
+      term,
+      studentId,
+    });
+  }
+
+  @Post('report-cards/publish')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Publish DRAFT report cards for a term' })
+  publishReportCards(
+    @CurrentUser() user: AuthUser,
+    @Body() body: { term: string; studentIds?: string[] },
+  ) {
+    return this.academicsService.publishReportCards(
+      user.tenantId,
+      body.term,
+      body.studentIds,
+    );
+  }
+
   @Get('report-cards')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.TEACHER, Role.STAFF)
   @ApiOperation({ summary: 'List report cards' })
@@ -400,6 +447,102 @@ export class AcademicsController {
     return this.academicsService.exportConsultationBookingsIcs(
       user.tenantId,
       query,
+    );
+  }
+
+  @Get('consultations/configs')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'List all consultation days for this tenant' })
+  listConsultationConfigs(@CurrentUser() user: AuthUser) {
+    return this.academicsService.listConsultationConfigs(user.tenantId);
+  }
+
+  @Post('consultations/configs')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary:
+      'Create a new consultation day (date, time, default duration/location and per-teacher overrides)',
+  })
+  createConsultationConfig(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: UpsertConsultationConfigDto,
+  ) {
+    return this.academicsService.createConsultationConfig(
+      user.tenantId,
+      user.id,
+      dto,
+    );
+  }
+
+  @Patch('consultations/configs/:id')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Update a consultation day' })
+  updateConsultationConfig(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+    @Body() dto: UpsertConsultationConfigDto,
+  ) {
+    return this.academicsService.updateConsultationConfig(
+      user.tenantId,
+      id,
+      dto,
+    );
+  }
+
+  @Patch('consultations/configs/:id/activate')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary: 'Set a consultation day as the one shown to parents',
+  })
+  activateConsultationConfig(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+  ) {
+    return this.academicsService.activateConsultationConfig(
+      user.tenantId,
+      id,
+    );
+  }
+
+  @Delete('consultations/configs/:id')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Delete a consultation day' })
+  deleteConsultationConfig(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+  ) {
+    return this.academicsService.deleteConsultationConfig(user.tenantId, id);
+  }
+
+  @Post('consultations/configs/capacity-check')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({
+    summary:
+      "Dry-run capacity check for a proposed (not yet saved) consultation day — lets the UI warn before Save whether the selected sections/duration fit inside start-end.",
+  })
+  previewConsultationCapacity(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: UpsertConsultationConfigDto,
+  ) {
+    return this.academicsService.previewConsultationCapacity(
+      user.tenantId,
+      dto,
+    );
+  }
+
+  @Get('consultations/preview')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
+  @ApiOperation({
+    summary:
+      'Preview the generated consultation schedule ordered by student performance, grouped by classroom. Defaults to the active consultation day; pass configId to preview another one.',
+  })
+  previewConsultationSlots(
+    @CurrentUser() user: AuthUser,
+    @Query('configId') configId?: string,
+  ) {
+    return this.academicsService.previewConsultationSlots(
+      user.tenantId,
+      configId,
     );
   }
 }

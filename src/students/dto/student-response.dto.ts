@@ -112,6 +112,7 @@ export class StudentResponseDto {
   grade: {
     id: string;
     name: string;
+    code: string;
     level: number;
     educationLevel: string;
   };

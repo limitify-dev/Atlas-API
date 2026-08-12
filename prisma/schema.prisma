@@ -25,6 +25,13 @@ model Tenant {
   subscriptionPlan         SubscriptionPlan          @default(FREE)
   subscriptionStartDate    DateTime?
   subscriptionEndDate      DateTime?
+  // ── Subscription & billing enforcement (authoritative source of truth) ──
+  subscriptionStatus       TenantSubscriptionStatus? // cached/derived: ACTIVE | EXPIRING_SOON | EXPIRED | SUSPENDED
+  currentPeriodStart       DateTime?
+  currentPeriodEnd         DateTime?
+  gracePeriodDays          Int                       @default(0)
+  suspendedManually        Boolean                  @default(false)
+  suspensionReason         String?
   maxStudents              Int                       @default(100)
   maxTeachers              Int                       @default(20)
   settings                 Json?
@@ -77,6 +84,8 @@ model Tenant {
   tenantBillings           TenantBilling[]
   adminApprovals           AdminApproval[]
   feedback                 Feedback[]
+  subscriptionPayments     SubscriptionPayment[]
+  subscriptionAuditLogs    SubscriptionAuditLog[]
 
   @@index([slug])
   @@index([status])
@@ -119,9 +128,13 @@ model User {
   tenant                   Tenant?                   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   adminApproval            AdminApproval?            @relation("ApprovalUser")
   reviewedApprovals        AdminApproval[]           @relation("ApprovalReviewer")
+  reviewedOnboardingRequests OnboardingRequest[]
   feedback                 Feedback[]
   moments                  Moment[]                  @relation("TeacherMoments")
   momentLikes              MomentLike[]              @relation("UserMomentLikes")
+  recordedPayments         SubscriptionPayment[]
+  subscriptionAuditLogs    SubscriptionAuditLog[]
+  systemSettings           SystemSetting[]
 
   @@index([tenantId])
   @@index([email])
@@ -265,6 +278,7 @@ model Teacher {
   subjects         SubjectTeacher[]
   attendances      TeacherAttendance[]
   timetableEntries TimetableEntry[]
+  consultationOverrides ConsultationTeacherOverride[]
   tenant           Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -736,19 +750,26 @@ model ConversationParticipant {
 }
 
 model ChatMessage {
-  id             String       @id @default(uuid())
+  id             String        @id @default(uuid())
   conversationId String
   senderId       String
   content        String
-  type           MessageType  @default(TEXT)
-  metadata       Json?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  type           MessageType   @default(TEXT)
+  metadata       Json?         // attachment info, link previews, etc.
+  replyToId      String?       // FK for reply threading
+  deletedAt      DateTime?     // soft delete — null = not deleted
+  editedAt       DateTime?     // set when content is updated
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender         User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  replyTo        ChatMessage?  @relation("MessageReplies", fields: [replyToId], references: [id], onDelete: SetNull)
+  replies        ChatMessage[] @relation("MessageReplies")
 
   @@index([conversationId, createdAt])
   @@index([senderId])
+  @@index([replyToId])
+  @@index([deletedAt])
   @@map("chat_messages")
 }
 
@@ -922,21 +943,22 @@ model CardPermission {
 }
 
 model Event {
-  id          String   @id @default(uuid())
-  tenantId    String
-  title       String
-  description String?
-  eventDate   DateTime
-  time        String?
-  endDate     DateTime?
-  location    String?
-  organizer   String?
-  category    String   @default("Academic")
-  gradeTarget String?
-  audience    String   @default("ALL")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id           String   @id @default(uuid())
+  tenantId     String
+  title        String
+  description  String?
+  eventDate    DateTime
+  time         String?
+  endDate      DateTime?
+  location     String?
+  organizer    String?
+  category     String   @default("Academic")
+  gradeTarget  String?
+  audience     String   @default("ALL")
+  thumbnailUrl String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([eventDate])
@@ -1081,6 +1103,8 @@ model AcademicReportCard {
   overallScore Float?
   grade        String?
   remarks      String?
+  fileUrl      String?
+  fileName     String?
   publishedAt  DateTime?
   publishedBy  String
   status       AcademicRecordStatus @default(DRAFT)
@@ -1119,6 +1143,50 @@ model ConsultationBooking {
   @@index([studentId])
   @@index([parentId])
   @@map("consultation_bookings")
+}
+
+model ConsultationConfig {
+  id                      String   @id @default(uuid())
+  tenantId                String
+  consultationDate        DateTime
+  startTime               String
+  /// Hard cutoff for the day — see AcademicsService.assertConsultationCapacity.
+  /// Defaulted for pre-existing rows created before this field existed; the
+  /// API requires it explicitly on every new create/update.
+  endTime                 String   @default("17:00")
+  defaultDurationMinutes  Int      @default(15)
+  defaultLocation         String   @default("School Campus")
+  title                   String   @default("Consultation Day")
+  /// Global break: every teacher pauses and sessions resume afterwards.
+  breakStartTime          String?
+  breakDurationMinutes    Int?     @default(0)
+  content                 String?
+  /// Section (classroom) ids this day targets. Empty = every classroom.
+  sectionIds              String[] @default([])
+  isActive                Boolean  @default(true)
+  createdBy               String
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  teacherOverrides        ConsultationTeacherOverride[]
+
+  @@index([tenantId])
+  @@map("consultation_configs")
+}
+
+model ConsultationTeacherOverride {
+  id                String            @id @default(uuid())
+  tenantId          String
+  configId          String
+  teacherId         String
+  location          String?
+  durationMinutes   Int?
+  config            ConsultationConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+  teacher           Teacher           @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([configId, teacherId])
+  @@index([tenantId])
+  @@index([teacherId])
+  @@map("consultation_teacher_overrides")
 }
 
 model Device {
@@ -1248,7 +1316,7 @@ model Staff {
   firstName   String
   lastName    String
   department  String?
-  staffRole   String // "studies" | "dos" | "discipline" | "dm" | "finance" | "bursar" | custom
+  staffRole   String // "studies" | "dos" | "discipline" | "dm" | "staff-academics" | "finance" | "bursar" | custom
   photoUrl    String?
   joiningDate DateTime
   createdAt   DateTime @default(now())
@@ -1303,6 +1371,7 @@ model Invoice {
    amountPaid  Decimal?    @db.Decimal(10, 2) // tracked payment amount
    paymentMethod String? // "bank_transfer", "cash", "mobile_money", etc.
    gracePeriodApproved DateTime? // extends dueDate when grace is approved
+   archivedAt  DateTime? // set when the fee item is archived; null = active
    createdAt   DateTime      @default(now())
    updatedAt   DateTime      @updatedAt
 
@@ -1316,6 +1385,7 @@ model Invoice {
    @@index([status])
    @@index([dueDate])
    @@index([tenantId, studentId])
+   @@index([archivedAt])
    @@map("invoices")
  }
 
@@ -1568,10 +1638,65 @@ enum AnnouncementStatus {
   DRAFT
 }
 
+model Poll {
+  id            String       @id @default(uuid())
+  tenantId      String
+  question      String
+  audience      String       @default("ALL")
+  status        PollStatus   @default(ACTIVE)
+  allowMultiple Boolean      @default(false)
+  publishedBy   String
+  publishedAt   DateTime     @default(now())
+  expiresAt     DateTime?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  options       PollOption[]
+  votes         PollVote[]
+
+  @@index([tenantId])
+  @@index([status])
+  @@map("polls")
+}
+
+model PollOption {
+  id     String     @id @default(uuid())
+  pollId String
+  label  String
+  order  Int        @default(0)
+  poll   Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  votes  PollVote[]
+
+  @@index([pollId])
+  @@map("poll_options")
+}
+
+model PollVote {
+  id        String     @id @default(uuid())
+  pollId    String
+  optionId  String
+  userId    String
+  createdAt DateTime   @default(now())
+  poll      Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  option    PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, userId, optionId])
+  @@index([pollId])
+  @@index([userId])
+  @@map("poll_votes")
+}
+
+enum PollStatus {
+  ACTIVE
+  CLOSED
+  DRAFT
+}
+
 enum MessageType {
   TEXT
   IMAGE
   FILE
+  AUDIO
+  VIDEO
   SYSTEM
 }
 
@@ -1766,6 +1891,7 @@ model TenantBilling {
   periodStart  DateTime
   periodEnd    DateTime
   status       BillingStatus @default(PENDING)
+  source       BillingSource @default(MANUAL)
   notes        String?
   paidAt       DateTime?
   createdAt    DateTime      @default(now())
@@ -1798,15 +1924,48 @@ model AdminApproval {
   @@map("admin_approvals")
 }
 
+/// A public "request to onboard" submission from a prospective school
+/// (via the marketing site's get-started/demo/enroll form) — this is
+/// pre-tenant, so it's deliberately NOT tenant-scoped. Reviewing a request
+/// is a track-and-contact action only; it does not create a Tenant or
+/// AdminInvite — a Studio operator still does that manually via the
+/// existing tools once they've followed up.
+model OnboardingRequest {
+  id             String                  @id @default(uuid())
+  intent         OnboardingRequestIntent @default(GET_STARTED)
+  fullName       String
+  email          String
+  phone          String
+  organization   String
+  role           String
+  schoolSize     String
+  preferredDate  DateTime?
+  preferredTime  String?
+  goals          String
+  status         OnboardingRequestStatus @default(NEW)
+  notes          String?
+  createdAt      DateTime                @default(now())
+  reviewedAt     DateTime?
+  reviewedById   String?
+
+  reviewedBy User? @relation(fields: [reviewedById], references: [id])
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("onboarding_requests")
+}
+
 model Feedback {
-  id         String           @id @default(uuid())
-  tenantId   String
-  userId     String
-  category   FeedbackCategory
-  message    String
-  status     FeedbackStatus   @default(NEW)
-  createdAt  DateTime         @default(now())
-  resolvedAt DateTime?
+  id             String           @id @default(uuid())
+  tenantId       String
+  userId         String
+  category       FeedbackCategory
+  message        String
+  status         FeedbackStatus   @default(NEW)
+  priority       FeedbackPriority @default(MEDIUM)
+  plannedRelease String?
+  createdAt      DateTime         @default(now())
+  resolvedAt     DateTime?
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -1814,6 +1973,7 @@ model Feedback {
   @@index([tenantId])
   @@index([status])
   @@index([category])
+  @@index([priority])
   @@map("feedback")
 }
 
@@ -1845,10 +2005,27 @@ enum BillingStatus {
   SUSPENDED
 }
 
+enum BillingSource {
+  MANUAL
+  AUTO
+}
+
 enum AdminApprovalStatus {
   PENDING
   APPROVED
   REJECTED
+}
+
+enum OnboardingRequestIntent {
+  GET_STARTED
+  REQUEST_DEMO
+  ENROLL_NOW
+}
+
+enum OnboardingRequestStatus {
+  NEW
+  CONTACTED
+  CLOSED
 }
 
 enum FeedbackCategory {
@@ -1862,4 +2039,107 @@ enum FeedbackStatus {
   NEW
   REVIEWED
   RESOLVED
+}
+
+enum FeedbackPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ─────────────────────────────────────────────────────────────
+//  Subscription & Billing (manual payment tracking)
+// ─────────────────────────────────────────────────────────────
+
+enum TenantSubscriptionStatus {
+  ACTIVE
+  EXPIRING_SOON
+  EXPIRED
+  SUSPENDED
+}
+
+enum SubscriptionPaymentMethod {
+  BANK_TRANSFER
+  CASH
+  CHEQUE
+  MOBILE_MONEY
+  CARD
+  OTHER
+}
+
+enum SubscriptionCurrency {
+  USD
+  EUR
+  GBP
+  UGX
+  KES
+  TZS
+  NGN
+  ZAR
+  RWF
+  GHS
+}
+
+enum SubscriptionAuditAction {
+  PAYMENT_LOGGED
+  MANUALLY_EXTENDED
+  MANUALLY_SUSPENDED
+  MANUALLY_REACTIVATED
+  STATUS_AUTO_EXPIRED
+  STATUS_RECALCULATED
+  PAYMENT_DELETED
+  GRACE_PERIOD_UPDATED
+}
+
+model SubscriptionPayment {
+  id           String                 @id @default(uuid())
+  tenantId     String
+  amount       Decimal                @db.Decimal(12, 2)
+  currency     String                 @default("USD")
+  paymentDate  DateTime               @default(now())
+  periodStart  DateTime
+  periodEnd    DateTime
+  paymentMethod SubscriptionPaymentMethod @default(BANK_TRANSFER)
+  referenceNumber String?
+  notes        String?
+  recordedById String?
+  createdAt    DateTime               @default(now())
+
+  tenant    Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  recordedBy User?   @relation(fields: [recordedById], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@index([paymentDate])
+  @@index([periodEnd])
+  @@map("subscription_payments")
+}
+
+model SubscriptionAuditLog {
+  id         String                  @id @default(uuid())
+  tenantId   String
+  action     SubscriptionAuditAction
+  performedById String?
+  details    Json?
+  createdAt  DateTime                @default(now())
+
+  tenant      Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  performedBy User?  @relation(fields: [performedById], references: [id], onDelete: SetNull)
+
+  @@index([tenantId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("subscription_audit_logs")
+}
+
+// Platform-level key/value settings (e.g. support contact for the
+// "Subscription Ended" screen). Editable by the super admin in Atlas-Studio.
+model SystemSetting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+  updatedById String?
+
+  updatedBy User? @relation(fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@map("system_settings")
 }

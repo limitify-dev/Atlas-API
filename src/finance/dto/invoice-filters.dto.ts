@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsDateString,
   IsEnum,
   IsInt,
@@ -7,7 +8,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { InvoiceStatus } from '../../../prisma/generated/client';
 
@@ -40,6 +41,18 @@ export class InvoiceFiltersDto {
   @IsString()
   @IsOptional()
   category?: string;
+
+  @ApiPropertyOptional({
+    description: 'When true, return only archived invoices; defaults to active-only.',
+  })
+  @IsOptional()
+  // Read the raw query value via `obj[key]`, not `value` — with
+  // enableImplicitConversion on, class-transformer's implicit Boolean
+  // coercion runs before this callback and turns any non-empty string
+  // (including "false") into `true`, so `value` would already be corrupted.
+  @Transform(({ obj, key }) => obj[key] === true || obj[key] === 'true')
+  @IsBoolean()
+  archived?: boolean;
 
   @ApiPropertyOptional()
   @IsDateString()

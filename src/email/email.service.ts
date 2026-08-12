@@ -319,4 +319,44 @@ export class EmailService {
       text,
     });
   }
+
+  /**
+   * Notify a super-admin that a new onboarding request came in from the
+   * public get-started/demo/enroll form. Sent once per super-admin.
+   */
+  async sendOnboardingRequestNotification(params: {
+    to: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    organization: string;
+    role: string;
+    schoolSize: string;
+    goals: string;
+    studioUrl: string;
+  }): Promise<void> {
+    const subject = `New onboarding request from ${params.organization}`;
+    const html = this.buildEmailShell({
+      title: 'New onboarding request',
+      subtitle: `${params.fullName} from ${params.organization} wants to get started with Atlas.`,
+      body: `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="font-size:14px;line-height:1.7;color:#1f2937;">
+               <tr><td style="padding:2px 0;color:#6b7280;width:120px;">Contact</td><td style="padding:2px 0;"><strong>${params.fullName}</strong> — ${params.role}</td></tr>
+               <tr><td style="padding:2px 0;color:#6b7280;">Organization</td><td style="padding:2px 0;">${params.organization} (${params.schoolSize})</td></tr>
+               <tr><td style="padding:2px 0;color:#6b7280;">Email</td><td style="padding:2px 0;"><a href="mailto:${params.email}">${params.email}</a></td></tr>
+               <tr><td style="padding:2px 0;color:#6b7280;">Phone</td><td style="padding:2px 0;"><a href="tel:${params.phone}">${params.phone}</a></td></tr>
+             </table>
+             <p style="margin:16px 0 0;">${params.goals}</p>`,
+      ctaLabel: 'Review in Studio',
+      ctaUrl: params.studioUrl,
+    });
+    const text = [
+      `New onboarding request from ${params.organization}.`,
+      `${params.fullName} (${params.role}) — ${params.email} / ${params.phone}`,
+      `School size: ${params.schoolSize}`,
+      `Goals: ${params.goals}`,
+      `Review: ${params.studioUrl}`,
+    ].join('\n\n');
+
+    await this.sendEmail({ to: params.to, subject, html, text });
+  }
 }

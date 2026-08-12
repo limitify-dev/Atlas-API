@@ -26,8 +26,8 @@ export class MomentsController {
   constructor(private readonly momentsService: MomentsService) {}
 
   @Post()
-  @Roles(Role.TEACHER, Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
-  @ApiOperation({ summary: 'Create a class moment (teacher post)' })
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Create a class moment (admin post)' })
   create(@CurrentUser() user: AuthUser, @Body() dto: CreateMomentDto) {
     return this.momentsService.create(user.tenantId, user.id, dto);
   }
@@ -50,8 +50,8 @@ export class MomentsController {
   }
 
   @Patch(':id')
-  @Roles(Role.TEACHER, Role.ADMIN, Role.SUPER_ADMIN)
-  @ApiOperation({ summary: 'Update a moment (owner or admin)' })
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Update a moment (admin)' })
   update(
     @CurrentUser() user: AuthUser,
     @Param('id') id: string,
@@ -61,7 +61,7 @@ export class MomentsController {
   }
 
   @Delete(':id')
-  @Roles(Role.TEACHER, Role.ADMIN, Role.SUPER_ADMIN)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Delete a moment' })
   remove(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.momentsService.remove(user.tenantId, user.id, id);

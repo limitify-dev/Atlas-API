@@ -2,9 +2,12 @@ import {
   BadRequestException,
   ForbiddenException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
+import { SupabaseService } from '../common/supabase/supabase.service';
 import {
   AcademicRecordStatus,
   AssignmentResultStatus,
@@ -25,13 +28,38 @@ import {
   UpdateConsultationBookingDto,
   UpdateReportCardDto,
   UpsertAssignmentResultsDto,
+  UpsertConsultationConfigDto,
 } from './dto';
 
 @Injectable()
 export class AcademicsService {
   private static readonly UNASSIGNED_TEACHER_ID = 'UNASSIGNED';
+  private readonly logger = new Logger(AcademicsService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly supabase: SupabaseService,
+  ) {}
+
+  /**
+   * Automatically archive assignments whose due date has passed.
+   */
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async archivePastDueAssignments() {
+    const result = await this.prisma.academicAssignment.updateMany({
+      where: {
+        dueDate: { lt: new Date() },
+        status: { not: AcademicRecordStatus.ARCHIVED },
+      },
+      data: { status: AcademicRecordStatus.ARCHIVED },
+    });
+
+    if (result.count > 0) {
+      this.logger.log(
+        `Archived ${result.count} assignment(s) past their due date`,
+      );
+    }
+  }
 
   private isTeacher(user: { role?: string; userType?: string }) {
     return (
@@ -420,7 +448,6 @@ export class AcademicsService {
     return { subjectIds: subjectLinks.map((l) => l.subjectId) };
   }
 
-
   /**
    * Sets (or clears) the class teacher (homeroom) of a section. A section has at
    * most one class teacher, so any other teacher's designation is cleared.
@@ -765,6 +792,7 @@ export class AcademicsService {
         maxScore: dto.maxScore || 100,
         createdBy: user.id,
         status: this.toStatus(dto.status) || AcademicRecordStatus.DRAFT,
+        type: dto.type || 'HOMEWORK',
       },
     });
   }
@@ -808,12 +836,19 @@ export class AcademicsService {
         where.gradeId = query.gradeId;
       } else if (teacherSectionIds.length > 0 || teacherGradeIds.length > 0) {
         where.OR = [
-          ...(teacherSectionIds.length > 0 ? [{ sectionId: { in: teacherSectionIds } }] : []),
-          ...(teacherGradeIds.length > 0 ? [{ gradeId: { in: teacherGradeIds } }] : []),
+          ...(teacherSectionIds.length > 0
+            ? [{ sectionId: { in: teacherSectionIds } }]
+            : []),
+          ...(teacherGradeIds.length > 0
+            ? [{ gradeId: { in: teacherGradeIds } }]
+            : []),
         ];
       }
 
-      if (query.subjectId && !subjectLinks.some((s) => s.subjectId === query.subjectId)) {
+      if (
+        query.subjectId &&
+        !subjectLinks.some((s) => s.subjectId === query.subjectId)
+      ) {
         throw new ForbiddenException(
           'You are not assigned to the requested subject',
         );
@@ -845,30 +880,49 @@ export class AcademicsService {
 
   private async enrichAcademicItems(tenantId: string, items: any[]) {
     const gradeIds = [...new Set(items.map((i) => i.gradeId).filter(Boolean))];
-    const subjectIds = [...new Set(items.map((i) => i.subjectId).filter(Boolean))];
-    const sectionIds = [...new Set(items.map((i) => i.sectionId).filter(Boolean))];
+    const subjectIds = [
+      ...new Set(items.map((i) => i.subjectId).filter(Boolean)),
+    ];
+    const sectionIds = [
+      ...new Set(items.map((i) => i.sectionId).filter(Boolean)),
+    ];
 
     const [grades, subjects, sections] = await Promise.all([
       gradeIds.length
-        ? this.prisma.grade.findMany({ where: { id: { in: gradeIds as string[] }, tenantId }, select: { id: true, name: true, code: true } })
+        ? this.prisma.grade.findMany({
+            where: { id: { in: gradeIds as string[] }, tenantId },
+            select: { id: true, name: true, code: true },
+          })
         : [],
       subjectIds.length
-        ? this.prisma.subject.findMany({ where: { id: { in: subjectIds as string[] }, tenantId }, select: { id: true, name: true, code: true } })
+        ? this.prisma.subject.findMany({
+            where: { id: { in: subjectIds as string[] }, tenantId },
+            select: { id: true, name: true, code: true },
+          })
         : [],
       sectionIds.length
-        ? this.prisma.section.findMany({ where: { id: { in: sectionIds as string[] }, tenantId }, select: { id: true, name: true } })
+        ? this.prisma.section.findMany({
+            where: { id: { in: sectionIds as string[] }, tenantId },
+            select: { id: true, name: true },
+          })
         : [],
     ]);
 
-    const gradeMap = new Map(grades.map((g) => [g.id, g] as [string, typeof g]));
-    const subjectMap = new Map(subjects.map((s) => [s.id, s] as [string, typeof s]));
-    const sectionMap = new Map(sections.map((s) => [s.id, s] as [string, typeof s]));
+    const gradeMap = new Map(
+      grades.map((g) => [g.id, g] as [string, typeof g]),
+    );
+    const subjectMap = new Map(
+      subjects.map((s) => [s.id, s] as [string, typeof s]),
+    );
+    const sectionMap = new Map(
+      sections.map((s) => [s.id, s] as [string, typeof s]),
+    );
 
     return items.map((item) => ({
       ...item,
-      grade: item.gradeId ? gradeMap.get(item.gradeId) ?? null : null,
-      subject: item.subjectId ? subjectMap.get(item.subjectId) ?? null : null,
-      section: item.sectionId ? sectionMap.get(item.sectionId) ?? null : null,
+      grade: item.gradeId ? (gradeMap.get(item.gradeId) ?? null) : null,
+      subject: item.subjectId ? (subjectMap.get(item.subjectId) ?? null) : null,
+      section: item.sectionId ? (sectionMap.get(item.sectionId) ?? null) : null,
     }));
   }
 
@@ -950,6 +1004,7 @@ export class AcademicsService {
         ...(dto.status !== undefined
           ? { status: this.toStatus(dto.status) }
           : {}),
+        ...(dto.type !== undefined ? { type: dto.type } : {}),
       },
     });
   }
@@ -1190,7 +1245,12 @@ export class AcademicsService {
   async listStudentGrades(
     tenantId: string,
     user: { id?: string; role?: string; userType?: string },
-    query: { subjectId?: string; sectionId?: string; studentId?: string; term?: string },
+    query: {
+      subjectId?: string;
+      sectionId?: string;
+      studentId?: string;
+      term?: string;
+    },
   ) {
     if (this.isTeacher(user)) {
       const teacher = await this.prisma.teacher.findFirst({
@@ -1286,15 +1346,199 @@ export class AcademicsService {
   }
 
   async listReportCards(tenantId: string, query: ListAcademicsQueryDto) {
-    return this.prisma.academicReportCard.findMany({
+    const cards = await this.prisma.academicReportCard.findMany({
       where: {
         tenantId,
         ...(query.studentId ? { studentId: query.studentId } : {}),
         ...(query.term ? { term: query.term } : {}),
       },
       orderBy: { updatedAt: 'desc' },
-      take: query.limit || 200,
+      take: query.limit || 500,
     });
+
+    // Enrich with the student's section + name so the admin UI can group
+    // report-card status by classroom. (AcademicReportCard stores only a
+    // studentId string, so we resolve it here.)
+    const studentIds = [...new Set(cards.map((c) => c.studentId))];
+    const students = studentIds.length
+      ? await this.prisma.student.findMany({
+          where: { id: { in: studentIds }, tenantId },
+          select: {
+            id: true,
+            sectionId: true,
+            firstName: true,
+            lastName: true,
+          },
+        })
+      : [];
+    const byId = new Map(students.map((s) => [s.id, s]));
+    return cards.map((c) => {
+      const s = byId.get(c.studentId);
+      const metadata =
+        c.metadata &&
+        typeof c.metadata === 'object' &&
+        !Array.isArray(c.metadata)
+          ? (c.metadata as Record<string, unknown>)
+          : {};
+      const termYear = c.term.match(/(20\d{2})/)?.[1];
+      const academicYear =
+        typeof metadata.academicYear === 'string'
+          ? metadata.academicYear
+          : termYear
+            ? `${termYear}-${Number(termYear) + 1}`
+            : null;
+      const rank = Number(metadata.rank);
+      const totalStudents = Number(metadata.totalStudents);
+      return {
+        ...c,
+        sectionId: s?.sectionId ?? null,
+        studentName: s ? `${s.firstName} ${s.lastName}`.trim() : null,
+        // Normalized aliases consumed by the student Academic tab. The schema
+        // stores grade directly and optional ranking context in metadata.
+        overallGrade: c.grade,
+        academicYear,
+        rank: Number.isFinite(rank) ? rank : null,
+        totalStudents: Number.isFinite(totalStudents) ? totalStudents : null,
+      };
+    });
+  }
+
+  /**
+   * Match an uploaded report-card PDF to a student by its filename. The bulk
+   * import convention embeds the student code (e.g. "STD00042_T1_2026.pdf" or
+   * "st-p1a-01_...pdf"); we look for any of the tenant's student codes as a
+   * case-insensitive substring of the filename. Returns null when ambiguous
+   * or unmatched — the admin resolves those in the wizard's review step.
+   */
+  private async matchStudentByFilename(tenantId: string, filename: string) {
+    const haystack = filename.toLowerCase();
+    const students = await this.prisma.student.findMany({
+      where: { tenantId },
+      select: { id: true, studentId: true, firstName: true, lastName: true },
+    });
+    const matches = students.filter(
+      (s) => s.studentId && haystack.includes(s.studentId.toLowerCase()),
+    );
+    // Only auto-match when exactly one student code is present.
+    return matches.length === 1 ? matches[0] : null;
+  }
+
+  /**
+   * Upload a single report-card PDF to storage and upsert its row (per
+   * student, per term). Resolves the student from an explicit id or from the
+   * filename. Returns a per-file result the wizard uses for its review step.
+   */
+  async uploadReportCard(
+    tenantId: string,
+    userId: string,
+    file: Express.Multer.File,
+    opts: { term: string; studentId?: string },
+  ) {
+    if (!file) throw new BadRequestException('A PDF file is required');
+    if (!opts.term) throw new BadRequestException('A term is required');
+
+    // Resolve the student: explicit id wins, else match by filename.
+    let student:
+      | { id: string; studentId: string; firstName: string; lastName: string }
+      | null
+      | undefined;
+    if (opts.studentId) {
+      student = await this.prisma.student.findFirst({
+        where: { id: opts.studentId, tenantId },
+        select: { id: true, studentId: true, firstName: true, lastName: true },
+      });
+      if (!student) throw new NotFoundException('Student not found');
+    } else {
+      student = await this.matchStudentByFilename(tenantId, file.originalname);
+    }
+
+    if (!student) {
+      // Unmatched — surface to the admin to resolve rather than guessing.
+      return {
+        matched: false as const,
+        filename: file.originalname,
+        studentId: null,
+        studentName: null,
+      };
+    }
+
+    // Upload to the (public) profiles bucket under a report-cards prefix so we
+    // reuse the already-provisioned bucket. Path is deterministic per
+    // student+term so re-uploads overwrite.
+    const safeTerm = opts.term.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const filePath = `${tenantId}/report-cards/${student.id}/${safeTerm}.pdf`;
+    const { error: uploadError } = await this.supabase.client.storage
+      .from('atlas-profiles')
+      .upload(filePath, file.buffer, {
+        contentType: 'application/pdf',
+        upsert: true,
+        cacheControl: '3600',
+      });
+    if (uploadError) {
+      throw new BadRequestException(
+        `Failed to upload report card: ${uploadError.message}`,
+      );
+    }
+    const { data: urlData } = this.supabase.client.storage
+      .from('atlas-profiles')
+      .getPublicUrl(filePath);
+    const fileUrl = urlData.publicUrl;
+
+    const reportCard = await this.prisma.academicReportCard.upsert({
+      where: {
+        tenantId_studentId_term: {
+          tenantId,
+          studentId: student.id,
+          term: opts.term,
+        },
+      },
+      update: {
+        fileUrl,
+        fileName: file.originalname,
+        publishedBy: userId,
+      },
+      create: {
+        tenantId,
+        studentId: student.id,
+        term: opts.term,
+        fileUrl,
+        fileName: file.originalname,
+        publishedBy: userId,
+        status: AcademicRecordStatus.DRAFT,
+      },
+    });
+
+    return {
+      matched: true as const,
+      filename: file.originalname,
+      studentId: student.id,
+      studentName: `${student.firstName} ${student.lastName}`.trim(),
+      reportCard,
+    };
+  }
+
+  /**
+   * Publish DRAFT report cards for a term (optionally a subset of students),
+   * making them visible to parents. This is the wizard's final step.
+   */
+  async publishReportCards(
+    tenantId: string,
+    term: string,
+    studentIds?: string[],
+  ) {
+    if (!term) throw new BadRequestException('A term is required');
+    const result = await this.prisma.academicReportCard.updateMany({
+      where: {
+        tenantId,
+        term,
+        status: AcademicRecordStatus.DRAFT,
+        ...(studentIds && studentIds.length
+          ? { studentId: { in: studentIds } }
+          : {}),
+      },
+      data: { status: AcademicRecordStatus.PUBLISHED, publishedAt: new Date() },
+    });
+    return { published: result.count };
   }
 
   async updateReportCard(
@@ -1574,5 +1818,638 @@ export class AcademicsService {
 
     lines.push('END:VCALENDAR');
     return lines.join('\r\n');
+  }
+
+  // ─── Consultation configuration ────────────────────────────────────────────
+
+  async listConsultationConfigs(tenantId: string) {
+    return this.prisma.consultationConfig.findMany({
+      where: { tenantId },
+      orderBy: { consultationDate: 'desc' },
+      include: { teacherOverrides: true },
+    });
+  }
+
+  async getConsultationConfigById(tenantId: string, id: string) {
+    const config = await this.prisma.consultationConfig.findFirst({
+      where: { id, tenantId },
+      include: { teacherOverrides: true },
+    });
+    if (!config) throw new NotFoundException('Consultation day not found');
+    return config;
+  }
+
+  /** Used internally by preview when no specific consultation day is requested. */
+  private async getActiveConsultationConfig(tenantId: string) {
+    return this.prisma.consultationConfig.findFirst({
+      where: { tenantId, isActive: true },
+      orderBy: { updatedAt: 'desc' },
+      include: { teacherOverrides: true },
+    });
+  }
+
+  private async syncConsultationTeacherOverrides(
+    tenantId: string,
+    configId: string,
+    overrides: Array<{
+      teacherId: string;
+      location?: string | null;
+      durationMinutes?: number | null;
+    }> = [],
+  ) {
+    const incomingIds = overrides.map((o) => o.teacherId);
+    await this.prisma.consultationTeacherOverride.deleteMany({
+      where: { configId, teacherId: { notIn: incomingIds } },
+    });
+    for (const o of overrides) {
+      await this.prisma.consultationTeacherOverride.upsert({
+        where: { configId_teacherId: { configId, teacherId: o.teacherId } },
+        update: {
+          location: o.location ?? null,
+          durationMinutes: o.durationMinutes ?? null,
+        },
+        create: {
+          tenantId,
+          configId,
+          teacherId: o.teacherId,
+          location: o.location ?? null,
+          durationMinutes: o.durationMinutes ?? null,
+        },
+      });
+    }
+  }
+
+  async createConsultationConfig(
+    tenantId: string,
+    userId: string,
+    dto: UpsertConsultationConfigDto,
+  ) {
+    await this.assertConsultationCapacity(tenantId, dto);
+
+    const existingCount = await this.prisma.consultationConfig.count({
+      where: { tenantId },
+    });
+    // The very first consultation day for a tenant becomes active automatically
+    // so parents see something immediately; later ones require an explicit choice.
+    const shouldActivate = dto.makeActive ?? existingCount === 0;
+
+    const config = await this.prisma.$transaction(async (tx) => {
+      if (shouldActivate) {
+        await tx.consultationConfig.updateMany({
+          where: { tenantId, isActive: true },
+          data: { isActive: false },
+        });
+      }
+      return tx.consultationConfig.create({
+        data: {
+          tenantId,
+          consultationDate: new Date(dto.consultationDate),
+          startTime: dto.startTime,
+          endTime: dto.endTime,
+          defaultDurationMinutes: dto.defaultDurationMinutes ?? 15,
+          defaultLocation: dto.defaultLocation ?? 'School Campus',
+          title: dto.title ?? 'Consultation Day',
+          breakStartTime: dto.breakStartTime ?? null,
+          breakDurationMinutes: dto.breakDurationMinutes ?? 0,
+          content: dto.content,
+          sectionIds: dto.sectionIds ?? [],
+          isActive: shouldActivate,
+          createdBy: userId,
+        },
+      });
+    });
+
+    await this.syncConsultationTeacherOverrides(
+      tenantId,
+      config.id,
+      dto.teacherOverrides,
+    );
+
+    return this.getConsultationConfigById(tenantId, config.id);
+  }
+
+  async updateConsultationConfig(
+    tenantId: string,
+    id: string,
+    dto: UpsertConsultationConfigDto,
+  ) {
+    await this.getConsultationConfigById(tenantId, id); // 404 guard
+    await this.assertConsultationCapacity(tenantId, dto);
+
+    await this.prisma.$transaction(async (tx) => {
+      if (dto.makeActive) {
+        await tx.consultationConfig.updateMany({
+          where: { tenantId, isActive: true, id: { not: id } },
+          data: { isActive: false },
+        });
+      }
+      await tx.consultationConfig.update({
+        where: { id },
+        data: {
+          consultationDate: new Date(dto.consultationDate),
+          startTime: dto.startTime,
+          endTime: dto.endTime,
+          defaultDurationMinutes: dto.defaultDurationMinutes ?? 15,
+          defaultLocation: dto.defaultLocation ?? 'School Campus',
+          title: dto.title ?? 'Consultation Day',
+          breakStartTime: dto.breakStartTime ?? null,
+          breakDurationMinutes: dto.breakDurationMinutes ?? 0,
+          content: dto.content,
+          sectionIds: dto.sectionIds ?? [],
+          ...(dto.makeActive !== undefined ? { isActive: dto.makeActive } : {}),
+        },
+      });
+    });
+
+    await this.syncConsultationTeacherOverrides(
+      tenantId,
+      id,
+      dto.teacherOverrides,
+    );
+
+    return this.getConsultationConfigById(tenantId, id);
+  }
+
+  async activateConsultationConfig(tenantId: string, id: string) {
+    await this.getConsultationConfigById(tenantId, id); // 404 guard
+
+    await this.prisma.$transaction([
+      this.prisma.consultationConfig.updateMany({
+        where: { tenantId, isActive: true },
+        data: { isActive: false },
+      }),
+      this.prisma.consultationConfig.update({
+        where: { id },
+        data: { isActive: true },
+      }),
+    ]);
+
+    return this.getConsultationConfigById(tenantId, id);
+  }
+
+  async deleteConsultationConfig(tenantId: string, id: string) {
+    await this.getConsultationConfigById(tenantId, id); // 404 guard
+    await this.prisma.consultationConfig.delete({ where: { id } });
+    return { success: true };
+  }
+
+  /**
+   * Generates the consultation schedule for every student in the tenant,
+   * ordered by academic performance (lowest average first = FIFO priority)
+   * per teacher. Honours each teacher's duration/location override.
+   */
+  async previewConsultationSlots(tenantId: string, configId?: string) {
+    const config = configId
+      ? await this.getConsultationConfigById(tenantId, configId)
+      : await this.getActiveConsultationConfig(tenantId);
+    if (!config) {
+      return { configured: false, date: null, startTime: null, items: [] };
+    }
+
+    const items = await this.generateConsultationSchedule(tenantId, config);
+
+    return {
+      configured: true,
+      configId: config.id,
+      date: config.consultationDate.toISOString().slice(0, 10),
+      startTime: config.startTime,
+      endTime: config.endTime,
+      durationMinutes: config.defaultDurationMinutes,
+      location: config.defaultLocation,
+      breakStartTime: config.breakStartTime,
+      breakDurationMinutes: config.breakDurationMinutes,
+      items,
+    };
+  }
+
+  /**
+   * Same generated schedule as previewConsultationSlots, filtered down to a
+   * specific set of students. Used by the parent app so a parent's own
+   * children see slots drawn from the exact same collision-free schedule
+   * staff see — never a separately (and inconsistently) recomputed one.
+   */
+  async getConsultationScheduleForStudents(
+    tenantId: string,
+    studentIds: string[],
+    configId?: string,
+  ) {
+    const config = configId
+      ? await this.getConsultationConfigById(tenantId, configId)
+      : await this.getActiveConsultationConfig(tenantId);
+    if (!config) {
+      return {
+        configured: false,
+        date: null,
+        startTime: null,
+        durationMinutes: null,
+        location: null,
+        items: [],
+      };
+    }
+
+    const studentIdSet = new Set(studentIds);
+    const items = (
+      await this.generateConsultationSchedule(tenantId, config)
+    ).filter((item) => studentIdSet.has(item.studentId));
+
+    return {
+      configured: true,
+      configId: config.id,
+      date: config.consultationDate.toISOString().slice(0, 10),
+      startTime: config.startTime,
+      endTime: config.endTime,
+      durationMinutes: config.defaultDurationMinutes,
+      location: config.defaultLocation,
+      breakStartTime: config.breakStartTime,
+      breakDurationMinutes: config.breakDurationMinutes,
+      items,
+    };
+  }
+
+  /**
+   * Builds the tenant-wide consultation schedule for a given day's config.
+   *
+   * Every (student, teacher) pairing the student is due to see — their real
+   * homeroom class teacher plus each of their subject teachers — is collected,
+   * then grouped by teacher. Each teacher's queue is scheduled sequentially,
+   * back-to-back, starting from the day's global start time, with students
+   * ordered by ascending performance (lowest average seen first). Times are
+   * derived from real cumulative durations, so a teacher's displayed range is
+   * simply their first session's start through their last session's end.
+   */
+  private async generateConsultationSchedule(
+    tenantId: string,
+    config: {
+      consultationDate: Date;
+      startTime: string;
+      defaultDurationMinutes: number;
+      defaultLocation: string;
+      breakStartTime?: string | null;
+      breakDurationMinutes?: number | null;
+      /** Classrooms this day targets. Empty = every classroom. */
+      sectionIds: string[];
+      teacherOverrides: Array<{
+        teacherId: string;
+        location?: string | null;
+        durationMinutes?: number | null;
+      }>;
+    },
+  ) {
+    const overrideMap = new Map<
+      string,
+      { location?: string | null; durationMinutes?: number | null }
+    >();
+    config.teacherOverrides.forEach((o) => {
+      overrideMap.set(o.teacherId, {
+        location: o.location,
+        durationMinutes: o.durationMinutes,
+      });
+    });
+
+    const baseMinutes = this.parseTimeToMinutes(config.startTime || '09:00');
+
+    const students = await this.prisma.student.findMany({
+      where: {
+        tenantId,
+        ...(config.sectionIds.length
+          ? { sectionId: { in: config.sectionIds } }
+          : {}),
+      },
+      select: {
+        id: true,
+        studentId: true,
+        firstName: true,
+        lastName: true,
+        sectionId: true,
+        gradeId: true,
+      },
+    });
+
+    const sectionIds = Array.from(
+      new Set(students.map((s) => s.sectionId).filter(Boolean)),
+    );
+    const gradeIds = Array.from(
+      new Set(students.map((s) => s.gradeId).filter(Boolean)),
+    );
+
+    const [classTeachers, gradeSubjects, sections] = await Promise.all([
+      // isPrimary: true — the actual homeroom class teacher only. Every
+      // subject teacher also gets a ClassTeacher row when their course is
+      // created (for permissions), so without this filter each subject
+      // teacher was also being listed a second time mislabeled "Class
+      // Teacher", producing duplicate-looking entries for the same person.
+      this.prisma.classTeacher.findMany({
+        where: { sectionId: { in: sectionIds }, isPrimary: true },
+        include: {
+          teacher: { select: { id: true, firstName: true, lastName: true } },
+          section: { select: { id: true, name: true } },
+        },
+      }),
+      this.prisma.subject.findMany({
+        where: { tenantId, gradeId: { in: gradeIds } },
+        include: {
+          teachers: {
+            include: {
+              teacher: {
+                select: { id: true, firstName: true, lastName: true },
+              },
+            },
+          },
+          grade: { select: { id: true } },
+        },
+      }),
+      this.prisma.section.findMany({
+        where: { id: { in: sectionIds }, tenantId },
+        select: {
+          id: true,
+          name: true,
+          grade: { select: { code: true, name: true } },
+        },
+      }),
+    ]);
+
+    const sectionLabel = new Map(
+      sections.map((s) => [
+        s.id,
+        [s.grade?.code, s.name].filter(Boolean).join(' ') || s.name,
+      ]),
+    );
+
+    type ConsultLink = {
+      teacherId: string;
+      teacherName: string;
+      subject: string;
+      subjectId?: string | null;
+    };
+
+    const studentLinks: Record<string, ConsultLink[]> = {};
+    for (const student of students) {
+      const classLinks: ConsultLink[] = classTeachers
+        .filter((ct) => ct.sectionId === student.sectionId)
+        .map((ct) => ({
+          teacherId: ct.teacher.id,
+          teacherName: `${ct.teacher.firstName} ${ct.teacher.lastName}`.trim(),
+          subject: 'Class Teacher',
+          subjectId: null,
+        }));
+      const subjectLinks: ConsultLink[] = gradeSubjects
+        .filter((subject) => subject.gradeId === student.gradeId)
+        .flatMap((subject) =>
+          subject.teachers.map((st) => ({
+            teacherId: st.teacher.id,
+            teacherName:
+              `${st.teacher.firstName} ${st.teacher.lastName}`.trim(),
+            subject: subject.name,
+            subjectId: subject.id,
+          })),
+        );
+      studentLinks[student.id] = Array.from(
+        new Map(
+          [...classLinks, ...subjectLinks].map((l) => [
+            `${l.teacherId}:${l.subject}`,
+            l,
+          ]),
+        ).values(),
+      );
+    }
+
+    const subjectIds = Array.from(
+      new Set(
+        Object.values(studentLinks)
+          .flat()
+          .map((l) => l.subjectId)
+          .filter(Boolean) as string[],
+      ),
+    );
+
+    const grades = await this.prisma.studentGrade.findMany({
+      where: {
+        tenantId,
+        studentId: { in: students.map((s) => s.id) },
+        ...(subjectIds.length ? { subjectId: { in: subjectIds } } : {}),
+      },
+      select: { studentId: true, subjectId: true, percentage: true },
+    });
+
+    const byStudentSubject = new Map<string, number>();
+    const sumByStudent = new Map<string, { total: number; count: number }>();
+    for (const g of grades) {
+      byStudentSubject.set(`${g.studentId}:${g.subjectId}`, g.percentage);
+      const cur = sumByStudent.get(g.studentId) || { total: 0, count: 0 };
+      cur.total += g.percentage;
+      cur.count += 1;
+      sumByStudent.set(g.studentId, cur);
+    }
+    const avgFor = (studentId: string, subjectId?: string | null) => {
+      if (subjectId) {
+        const v = byStudentSubject.get(`${studentId}:${subjectId}`);
+        if (typeof v === 'number') return v;
+      }
+      const agg = sumByStudent.get(studentId);
+      return agg && agg.count > 0 ? agg.total / agg.count : 100;
+    };
+
+    type Seed = {
+      studentId: string;
+      studentName: string;
+      /** Human admission code — disambiguates same-name students in the UI. */
+      studentCode: string;
+      teacherId: string;
+      teacherName: string;
+      subject: string;
+      performance: number;
+      sectionId: string | null;
+      sectionName: string;
+    };
+
+    const seeds: Seed[] = [];
+    for (const student of students) {
+      const name = `${student.firstName} ${student.lastName}`.trim();
+      const sectionName =
+        (student.sectionId && sectionLabel.get(student.sectionId)) ||
+        'Unassigned';
+      for (const link of studentLinks[student.id] || []) {
+        seeds.push({
+          studentId: student.id,
+          studentName: name,
+          studentCode: student.studentId,
+          teacherId: link.teacherId,
+          teacherName: link.teacherName,
+          subject: link.subject,
+          performance: avgFor(student.id, link.subjectId),
+          sectionId: student.sectionId,
+          sectionName,
+        });
+      }
+    }
+
+    // Tenant-wide, lowest-average-first ordering. No grade-based grouping —
+    // ties are broken deterministically (by name) purely for stable output.
+    seeds.sort(
+      (a, b) =>
+        a.performance - b.performance ||
+        a.studentName.localeCompare(b.studentName) ||
+        a.teacherName.localeCompare(b.teacherName),
+    );
+
+    const durationFor = (teacherId: string) => {
+      const override = overrideMap.get(teacherId);
+      return override?.durationMinutes && override.durationMinutes > 0
+        ? override.durationMinutes
+        : config.defaultDurationMinutes;
+    };
+    const locationFor = (teacherId: string) =>
+      overrideMap.get(teacherId)?.location || config.defaultLocation;
+
+    const dateStr = config.consultationDate.toISOString().slice(0, 10);
+    const { buildConsultationSchedule } =
+      await import('./consultation-schedule');
+
+    const groupedSeeds = seeds.map((seed) => ({
+      ...seed,
+      durationMinutes: durationFor(seed.teacherId),
+      location: locationFor(seed.teacherId),
+    }));
+
+    const breakStartMinutes = config.breakStartTime
+      ? this.parseTimeToMinutes(config.breakStartTime)
+      : null;
+    const breakDurationMinutes = config.breakDurationMinutes ?? 0;
+
+    return buildConsultationSchedule({
+      baseMinutes,
+      seeds: groupedSeeds,
+      date: dateStr,
+      breakStartMinutes,
+      breakDurationMinutes,
+    });
+  }
+
+  private formatTime(totalMinutes: number) {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = ((totalMinutes % 60) + 60) % 60;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+  }
+
+  /**
+   * Runs the same greedy scheduler used for the real preview against a
+   * *proposed* config (not yet saved) and reports whether every teacher's
+   * queue finishes at or before `endTime` — the congestion check behind
+   * `assertConsultationCapacity` and the live capacity-preview endpoint.
+   */
+  private async evaluateConsultationCapacity(
+    tenantId: string,
+    config: {
+      consultationDate: Date;
+      startTime: string;
+      endTime: string;
+      defaultDurationMinutes: number;
+      defaultLocation: string;
+      breakStartTime?: string | null;
+      breakDurationMinutes?: number | null;
+      sectionIds: string[];
+      teacherOverrides: Array<{
+        teacherId: string;
+        location?: string | null;
+        durationMinutes?: number | null;
+      }>;
+    },
+  ) {
+    const items = await this.generateConsultationSchedule(tenantId, config);
+    const endLimit = this.parseTimeToMinutes(config.endTime);
+
+    // A congested day (e.g. every section, tiny slot duration) can genuinely
+    // produce a teacher queue running past 24h of elapsed minutes — that's
+    // exactly the case this check exists to catch. These are the scheduler's
+    // own elapsed-time strings, not wall-clock input, so parse them without
+    // the 0-23h bound `parseTimeToMinutes` enforces for real clock times.
+    const toElapsedMinutes = (time: string) => {
+      const [h, m] = time.split(':').map(Number);
+      return h * 60 + m;
+    };
+
+    const teacherEnd = new Map<string, { minutes: number; name: string }>();
+    for (const item of items) {
+      const endMinutes = toElapsedMinutes(item.endTime);
+      const current = teacherEnd.get(item.teacherId);
+      if (!current || endMinutes > current.minutes) {
+        teacherEnd.set(item.teacherId, {
+          minutes: endMinutes,
+          name: item.teacherName,
+        });
+      }
+    }
+
+    const overflowingTeachers = Array.from(teacherEnd.entries())
+      .filter(([, v]) => v.minutes > endLimit)
+      .map(([teacherId, v]) => ({
+        teacherId,
+        teacherName: v.name,
+        finishTime: this.formatTime(v.minutes),
+        overflowMinutes: v.minutes - endLimit,
+      }))
+      .sort((a, b) => b.overflowMinutes - a.overflowMinutes);
+
+    return {
+      fits: overflowingTeachers.length === 0,
+      overflowingTeachers,
+      maxOverflowMinutes: overflowingTeachers[0]?.overflowMinutes ?? 0,
+      studentCount: new Set(items.map((i) => i.studentId)).size,
+      teacherCount: teacherEnd.size,
+      totalSessions: items.length,
+    };
+  }
+
+  /**
+   * Public, non-throwing version of the capacity check — lets the frontend
+   * show live "this fits" / "this overflows by N minutes" feedback while an
+   * admin is still picking sections/duration, before they try to save.
+   */
+  async previewConsultationCapacity(
+    tenantId: string,
+    dto: UpsertConsultationConfigDto,
+  ) {
+    return this.evaluateConsultationCapacity(tenantId, {
+      consultationDate: new Date(dto.consultationDate),
+      startTime: dto.startTime,
+      endTime: dto.endTime,
+      defaultDurationMinutes: dto.defaultDurationMinutes ?? 15,
+      defaultLocation: dto.defaultLocation ?? 'School Campus',
+      breakStartTime: dto.breakStartTime ?? null,
+      breakDurationMinutes: dto.breakDurationMinutes ?? 0,
+      sectionIds: dto.sectionIds ?? [],
+      teacherOverrides: dto.teacherOverrides ?? [],
+    });
+  }
+
+  /**
+   * Hard-blocks saving a consultation config whose selected sections +
+   * duration would run any teacher past the configured end time — every
+   * student included in the day has to actually be served within it.
+   */
+  private async assertConsultationCapacity(
+    tenantId: string,
+    dto: UpsertConsultationConfigDto,
+  ) {
+    const result = await this.previewConsultationCapacity(tenantId, dto);
+    if (result.fits) return;
+
+    const worst = result.overflowingTeachers[0];
+    const names = result.overflowingTeachers
+      .slice(0, 3)
+      .map((t) => t.teacherName)
+      .join(', ');
+    const more =
+      result.overflowingTeachers.length > 3
+        ? ` and ${result.overflowingTeachers.length - 3} other(s)`
+        : '';
+
+    throw new BadRequestException(
+      `This schedule doesn't fit in the ${dto.startTime}–${dto.endTime} window: ` +
+        `${result.overflowingTeachers.length} teacher(s) would run past ${dto.endTime} ` +
+        `(worst case ${worst.teacherName} finishes at ${worst.finishTime}, ` +
+        `${worst.overflowMinutes} min over). Affected: ${names}${more}. ` +
+        `Remove some classrooms/sections, shorten the session duration, or extend the end time.`,
+    );
   }
 }

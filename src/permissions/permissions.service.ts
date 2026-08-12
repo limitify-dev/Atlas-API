@@ -2,9 +2,16 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ForbiddenException,
   Logger,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { DomainEventsService } from '../domain-events/domain-events.service';
+import {
+  PermissionRequestedEvent,
+  PermissionApprovedEvent,
+  PermissionRejectedEvent,
+} from '../domain-events/events';
 import {
   CreatePermissionDto,
   UpdatePermissionDto,
@@ -16,6 +23,7 @@ import {
   CardCheckoutDto,
   CheckoutResponseDto,
 } from './dto';
+import { ACADEMICS_STAFF_ROLES } from '../common/constants/staff-roles';
 import {
   PermissionType,
   PermissionStatus,
@@ -27,7 +35,10 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 @Injectable()
 export class PermissionsService {
   private readonly logger = new Logger(PermissionsService.name);
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly events: DomainEventsService,
+  ) {}
 
   async create(
     createPermissionDto: CreatePermissionDto,
@@ -45,12 +56,30 @@ export class PermissionsService {
       throw new NotFoundException('Student not found');
     }
 
+    // Parents may only request permission for their own children
+    if (userRole === Role.PARENT) {
+      const parent = await this.prisma.parent.findFirst({
+        where: { userId, tenantId },
+      });
+      if (!parent) {
+        throw new ForbiddenException('Parent profile not found');
+      }
+      const owns = await this.prisma.studentParent.findFirst({
+        where: { studentId: createPermissionDto.studentId, parentId: parent.id },
+      });
+      if (!owns) {
+        throw new ForbiddenException(
+          'You can only request permission for your own children',
+        );
+      }
+    }
+
     // Determine requestedBy based on user role
     let requestedBy =
       createPermissionDto.requestedBy || PermissionRequestedBy.ADMIN;
     if (userRole === Role.TEACHER) {
       requestedBy = PermissionRequestedBy.TEACHER;
-    } else if (userRole === Role.STAFF) {
+    } else if (userRole === Role.PARENT) {
       requestedBy = PermissionRequestedBy.PARENT;
     }
 
@@ -106,6 +135,26 @@ export class PermissionsService {
         data: { qrCode: JSON.stringify(qrData) },
       });
       permission.qrCode = JSON.stringify(qrData);
+    }
+
+    // Notify academics staff when a request is left pending their review
+    if (permission.status === PermissionStatus.PENDING) {
+      const staff = await this.prisma.staff.findMany({
+        where: { tenantId, staffRole: { in: ACADEMICS_STAFF_ROLES } },
+        select: { userId: true },
+      });
+      this.events.emit(
+        new PermissionRequestedEvent(
+          tenantId,
+          permission.id,
+          permission.studentId,
+          `${student.firstName} ${student.lastName}`,
+          permission.reason,
+          permission.fromDate,
+          permission.toDate,
+          staff.map((s) => s.userId),
+        ),
+      );
     }
 
     return await this.formatPermissionResponse(permission);
@@ -331,6 +380,20 @@ export class PermissionsService {
       updatedPermission.qrCode = JSON.stringify(qrData);
     }
 
+    const parentUserIds = await this.getParentUserIds(
+      updatedPermission.studentId,
+      tenantId,
+    );
+    this.events.emit(
+      new PermissionApprovedEvent(
+        tenantId,
+        updatedPermission.id,
+        `${updatedPermission.student.firstName} ${updatedPermission.student.lastName}`,
+        updatedPermission.studentId,
+        parentUserIds,
+      ),
+    );
+
     return this.formatPermissionResponse(updatedPermission);
   }
 
@@ -366,6 +429,21 @@ export class PermissionsService {
         },
       },
     });
+
+    const parentUserIds = await this.getParentUserIds(
+      updatedPermission.studentId,
+      tenantId,
+    );
+    this.events.emit(
+      new PermissionRejectedEvent(
+        tenantId,
+        updatedPermission.id,
+        `${updatedPermission.student.firstName} ${updatedPermission.student.lastName}`,
+        updatedPermission.studentId,
+        updatedPermission.remarks,
+        parentUserIds,
+      ),
+    );
 
     return this.formatPermissionResponse(updatedPermission);
   }
@@ -628,6 +706,19 @@ export class PermissionsService {
     };
   }
 
+  private async getParentUserIds(
+    studentId: string,
+    tenantId: string,
+  ): Promise<string[]> {
+    const student = await this.prisma.student.findFirst({
+      where: { id: studentId, tenantId },
+      include: { parents: { include: { parent: { include: { user: true } } } } },
+    });
+    return (student?.parents ?? [])
+      .map((sp) => sp.parent?.user?.id)
+      .filter((id): id is string => Boolean(id));
+  }
+
   private generateQrCodeData(permission: any): PermissionQrDataDto {
     return {
       permissionId: permission.id,
@@ -717,10 +808,14 @@ export class PermissionsService {
   async expirePermissions() {
     const now = new Date();
 
-    //Expire ONE_TIME and RECURRING permissions whose toDate has passed
+    //Expire ONE_TIME permissions whose toDate has passed.
+    //Recurring permissions are intentionally excluded: they stay active
+    //until manually revoked (their schedule governs when they apply), so an
+    //elapsed toDate must not silently hide them from the UI.
     const result = await this.prisma.permission.updateMany({
       where: {
         status: PermissionStatus.APPROVED,
+        permissionType: PermissionType.ONE_TIME,
         toDate: { lt: now },
       },
       data: { status: PermissionStatus.EXPIRED },

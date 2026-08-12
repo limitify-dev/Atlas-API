@@ -1,5 +1,6 @@
 import {
   IsArray,
+  IsBoolean,
   IsDateString,
   IsIn,
   IsNumber,
@@ -10,6 +11,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { PartialType } from '@nestjs/swagger';
 import { ConsultationStatus } from '../../../prisma/generated/client';
 
 export class ListAcademicsQueryDto {
@@ -88,7 +90,7 @@ export class CreateAcademicExamDto {
   status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 }
 
-export class UpdateAcademicExamDto extends CreateAcademicExamDto {}
+export class UpdateAcademicExamDto extends PartialType(CreateAcademicExamDto) {}
 
 export class CreateAssignmentDto {
   @IsOptional()
@@ -130,9 +132,13 @@ export class CreateAssignmentDto {
   @IsOptional()
   @IsIn(['DRAFT', 'PUBLISHED', 'ARCHIVED'])
   status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+
+  @IsOptional()
+  @IsIn(['HOMEWORK', 'CLASSWORK', 'QUIZ', 'TEST', 'PROJECT', 'EXAM'])
+  type?: 'HOMEWORK' | 'CLASSWORK' | 'QUIZ' | 'TEST' | 'PROJECT' | 'EXAM';
 }
 
-export class UpdateAssignmentDto extends CreateAssignmentDto {}
+export class UpdateAssignmentDto extends PartialType(CreateAssignmentDto) {}
 
 export class CreateAcademicCourseDto {
   @IsOptional()
@@ -263,7 +269,7 @@ export class CreateReportCardDto {
   status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 }
 
-export class UpdateReportCardDto extends CreateReportCardDto {}
+export class UpdateReportCardDto extends PartialType(CreateReportCardDto) {}
 
 export class CreateConsultationBookingDto {
   @IsDateString()
@@ -307,4 +313,78 @@ export class CreateConsultationBookingDto {
   status?: ConsultationStatus;
 }
 
-export class UpdateConsultationBookingDto extends CreateConsultationBookingDto {}
+export class UpdateConsultationBookingDto extends PartialType(CreateConsultationBookingDto) {}
+
+export class ConsultationTeacherOverrideDto {
+  @IsString()
+  teacherId: string;
+
+  @IsOptional()
+  @IsString()
+  location?: string | null;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(5)
+  @Max(120)
+  durationMinutes?: number | null;
+}
+
+export class UpsertConsultationConfigDto {
+  @IsDateString()
+  consultationDate: string;
+
+  @IsString()
+  startTime: string;
+
+  /**
+   * The day's hard cutoff — the schedule generator refuses to save a config
+   * whose selected sections + duration would run any teacher past this time
+   * (see AcademicsService.assertConsultationCapacity).
+   */
+  @IsString()
+  endTime: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(5)
+  @Max(120)
+  defaultDurationMinutes?: number;
+
+  @IsOptional()
+  @IsString()
+  defaultLocation?: string;
+
+  @IsOptional()
+  @IsString()
+  breakStartTime?: string;
+
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  @Max(240)
+  breakDurationMinutes?: number;
+
+  @IsOptional()
+  @IsString()
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  content?: string;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  sectionIds?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ConsultationTeacherOverrideDto)
+  teacherOverrides?: ConsultationTeacherOverrideDto[];
+
+  @IsOptional()
+  @IsBoolean()
+  makeActive?: boolean;
+}

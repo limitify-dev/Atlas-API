@@ -14,6 +14,8 @@ import { Server, Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../../auth/constant';
 import { ChatService } from './chat.service';
+import { ChatPresenceService } from './chat-presence.service';
+import { getAllowedOrigins } from '../../common/config/cors-origins';
 
 interface AuthenticatedSocket extends Socket {
   user: {
@@ -26,7 +28,10 @@ interface AuthenticatedSocket extends Socket {
 }
 
 @WebSocketGateway({
-  cors: { origin: '*' },
+  // Native app clients (Socket.IO over React Native) don't send an Origin
+  // header, so this restriction only affects browser-based connections
+  // (atlas.ui) — same reasoning as the HTTP CORS allow-list in main.ts.
+  cors: { origin: getAllowedOrigins(), credentials: true },
   namespace: '/chat',
   // Shorten heartbeat window so abrupt app/tab closes are reflected in presence quickly.
   pingInterval: 5000,
@@ -38,14 +43,33 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private readonly logger = new Logger(ChatGateway.name);
 
-  // Track which users are connected (userId -> Set of socketIds)
-  private connectedUsers = new Map<string, Set<string>>();
-  // Track tenant scope for each connected user (userId -> tenantId)
-  private userTenants = new Map<string, string>();
+  /**
+   * Server-side typing cooldown: prevents a user from flooding the room with
+   * `user_typing` events faster than once per 2 seconds per conversation.
+   * Key: `${userId}:${conversationId}` → last emit timestamp (ms).
+   */
+  private typingCooldowns = new Map<string, number>();
+  private readonly TYPING_COOLDOWN_MS = 2000;
+
+  /**
+   * A connected socket's presence entry in Redis has a TTL (see
+   * ChatPresenceService.SOCKET_TTL_SECONDS) so it self-expires if a socket
+   * disappears without a clean disconnect. Without periodically refreshing
+   * it, every socket's presence would silently expire ~2 minutes after
+   * connecting even while still fully connected — the online dot would then
+   * flicker off client-side until the next reconnect. Keyed by socket.id so
+   * handleDisconnect can clear the right interval.
+   */
+  private presenceHeartbeats = new Map<
+    string,
+    ReturnType<typeof setInterval>
+  >();
+  private readonly PRESENCE_HEARTBEAT_MS = 45000;
 
   constructor(
     private readonly jwtService: JwtService,
     private readonly chatService: ChatService,
+    private readonly presenceService: ChatPresenceService,
     @InjectQueue('push-notifications') private readonly pushQueue: Queue,
   ) {}
 
@@ -65,16 +89,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const text = String(content || '').trim();
     if (!text) return 'New message';
     return text.length > 120 ? `${text.slice(0, 120).trimEnd()}...` : text;
-  }
-
-  private getOnlineUsersInTenant(tenantId: string): string[] {
-    const online: string[] = [];
-    for (const [userId, userTenantId] of this.userTenants.entries()) {
-      if (userTenantId === tenantId && this.isUserOnline(userId)) {
-        online.push(userId);
-      }
-    }
-    return online;
   }
 
   async handleConnection(client: AuthenticatedSocket) {
@@ -104,20 +118,31 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         return;
       }
 
-      // Track connected user
-      if (!this.connectedUsers.has(payload.sub)) {
-        this.connectedUsers.set(payload.sub, new Set());
-      }
-      this.connectedUsers.get(payload.sub)!.add(client.id);
-      this.userTenants.set(payload.sub, payload.tenantId);
+      // Track connected user in Redis-backed presence service
+      await this.presenceService.setOnline(
+        payload.sub,
+        payload.tenantId,
+        client.id,
+      );
+
+      // Keep the presence TTL alive for as long as this socket stays connected.
+      const heartbeat = setInterval(() => {
+        this.presenceService.refreshTtl(payload.sub).catch((error) => {
+          this.logger.warn(
+            `presence heartbeat failed for ${payload.sub}: ${error.message}`,
+          );
+        });
+      }, this.PRESENCE_HEARTBEAT_MS);
+      this.presenceHeartbeats.set(client.id, heartbeat);
 
       // Join tenant room
       client.join(`tenant:${payload.tenantId}`);
 
       // Send current tenant presence snapshot to newly connected socket.
-      this.server.to(client.id).emit('presence_snapshot', {
-        onlineUserIds: this.getOnlineUsersInTenant(payload.tenantId),
-      });
+      const onlineUserIds = await this.presenceService.getOnlineUsersInTenant(
+        payload.tenantId,
+      );
+      this.server.to(client.id).emit('presence_snapshot', { onlineUserIds });
 
       // Broadcast that this user is online to tenant members.
       this.server.to(`tenant:${payload.tenantId}`).emit('user_presence', {
@@ -129,6 +154,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const conversationIds = await this.chatService.getUserConversationIds(
         payload.sub,
         payload.tenantId,
+        payload.role,
       );
       for (const conversationId of conversationIds) {
         client.join(`conversation:${conversationId}`);
@@ -143,24 +169,27 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-  handleDisconnect(client: AuthenticatedSocket) {
+  async handleDisconnect(client: AuthenticatedSocket) {
+    const heartbeat = this.presenceHeartbeats.get(client.id);
+    if (heartbeat) {
+      clearInterval(heartbeat);
+      this.presenceHeartbeats.delete(client.id);
+    }
+
     if (client.user) {
-      const userSockets = this.connectedUsers.get(client.user.sub);
-      if (userSockets) {
-        userSockets.delete(client.id);
-        if (userSockets.size === 0) {
-          this.connectedUsers.delete(client.user.sub);
-          if (client.user.tenantId) {
-            this.server
-              .to(`tenant:${client.user.tenantId}`)
-              .emit('user_presence', {
-                userId: client.user.sub,
-                isOnline: false,
-              });
-          }
-          this.userTenants.delete(client.user.sub);
-        }
+      const stillOnline = await this.presenceService.setOffline(
+        client.user.sub,
+        client.id,
+      );
+
+      // Only broadcast offline if this was the user's last socket
+      if (!stillOnline && client.user.tenantId) {
+        this.server.to(`tenant:${client.user.tenantId}`).emit('user_presence', {
+          userId: client.user.sub,
+          isOnline: false,
+        });
       }
+
       this.logger.log(
         `User ${client.user.username} disconnected (socket ${client.id})`,
       );
@@ -174,6 +203,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {
     const room = `conversation:${data.conversationId}`;
     client.join(room);
+    client.join(`active-conversation:${data.conversationId}`);
     this.logger.debug(`User ${client.user.sub} joined ${room}`);
     return { event: 'joined', data: { conversationId: data.conversationId } };
   }
@@ -185,6 +215,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {
     const room = `conversation:${data.conversationId}`;
     client.leave(room);
+    client.leave(`active-conversation:${data.conversationId}`);
     return { event: 'left', data: { conversationId: data.conversationId } };
   }
 
@@ -192,7 +223,20 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleSendMessage(
     @ConnectedSocket() client: AuthenticatedSocket,
     @MessageBody()
-    data: { conversationId: string; content: string; type?: string },
+    data: {
+      conversationId: string;
+      content: string;
+      type?: string;
+      attachment?: {
+        fileUrl: string;
+        fileName: string;
+        fileSize: number;
+        mimeType: string;
+        thumbnailUrl?: string;
+        duration?: number;
+      };
+      replyToId?: string;
+    },
   ) {
     try {
       const message = await this.chatService.sendMessage(
@@ -200,13 +244,22 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         client.user.sub,
         data.content,
         data.type || 'TEXT',
+        data.attachment,
+        data.replyToId,
       );
 
-      // Broadcast to the conversation room
       const room = `conversation:${data.conversationId}`;
+
+      // ── FIX #11: Single broadcast strategy ──────────────────────────
+      // Step 1: Broadcast new_message to ALL sockets in the room (including sender).
+      //         This covers everyone currently viewing the conversation.
       this.server.to(room).emit('new_message', message);
 
-      // Also emit conversation update to all participants (for inbox list updates)
+      // Step 2: Emit conversation_updated to connected participants and queue
+      // a push unless one of their sockets is actively viewing this thread.
+      // Every connected socket is auto-joined to its conversation rooms so it
+      // can receive global badge updates; using that membership to suppress
+      // push would incorrectly treat an open dashboard as an open chat.
       const participantIds =
         await this.chatService.getConversationParticipantIds(
           data.conversationId,
@@ -214,41 +267,35 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         );
 
       for (const participantId of participantIds) {
-        let isJoinedToRoom = false;
+        const participantSocketIds =
+          await this.presenceService.getUserSocketIds(participantId);
 
-        // Notify via Socket.io if user is online
-        const participantSockets = this.connectedUsers.get(participantId);
-        if (participantSockets && participantSockets.size > 0) {
-          for (const socketId of participantSockets) {
-            // Check if this socket is in the conversation room
-            const socket = (this.server.sockets as any).get(socketId);
-            if (
-              socket &&
-              socket.rooms.has(`conversation:${data.conversationId}`)
-            ) {
-              isJoinedToRoom = true;
-            }
+        let isActivelyViewingConversation = false;
+        const activeRoom = `active-conversation:${data.conversationId}`;
 
-            // Emit conversation update (for list view)
-            this.server.to(socketId).emit('conversation_updated', {
-              conversationId: data.conversationId,
-              lastMessage: {
-                id: message.id,
-                content: message.content,
-                type: message.type,
-                senderId: message.senderId,
-                senderName: message.sender.name,
-                createdAt: message.createdAt,
-              },
-            });
-
-            // Emit new message (for active chat view) - ensures delivery even if not in room
-            this.server.to(socketId).emit('new_message', message);
+        for (const socketId of participantSocketIds) {
+          const socket = (this.server.sockets as any).get(socketId);
+          if (socket?.rooms.has(activeRoom)) {
+            isActivelyViewingConversation = true;
           }
+
+          // Always send conversation_updated (for inbox list refresh).
+          // new_message already delivered via room broadcast above.
+          this.server.to(socketId).emit('conversation_updated', {
+            conversationId: data.conversationId,
+            lastMessage: {
+              id: message.id,
+              content: message.content,
+              type: message.type,
+              senderId: message.senderId,
+              senderName: message.sender.name,
+              createdAt: message.createdAt,
+            },
+          });
         }
 
-        // Enqueue push notification if user is NOT looking at the conversation
-        if (!isJoinedToRoom) {
+        // Push immediately unless the participant is looking at this thread.
+        if (!isActivelyViewingConversation) {
           const pushSenderName = this.formatPushSenderName(message.sender.name);
           const messagePreview = this.buildMessagePreview(message.content);
           const conversationType = message.conversation?.type || 'DIRECT';
@@ -300,39 +347,28 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('typing')
-  async handleTyping(
+  handleTyping(
     @ConnectedSocket() client: AuthenticatedSocket,
     @MessageBody() data: { conversationId: string },
   ) {
-    // Notify room (for people inside the chat screen)
+    // ── FIX #10: Server-side cooldown + room-only broadcast ─────────
+    const cooldownKey = `${client.user.sub}:${data.conversationId}`;
+    const now = Date.now();
+    const lastEmit = this.typingCooldowns.get(cooldownKey) ?? 0;
+
+    if (now - lastEmit < this.TYPING_COOLDOWN_MS) {
+      // Silently drop — client is sending too fast
+      return;
+    }
+
+    this.typingCooldowns.set(cooldownKey, now);
+
+    // Single room broadcast — no per-socket participant loop
     const room = `conversation:${data.conversationId}`;
     client.to(room).emit('user_typing', {
       conversationId: data.conversationId,
       userId: client.user.sub,
     });
-
-    // Notify participants (for people in the inbox list)
-    try {
-      const participantIds =
-        await this.chatService.getConversationParticipantIds(
-          data.conversationId,
-          client.user.sub,
-        );
-
-      for (const participantId of participantIds) {
-        const participantSockets = this.connectedUsers.get(participantId);
-        if (participantSockets) {
-          for (const socketId of participantSockets) {
-            this.server.to(socketId).emit('user_typing', {
-              conversationId: data.conversationId,
-              userId: client.user.sub,
-            });
-          }
-        }
-      }
-    } catch (error) {
-      this.logger.error(`Failed to broadcast typing status: ${error.message}`);
-    }
   }
 
   @SubscribeMessage('mark_read')
@@ -348,11 +384,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       readAt: new Date(),
     };
 
-    // Notify room
+    // Broadcast to conversation room — all participants in the view get updated
     const room = `conversation:${data.conversationId}`;
     this.server.to(room).emit('messages_read', eventData);
 
-    // Also notify participants directly (robustness)
+    // Also notify any participant sockets NOT in the room (inbox view)
     try {
       const participantIds =
         await this.chatService.getConversationParticipantIds(
@@ -361,9 +397,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         );
 
       for (const participantId of participantIds) {
-        const participantSockets = this.connectedUsers.get(participantId);
-        if (participantSockets) {
-          for (const socketId of participantSockets) {
+        const participantSocketIds =
+          await this.presenceService.getUserSocketIds(participantId);
+
+        for (const socketId of participantSocketIds) {
+          const socket = (this.server.sockets as any).get(socketId);
+          if (!socket?.rooms.has(room)) {
+            // Only emit to sockets NOT in the room (room already received it above)
             this.server.to(socketId).emit('messages_read', eventData);
           }
         }
@@ -373,13 +413,70 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
+  @SubscribeMessage('delete_message')
+  async handleDeleteMessage(
+    @ConnectedSocket() client: AuthenticatedSocket,
+    @MessageBody()
+    data: {
+      conversationId: string;
+      messageId: string;
+      scope?: 'SELF' | 'EVERYONE';
+    },
+  ) {
+    try {
+      await this.chatService.deleteMessage(
+        data.messageId,
+        client.user.sub,
+        data.scope || 'EVERYONE',
+      );
+
+      const room = `conversation:${data.conversationId}`;
+      this.server.to(room).emit('message_deleted', {
+        conversationId: data.conversationId,
+        messageId: data.messageId,
+        scope: data.scope || 'EVERYONE',
+        deletedBy: client.user.sub,
+      });
+
+      return { event: 'message_deleted', data: { messageId: data.messageId } };
+    } catch (error) {
+      this.logger.error(`delete_message error: ${error.message}`);
+      return { event: 'error', data: { message: error.message } };
+    }
+  }
+
+  @SubscribeMessage('edit_message')
+  async handleEditMessage(
+    @ConnectedSocket() client: AuthenticatedSocket,
+    @MessageBody()
+    data: { conversationId: string; messageId: string; content: string },
+  ) {
+    try {
+      const updated = await this.chatService.editMessage(
+        data.messageId,
+        client.user.sub,
+        data.content,
+      );
+
+      const room = `conversation:${data.conversationId}`;
+      this.server.to(room).emit('message_edited', {
+        conversationId: data.conversationId,
+        messageId: data.messageId,
+        content: updated.content,
+        editedAt: updated.editedAt,
+      });
+
+      return { event: 'message_edited', data: updated };
+    } catch (error) {
+      this.logger.error(`edit_message error: ${error.message}`);
+      return { event: 'error', data: { message: error.message } };
+    }
+  }
+
   /**
-   * Check if a user is currently connected via WebSocket
+   * Check if a user is currently connected via WebSocket (Redis-backed).
    */
-  isUserOnline(userId: string): boolean {
-    return (
-      this.connectedUsers.has(userId) &&
-      this.connectedUsers.get(userId)!.size > 0
-    );
+  async isUserOnline(userId: string): Promise<boolean> {
+    return this.presenceService.isUserOnline(userId);
   }
 }

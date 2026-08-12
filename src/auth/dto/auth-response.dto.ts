@@ -137,3 +137,14 @@ export class AuthResponseDto {
   })
   user: UserDto;
 }
+
+export class PendingApprovalResponseDto {
+  @ApiProperty({ example: true })
+  pendingApproval: true;
+
+  @ApiProperty({
+    example:
+      'Your account has been created and is pending platform approval.',
+  })
+  message: string;
+}

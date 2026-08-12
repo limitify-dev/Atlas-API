@@ -31,7 +31,7 @@ export class CreateStaffDto {
   @ApiProperty({
     example: 'finance',
     description:
-      'studies | dos (Director of Studies) | discipline | dm (Discipline Master) | finance | bursar',
+      'studies | dos (Director of Studies) | discipline | dm (Discipline Master) | staff-academics (Staff in charge of academics: attendance, permissions, conduct points) | finance | bursar',
   })
   @IsString()
   @IsNotEmpty()

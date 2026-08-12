@@ -15,6 +15,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export enum FeeScope {
   ALL = 'all',
   SECTION = 'section',
+  SECTIONS = 'sections',
   GRADE = 'grade',
   STUDENTS = 'students',
 }
@@ -72,6 +73,15 @@ export class PostFeeDto {
   @ValidateIf((o) => o.scope === FeeScope.SECTION)
   @IsUUID()
   sectionId?: string;
+
+  @ApiPropertyOptional({
+    description: 'Required when scope = "sections". List of section UUIDs.',
+  })
+  @ValidateIf((o) => o.scope === FeeScope.SECTIONS)
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsUUID('all', { each: true })
+  sectionIds?: string[];
 
   @ApiPropertyOptional({ description: 'Required when scope = "grade"' })
   @ValidateIf((o) => o.scope === FeeScope.GRADE)

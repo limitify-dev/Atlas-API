@@ -271,6 +271,16 @@ export type AcademicReportCard = Prisma.AcademicReportCardModel
  */
 export type ConsultationBooking = Prisma.ConsultationBookingModel
 /**
+ * Model ConsultationConfig
+ * 
+ */
+export type ConsultationConfig = Prisma.ConsultationConfigModel
+/**
+ * Model ConsultationTeacherOverride
+ * 
+ */
+export type ConsultationTeacherOverride = Prisma.ConsultationTeacherOverrideModel
+/**
  * Model Device
  * 
  */
@@ -331,6 +341,21 @@ export type Invite = Prisma.InviteModel
  */
 export type OtpCode = Prisma.OtpCodeModel
 /**
+ * Model Poll
+ * 
+ */
+export type Poll = Prisma.PollModel
+/**
+ * Model PollOption
+ * 
+ */
+export type PollOption = Prisma.PollOptionModel
+/**
+ * Model PollVote
+ * 
+ */
+export type PollVote = Prisma.PollVoteModel
+/**
  * Model StudioModule
  * 
  */
@@ -361,7 +386,32 @@ export type TenantBilling = Prisma.TenantBillingModel
  */
 export type AdminApproval = Prisma.AdminApprovalModel
 /**
+ * Model OnboardingRequest
+ * A public "request to onboard" submission from a prospective school
+ * (via the marketing site's get-started/demo/enroll form) — this is
+ * pre-tenant, so it's deliberately NOT tenant-scoped. Reviewing a request
+ * is a track-and-contact action only; it does not create a Tenant or
+ * AdminInvite — a Studio operator still does that manually via the
+ * existing tools once they've followed up.
+ */
+export type OnboardingRequest = Prisma.OnboardingRequestModel
+/**
  * Model Feedback
  * 
  */
 export type Feedback = Prisma.FeedbackModel
+/**
+ * Model SubscriptionPayment
+ * 
+ */
+export type SubscriptionPayment = Prisma.SubscriptionPaymentModel
+/**
+ * Model SubscriptionAuditLog
+ * 
+ */
+export type SubscriptionAuditLog = Prisma.SubscriptionAuditLogModel
+/**
+ * Model SystemSetting
+ * 
+ */
+export type SystemSetting = Prisma.SystemSettingModel

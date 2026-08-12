@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Patch,
+  Put,
   Delete,
   Body,
   Param,
@@ -31,8 +32,11 @@ import { AdminProvisionService } from './services/admin-provision.service';
 import { BillingService } from './services/billing.service';
 import { AdminApprovalService } from './services/admin-approval.service';
 import { FeedbackService } from './services/feedback.service';
+import { SubscriptionBillingService } from '../subscription/services/subscription-billing.service';
+import { SystemSettingsService } from '../subscription/services/system-settings.service';
 import {
   CreateStudioTenantDto,
+  UpdateTenantAttendanceScheduleDto,
   UpdateTenantDto,
   UpdateTenantModulesDto,
   UpdateSubscriptionDto,
@@ -42,7 +46,14 @@ import {
   UpdateBillingDto,
   ReviewApprovalDto,
   UpdateFeedbackDto,
+  LogPaymentDto,
+  ExtendSubscriptionDto,
+  SuspendSubscriptionDto,
+  UpdateGracePeriodDto,
+  SubscriptionQueryDto,
+  SystemSettingDto,
 } from './dto';
+import { TenantSubscriptionStatus } from '../../prisma/generated/client';
 import {
   AdminApprovalStatus,
   FeedbackCategory,
@@ -62,6 +73,8 @@ export class StudioController {
     private readonly billingService: BillingService,
     private readonly approvalService: AdminApprovalService,
     private readonly feedbackService: FeedbackService,
+    private readonly subscriptionBilling: SubscriptionBillingService,
+    private readonly systemSettings: SystemSettingsService,
   ) {}
 
   // ── Platform modules ──────────────────────────────────────────
@@ -107,6 +120,15 @@ export class StudioController {
     @UploadedFile() logoFile?: Express.Multer.File,
   ) {
     return this.tenantsService.update(id, dto, logoFile);
+  }
+
+  @Patch('tenants/:id/attendance-settings')
+  @ApiOperation({ summary: 'Update a tenant school attendance schedule' })
+  updateTenantAttendanceSettings(
+    @Param('id') id: string,
+    @Body() dto: UpdateTenantAttendanceScheduleDto,
+  ) {
+    return this.tenantsService.updateAttendanceSchedule(id, dto);
   }
 
   @Patch('tenants/:id/status')
@@ -245,11 +267,153 @@ export class StudioController {
     return this.billingService.update(id, dto);
   }
 
+  @Delete('billing/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete a billing record' })
+  deleteBilling(@Param('id') id: string) {
+    return this.billingService.delete(id);
+  }
+
   @Post('billing/flag-overdue')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Flag all overdue billing records (cron-safe)' })
   flagOverdue() {
     return this.billingService.flagOverdue();
+  }
+
+  // ── Subscription & Billing (manual payments + enforcement) ─────
+
+  @Get('subscription-states')
+  @ApiOperation({
+    summary: 'List all tenants with computed subscription state',
+  })
+  listSubscriptionStates(
+    @Query('status') status?: string,
+    @Query('search') search?: string,
+  ) {
+    return this.subscriptionBilling.listTenantsWithState({
+      status: status as TenantSubscriptionStatus | undefined,
+      search,
+    });
+  }
+
+  @Get('billing/summary')
+  @ApiOperation({ summary: 'Billing dashboard summary cards' })
+  billingSummary() {
+    return this.subscriptionBilling.getDashboardSummary();
+  }
+
+  @Get('tenants/:id/subscription-state')
+  @ApiOperation({ summary: 'Get full subscription state for a tenant' })
+  tenantSubscriptionState(@Param('id') id: string) {
+    return this.subscriptionBilling.getSubscriptionState(id);
+  }
+
+  @Post('tenants/:id/payments')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Log a manual payment and extend the subscription period',
+  })
+  logPayment(
+    @Param('id') id: string,
+    @Body() dto: LogPaymentDto,
+    @Request() req: any,
+  ) {
+    return this.subscriptionBilling.logPayment(id, dto, req.user?.id);
+  }
+
+  @Get('tenants/:id/payments')
+  @ApiOperation({ summary: 'List manual payments for a tenant' })
+  listPayments(@Param('id') id: string, @Query() query: SubscriptionQueryDto) {
+    return this.subscriptionBilling.listPayments(id, query);
+  }
+
+  @Delete('tenants/:id/payments/:paymentId')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Delete a payment record (recalculates period + audit)',
+  })
+  deletePayment(
+    @Param('id') id: string,
+    @Param('paymentId') paymentId: string,
+    @Request() req: any,
+  ) {
+    return this.subscriptionBilling.deletePayment(paymentId, req.user?.id);
+  }
+
+  @Post('tenants/:id/subscription/extend')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Manually extend a subscription (comp / adjustment)',
+  })
+  extendSubscription(
+    @Param('id') id: string,
+    @Body() dto: ExtendSubscriptionDto,
+    @Request() req: any,
+  ) {
+    return this.subscriptionBilling.extendSubscription(id, dto, req.user?.id);
+  }
+
+  @Post('tenants/:id/subscription/suspend')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Manually suspend a tenant (override)' })
+  suspendTenant(
+    @Param('id') id: string,
+    @Body() dto: SuspendSubscriptionDto,
+    @Request() req: any,
+  ) {
+    return this.subscriptionBilling.suspend(id, dto.reason, req.user?.id);
+  }
+
+  @Post('tenants/:id/subscription/reactivate')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Reactivate a manually suspended tenant' })
+  reactivateTenant(@Param('id') id: string, @Request() req: any) {
+    return this.subscriptionBilling.reactivate(id, req.user?.id);
+  }
+
+  @Patch('tenants/:id/subscription/grace-period')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Update a tenant grace period (days)' })
+  updateGrace(
+    @Param('id') id: string,
+    @Body() dto: UpdateGracePeriodDto,
+    @Request() req: any,
+  ) {
+    return this.subscriptionBilling.updateGracePeriod(
+      id,
+      dto.days,
+      req.user?.id,
+    );
+  }
+
+  @Get('tenants/:id/audit-log')
+  @ApiOperation({ summary: 'Subscription audit log for a tenant' })
+  auditLog(@Param('id') id: string, @Query() query: SubscriptionQueryDto) {
+    return this.subscriptionBilling.listAuditLog(id, query);
+  }
+
+  // ── System settings (e.g. support contact) ────────────────────
+
+  @Get('settings/:key')
+  @ApiOperation({ summary: 'Read a platform system setting' })
+  getSetting(@Param('key') key: string) {
+    return this.systemSettings.get(key);
+  }
+
+  @Put('settings')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Upsert a platform system setting' })
+  setSetting(@Body() dto: SystemSettingDto, @Request() req: any) {
+    return this.systemSettings.set(dto.key, dto.value, req.user?.id);
+  }
+
+  @Get('support-contact')
+  @ApiOperation({
+    summary: 'Read the support contact shown on the Subscription Ended screen',
+  })
+  supportContact() {
+    return this.systemSettings.getSupportContact();
   }
 
   // ── Admin Approvals ───────────────────────────────────────────

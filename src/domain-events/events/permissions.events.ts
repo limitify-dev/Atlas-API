@@ -21,6 +21,7 @@ export class PermissionApprovedEvent {
     public readonly tenantId: string,
     public readonly permissionId: string,
     public readonly studentName: string,
+    public readonly studentId: string,
     /** Parent userIds to notify */
     public readonly parentUserIds: string[],
   ) {}
@@ -33,6 +34,7 @@ export class PermissionRejectedEvent {
     public readonly tenantId: string,
     public readonly permissionId: string,
     public readonly studentName: string,
+    public readonly studentId: string,
     public readonly remarks: string | null,
     /** Parent userIds to notify */
     public readonly parentUserIds: string[],

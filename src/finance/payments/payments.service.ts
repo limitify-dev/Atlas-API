@@ -17,6 +17,7 @@ import {
   PromiseToPayDto,
   ReviewSubmissionDto,
   ReviewPromiseDto,
+  BulkReviewSubmissionsDto,
 } from '../dto';
 import {
   PaymentApprovedEvent,
@@ -323,6 +324,42 @@ export class PaymentsService {
 
       return updatedSubmission;
     });
+  }
+
+  /**
+   * Review a batch of payment submissions in one request. Each submission
+   * is reviewed independently (its own transaction, via `review()`) so one
+   * bad id (already reviewed, invoice already paid, not found) doesn't
+   * roll back the others — the caller gets a per-id result summary instead.
+   */
+  async bulkReview(
+    tenantId: string,
+    dto: BulkReviewSubmissionsDto,
+    staffUserId: string,
+  ) {
+    const results = await Promise.all(
+      dto.submissionIds.map(async (submissionId) => {
+        try {
+          await this.review(
+            tenantId,
+            submissionId,
+            { approved: dto.approved, reviewNote: dto.reviewNote },
+            staffUserId,
+          );
+          return { submissionId, success: true as const };
+        } catch (err) {
+          const message =
+            err instanceof Error ? err.message : 'Failed to review submission';
+          return { submissionId, success: false as const, error: message };
+        }
+      }),
+    );
+
+    return {
+      requested: dto.submissionIds.length,
+      succeeded: results.filter((r) => r.success).length,
+      failed: results.filter((r) => !r.success),
+    };
   }
 
   // ─── QUERIES ─────────────────────────────────────────────────────────────────

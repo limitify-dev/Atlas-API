@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { PLAN_PRICES } from '../studio/constants/plan-prices';
 
 @Injectable()
 export class PlatformAnalyticsService {
@@ -174,12 +175,14 @@ export class PlatformAnalyticsService {
    * Get growth trend for the last 7 days
    */
   async getGrowthTrend() {
-    const days: Date[] = [];
+    const days: { start: Date; end: Date; label: Date }[] = [];
     for (let i = 6; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      d.setHours(23, 59, 59, 999);
-      days.push(d);
+      const start = new Date();
+      start.setDate(start.getDate() - i);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(start);
+      end.setHours(23, 59, 59, 999);
+      days.push({ start, end, label: start });
     }
 
     const [allTenants, allUsers] = await Promise.all([
@@ -187,14 +190,21 @@ export class PlatformAnalyticsService {
       this.prisma.user.findMany({ select: { createdAt: true } }),
     ]);
 
-    return days.map((date) => {
+    // New signups per day (not cumulative totals) — a "growth trend" chart
+    // should show the day-to-day rate, otherwise it's just a monotonic
+    // staircase of all-time totals that looks flat for most tenant bases.
+    return days.map(({ start, end, label }) => {
       const dayName =
-        date.toDateString() === new Date().toDateString()
+        label.toDateString() === new Date().toDateString()
           ? 'Today'
-          : date.toLocaleString('default', { weekday: 'short' });
+          : label.toLocaleString('default', { weekday: 'short' });
 
-      const tenants = allTenants.filter((t) => t.createdAt <= date).length;
-      const users = allUsers.filter((u) => u.createdAt <= date).length;
+      const tenants = allTenants.filter(
+        (t) => t.createdAt >= start && t.createdAt <= end,
+      ).length;
+      const users = allUsers.filter(
+        (u) => u.createdAt >= start && u.createdAt <= end,
+      ).length;
 
       return {
         day: dayName,
@@ -208,13 +218,6 @@ export class PlatformAnalyticsService {
    * Get revenue analytics for the last 6 months
    */
   async getRevenueAnalytics() {
-    const PLAN_PRICES = {
-      FREE: 0,
-      BASIC: 49,
-      PREMIUM: 99,
-      ENTERPRISE: 299,
-    };
-
     const months: Date[] = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date();
@@ -312,47 +315,50 @@ export class PlatformAnalyticsService {
    * Get tenant activity ranking
    */
   async getTenantActivityRanking(limit: number = 10) {
-    // Get tenants with their user counts and recent activity
-    const tenants = await this.prisma.tenant.findMany({
-      where: { status: 'ACTIVE' },
-      include: {
-        _count: {
-          select: {
-            users: true,
-            students: true,
-            teachers: true,
+    const last7Days = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+    // Rank across ALL active tenants, not just the most-recently-created —
+    // otherwise a genuinely active older tenant can never show up here.
+    // One groupBy instead of an N+1 count-per-tenant loop.
+    const [tenants, activityCounts] = await Promise.all([
+      this.prisma.tenant.findMany({
+        where: { status: 'ACTIVE' },
+        include: {
+          _count: {
+            select: {
+              users: true,
+              students: true,
+              teachers: true,
+            },
           },
         },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: limit,
-    });
+      }),
+      this.prisma.systemLog.groupBy({
+        by: ['tenantId'],
+        where: { createdAt: { gte: last7Days }, tenantId: { not: null } },
+        _count: { _all: true },
+      }),
+    ]);
 
-    // Get recent log activity per tenant
-    const last7Days = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    const activityPromises = tenants.map(async (tenant) => {
-      const logCount = await this.prisma.systemLog.count({
-        where: {
-          tenantId: tenant.id,
-          createdAt: { gte: last7Days },
-        },
-      });
-      return {
-        tenantId: tenant.id,
-        tenantName: tenant.name,
-        subscriptionPlan: tenant.subscriptionPlan,
-        status: tenant.status,
-        userCount: tenant._count.users,
-        studentCount: tenant._count.students,
-        teacherCount: tenant._count.teachers,
-        recentActivity: logCount,
-      };
-    });
+    const activityMap = new Map(
+      activityCounts.map((a) => [a.tenantId, a._count._all]),
+    );
 
-    const results = await Promise.all(activityPromises);
+    const results = tenants.map((tenant) => ({
+      tenantId: tenant.id,
+      tenantName: tenant.name,
+      subscriptionPlan: tenant.subscriptionPlan,
+      status: tenant.status,
+      userCount: tenant._count.users,
+      studentCount: tenant._count.students,
+      teacherCount: tenant._count.teachers,
+      recentActivity: activityMap.get(tenant.id) ?? 0,
+    }));
 
-    // Sort by activity
-    return results.sort((a, b) => b.recentActivity - a.recentActivity);
+    // Sort by activity, then take the true top N
+    return results
+      .sort((a, b) => b.recentActivity - a.recentActivity)
+      .slice(0, limit);
   }
 
   /**

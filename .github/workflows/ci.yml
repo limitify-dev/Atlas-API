@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # The Prisma client is generated into prisma/generated and imported
+      # throughout src/ — tsc and the Nest build both fail without it.
+      - run: npx prisma generate
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      # Informational only for now — there's a backlog of pre-existing lint
+      # findings (mostly prettier formatting) that predates this workflow.
+      # Flip to blocking once that backlog is cleared, otherwise CI is red
+      # from the first run and everyone starts ignoring it.
+      - name: Lint
+        run: npx eslint "{src,apps,libs,test}/**/*.ts"
+        continue-on-error: true
+
+      - name: Build
+        run: npm run build

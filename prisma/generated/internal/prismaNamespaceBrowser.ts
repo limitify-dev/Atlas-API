@@ -97,6 +97,8 @@ export const ModelName = {
   AcademicAssignmentResult: 'AcademicAssignmentResult',
   AcademicReportCard: 'AcademicReportCard',
   ConsultationBooking: 'ConsultationBooking',
+  ConsultationConfig: 'ConsultationConfig',
+  ConsultationTeacherOverride: 'ConsultationTeacherOverride',
   Device: 'Device',
   DeviceLog: 'DeviceLog',
   SystemLog: 'SystemLog',
@@ -109,13 +111,20 @@ export const ModelName = {
   PaymentPromise: 'PaymentPromise',
   Invite: 'Invite',
   OtpCode: 'OtpCode',
+  Poll: 'Poll',
+  PollOption: 'PollOption',
+  PollVote: 'PollVote',
   StudioModule: 'StudioModule',
   TenantModule: 'TenantModule',
   StudioSubscription: 'StudioSubscription',
   AdminInvite: 'AdminInvite',
   TenantBilling: 'TenantBilling',
   AdminApproval: 'AdminApproval',
-  Feedback: 'Feedback'
+  OnboardingRequest: 'OnboardingRequest',
+  Feedback: 'Feedback',
+  SubscriptionPayment: 'SubscriptionPayment',
+  SubscriptionAuditLog: 'SubscriptionAuditLog',
+  SystemSetting: 'SystemSetting'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -152,6 +161,12 @@ export const TenantScalarFieldEnum = {
   subscriptionPlan: 'subscriptionPlan',
   subscriptionStartDate: 'subscriptionStartDate',
   subscriptionEndDate: 'subscriptionEndDate',
+  subscriptionStatus: 'subscriptionStatus',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  gracePeriodDays: 'gracePeriodDays',
+  suspendedManually: 'suspendedManually',
+  suspensionReason: 'suspensionReason',
   maxStudents: 'maxStudents',
   maxTeachers: 'maxTeachers',
   settings: 'settings',
@@ -616,6 +631,9 @@ export const ChatMessageScalarFieldEnum = {
   content: 'content',
   type: 'type',
   metadata: 'metadata',
+  replyToId: 'replyToId',
+  deletedAt: 'deletedAt',
+  editedAt: 'editedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -763,6 +781,7 @@ export const EventScalarFieldEnum = {
   category: 'category',
   gradeTarget: 'gradeTarget',
   audience: 'audience',
+  thumbnailUrl: 'thumbnailUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -883,6 +902,8 @@ export const AcademicReportCardScalarFieldEnum = {
   overallScore: 'overallScore',
   grade: 'grade',
   remarks: 'remarks',
+  fileUrl: 'fileUrl',
+  fileName: 'fileName',
   publishedAt: 'publishedAt',
   publishedBy: 'publishedBy',
   status: 'status',
@@ -914,6 +935,40 @@ export const ConsultationBookingScalarFieldEnum = {
 } as const
 
 export type ConsultationBookingScalarFieldEnum = (typeof ConsultationBookingScalarFieldEnum)[keyof typeof ConsultationBookingScalarFieldEnum]
+
+
+export const ConsultationConfigScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  consultationDate: 'consultationDate',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  defaultDurationMinutes: 'defaultDurationMinutes',
+  defaultLocation: 'defaultLocation',
+  title: 'title',
+  breakStartTime: 'breakStartTime',
+  breakDurationMinutes: 'breakDurationMinutes',
+  content: 'content',
+  sectionIds: 'sectionIds',
+  isActive: 'isActive',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ConsultationConfigScalarFieldEnum = (typeof ConsultationConfigScalarFieldEnum)[keyof typeof ConsultationConfigScalarFieldEnum]
+
+
+export const ConsultationTeacherOverrideScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  configId: 'configId',
+  teacherId: 'teacherId',
+  location: 'location',
+  durationMinutes: 'durationMinutes'
+} as const
+
+export type ConsultationTeacherOverrideScalarFieldEnum = (typeof ConsultationTeacherOverrideScalarFieldEnum)[keyof typeof ConsultationTeacherOverrideScalarFieldEnum]
 
 
 export const DeviceScalarFieldEnum = {
@@ -1055,6 +1110,7 @@ export const InvoiceScalarFieldEnum = {
   amountPaid: 'amountPaid',
   paymentMethod: 'paymentMethod',
   gracePeriodApproved: 'gracePeriodApproved',
+  archivedAt: 'archivedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1135,6 +1191,44 @@ export const OtpCodeScalarFieldEnum = {
 export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeof OtpCodeScalarFieldEnum]
 
 
+export const PollScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  question: 'question',
+  audience: 'audience',
+  status: 'status',
+  allowMultiple: 'allowMultiple',
+  publishedBy: 'publishedBy',
+  publishedAt: 'publishedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PollScalarFieldEnum = (typeof PollScalarFieldEnum)[keyof typeof PollScalarFieldEnum]
+
+
+export const PollOptionScalarFieldEnum = {
+  id: 'id',
+  pollId: 'pollId',
+  label: 'label',
+  order: 'order'
+} as const
+
+export type PollOptionScalarFieldEnum = (typeof PollOptionScalarFieldEnum)[keyof typeof PollOptionScalarFieldEnum]
+
+
+export const PollVoteScalarFieldEnum = {
+  id: 'id',
+  pollId: 'pollId',
+  optionId: 'optionId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type PollVoteScalarFieldEnum = (typeof PollVoteScalarFieldEnum)[keyof typeof PollVoteScalarFieldEnum]
+
+
 export const StudioModuleScalarFieldEnum = {
   id: 'id',
   key: 'key',
@@ -1200,6 +1294,7 @@ export const TenantBillingScalarFieldEnum = {
   periodStart: 'periodStart',
   periodEnd: 'periodEnd',
   status: 'status',
+  source: 'source',
   notes: 'notes',
   paidAt: 'paidAt',
   createdAt: 'createdAt',
@@ -1223,6 +1318,28 @@ export const AdminApprovalScalarFieldEnum = {
 export type AdminApprovalScalarFieldEnum = (typeof AdminApprovalScalarFieldEnum)[keyof typeof AdminApprovalScalarFieldEnum]
 
 
+export const OnboardingRequestScalarFieldEnum = {
+  id: 'id',
+  intent: 'intent',
+  fullName: 'fullName',
+  email: 'email',
+  phone: 'phone',
+  organization: 'organization',
+  role: 'role',
+  schoolSize: 'schoolSize',
+  preferredDate: 'preferredDate',
+  preferredTime: 'preferredTime',
+  goals: 'goals',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  reviewedAt: 'reviewedAt',
+  reviewedById: 'reviewedById'
+} as const
+
+export type OnboardingRequestScalarFieldEnum = (typeof OnboardingRequestScalarFieldEnum)[keyof typeof OnboardingRequestScalarFieldEnum]
+
+
 export const FeedbackScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -1230,11 +1347,53 @@ export const FeedbackScalarFieldEnum = {
   category: 'category',
   message: 'message',
   status: 'status',
+  priority: 'priority',
+  plannedRelease: 'plannedRelease',
   createdAt: 'createdAt',
   resolvedAt: 'resolvedAt'
 } as const
 
 export type FeedbackScalarFieldEnum = (typeof FeedbackScalarFieldEnum)[keyof typeof FeedbackScalarFieldEnum]
+
+
+export const SubscriptionPaymentScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  amount: 'amount',
+  currency: 'currency',
+  paymentDate: 'paymentDate',
+  periodStart: 'periodStart',
+  periodEnd: 'periodEnd',
+  paymentMethod: 'paymentMethod',
+  referenceNumber: 'referenceNumber',
+  notes: 'notes',
+  recordedById: 'recordedById',
+  createdAt: 'createdAt'
+} as const
+
+export type SubscriptionPaymentScalarFieldEnum = (typeof SubscriptionPaymentScalarFieldEnum)[keyof typeof SubscriptionPaymentScalarFieldEnum]
+
+
+export const SubscriptionAuditLogScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  action: 'action',
+  performedById: 'performedById',
+  details: 'details',
+  createdAt: 'createdAt'
+} as const
+
+export type SubscriptionAuditLogScalarFieldEnum = (typeof SubscriptionAuditLogScalarFieldEnum)[keyof typeof SubscriptionAuditLogScalarFieldEnum]
+
+
+export const SystemSettingScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  updatedAt: 'updatedAt',
+  updatedById: 'updatedById'
+} as const
+
+export type SystemSettingScalarFieldEnum = (typeof SystemSettingScalarFieldEnum)[keyof typeof SystemSettingScalarFieldEnum]
 
 
 export const SortOrder = {

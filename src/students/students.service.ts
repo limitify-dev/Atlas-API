@@ -49,15 +49,33 @@ export class StudentsService {
     try {
       // Create student, parents, and link them in a transaction
       const result = await this.prisma.$transaction(async (tx) => {
-        // Auto-resolve promotionId from the section if not explicitly provided
-        let resolvedPromotionId = createStudentDto.promotionId || null;
-        if (!resolvedPromotionId) {
-          const section = await tx.section.findUnique({
-            where: { id: createStudentDto.sectionId },
-            select: { promotionId: true },
-          });
-          resolvedPromotionId = section?.promotionId ?? null;
+        // gradeId/sectionId are client-supplied FKs — verify they belong to
+        // this tenant before linking a student to them (otherwise a crafted
+        // id from another tenant would silently attach cross-tenant).
+        const [grade, section] = await Promise.all([
+          tx.grade.findFirst({
+            where: { id: createStudentDto.gradeId, tenantId },
+            select: { id: true },
+          }),
+          tx.section.findFirst({
+            where: { id: createStudentDto.sectionId, tenantId },
+            select: { id: true, promotionId: true },
+          }),
+        ]);
+        if (!grade) {
+          throw new NotFoundException(
+            `Grade ${createStudentDto.gradeId} not found.`,
+          );
         }
+        if (!section) {
+          throw new NotFoundException(
+            `Section ${createStudentDto.sectionId} not found.`,
+          );
+        }
+
+        // Auto-resolve promotionId from the section if not explicitly provided
+        const resolvedPromotionId =
+          createStudentDto.promotionId || section.promotionId || null;
 
         // Create student (no user account needed)
         const student = await tx.student.create({
@@ -895,6 +913,7 @@ export class StudentsService {
       grade: {
         id: student.grade.id,
         name: student.grade.name,
+        code: student.grade.code,
         level: student.grade.level,
         educationLevel: student.grade.educationLevel,
       },
@@ -1147,12 +1166,28 @@ export class StudentsService {
       occupation?: string;
     },
   ) {
-    let user = await tx.user.findUnique({
-      where: { email: parentData.email },
+    let user = await tx.user.findFirst({
+      where: { email: parentData.email, tenantId },
       include: { parent: true },
     });
 
     if (!user) {
+      // `User.email` is globally unique across the whole platform, not
+      // per-tenant, so a match here means this email is already claimed by
+      // a different school. Creating a new user would hit that unique
+      // constraint anyway — but worse, silently reusing the other tenant's
+      // user (the old behavior) links this student to a parent account
+      // that chat and every other tenant-scoped lookup can't see, which
+      // fails confusingly much later instead of here.
+      const existingElsewhere = await tx.user.findUnique({
+        where: { email: parentData.email },
+      });
+      if (existingElsewhere) {
+        throw new ConflictException(
+          `A parent account with email "${parentData.email}" already exists under a different school. Please use a different email or contact support.`,
+        );
+      }
+
       const parentUsername =
         parentData.email.split('@')[0] +
         Math.random().toString(36).substring(2, 6);
