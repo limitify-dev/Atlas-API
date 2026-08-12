@@ -5,6 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CacheService } from '../common/cache/cache.service';
 import { DomainEventsService } from '../domain-events/domain-events.service';
 import { AttendanceMarkedEvent } from '../domain-events/events';
 import { AttendanceStatus, Prisma } from '../../prisma/generated/client';
@@ -30,6 +31,7 @@ export class AttendanceService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly events: DomainEventsService,
+    private readonly cache: CacheService,
   ) {}
 
   private normalizeSettings(settings: unknown): AttendanceSettings {
@@ -716,6 +718,14 @@ export class AttendanceService {
   }
 
   async getAttendanceStats(tenantId: string, date?: string) {
+    return this.cache.getOrSet(
+      `attendance:stats:${tenantId}:${date ?? 'today'}`,
+      30,
+      () => this.computeAttendanceStats(tenantId, date),
+    );
+  }
+
+  private async computeAttendanceStats(tenantId: string, date?: string) {
     const tenant = await this.prisma.tenant.findUnique({
       where: { id: tenantId },
       select: { timezone: true },

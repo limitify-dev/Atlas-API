@@ -1,4 +1,5 @@
 import { PrismaService } from '../prisma/prisma.service';
+import { CacheService } from '../common/cache/cache.service';
 import { DashboardService } from './dashboard.service';
 
 describe('DashboardService attendance totals', () => {
@@ -21,8 +22,18 @@ describe('DashboardService attendance totals', () => {
         findMany: jest.fn().mockResolvedValue([]),
       },
       conductRecord: { count: jest.fn().mockResolvedValue(0) },
+      invoice: { count: jest.fn().mockResolvedValue(0) },
+      paymentSubmission: { count: jest.fn().mockResolvedValue(0) },
     };
-    const service = new DashboardService(prisma as unknown as PrismaService);
+    // Pass-through cache so the test still exercises the real computation.
+    const cache = {
+      getOrSet: (_key: string, _ttl: number, compute: () => Promise<unknown>) =>
+        compute(),
+    };
+    const service = new DashboardService(
+      prisma as unknown as PrismaService,
+      cache as unknown as CacheService,
+    );
 
     const stats = await service.getStats('tenant-1');
 

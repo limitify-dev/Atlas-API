@@ -1,12 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CacheService } from '../common/cache/cache.service';
 import { getTenantDayRange } from '../attendance/attendance-day';
 
 @Injectable()
 export class DashboardService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private cache: CacheService,
+  ) {}
 
+  /**
+   * Dashboard stats fan out to ~20 aggregate queries per call. Cache the
+   * computed result per tenant for a short window so repeated dashboard loads
+   * (and multiple admins on the same tenant) don't re-run them every time.
+   * 30s bounds staleness while eliminating almost all of the DB cost.
+   */
   async getStats(tenantId: string) {
+    return this.cache.getOrSet(`dashboard:stats:${tenantId}`, 30, () =>
+      this.computeStats(tenantId),
+    );
+  }
+
+  private async computeStats(tenantId: string) {
     const tenant = await this.prisma.tenant.findUnique({
       where: { id: tenantId },
       select: { timezone: true },

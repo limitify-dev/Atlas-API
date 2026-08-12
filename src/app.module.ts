@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 // ─── Infrastructure ───────────────────────────────────────────────────────────
 import { PrismaModule } from './prisma/prisma.module';
 import { RedisModule } from './common/redis/redis.module';
+import { CacheModule } from './common/cache/cache.module';
 import { SupabaseModule } from './common/supabase/supabase.module';
 import { EmailModule } from './email/email.module';
 
@@ -102,6 +103,7 @@ import { OnboardingRequestsModule } from './onboarding-requests/onboarding-reque
 
     // ── Infrastructure ─────────────────────────────────────────────────────────
     RedisModule,
+    CacheModule,
     SupabaseModule,
     PrismaModule,
     EmailModule,

@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
+import { CacheService } from '../common/cache/cache.service';
 import {
   CreateStudentDto,
   UpdateStudentDto,
@@ -33,6 +34,7 @@ export class StudentsService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private supabase: SupabaseService,
+    private readonly cache: CacheService,
   ) {}
 
   async create(
@@ -961,6 +963,12 @@ export class StudentsService {
   }
 
   async getStatistics(tenantId: string) {
+    return this.cache.getOrSet(`students:statistics:${tenantId}`, 30, () =>
+      this.computeStatistics(tenantId),
+    );
+  }
+
+  private async computeStatistics(tenantId: string) {
     const now = new Date();
     const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 

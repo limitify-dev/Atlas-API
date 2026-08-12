@@ -5,6 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CacheService } from '../common/cache/cache.service';
 import {
   CreateConductRecordDto,
   UpdateConductRecordDto,
@@ -46,7 +47,10 @@ type StudentPointsWithRelations = Prisma.StudentConductPointsGetPayload<{
 
 @Injectable()
 export class ConductService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cache: CacheService,
+  ) {}
 
   // =====================================
   // Conduct Records
@@ -668,6 +672,12 @@ export class ConductService {
   // =====================================
 
   async getStats(tenantId: string): Promise<ConductStatsDto> {
+    return this.cache.getOrSet(`conduct:stats:${tenantId}`, 30, () =>
+      this.computeStats(tenantId),
+    );
+  }
+
+  private async computeStats(tenantId: string): Promise<ConductStatsDto> {
     const [
       totalRecords,
       activeIncidents,
