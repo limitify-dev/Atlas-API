@@ -1,12 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
+import { Public } from './auth/decorators/public.decorator';
 
 @ApiTags('Root')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  // Public so the container/platform health check (an unauthenticated GET /)
+  // gets 200 instead of 401 from the global JwtAuthGuard — otherwise the
+  // service is marked unhealthy and the deploy never goes live.
+  @Public()
   @Get()
   @ApiOperation({
     summary: 'API Health Check',

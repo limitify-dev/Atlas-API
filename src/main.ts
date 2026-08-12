@@ -7,6 +7,7 @@
 import 'dotenv/config';
 
 import { NestFactory, Reflector } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
@@ -17,7 +18,14 @@ import { getAllowedOrigins } from './common/config/cors-origins';
 import { RedisIoAdapter } from './common/adapters/redis-io.adapter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // Behind a reverse proxy (Render, load balancers) the client's real IP is in
+  // X-Forwarded-For. Trust the first proxy hop so req.ip is the actual client
+  // — without this every request looks like it comes from the proxy, which
+  // collapses IP-based rate limiting (ThrottlerGuard) into one shared bucket
+  // and makes request logs useless.
+  app.set('trust proxy', 1);
 
   // Socket.IO adapter backed by Redis pub/sub — required so realtime events
   // (chat, presence) still reach every connected client once the API runs
