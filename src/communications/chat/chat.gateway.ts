@@ -16,6 +16,7 @@ import { jwtConstants } from '../../auth/constant';
 import { ChatService } from './chat.service';
 import { ChatPresenceService } from './chat-presence.service';
 import { getAllowedOrigins } from '../../common/config/cors-origins';
+import { OnEvent } from '@nestjs/event-emitter';
 
 interface AuthenticatedSocket extends Socket {
   user: {
@@ -89,6 +90,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const text = String(content || '').trim();
     if (!text) return 'New message';
     return text.length > 120 ? `${text.slice(0, 120).trimEnd()}...` : text;
+  }
+
+  @OnEvent('chat.conversation.deleted')
+  async handleConversationDeleted(event: { conversationId: string; userId: string }) {
+    const socketIds = await this.presenceService.getUserSocketIds(event.userId);
+    for (const socketId of socketIds) {
+      this.server.to(socketId).emit('conversation_deleted', {
+        conversationId: event.conversationId,
+      });
+    }
   }
 
   async handleConnection(client: AuthenticatedSocket) {

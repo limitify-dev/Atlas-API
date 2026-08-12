@@ -38,6 +38,11 @@ export class AuthService {
   private static readonly DEFAULT_PARENT_PASSWORD = 'Parent@123';
   private static readonly PASSWORD_RESET_TOKEN_EXPIRY_SECONDS = 30 * 60;
   private static readonly PASSWORD_RESET_COOLDOWN_DAYS = 14;
+  // Grace window during which a just-rotated refresh token still works. Two
+  // near-simultaneous refreshes carrying the same token (e.g. a client's auth
+  // bootstrap racing its first data fetch after the access token expired) must
+  // both succeed instead of the second being rejected and forcing a logout.
+  private static readonly REFRESH_TOKEN_ROTATION_GRACE_MS = 30 * 1000;
 
   constructor(
     private jwtService: JwtService,
@@ -222,9 +227,19 @@ export class AuthService {
         expiresIn: jwtConstants.refreshTokenExpiry,
       });
 
-      // Delete old refresh token
-      await this.prisma.refreshToken.delete({
+      // Rotate the old refresh token, but keep it usable for a short grace
+      // window rather than deleting it outright. This absorbs concurrent
+      // refreshes that both present the same token — without it, the second
+      // request finds no matching row and 401s, which the web client turns
+      // into a forced logout. The token is shortened to the grace window (only
+      // ever bringing its expiry closer), then lapses on its own.
+      await this.prisma.refreshToken.update({
         where: { id: storedToken.id },
+        data: {
+          expiresAt: new Date(
+            Date.now() + AuthService.REFRESH_TOKEN_ROTATION_GRACE_MS,
+          ),
+        },
       });
 
       // Store new refresh token

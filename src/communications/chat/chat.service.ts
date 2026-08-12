@@ -12,7 +12,12 @@ import {
   PARENT_MESSAGING_STAFF_ROLES,
   resolveContactDisplayRole,
 } from '../../common/constants/staff-roles';
-import { Role, Prisma, ConversationType } from '../../../prisma/generated/client';
+import {
+  Role,
+  Prisma,
+  ConversationType,
+} from '../../../prisma/generated/client';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 const CHAT_ATTACHMENT_BUCKET = 'atlas-chat';
 
@@ -23,7 +28,8 @@ export class ChatService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly supabase: SupabaseService,
-  ) { }
+    private readonly eventEmitter: EventEmitter2,
+  ) {}
 
   /**
    * Best-effort removal of a chat attachment's underlying file from storage.
@@ -36,13 +42,17 @@ export class ChatService {
     const markerIndex = fileUrl.indexOf(marker);
     if (markerIndex === -1) return;
 
-    const storagePath = decodeURIComponent(fileUrl.slice(markerIndex + marker.length));
+    const storagePath = decodeURIComponent(
+      fileUrl.slice(markerIndex + marker.length),
+    );
     const { error } = await this.supabase.client.storage
       .from(CHAT_ATTACHMENT_BUCKET)
       .remove([storagePath]);
 
     if (error) {
-      this.logger.warn(`Failed to remove chat attachment "${storagePath}": ${error.message}`);
+      this.logger.warn(
+        `Failed to remove chat attachment "${storagePath}": ${error.message}`,
+      );
     }
   }
 
@@ -156,7 +166,11 @@ export class ChatService {
 
     // Verify both users belong to the same tenant
     const participant = await this.prisma.user.findFirst({
-      where: { id: participantId, tenantId, status: { in: ['ACTIVE', 'PENDING'] } },
+      where: {
+        id: participantId,
+        tenantId,
+        status: { in: ['ACTIVE', 'PENDING'] },
+      },
       select: {
         id: true,
         name: true,
@@ -237,6 +251,15 @@ export class ChatService {
     });
 
     if (existing) {
+      await this.prisma.conversationParticipant.update({
+        where: {
+          conversationId_userId: {
+            conversationId: existing.id,
+            userId,
+          },
+        },
+        data: { isHidden: false },
+      });
       return this.formatConversation(existing, userId);
     }
 
@@ -337,7 +360,9 @@ export class ChatService {
    * through untouched — this only closes the "teacher sees a class group for
    * a section they don't teach" gap, not general manual group membership.
    */
-  private teacherGroupScopeFilter(sectionIds: string[]): Prisma.ConversationWhereInput {
+  private teacherGroupScopeFilter(
+    sectionIds: string[],
+  ): Prisma.ConversationWhereInput {
     return {
       OR: [
         { type: { not: ConversationType.GROUP } },
@@ -388,7 +413,7 @@ export class ChatService {
 
     const where: Prisma.ConversationWhereInput = {
       tenantId,
-      participants: { some: { userId } },
+      participants: { some: { userId, isHidden: false } },
       status: 'ACTIVE',
       ...excludeParentGroups,
       ...teacherGroupScope,
@@ -428,11 +453,16 @@ export class ChatService {
       this.prisma.conversation.count({ where }),
     ]);
 
-    const conversationIds = conversations.map(c => c.id);
-    const unreadCounts = await this.batchGetUnreadCounts(userId, conversationIds);
+    const conversationIds = conversations.map((c) => c.id);
+    const unreadCounts = await this.batchGetUnreadCounts(
+      userId,
+      conversationIds,
+    );
 
     const formatted = await Promise.all(
-      conversations.map((conv) => this.formatConversation(conv, userId, unreadCounts.get(conv.id))),
+      conversations.map((conv) =>
+        this.formatConversation(conv, userId, unreadCounts.get(conv.id)),
+      ),
     );
 
     return {
@@ -522,6 +552,45 @@ export class ChatService {
     return this.formatConversation(conversation, userId);
   }
 
+  /** Clears a chat only for the requesting participant. */
+  async deleteConversation(
+    conversationId: string,
+    userId: string,
+    tenantId?: string | null,
+    _actorRole?: string,
+  ) {
+    if (!this.hasTenantAccess(tenantId)) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    const conversation = await this.prisma.conversation.findFirst({
+      where: {
+        id: conversationId,
+        tenantId,
+        status: 'ACTIVE',
+        participants: { some: { userId } },
+      },
+      select: { id: true },
+    });
+
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found');
+    }
+
+    const clearedAt = new Date();
+    await this.prisma.conversationParticipant.update({
+      where: { conversationId_userId: { conversationId, userId } },
+      data: { clearedAt, isHidden: true, lastReadAt: clearedAt },
+    });
+
+    this.eventEmitter.emit('chat.conversation.deleted', {
+      conversationId,
+      userId,
+    });
+
+    return { success: true, conversationId, clearedAt };
+  }
+
   /**
    * Get messages in a conversation with cursor-based pagination
    */
@@ -538,6 +607,7 @@ export class ChatService {
       select: {
         userId: true,
         lastReadAt: true,
+        clearedAt: true,
         user: { select: { role: true } },
       },
     });
@@ -558,7 +628,11 @@ export class ChatService {
     const otherParticipant = participants.find((p) => p.userId !== userId);
 
     const messages = await this.prisma.chatMessage.findMany({
-      where: { conversationId, deletedAt: null },
+      where: {
+        conversationId,
+        deletedAt: null,
+        ...(participant.clearedAt && { createdAt: { gt: participant.clearedAt } }),
+      },
       ...(cursor && {
         cursor: { id: cursor },
         skip: 1, // Skip the cursor itself
@@ -575,8 +649,8 @@ export class ChatService {
             content: true,
             type: true,
             sender: { select: { id: true, name: true } },
-          }
-        }
+          },
+        },
       },
     });
 
@@ -679,6 +753,10 @@ export class ChatService {
         where: { id: conversationId },
         data: { lastMessageAt: new Date() },
       }),
+      this.prisma.conversationParticipant.updateMany({
+        where: { conversationId, isHidden: true },
+        data: { isHidden: false },
+      }),
     ]);
 
     return message;
@@ -710,10 +788,16 @@ export class ChatService {
 
   // ─── Message Lifecycle (Edit, Delete, Search, Threading, Media) ───
 
-  async deleteMessage(messageId: string, userId: string, scope: 'SELF' | 'EVERYONE') {
+  async deleteMessage(
+    messageId: string,
+    userId: string,
+    scope: 'SELF' | 'EVERYONE',
+  ) {
     const message = await this.prisma.chatMessage.findUnique({
       where: { id: messageId },
-      include: { conversation: { include: { participants: { where: { userId } } } } },
+      include: {
+        conversation: { include: { participants: { where: { userId } } } },
+      },
     });
 
     if (!message) throw new NotFoundException('Message not found');
@@ -721,7 +805,11 @@ export class ChatService {
     const participant = message.conversation.participants[0];
     if (!participant) throw new ForbiddenException('Not a participant');
 
-    if (scope === 'EVERYONE' && message.senderId !== userId && participant.role !== 'ADMIN') {
+    if (
+      scope === 'EVERYONE' &&
+      message.senderId !== userId &&
+      participant.role !== 'ADMIN'
+    ) {
       throw new ForbiddenException('Cannot delete this message for everyone');
     }
 
@@ -742,8 +830,10 @@ export class ChatService {
     });
 
     if (!message) throw new NotFoundException('Message not found');
-    if (message.senderId !== userId) throw new ForbiddenException('Cannot edit others messages');
-    if (message.deletedAt) throw new BadRequestException('Cannot edit a deleted message');
+    if (message.senderId !== userId)
+      throw new ForbiddenException('Cannot edit others messages');
+    if (message.deletedAt)
+      throw new BadRequestException('Cannot edit a deleted message');
 
     return this.prisma.chatMessage.update({
       where: { id: messageId },
@@ -755,11 +845,14 @@ export class ChatService {
   async getMessageReplies(messageId: string, userId: string) {
     const message = await this.prisma.chatMessage.findUnique({
       where: { id: messageId },
-      include: { conversation: { include: { participants: { where: { userId } } } } },
+      include: {
+        conversation: { include: { participants: { where: { userId } } } },
+      },
     });
 
     if (!message) throw new NotFoundException('Message not found');
-    if (message.conversation.participants.length === 0) throw new ForbiddenException('Not a participant');
+    if (message.conversation.participants.length === 0)
+      throw new ForbiddenException('Not a participant');
 
     return this.prisma.chatMessage.findMany({
       where: { replyToId: messageId, deletedAt: null },
@@ -768,11 +861,24 @@ export class ChatService {
     });
   }
 
-  async searchMessages(userId: string, tenantId: string, query: string, conversationId?: string) {
+  async searchMessages(
+    userId: string,
+    tenantId: string,
+    query: string,
+    conversationId?: string,
+  ) {
     // Note: In a real system, you'd want to use full-text search features of Prisma/Postgres
     // For simplicity in Prisma without raw queries on JSON fields, we use contains
 
     if (!query || query.length < 2) return [];
+
+    const memberships = await this.prisma.conversationParticipant.findMany({
+      where: { userId, conversation: { is: { tenantId } } },
+      select: { conversationId: true, clearedAt: true },
+    });
+    const clearedAtByConversation = new Map(
+      memberships.map((membership) => [membership.conversationId, membership.clearedAt]),
+    );
 
     const messages = await this.prisma.chatMessage.findMany({
       where: {
@@ -782,20 +888,30 @@ export class ChatService {
           tenantId,
           participants: { some: { userId } },
           ...(conversationId ? { id: conversationId } : {}),
-        }
+        },
       },
       orderBy: { createdAt: 'desc' },
-      take: 20,
+      take: 100,
       include: {
         sender: { select: { id: true, name: true, avatar: true } },
         conversation: { select: { id: true, type: true, name: true } },
-      }
+      },
     });
 
-    return messages;
+    return messages
+      .filter((message) => {
+        const clearedAt = clearedAtByConversation.get(message.conversationId);
+        return !clearedAt || message.createdAt > clearedAt;
+      })
+      .slice(0, 20);
   }
 
-  async getConversationMedia(conversationId: string, userId: string, cursor?: string, limit: number = 20) {
+  async getConversationMedia(
+    conversationId: string,
+    userId: string,
+    cursor?: string,
+    limit: number = 20,
+  ) {
     const participant = await this.prisma.conversationParticipant.findUnique({
       where: { conversationId_userId: { conversationId, userId } },
     });
@@ -806,6 +922,7 @@ export class ChatService {
       where: {
         conversationId,
         deletedAt: null,
+        ...(participant.clearedAt && { createdAt: { gt: participant.clearedAt } }),
         type: { in: ['IMAGE', 'FILE', 'AUDIO', 'VIDEO'] },
       },
       ...(cursor && {
@@ -839,6 +956,7 @@ export class ChatService {
         ON m."conversationId" = p."conversationId"
         AND m."senderId" != p."userId"
         AND (p."lastReadAt" IS NULL OR m."createdAt" > p."lastReadAt")
+        AND (p."clearedAt" IS NULL OR m."createdAt" > p."clearedAt")
         AND m."deletedAt" IS NULL
       WHERE p."userId" = ${userId}
         AND c."tenantId" = ${tenantId}
@@ -851,17 +969,23 @@ export class ChatService {
   /**
    * Batch fetch unread message counts for multiple conversations to avoid N+1 queries.
    */
-  private async batchGetUnreadCounts(userId: string, conversationIds: string[]): Promise<Map<string, number>> {
+  private async batchGetUnreadCounts(
+    userId: string,
+    conversationIds: string[],
+  ): Promise<Map<string, number>> {
     const map = new Map<string, number>();
     if (!conversationIds.length) return map;
 
-    const results = await this.prisma.$queryRaw<{ conversationId: string; unread: number }[]>`
+    const results = await this.prisma.$queryRaw<
+      { conversationId: string; unread: number }[]
+    >`
       SELECT p."conversationId", COUNT(m.id)::int AS unread
       FROM conversation_participants p
       LEFT JOIN chat_messages m
         ON m."conversationId" = p."conversationId"
         AND m."senderId" != p."userId"
         AND (p."lastReadAt" IS NULL OR m."createdAt" > p."lastReadAt")
+        AND (p."clearedAt" IS NULL OR m."createdAt" > p."clearedAt")
         AND m."deletedAt" IS NULL
       WHERE p."userId" = ${userId}
         AND p."conversationId" IN (${Prisma.join(conversationIds)})
@@ -1099,9 +1223,7 @@ export class ChatService {
     });
     this.assertTeacherNotMessagingParents(
       actorRole,
-      validParticipants
-        .filter((u) => u.id !== creatorId)
-        .map((u) => u.role),
+      validParticipants.filter((u) => u.id !== creatorId).map((u) => u.role),
     );
     const validIds = new Set(validParticipants.map((u) => u.id));
     if (!validIds.has(creatorId)) {
@@ -1209,18 +1331,32 @@ export class ChatService {
           include: {
             user: {
               select: {
-                id: true, name: true, avatar: true, role: true, userType: true,
+                id: true,
+                name: true,
+                avatar: true,
+                role: true,
+                userType: true,
                 parent: {
                   select: {
                     relationship: true,
-                    children: { select: { student: { select: { firstName: true, lastName: true } } } },
+                    children: {
+                      select: {
+                        student: {
+                          select: { firstName: true, lastName: true },
+                        },
+                      },
+                    },
                   },
                 },
               },
             },
           },
         },
-        messages: { orderBy: { createdAt: 'desc' }, take: 1, include: { sender: { select: { id: true, name: true } } } },
+        messages: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+          include: { sender: { select: { id: true, name: true } } },
+        },
         section: { include: { grade: true } },
       },
     });
@@ -1783,7 +1919,9 @@ export class ChatService {
     const participants = await this.prisma.conversationParticipant.findMany({
       where: {
         userId,
-        conversation: { is: { tenantId, status: 'ACTIVE', ...teacherGroupScope } },
+        conversation: {
+          is: { tenantId, status: 'ACTIVE', ...teacherGroupScope },
+        },
       },
       select: { conversationId: true },
     });
@@ -1797,12 +1935,21 @@ export class ChatService {
    * Format a conversation with unread count and participant info.
    * Handles DIRECT, GROUP, and CHANNEL types.
    */
-  private async formatConversation(conversation: any, userId: string, precomputedUnreadCount?: number) {
+  private async formatConversation(
+    conversation: any,
+    userId: string,
+    precomputedUnreadCount?: number,
+  ) {
     const myParticipant = conversation.participants.find(
       (p: any) => p.userId === userId,
     );
 
-    const lastMessage = conversation.messages?.[0] || null;
+    const candidateLastMessage = conversation.messages?.[0] || null;
+    const lastMessage =
+      candidateLastMessage &&
+      (!myParticipant?.clearedAt || candidateLastMessage.createdAt > myParticipant.clearedAt)
+        ? candidateLastMessage
+        : null;
 
     // Count unread messages
     let unreadCount = precomputedUnreadCount ?? 0;
@@ -1812,8 +1959,14 @@ export class ChatService {
           conversationId: conversation.id,
           senderId: { not: userId },
           deletedAt: null,
-          ...(myParticipant.lastReadAt && {
-            createdAt: { gt: myParticipant.lastReadAt },
+          ...((myParticipant.lastReadAt || myParticipant.clearedAt) && {
+            createdAt: {
+              gt:
+                !myParticipant.lastReadAt ||
+                (myParticipant.clearedAt && myParticipant.clearedAt > myParticipant.lastReadAt)
+                  ? myParticipant.clearedAt
+                  : myParticipant.lastReadAt,
+            },
           }),
         },
       });
@@ -1827,16 +1980,17 @@ export class ChatService {
       createdAt: conversation.createdAt,
       lastMessage: lastMessage
         ? {
-          id: lastMessage.id,
-          content: lastMessage.content,
-          type: lastMessage.type,
-          senderId: lastMessage.senderId,
-          senderName: lastMessage.sender.name,
-          createdAt: lastMessage.createdAt,
-        }
+            id: lastMessage.id,
+            content: lastMessage.content,
+            type: lastMessage.type,
+            senderId: lastMessage.senderId,
+            senderName: lastMessage.sender.name,
+            createdAt: lastMessage.createdAt,
+          }
         : null,
       unreadCount,
       isMuted: myParticipant?.isMuted || false,
+      canDelete: true,
     };
 
     if (conversation.type === 'GROUP' || conversation.type === 'CHANNEL') {

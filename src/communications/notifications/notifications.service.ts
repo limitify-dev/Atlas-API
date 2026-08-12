@@ -9,6 +9,7 @@ import {
   NotificationType,
 } from './dto/create-notification.dto';
 import { PushService } from '../push/push.service';
+import { announcementContentToPlainText } from '../announcements/announcement-html';
 
 @Injectable()
 export class NotificationsService {
@@ -457,6 +458,7 @@ export class NotificationsService {
       },
       include: {
         notification: true,
+        announcement: true,
       },
       orderBy: { createdAt: 'desc' },
       take: limit,
@@ -467,17 +469,46 @@ export class NotificationsService {
     });
 
     return {
-      notifications: recipients.map((r) => ({
-        id: r.id,
-        notificationId: r.notificationId,
-        title: r.notification?.title,
-        message: r.notification?.message,
-        type: r.notification?.type,
-        data: r.notification?.data,
-        isRead: r.isRead,
-        readAt: r.readAt,
-        createdAt: r.createdAt,
-      })),
+      notifications: recipients.map((r) => {
+        // A recipient links to EITHER a notification or an announcement. For
+        // announcement recipients `notification` is null, so surface the
+        // announcement's own fields — otherwise the client sees an untitled,
+        // typeless row that renders as a generic "Notification".
+        const ann = r.announcement;
+        const title = r.notification?.title ?? ann?.title ?? null;
+        const message =
+          r.notification?.message ??
+          (ann ? announcementContentToPlainText(ann.content || '').slice(0, 300) : null);
+        const type = r.notification?.type ?? (ann ? 'ANNOUNCEMENT' : null);
+        const data =
+          r.notification?.data ??
+          (ann
+            ? {
+                type: 'announcement',
+                announcementId: ann.id,
+                title: ann.title,
+                content: ann.content || '',
+                imageUrl: ann.imageUrl || '',
+                ctaLabel: ann.ctaLabel || '',
+                ctaType: ann.ctaType || '',
+                ctaUrl: ann.ctaUrl || '',
+                priority: ann.priority,
+                publishedAt: ann.publishedAt?.toISOString() ?? r.createdAt.toISOString(),
+              }
+            : null);
+
+        return {
+          id: r.id,
+          notificationId: r.notificationId,
+          title,
+          message,
+          type,
+          data,
+          isRead: r.isRead,
+          readAt: r.readAt,
+          createdAt: r.createdAt,
+        };
+      }),
       unreadCount,
     };
   }

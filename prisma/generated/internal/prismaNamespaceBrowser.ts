@@ -618,6 +618,8 @@ export const ConversationParticipantScalarFieldEnum = {
   role: 'role',
   joinedAt: 'joinedAt',
   lastReadAt: 'lastReadAt',
+  clearedAt: 'clearedAt',
+  isHidden: 'isHidden',
   isMuted: 'isMuted'
 } as const
 

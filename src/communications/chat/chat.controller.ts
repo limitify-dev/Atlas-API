@@ -83,6 +83,22 @@ export class ChatController {
     );
   }
 
+  @Delete('conversations/:id')
+  @ApiOperation({
+    summary: 'Clear and hide a conversation for the current user',
+  })
+  async deleteConversation(
+    @CurrentUser() user: AuthUser,
+    @Param('id') conversationId: string,
+  ) {
+    return this.chatService.deleteConversation(
+      conversationId,
+      user.id,
+      user.tenantId,
+      user.role,
+    );
+  }
+
   @Get('conversations/:id/messages')
   @ApiOperation({ summary: 'Get messages in a conversation' })
   @ApiQuery({ name: 'cursor', required: false, type: String })
@@ -181,7 +197,12 @@ export class ChatController {
     @Query('q') q: string,
     @Query('conversationId') conversationId?: string,
   ) {
-    return this.chatService.searchMessages(user.id, user.tenantId, q, conversationId);
+    return this.chatService.searchMessages(
+      user.id,
+      user.tenantId,
+      q,
+      conversationId,
+    );
   }
 
   @Get('conversations/:id/media')
@@ -194,7 +215,12 @@ export class ChatController {
     @Query('cursor') cursor?: string,
     @Query('limit') limit: number = 20,
   ) {
-    return this.chatService.getConversationMedia(conversationId, user.id, cursor, limit);
+    return this.chatService.getConversationMedia(
+      conversationId,
+      user.id,
+      cursor,
+      limit,
+    );
   }
 
   // ─── Group Endpoints ───────────────────────────────────────────────
@@ -205,12 +231,7 @@ export class ChatController {
     @CurrentUser() user: AuthUser,
     @Body() dto: CreateGroupDto,
   ) {
-    return this.chatService.createGroup(
-      user.tenantId,
-      user.id,
-      dto,
-      user.role,
-    );
+    return this.chatService.createGroup(user.tenantId, user.id, dto, user.role);
   }
 
   @Post('groups/section')
