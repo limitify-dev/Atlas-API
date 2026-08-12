@@ -107,6 +107,63 @@ generate_prisma_client() {
     fi
 }
 
+# Sentinel file that tells the supervisors to stop relaunching children once
+# the container has been asked to shut down (vs. an ordinary crash).
+STOP_SENTINEL="/tmp/atlas-shutting-down"
+
+# Supervise a single long-running process: start it, and whenever it exits for
+# any reason OTHER than a requested shutdown, restart it after a short backoff.
+# Runs as its own background subshell (one per process), so a crash of one
+# process restarts only that one — the other keeps serving.
+#
+# On container stop, dumb-init forwards TERM to the whole process group; the
+# trap here records the shutdown, forwards TERM to the child for a graceful
+# exit, and the loop then falls through instead of relaunching.
+supervise() {
+    label="$1"
+    shift
+    child=""
+    trap 'touch "$STOP_SENTINEL"; [ -n "$child" ] && kill "$child" 2>/dev/null' TERM INT
+
+    while [ ! -f "$STOP_SENTINEL" ]; do
+        echo "[$label] starting..."
+        "$@" &
+        child=$!
+        wait "$child"
+        code=$?
+        [ -f "$STOP_SENTINEL" ] && break
+        echo "[$label] exited (code $code) — restarting in 3s..."
+        sleep 3
+    done
+    echo "[$label] stopped."
+}
+
+# Run the API and the worker together in one container, each independently
+# supervised (auto-restart on crash). Migrations run once here, same as the
+# api role. Use when you'd rather pay for a single service than a separate
+# worker; for isolation/independent scaling, run 'api' and 'worker' separately.
+run_combined() {
+    rm -f "$STOP_SENTINEL"
+    run_migrations
+    generate_prisma_client
+
+    echo "Starting API + worker in one container (role: all)..."
+    echo "Port: ${PORT:-4000}"
+    echo "Environment: ${NODE_ENV:-production}"
+
+    supervise "api" node dist/src/main.js &
+    sup_api=$!
+    supervise "worker" node dist/src/worker.js &
+    sup_worker=$!
+
+    # Forward container stop to both supervisors (belt-and-suspenders alongside
+    # dumb-init's process-group signalling), then wait for them to wind down.
+    trap 'touch "$STOP_SENTINEL"; kill "$sup_api" "$sup_worker" 2>/dev/null' TERM INT
+
+    wait "$sup_api" "$sup_worker"
+    echo "Both processes stopped — exiting."
+}
+
 # Main execution
 main() {
     # Wait for database to be ready
@@ -131,8 +188,11 @@ main() {
         echo "Starting background worker..."
         echo "Environment: ${NODE_ENV:-production}"
         exec node dist/src/worker.js
+    elif [ "$ROLE" = "all" ]; then
+        # API + worker in one container, each auto-restarted on crash.
+        run_combined
     else
-        echo "Unknown ROLE '$ROLE' — expected 'api' or 'worker'."
+        echo "Unknown ROLE '$ROLE' — expected 'api', 'worker', or 'all'."
         exit 1
     fi
 }
