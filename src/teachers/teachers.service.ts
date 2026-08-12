@@ -824,44 +824,63 @@ export class TeachersService {
     const now = new Date();
     const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const [totalTeachers, activeTeachers, newJoinersThisMonth] =
-      await Promise.all([
-        // Total teachers
-        this.prisma.teacher.count({
-          where: { tenantId },
-        }),
-        // Active teachers (based on User status)
-        this.prisma.teacher.count({
-          where: {
-            tenantId,
-            user: {
-              status: Status.ACTIVE,
-            },
+    const [
+      totalTeachers,
+      activeTeachers,
+      newJoinersThisMonth,
+      maleCount,
+      femaleCount,
+    ] = await Promise.all([
+      // Total teachers
+      this.prisma.teacher.count({
+        where: { tenantId },
+      }),
+      // Active teachers (based on User status)
+      this.prisma.teacher.count({
+        where: {
+          tenantId,
+          user: {
+            status: Status.ACTIVE,
           },
-        }),
-        // New joiners this month
-        this.prisma.teacher.count({
-          where: {
-            tenantId,
-            joiningDate: {
-              gte: firstDayOfMonth,
-            },
+        },
+      }),
+      // New joiners this month
+      this.prisma.teacher.count({
+        where: {
+          tenantId,
+          joiningDate: {
+            gte: firstDayOfMonth,
           },
-        }),
-      ]);
+        },
+      }),
+      // Gender breakdown — surfaced so the list header stays accurate once the
+      // list is server-paginated.
+      this.prisma.teacher.count({ where: { tenantId, gender: Gender.MALE } }),
+      this.prisma.teacher.count({
+        where: { tenantId, gender: Gender.FEMALE },
+      }),
+    ]);
 
-    // Get unique departments count
-    const departments = await this.prisma.teacher.groupBy({
+    // Unique departments (names) — used both for the count and to populate the
+    // list's department filter without loading the whole roster client-side.
+    const departmentGroups = await this.prisma.teacher.groupBy({
       by: ['department'],
       where: { tenantId },
       _count: true,
     });
+    const departments = departmentGroups
+      .map((d) => d.department)
+      .filter((d): d is string => Boolean(d))
+      .sort((a, b) => a.localeCompare(b));
 
     return {
       totalTeachers,
       activeTeachers,
       newJoinersThisMonth,
       departmentsCount: departments.length,
+      male: maleCount,
+      female: femaleCount,
+      departments,
     };
   }
 

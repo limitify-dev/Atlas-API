@@ -23,6 +23,28 @@ import {
 } from '../../domain-events/events';
 import { Prisma } from '../../../prisma/generated/client';
 
+export interface OutstandingInvoiceRow {
+  id: string;
+  feeItemName: string;
+  amountDue: number;
+  amountPaid: number;
+  dueDate: string;
+  status: string;
+  currency: string;
+  parentNote?: string;
+  submissionId?: string;
+}
+export interface StudentOutstandingGroup {
+  studentId: string;
+  studentName: string;
+  classroomName: string;
+  invoices: OutstandingInvoiceRow[];
+  totalDue: number;
+  totalPaid: number;
+  outstanding: number;
+  statusCounts: Record<string, number>;
+}
+
 @Injectable()
 export class InvoicesService {
   constructor(
@@ -224,6 +246,164 @@ export class InvoicesService {
     ]);
 
     return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
+  }
+
+  /**
+   * Aggregated "fee items" — invoices grouped by title — computed entirely in
+   * Postgres. Replaces the old approach where the client fetched every invoice
+   * (auto-paginated) and grouped them in the browser: one indexed GROUP BY now
+   * returns just the per-fee summary rows the UI renders. `invoiceIds` is
+   * array-aggregated so existing row actions (edit / delete / remind) keep
+   * working unchanged.
+   *
+   * Every aggregate is cast to a JSON-safe type on purpose: COUNT(*) is bigint
+   * and amount is numeric, both of which Prisma would otherwise hand back as
+   * BigInt/Decimal — so they're cast to int/float8 here.
+   */
+  async getFeeItems(tenantId: string, archived = false) {
+    return this.prisma.$queryRaw<
+      Array<{
+        name: string;
+        category: string | null;
+        amount: number;
+        currency: string | null;
+        dueDate: Date | null;
+        term: string | null;
+        description: string | null;
+        totalStudents: number;
+        outstandingStudents: number;
+        createdAt: Date;
+        invoiceIds: string[];
+      }>
+    >`
+      SELECT
+        title                                                     AS name,
+        MODE() WITHIN GROUP (ORDER BY category)                   AS category,
+        (array_agg(amount ORDER BY "createdAt" DESC))[1]::float8  AS amount,
+        MODE() WITHIN GROUP (ORDER BY currency)                   AS currency,
+        MODE() WITHIN GROUP (ORDER BY "dueDate")                  AS "dueDate",
+        MODE() WITHIN GROUP (ORDER BY term)                       AS term,
+        (array_agg(description ORDER BY "createdAt" DESC))[1]     AS description,
+        COUNT(*)::int                                            AS "totalStudents",
+        COUNT(*) FILTER (
+          WHERE status::text NOT IN ('PAID', 'CANCELLED')
+        )::int                                                    AS "outstandingStudents",
+        MAX("createdAt")                                          AS "createdAt",
+        array_agg(id::text)                                       AS "invoiceIds"
+      FROM invoices
+      WHERE "tenantId" = ${tenantId}
+        AND ("archivedAt" IS NOT NULL) = ${archived}
+      GROUP BY title
+      ORDER BY MAX("createdAt") DESC
+    `;
+  }
+
+  /**
+   * Per-student outstanding balances — the grouping the finance "outstanding"
+   * page used to build in the browser after auto-paginating every invoice.
+   * Now it's one filtered query grouped server-side: each student with their
+   * (non-cancelled) invoice rows, totals, and per-status counts, sorted by
+   * who owes the most.
+   */
+  async getStudentsOutstanding(
+    tenantId: string,
+    filters: { status?: string; sectionId?: string; gradeId?: string } = {},
+  ) {
+    const where: Prisma.InvoiceWhereInput = { tenantId, archivedAt: null };
+    if (filters.status) where.status = filters.status as InvoiceStatus;
+    if (filters.sectionId || filters.gradeId) {
+      where.student = {};
+      if (filters.sectionId) where.student.sectionId = filters.sectionId;
+      if (filters.gradeId) where.student.gradeId = filters.gradeId;
+    }
+
+    const invoices = await this.prisma.invoice.findMany({
+      where,
+      include: {
+        student: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            grade: { select: { code: true } },
+            section: { select: { name: true } },
+          },
+        },
+        submissions: {
+          select: { id: true, note: true },
+          take: 1,
+          orderBy: { createdAt: 'desc' },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // Mirror the old client `mapApiStatus` so the UI keeps rendering the same
+    // status labels. (No 'Promise' — that comes from payment promises, not
+    // invoices, exactly as before.)
+    const label = (s: InvoiceStatus): string => {
+      switch (s) {
+        case 'PAID':
+          return 'Paid';
+        case 'OVERDUE':
+          return 'Overdue';
+        case 'PARTIALLY_PAID':
+          return 'Partial';
+        case 'PENDING_VERIFICATION':
+          return 'Submitted';
+        default:
+          return 'Pending';
+      }
+    };
+
+    const groups = new Map<string, StudentOutstandingGroup>();
+    for (const inv of invoices) {
+      if (inv.status === 'CANCELLED') continue;
+      const sid = inv.student?.id ?? inv.studentId ?? 'unknown';
+      let g = groups.get(sid);
+      if (!g) {
+        const code = inv.student?.grade?.code ?? '';
+        const section = inv.student?.section?.name ?? '';
+        g = {
+          studentId: sid,
+          studentName: inv.student
+            ? `${inv.student.firstName} ${inv.student.lastName}`
+            : 'Student',
+          classroomName: code || section ? `${code} ${section}`.trim() : '—',
+          invoices: [],
+          totalDue: 0,
+          totalPaid: 0,
+          outstanding: 0,
+          statusCounts: {},
+        };
+        groups.set(sid, g);
+      }
+
+      const amountDue = Number(inv.amount) || 0;
+      const amountPaid = Number(inv.amountPaid) || 0;
+      const st = label(inv.status);
+      g.invoices.push({
+        id: inv.id,
+        feeItemName: inv.title || inv.description || 'Fee',
+        amountDue,
+        amountPaid,
+        dueDate: inv.dueDate ? inv.dueDate.toISOString() : '',
+        status: st,
+        currency: inv.currency || 'RWF',
+        parentNote: inv.submissions[0]?.note ?? undefined,
+        submissionId: inv.submissions[0]?.id ?? undefined,
+      });
+      g.totalDue += amountDue;
+      g.totalPaid += amountPaid;
+      if (st !== 'Paid') g.outstanding += Math.max(0, amountDue - amountPaid);
+      g.statusCounts[st] = (g.statusCounts[st] ?? 0) + 1;
+    }
+
+    return [...groups.values()].sort(
+      (a, b) =>
+        b.outstanding - a.outstanding ||
+        a.studentName.localeCompare(b.studentName),
+    );
   }
 
   async getSummary(tenantId: string) {

@@ -116,6 +116,40 @@ export class InvoicesController {
     return this.invoicesService.getSummary(user.tenantId);
   }
 
+  // Declared before `@Get(':id')` so this static path isn't captured as an id.
+  @Get('fee-items')
+  @Throttle(READ_THROTTLE)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
+  @ApiOperation({
+    summary: 'Aggregated fee items (invoices grouped by title) for the tenant',
+  })
+  feeItems(
+    @CurrentUser() user: AuthUser,
+    @Query('archived') archived?: string,
+  ) {
+    return this.invoicesService.getFeeItems(user.tenantId, archived === 'true');
+  }
+
+  // Declared before `@Get(':id')` so this static path isn't captured as an id.
+  @Get('students/outstanding')
+  @Throttle(READ_THROTTLE)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
+  @ApiOperation({
+    summary: 'Per-student outstanding balances (grouped) for the tenant',
+  })
+  studentsOutstanding(
+    @CurrentUser() user: AuthUser,
+    @Query('status') status?: string,
+    @Query('sectionId') sectionId?: string,
+    @Query('gradeId') gradeId?: string,
+  ) {
+    return this.invoicesService.getStudentsOutstanding(user.tenantId, {
+      status,
+      sectionId,
+      gradeId,
+    });
+  }
+
   @Get('my')
   @Roles(Role.STAFF)
   @ApiOperation({

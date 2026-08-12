@@ -978,32 +978,43 @@ export class StudentsService {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     sevenDaysAgo.setHours(0, 0, 0, 0);
 
-    const [totalEnrolled, newAdmissionsThisMonth, studentsAddedThisWeek] =
-      await Promise.all([
-        // Total enrolled students
-        this.prisma.student.count({
-          where: { tenantId },
-        }),
-        // New admissions this month (by admission date)
-        this.prisma.student.count({
-          where: {
-            tenantId,
-            admissionDate: {
-              gte: firstDayOfMonth,
-            },
+    const [
+      totalEnrolled,
+      newAdmissionsThisMonth,
+      studentsAddedThisWeek,
+      maleCount,
+      femaleCount,
+    ] = await Promise.all([
+      // Total enrolled students
+      this.prisma.student.count({
+        where: { tenantId },
+      }),
+      // New admissions this month (by admission date)
+      this.prisma.student.count({
+        where: {
+          tenantId,
+          admissionDate: {
+            gte: firstDayOfMonth,
           },
-        }),
-        // Students created/added in the last 7 days (by createdAt timestamp)
-        // This is more accurate as it shows when students were actually added to the system
-        this.prisma.student.count({
-          where: {
-            tenantId,
-            createdAt: {
-              gte: sevenDaysAgo,
-            },
+        },
+      }),
+      // Students created/added in the last 7 days (by createdAt timestamp)
+      // This is more accurate as it shows when students were actually added to the system
+      this.prisma.student.count({
+        where: {
+          tenantId,
+          createdAt: {
+            gte: sevenDaysAgo,
           },
-        }),
-      ]);
+        },
+      }),
+      // Gender breakdown — surfaced so the list header's male/female tiles
+      // stay accurate once the list itself is server-paginated.
+      this.prisma.student.count({ where: { tenantId, gender: Gender.MALE } }),
+      this.prisma.student.count({
+        where: { tenantId, gender: Gender.FEMALE },
+      }),
+    ]);
 
     // Since students don't have status field in the database, all enrolled students are considered active
     // Use studentsAddedThisWeek (based on createdAt) for the weekly count
@@ -1016,6 +1027,8 @@ export class StudentsService {
       inactiveStudents: 0,
       suspendedStudents: 0,
       newAdmissionsThisWeek: studentsAddedThisWeek, // Use createdAt for accurate weekly count
+      male: maleCount,
+      female: femaleCount,
     };
   }
 
