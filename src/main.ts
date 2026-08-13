@@ -12,6 +12,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
 import { ValidationPipe } from '@nestjs/common';
+import helmet from 'helmet';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { HttpCacheInterceptor } from './common/interceptors/http-cache.interceptor';
 import { getAllowedOrigins } from './common/config/cors-origins';
@@ -26,6 +27,20 @@ async function bootstrap() {
   // collapses IP-based rate limiting (ThrottlerGuard) into one shared bucket
   // and makes request logs useless.
   app.set('trust proxy', 1);
+
+  // Security headers (HSTS, X-Content-Type-Options, frameguard, etc.). This is
+  // a JSON API, not an HTML app, so:
+  //  - contentSecurityPolicy is disabled — a CSP protects rendered HTML, which
+  //    this API doesn't serve in prod, and its defaults would break the
+  //    dev-only Scalar docs page.
+  //  - crossOriginResourcePolicy is relaxed to 'cross-origin' so the separate
+  //    web frontend origin can consume API responses.
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  );
 
   // Raise the request body limit above Express's 100kb default so bulk JSON
   // endpoints (e.g. bulk invoice creation for hundreds of students, rich

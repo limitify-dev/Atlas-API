@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as Joi from 'joi';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bullmq';
 import { EventEmitterModule } from '@nestjs/event-emitter';
@@ -77,7 +78,40 @@ import { OnboardingRequestsModule } from './onboarding-requests/onboarding-reque
 @Module({
   imports: [
     // ── Bootstrap ──────────────────────────────────────────────────────────────
-    ConfigModule.forRoot({ isGlobal: true }),
+    // Fail fast at boot if a critical env var is missing/malformed, instead of
+    // surfacing as a confusing runtime error on the first request that needs it.
+    // Only the vars the app truly can't run without are required; everything
+    // else is validated-if-present. `allowUnknown` lets through the many other
+    // process env vars (PATH, Render internals, …) untouched.
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test')
+          .default('development'),
+        PORT: Joi.number().default(4000),
+        // Truly required — the app cannot function without these.
+        DATABASE_URL: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
+        // Optional / defaulted elsewhere — validated only for type if present.
+        JWT_ACCESS_EXPIRY: Joi.string().optional(),
+        JWT_REFRESH_EXPIRY: Joi.string().optional(),
+        REDIS_URL: Joi.string().optional(),
+        REDIS_HOST: Joi.string().optional(),
+        REDIS_PORT: Joi.number().optional(),
+        SUPABASE_URL: Joi.string().optional(),
+        SUPABASE_KEY: Joi.string().optional(),
+        TWILIO_ACCOUNT_SID: Joi.string().optional(),
+        TWILIO_AUTH_TOKEN: Joi.string().optional(),
+        TWILIO_PHONE_NUMBER: Joi.string().optional(),
+        CORS_ORIGINS: Joi.string().optional(),
+        FRONTEND_URL: Joi.string().optional(),
+        WEB_URL: Joi.string().optional(),
+        SUPPORT_EMAIL: Joi.string().optional(),
+        SUPPORT_PHONE: Joi.string().optional(),
+      }),
+      validationOptions: { allowUnknown: true, abortEarly: false },
+    }),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot({
       wildcard: false,
