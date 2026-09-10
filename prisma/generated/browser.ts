@@ -100,9 +100,25 @@ export type TimetablePeriod = Prisma.TimetablePeriodModel
 export type TimetableEntry = Prisma.TimetableEntryModel
 /**
  * Model Attendance
- * 
+ * In-class attendance: one row per student per subject per day, marked by the
+ * teacher of that section+subject. Campus presence lives in SchoolEntry.
+ * Legacy rows (pre-split) have null section/subject/teacher/date.
  */
 export type Attendance = Prisma.AttendanceModel
+/**
+ * Model SchoolEntry
+ * Campus check-in / check-out (gate scans, edge devices, manual override).
+ * One row per student per calendar day. The authoritative "on campus" signal.
+ */
+export type SchoolEntry = Prisma.SchoolEntryModel
+/**
+ * Model StudentAttendanceDay
+ * Materialised per-student, per-day attendance cycle. Composed nightly (and
+ * on demand) from SchoolEntry (campus) + Attendance (in-class registers) so
+ * the Students dashboard, triage queue and per-student analytics read one
+ * flat table instead of re-joining. Derived data — safe to delete + rebuild.
+ */
+export type StudentAttendanceDay = Prisma.StudentAttendanceDayModel
 /**
  * Model TeacherAttendance
  * 
@@ -263,6 +279,14 @@ export type ConsultationTeacherOverride = Prisma.ConsultationTeacherOverrideMode
  * 
  */
 export type Device = Prisma.DeviceModel
+/**
+ * Model DeviceScan
+ * Raw device scan audit — every card tap an edge device reports, whether or
+ * not it resolved to a student. The campus-presence effect lives in
+ * SchoolEntry; this table is for device throughput / unmatched-card monitoring
+ * and offline-buffer replay de-duplication.
+ */
+export type DeviceScan = Prisma.DeviceScanModel
 /**
  * Model DeviceLog
  * 

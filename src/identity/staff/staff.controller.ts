@@ -50,6 +50,13 @@ export class StaffController {
     return this.staffService.create(user.tenantId, dto);
   }
 
+  @Post(':id/resend-invite')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Re-send the account-setup invite for a staff member' })
+  resendInvite(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.staffService.resendInvite(user.tenantId, id);
+  }
+
   @Get()
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @ApiOperation({ summary: 'List all staff members' })

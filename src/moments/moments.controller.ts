@@ -15,12 +15,14 @@ import { CurrentUser, AuthUser } from '../auth/decorators/current-user.decorator
 import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { RequireModule } from '../common/module-access/require-module.decorator';
 import { MomentsService } from './moments.service';
 import { CreateMomentDto, MomentFiltersDto, UpdateMomentDto } from './dto';
 
 @ApiTags('Moments')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('connect')
 @Controller('moments')
 export class MomentsController {
   constructor(private readonly momentsService: MomentsService) {}

@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -19,6 +20,8 @@ import {
 
 @Injectable()
 export class StaffService {
+  private readonly logger = new Logger(StaffService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly email: EmailService,
@@ -136,12 +139,72 @@ export class StaffService {
           role: dto.staffRole,
           inviteUrl,
         });
-      } catch {
-        /* non-fatal */
+      } catch (err) {
+        // Non-fatal: the invite link is still valid and resendable, but log it
+        // so a broken SMTP config isn't invisible.
+        this.logger.error(
+          `Staff ${user.id} (${dto.email}) created but invite email failed: ${
+            err instanceof Error ? err.message : err
+          }`,
+        );
       }
     }
 
     return { staff, inviteUrl };
+  }
+
+  /** Re-issue the account-setup invite for a staff member still onboarding. */
+  async resendInvite(tenantId: string, staffId: string) {
+    const staff = await this.prisma.staff.findFirst({
+      where: { id: staffId, tenantId },
+      include: { user: { select: { email: true, status: true } } },
+    });
+    if (!staff) throw new NotFoundException('Staff member not found.');
+    if (!staff.user?.email)
+      throw new BadRequestException('This staff member has no email on file.');
+    if (staff.user.status !== Status.PENDING)
+      throw new BadRequestException(
+        'This staff member has already completed onboarding.',
+      );
+
+    const email = staff.user.email;
+    const name = `${staff.firstName} ${staff.lastName}`;
+
+    // Invalidate any outstanding invites for this email, then issue a fresh one.
+    await this.prisma.adminInvite.updateMany({
+      where: { tenantId, email, status: 'PENDING' },
+      data: { status: 'EXPIRED' },
+    });
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 48);
+    const invite = await this.prisma.adminInvite.create({
+      data: {
+        tenantId,
+        email,
+        name,
+        role: Role.STAFF,
+        expiresAt,
+        status: 'PENDING',
+      },
+    });
+
+    const base =
+      this.config.get<string>('FRONTEND_URL') ?? 'http://localhost:3000';
+    const inviteUrl = `${base.replace(/\/$/, '')}/admin-setup?token=${invite.token}`;
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { name: true },
+    });
+    await this.email.sendStaffInviteEmail({
+      email,
+      name,
+      tenantName: tenant?.name ?? 'your school',
+      department: staff.department ?? undefined,
+      role: staff.staffRole,
+      inviteUrl,
+    });
+
+    return { sent: true, email };
   }
 
   async create(tenantId: string, dto: CreateStaffDto) {

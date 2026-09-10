@@ -16,6 +16,38 @@ export interface TrendDataPoint {
   rate: number;
 }
 
+export interface AttendanceBucket {
+  students: number;
+  present: number;
+  absent: number;
+  late: number;
+  excused: number;
+  records: number;
+  rate: number;
+}
+
+export interface ClassroomGenderRow {
+  sectionId: string;
+  gradeName: string;
+  gradeCode: string;
+  gradeLevel: number;
+  sectionName: string;
+  label: string;
+  overall: AttendanceBucket;
+  male: AttendanceBucket;
+  female: AttendanceBucket;
+}
+
+export interface ClassroomGenderReport {
+  period: { label: string; startDate: string; endDate: string };
+  classrooms: ClassroomGenderRow[];
+  totals: {
+    overall: AttendanceBucket;
+    male: AttendanceBucket;
+    female: AttendanceBucket;
+  };
+}
+
 export interface ClassroomAnalytics {
   sectionId: string;
   sectionName: string;
@@ -169,11 +201,11 @@ export class AttendanceAnalyticsService {
     });
 
     // Get today's stats
-    const todayStats = await this.prisma.attendance.groupBy({
+    const todayStats = await this.prisma.schoolEntry.groupBy({
       by: ['status'],
       where: {
         tenantId,
-        createdAt: { gte: todayStart, lte: todayEnd },
+        date: { gte: todayStart, lte: todayEnd },
       },
       _count: { status: true },
     });
@@ -187,10 +219,10 @@ export class AttendanceAnalyticsService {
     );
 
     // Get attendance for the period
-    const periodAttendance = await this.prisma.attendance.findMany({
+    const periodAttendance = await this.prisma.schoolEntry.findMany({
       where: {
         tenantId,
-        createdAt: { gte: startDate, lte: endDate },
+        date: { gte: startDate, lte: endDate },
       },
       include: {
         student: {
@@ -212,10 +244,10 @@ export class AttendanceAnalyticsService {
     const previousStart = new Date(startDate.getTime() - periodLength);
     const previousEnd = new Date(startDate.getTime() - 1);
 
-    const previousAttendance = await this.prisma.attendance.findMany({
+    const previousAttendance = await this.prisma.schoolEntry.findMany({
       where: {
         tenantId,
-        createdAt: { gte: previousStart, lte: previousEnd },
+        date: { gte: previousStart, lte: previousEnd },
       },
     });
 
@@ -291,12 +323,12 @@ export class AttendanceAnalyticsService {
       customEnd,
     );
 
-    const attendances = await this.prisma.attendance.findMany({
+    const attendances = await this.prisma.schoolEntry.findMany({
       where: {
         tenantId,
-        createdAt: { gte: startDate, lte: endDate },
+        date: { gte: startDate, lte: endDate },
       },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { date: 'asc' },
     });
 
     const totalStudents = await this.prisma.student.count({
@@ -310,7 +342,7 @@ export class AttendanceAnalyticsService {
     > = {};
 
     attendances.forEach((attendance) => {
-      const dateKey = attendance.createdAt.toISOString().split('T')[0];
+      const dateKey = attendance.date.toISOString().split('T')[0];
       if (!dateGroups[dateKey]) {
         dateGroups[dateKey] = { present: 0, absent: 0, late: 0, excused: 0 };
       }
@@ -355,9 +387,9 @@ export class AttendanceAnalyticsService {
         grade: true,
         students: {
           include: {
-            attendances: {
+            schoolEntries: {
               where: {
-                createdAt: { gte: startDate, lte: endDate },
+                date: { gte: startDate, lte: endDate },
               },
             },
           },
@@ -373,7 +405,7 @@ export class AttendanceAnalyticsService {
     const classroomAnalytics: ClassroomAnalytics[] = await Promise.all(
       sections.map(async (section) => {
         const totalStudents = section.students.length;
-        const allAttendances = section.students.flatMap((s) => s.attendances);
+        const allAttendances = section.students.flatMap((s) => s.schoolEntries);
 
         const presentCount = allAttendances.filter(
           (a) => a.status === 'PRESENT',
@@ -395,11 +427,11 @@ export class AttendanceAnalyticsService {
             : 0;
 
         // Get previous period attendance for trend
-        const previousAttendances = await this.prisma.attendance.findMany({
+        const previousAttendances = await this.prisma.schoolEntry.findMany({
           where: {
             tenantId,
             student: { sectionId: section.id },
-            createdAt: { gte: previousStart, lte: previousEnd },
+            date: { gte: previousStart, lte: previousEnd },
           },
         });
 
@@ -435,6 +467,150 @@ export class AttendanceAnalyticsService {
     );
   }
 
+  /**
+   * Per-classroom attendance for a time frame, broken down by gender and
+   * overall. Powers the printable attendance report in atlas.ui.
+   */
+  async getClassroomGenderReport(
+    tenantId: string,
+    period: string = 'month',
+    customStart?: string,
+    customEnd?: string,
+    gradeId?: string,
+  ): Promise<ClassroomGenderReport> {
+    const { startDate, endDate } = this.getDateRange(
+      period,
+      customStart,
+      customEnd,
+    );
+
+    const sections = await this.prisma.section.findMany({
+      where: {
+        tenantId,
+        isActive: true,
+        ...(gradeId ? { gradeId } : {}),
+      },
+      include: {
+        grade: { select: { name: true, code: true, level: true } },
+        students: {
+          select: {
+            id: true,
+            gender: true,
+            schoolEntries: {
+              where: { date: { gte: startDate, lte: endDate } },
+              select: { status: true },
+            },
+          },
+        },
+      },
+    });
+
+    const emptyBucket = (): AttendanceBucket => ({
+      students: 0,
+      present: 0,
+      absent: 0,
+      late: 0,
+      excused: 0,
+      records: 0,
+      rate: 0,
+    });
+
+    const addStudentToBucket = (
+      bucket: AttendanceBucket,
+      attendances: { status: string }[],
+    ) => {
+      bucket.students += 1;
+      for (const a of attendances) {
+        bucket.records += 1;
+        if (a.status === 'PRESENT') bucket.present += 1;
+        else if (a.status === 'ABSENT') bucket.absent += 1;
+        else if (a.status === 'LATE') bucket.late += 1;
+        else if (a.status === 'EXCUSED') bucket.excused += 1;
+      }
+    };
+
+    const finalizeRate = (bucket: AttendanceBucket) => {
+      bucket.rate =
+        bucket.records > 0
+          ? Math.round(((bucket.present + bucket.late) / bucket.records) * 100)
+          : 0;
+      return bucket;
+    };
+
+    const totalOverall = emptyBucket();
+    const totalMale = emptyBucket();
+    const totalFemale = emptyBucket();
+
+    const classrooms: ClassroomGenderRow[] = sections.map((section) => {
+      const overall = emptyBucket();
+      const male = emptyBucket();
+      const female = emptyBucket();
+
+      for (const student of section.students) {
+        addStudentToBucket(overall, student.schoolEntries);
+        addStudentToBucket(totalOverall, student.schoolEntries);
+        if (student.gender === 'MALE') {
+          addStudentToBucket(male, student.schoolEntries);
+          addStudentToBucket(totalMale, student.schoolEntries);
+        } else if (student.gender === 'FEMALE') {
+          addStudentToBucket(female, student.schoolEntries);
+          addStudentToBucket(totalFemale, student.schoolEntries);
+        }
+      }
+
+      const label = `${section.grade.code || section.grade.name} ${section.name}`.trim();
+
+      return {
+        sectionId: section.id,
+        gradeName: section.grade.name,
+        gradeCode: section.grade.code,
+        gradeLevel: section.grade.level,
+        sectionName: section.name,
+        label,
+        overall: finalizeRate(overall),
+        male: finalizeRate(male),
+        female: finalizeRate(female),
+      };
+    });
+
+    classrooms.sort(
+      (a, b) =>
+        a.gradeLevel - b.gradeLevel || a.label.localeCompare(b.label),
+    );
+
+    return {
+      period: {
+        label: this.periodLabel(period, startDate, endDate),
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      },
+      classrooms,
+      totals: {
+        overall: finalizeRate(totalOverall),
+        male: finalizeRate(totalMale),
+        female: finalizeRate(totalFemale),
+      },
+    };
+  }
+
+  private periodLabel(period: string, start: Date, end: Date): string {
+    const map: Record<string, string> = {
+      today: 'Today',
+      week: 'This Week',
+      month: 'This Month',
+      quarter: 'This Quarter',
+      year: 'This Year',
+      custom: 'Custom Range',
+    };
+    const fmt = (d: Date) =>
+      d.toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    return `${map[period] ?? 'This Month'} (${fmt(start)} – ${fmt(end)})`;
+  }
+
   async getStudentAnalytics(
     tenantId: string,
     studentId: string,
@@ -452,18 +628,18 @@ export class AttendanceAnalyticsService {
       where: { tenantId, id: studentId },
       include: {
         section: { include: { grade: true } },
-        attendances: {
+        schoolEntries: {
           where: {
-            createdAt: { gte: startDate, lte: endDate },
+            date: { gte: startDate, lte: endDate },
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { date: "desc" },
         },
       },
     });
 
     if (!student) return null;
 
-    const attendances = student.attendances;
+    const attendances = student.schoolEntries;
     const totalDays = attendances.length;
     const presentDays = attendances.filter(
       (a) => a.status === 'PRESENT',
@@ -486,7 +662,7 @@ export class AttendanceAnalyticsService {
 
     const sortedAttendances = [...attendances].sort(
       (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        new Date(b.date).getTime() - new Date(a.date).getTime(),
     );
 
     for (const att of sortedAttendances) {
@@ -534,14 +710,14 @@ export class AttendanceAnalyticsService {
     // Last absence
     const lastAbsence = attendances.find((a) => a.status === 'ABSENT');
     const lastAbsenceDate = lastAbsence
-      ? lastAbsence.createdAt.toISOString().split('T')[0]
+      ? lastAbsence.date.toISOString().split('T')[0]
       : null;
 
     // Average check-in time
     const checkInTimes = attendances
-      .filter((a) => a.checkInTime)
+      .filter((a) => a.checkInAt)
       .map((a) => {
-        const time = a.checkInTime!;
+        const time = a.checkInAt!;
         return time.getUTCHours() * 60 + time.getUTCMinutes();
       });
 
@@ -557,10 +733,10 @@ export class AttendanceAnalyticsService {
 
     // Attendance history
     const attendanceHistory = attendances.map((a) => ({
-      date: a.createdAt.toISOString().split('T')[0],
+      date: a.date.toISOString().split('T')[0],
       status: a.status,
-      checkInTime: a.checkInTime
-        ? `${String(a.checkInTime.getUTCHours()).padStart(2, '0')}:${String(a.checkInTime.getUTCMinutes()).padStart(2, '0')}`
+      checkInTime: a.checkInAt
+        ? `${String(a.checkInAt.getUTCHours()).padStart(2, '0')}:${String(a.checkInAt.getUTCMinutes()).padStart(2, '0')}`
         : null,
     }));
 
@@ -613,17 +789,17 @@ export class AttendanceAnalyticsService {
       where,
       include: {
         section: { include: { grade: true } },
-        attendances: {
+        schoolEntries: {
           where: {
-            createdAt: { gte: startDate, lte: endDate },
+            date: { gte: startDate, lte: endDate },
           },
-          orderBy: { createdAt: 'desc' },
+          orderBy: { date: "desc" },
         },
       },
     });
 
     return students.map((student) => {
-      const attendances = student.attendances;
+      const attendances = student.schoolEntries;
       const totalDays = attendances.length;
       const presentDays = attendances.filter(
         (a) => a.status === 'PRESENT',
@@ -675,7 +851,7 @@ export class AttendanceAnalyticsService {
         trend: 'stable' as const,
         riskLevel,
         lastAbsenceDate: lastAbsence
-          ? lastAbsence.createdAt.toISOString().split('T')[0]
+          ? lastAbsence.date.toISOString().split('T')[0]
           : null,
         averageCheckInTime: null,
         attendanceHistory: [],
@@ -689,10 +865,10 @@ export class AttendanceAnalyticsService {
   ): Promise<DayOfWeekAnalytics[]> {
     const { startDate, endDate } = this.getDateRange(period);
 
-    const attendances = await this.prisma.attendance.findMany({
+    const attendances = await this.prisma.schoolEntry.findMany({
       where: {
         tenantId,
-        createdAt: { gte: startDate, lte: endDate },
+        date: { gte: startDate, lte: endDate },
       },
     });
 
@@ -712,7 +888,7 @@ export class AttendanceAnalyticsService {
     }
 
     attendances.forEach((att) => {
-      const dayIndex = att.createdAt.getDay();
+      const dayIndex = att.date.getDay();
       dayStats[dayIndex].total++;
       if (att.status === 'PRESENT' || att.status === 'LATE') {
         dayStats[dayIndex].present++;
@@ -749,10 +925,10 @@ export class AttendanceAnalyticsService {
         999,
       );
 
-      const attendances = await this.prisma.attendance.findMany({
+      const attendances = await this.prisma.schoolEntry.findMany({
         where: {
           tenantId,
-          createdAt: { gte: monthStart, lte: monthEnd },
+          date: { gte: monthStart, lte: monthEnd },
         },
       });
 

@@ -14,6 +14,19 @@ import {
 export class PromotionsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * The academic-year string (YYYY-YYYY) an AcademicTimeline row uses.
+   * Prefer the promotion name when it already looks like a year range,
+   * otherwise derive it from the entry year.
+   */
+  static academicYearString(promotion: {
+    name: string;
+    entryYear: number;
+  }): string {
+    if (/^\d{4}-\d{4}$/.test(promotion.name.trim())) return promotion.name.trim();
+    return `${promotion.entryYear}-${promotion.entryYear + 1}`;
+  }
+
   async create(tenantId: string, dto: CreatePromotionDto) {
     const existing = await this.prisma.promotion.findFirst({
       where: { tenantId, name: dto.name },
@@ -100,6 +113,23 @@ export class PromotionsService {
       }
     }
 
+    // Only one academic year may be "open" (isActive) at a time — when this one
+    // is being opened, close every other year for the tenant in the same tx.
+    if (dto.isActive === true) {
+      const [, updated] = await this.prisma.$transaction([
+        this.prisma.promotion.updateMany({
+          where: { tenantId, id: { not: id }, isActive: true },
+          data: { isActive: false },
+        }),
+        this.prisma.promotion.update({
+          where: { id },
+          data: dto,
+          include: { _count: { select: { sections: true, students: true } } },
+        }),
+      ]);
+      return updated;
+    }
+
     return this.prisma.promotion.update({
       where: { id },
       data: dto,
@@ -117,6 +147,20 @@ export class PromotionsService {
     if (promotion._count.sections > 0 || promotion._count.students > 0) {
       throw new ConflictException(
         `Cannot delete promotion: it still has ${promotion._count.sections} classroom(s) and ${promotion._count.students} student(s) assigned to it. Reassign them first.`,
+      );
+    }
+
+    // Block deletion once terms have been created for this academic year.
+    const termCount = await this.prisma.academicTimeline.count({
+      where: {
+        tenantId,
+        type: 'TERM',
+        academicYear: PromotionsService.academicYearString(promotion),
+      },
+    });
+    if (termCount > 0) {
+      throw new ConflictException(
+        `Cannot delete academic year: ${termCount} term(s) have been created for it. Delete the terms first.`,
       );
     }
 

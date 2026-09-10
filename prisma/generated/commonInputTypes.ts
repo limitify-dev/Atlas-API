@@ -335,6 +335,13 @@ export type EnumGenderFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumGenderFilter<$PrismaModel> | $Enums.Gender
 }
 
+export type EnumSchoolProgramNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.SchoolProgram | Prisma.EnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  in?: $Enums.SchoolProgram[] | Prisma.ListEnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.SchoolProgram[] | Prisma.ListEnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumSchoolProgramNullableFilter<$PrismaModel> | $Enums.SchoolProgram | null
+}
+
 export type EnumGenderWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.Gender | Prisma.EnumGenderFieldRefInput<$PrismaModel>
   in?: $Enums.Gender[] | Prisma.ListEnumGenderFieldRefInput<$PrismaModel>
@@ -343,6 +350,16 @@ export type EnumGenderWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumGenderFilter<$PrismaModel>
   _max?: Prisma.NestedEnumGenderFilter<$PrismaModel>
+}
+
+export type EnumSchoolProgramNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SchoolProgram | Prisma.EnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  in?: $Enums.SchoolProgram[] | Prisma.ListEnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.SchoolProgram[] | Prisma.ListEnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumSchoolProgramNullableWithAggregatesFilter<$PrismaModel> | $Enums.SchoolProgram | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSchoolProgramNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSchoolProgramNullableFilter<$PrismaModel>
 }
 
 export type EnumGenderNullableFilter<$PrismaModel = never> = {
@@ -479,6 +496,23 @@ export type EnumAttendanceStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAttendanceStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAttendanceStatusFilter<$PrismaModel>
+}
+
+export type EnumAttendanceMethodNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttendanceMethod | Prisma.EnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  in?: $Enums.AttendanceMethod[] | Prisma.ListEnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.AttendanceMethod[] | Prisma.ListEnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAttendanceMethodNullableFilter<$PrismaModel> | $Enums.AttendanceMethod | null
+}
+
+export type EnumAttendanceMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttendanceMethod | Prisma.EnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  in?: $Enums.AttendanceMethod[] | Prisma.ListEnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.AttendanceMethod[] | Prisma.ListEnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAttendanceMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceMethod | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAttendanceMethodNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAttendanceMethodNullableFilter<$PrismaModel>
 }
 
 export type IntNullableFilter<$PrismaModel = never> = {
@@ -882,6 +916,13 @@ export type EnumDeviceStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumDeviceStatusFilter<$PrismaModel> | $Enums.DeviceStatus
 }
 
+export type EnumDeviceDirectionFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeviceDirection | Prisma.EnumDeviceDirectionFieldRefInput<$PrismaModel>
+  in?: $Enums.DeviceDirection[] | Prisma.ListEnumDeviceDirectionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeviceDirection[] | Prisma.ListEnumDeviceDirectionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeviceDirectionFilter<$PrismaModel> | $Enums.DeviceDirection
+}
+
 export type EnumDeviceTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.DeviceType | Prisma.EnumDeviceTypeFieldRefInput<$PrismaModel>
   in?: $Enums.DeviceType[] | Prisma.ListEnumDeviceTypeFieldRefInput<$PrismaModel>
@@ -900,6 +941,33 @@ export type EnumDeviceStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumDeviceStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumDeviceStatusFilter<$PrismaModel>
+}
+
+export type EnumDeviceDirectionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeviceDirection | Prisma.EnumDeviceDirectionFieldRefInput<$PrismaModel>
+  in?: $Enums.DeviceDirection[] | Prisma.ListEnumDeviceDirectionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeviceDirection[] | Prisma.ListEnumDeviceDirectionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeviceDirectionWithAggregatesFilter<$PrismaModel> | $Enums.DeviceDirection
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDeviceDirectionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDeviceDirectionFilter<$PrismaModel>
+}
+
+export type EnumDeviceScanOutcomeFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeviceScanOutcome | Prisma.EnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  in?: $Enums.DeviceScanOutcome[] | Prisma.ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeviceScanOutcome[] | Prisma.ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeviceScanOutcomeFilter<$PrismaModel> | $Enums.DeviceScanOutcome
+}
+
+export type EnumDeviceScanOutcomeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeviceScanOutcome | Prisma.EnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  in?: $Enums.DeviceScanOutcome[] | Prisma.ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeviceScanOutcome[] | Prisma.ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeviceScanOutcomeWithAggregatesFilter<$PrismaModel> | $Enums.DeviceScanOutcome
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDeviceScanOutcomeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDeviceScanOutcomeFilter<$PrismaModel>
 }
 
 export type EnumLogLevelFilter<$PrismaModel = never> = {
@@ -1654,6 +1722,13 @@ export type NestedEnumGenderFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumGenderFilter<$PrismaModel> | $Enums.Gender
 }
 
+export type NestedEnumSchoolProgramNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.SchoolProgram | Prisma.EnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  in?: $Enums.SchoolProgram[] | Prisma.ListEnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.SchoolProgram[] | Prisma.ListEnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumSchoolProgramNullableFilter<$PrismaModel> | $Enums.SchoolProgram | null
+}
+
 export type NestedEnumGenderWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.Gender | Prisma.EnumGenderFieldRefInput<$PrismaModel>
   in?: $Enums.Gender[] | Prisma.ListEnumGenderFieldRefInput<$PrismaModel>
@@ -1662,6 +1737,16 @@ export type NestedEnumGenderWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumGenderFilter<$PrismaModel>
   _max?: Prisma.NestedEnumGenderFilter<$PrismaModel>
+}
+
+export type NestedEnumSchoolProgramNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SchoolProgram | Prisma.EnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  in?: $Enums.SchoolProgram[] | Prisma.ListEnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.SchoolProgram[] | Prisma.ListEnumSchoolProgramFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumSchoolProgramNullableWithAggregatesFilter<$PrismaModel> | $Enums.SchoolProgram | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSchoolProgramNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSchoolProgramNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumGenderNullableFilter<$PrismaModel = never> = {
@@ -1771,6 +1856,23 @@ export type NestedEnumAttendanceStatusWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAttendanceStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAttendanceStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumAttendanceMethodNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttendanceMethod | Prisma.EnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  in?: $Enums.AttendanceMethod[] | Prisma.ListEnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.AttendanceMethod[] | Prisma.ListEnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAttendanceMethodNullableFilter<$PrismaModel> | $Enums.AttendanceMethod | null
+}
+
+export type NestedEnumAttendanceMethodNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AttendanceMethod | Prisma.EnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  in?: $Enums.AttendanceMethod[] | Prisma.ListEnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.AttendanceMethod[] | Prisma.ListEnumAttendanceMethodFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumAttendanceMethodNullableWithAggregatesFilter<$PrismaModel> | $Enums.AttendanceMethod | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAttendanceMethodNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAttendanceMethodNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumBookStatusFilter<$PrismaModel = never> = {
@@ -2152,6 +2254,13 @@ export type NestedEnumDeviceStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumDeviceStatusFilter<$PrismaModel> | $Enums.DeviceStatus
 }
 
+export type NestedEnumDeviceDirectionFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeviceDirection | Prisma.EnumDeviceDirectionFieldRefInput<$PrismaModel>
+  in?: $Enums.DeviceDirection[] | Prisma.ListEnumDeviceDirectionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeviceDirection[] | Prisma.ListEnumDeviceDirectionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeviceDirectionFilter<$PrismaModel> | $Enums.DeviceDirection
+}
+
 export type NestedEnumDeviceTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.DeviceType | Prisma.EnumDeviceTypeFieldRefInput<$PrismaModel>
   in?: $Enums.DeviceType[] | Prisma.ListEnumDeviceTypeFieldRefInput<$PrismaModel>
@@ -2170,6 +2279,33 @@ export type NestedEnumDeviceStatusWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumDeviceStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumDeviceStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumDeviceDirectionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeviceDirection | Prisma.EnumDeviceDirectionFieldRefInput<$PrismaModel>
+  in?: $Enums.DeviceDirection[] | Prisma.ListEnumDeviceDirectionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeviceDirection[] | Prisma.ListEnumDeviceDirectionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeviceDirectionWithAggregatesFilter<$PrismaModel> | $Enums.DeviceDirection
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDeviceDirectionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDeviceDirectionFilter<$PrismaModel>
+}
+
+export type NestedEnumDeviceScanOutcomeFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeviceScanOutcome | Prisma.EnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  in?: $Enums.DeviceScanOutcome[] | Prisma.ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeviceScanOutcome[] | Prisma.ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeviceScanOutcomeFilter<$PrismaModel> | $Enums.DeviceScanOutcome
+}
+
+export type NestedEnumDeviceScanOutcomeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DeviceScanOutcome | Prisma.EnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  in?: $Enums.DeviceScanOutcome[] | Prisma.ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DeviceScanOutcome[] | Prisma.ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDeviceScanOutcomeWithAggregatesFilter<$PrismaModel> | $Enums.DeviceScanOutcome
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDeviceScanOutcomeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDeviceScanOutcomeFilter<$PrismaModel>
 }
 
 export type NestedEnumLogLevelFilter<$PrismaModel = never> = {

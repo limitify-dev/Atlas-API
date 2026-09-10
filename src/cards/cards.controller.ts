@@ -21,10 +21,16 @@ import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../../prisma/generated/client';
+import { RequireModule } from '../common/module-access/require-module.decorator';
 
 @ApiTags('cards')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.SUPER_ADMIN, Role.ADMIN, Role.STAFF)
+@RequireModule('attendance')
 @Controller('cards')
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}

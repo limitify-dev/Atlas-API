@@ -20,7 +20,11 @@ import { HttpCache } from '../common/decorators/http-cache.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { SubjectsService } from './subjects.service';
-import { CreateSubjectDto, UpdateSubjectDto } from './dto';
+import {
+  BulkCreateSubjectsDto,
+  CreateSubjectDto,
+  UpdateSubjectDto,
+} from './dto';
 
 @ApiTags('Subjects')
 @ApiBearerAuth()
@@ -34,6 +38,16 @@ export class SubjectsController {
   @ApiOperation({ summary: 'Create a subject' })
   create(@CurrentUser() user: AuthUser, @Body() dto: CreateSubjectDto) {
     return this.subjectsService.create(user.tenantId, dto);
+  }
+
+  @Post('bulk')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Bulk-create subjects (skips duplicates, reports errors)' })
+  bulkCreate(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: BulkCreateSubjectsDto,
+  ) {
+    return this.subjectsService.bulkCreate(user.tenantId, dto);
   }
 
   @Get()

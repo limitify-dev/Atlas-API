@@ -24,6 +24,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../../prisma/generated/client';
+import { RequireModule } from '../common/module-access/require-module.decorator';
 import {
   CurrentUser,
   AuthUser,
@@ -32,6 +33,7 @@ import {
 @ApiTags('Combinations')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('academics')
 @Controller('combinations')
 export class CombinationsController {
   constructor(private readonly combinationsService: CombinationsService) {}

@@ -25,6 +25,9 @@ import {
   UpdatePromotionDto,
 } from './dto';
 
+// NOTE: not module-gated. A promotion / cohort ("academic year" container) is
+// foundational school structure every tenant needs to enrol a student —
+// like grades and sections. The Academics *module* is the workflow on top.
 @ApiTags('Promotions')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)

@@ -19,6 +19,8 @@ import { EmailModule } from './email/email.module';
 
 // ─── Cross-cutting ────────────────────────────────────────────────────────────
 import { DomainEventsModule } from './domain-events/domain-events.module';
+import { ModuleAccessModule } from './common/module-access/module-access.module';
+import { ModuleAccessGuard } from './common/module-access/module-access.guard';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { TenantGuard } from './common/guards/tenant.guard';
@@ -48,6 +50,7 @@ import { AcademicsModule } from './academics/academics.module';
 
 // ─── Core Domains ─────────────────────────────────────────────────────────────
 import { AttendanceModule } from './attendance/attendance.module';
+import { SchoolEntryModule } from './school-entry/school-entry.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { ConductModule } from './conduct/conduct.module';
 import { CommunicationsModule } from './communications/communications.module';
@@ -144,6 +147,7 @@ import { OnboardingRequestsModule } from './onboarding-requests/onboarding-reque
 
     // ── Cross-cutting ──────────────────────────────────────────────────────────
     DomainEventsModule, // @Global — no need to re-import in feature modules
+    ModuleAccessModule, // @Global — per-tenant Academics/Finance/Attendance gating
 
     // ── Identity ───────────────────────────────────────────────────────────────
     AuthModule,
@@ -168,6 +172,7 @@ import { OnboardingRequestsModule } from './onboarding-requests/onboarding-reque
 
     // ── Core Domains ───────────────────────────────────────────────────────────
     AttendanceModule,
+    SchoolEntryModule,
     PermissionsModule,
     ConductModule,
     CommunicationsModule,
@@ -195,12 +200,13 @@ import { OnboardingRequestsModule } from './onboarding-requests/onboarding-reque
   providers: [
     AppService,
     LoggingInterceptor,
-    // Global guard chain: Throttle → JWT → Tenant → Roles
+    // Global guard chain: Throttle → JWT → Tenant → Roles → Module access
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: TenantGuard },
     { provide: APP_GUARD, useClass: SubscriptionEnforcementGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
+    { provide: APP_GUARD, useClass: ModuleAccessGuard },
   ],
 })
 export class AppModule {}

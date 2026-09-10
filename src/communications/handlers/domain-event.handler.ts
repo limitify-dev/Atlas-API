@@ -20,6 +20,9 @@ import {
   PermissionApprovedEvent,
   PermissionRejectedEvent,
   ConductRecordCreatedEvent,
+  SchoolEventCreatedEvent,
+  DeviceOfflineEvent,
+  DeviceRecoveredEvent,
 } from '../../domain-events/events';
 import { AttendanceStatus } from '../../../prisma/generated/client';
 
@@ -67,6 +70,36 @@ export class DomainEventHandler {
         studentId: event.studentId,
         status: event.status,
       },
+    );
+  }
+
+  // ─── DEVICES ─────────────────────────────────────────────────────────────────
+
+  @OnEvent(DeviceOfflineEvent.EVENT)
+  async handleDeviceOffline(event: DeviceOfflineEvent) {
+    if (!event.adminUserIds.length) return;
+    const lastSeen = event.lastSeenAt
+      ? `last seen ${event.lastSeenAt.toISOString()}`
+      : 'has never connected';
+    await this.enqueueAndNotify(
+      event.tenantId,
+      event.adminUserIds,
+      'Attendance device offline',
+      `"${event.deviceName}" stopped reporting (${lastSeen}).`,
+      { type: 'device_offline', deviceId: event.deviceId },
+    );
+  }
+
+  @OnEvent(DeviceRecoveredEvent.EVENT)
+  async handleDeviceRecovered(event: DeviceRecoveredEvent) {
+    if (!event.adminUserIds.length) return;
+    const mins = Math.max(1, Math.round(event.offlineForMs / 60000));
+    await this.enqueueAndNotify(
+      event.tenantId,
+      event.adminUserIds,
+      'Attendance device back online',
+      `"${event.deviceName}" is reporting again after ~${mins} min offline.`,
+      { type: 'device_recovered', deviceId: event.deviceId },
     );
   }
 
@@ -394,6 +427,36 @@ export class DomainEventHandler {
         type: 'conduct_record',
         studentId: event.studentId,
         conductType: event.type,
+      },
+    );
+  }
+
+  // ─── SCHOOL EVENTS (CALENDAR) ────────────────────────────────────────────────
+
+  @OnEvent(SchoolEventCreatedEvent.EVENT)
+  async handleSchoolEventCreated(event: SchoolEventCreatedEvent) {
+    if (!event.recipientUserIds.length) return;
+
+    const when = new Date(event.eventDate).toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+    });
+    const title = 'New School Event';
+    const body = event.location
+      ? `${event.title} — ${when} at ${event.location}`
+      : `${event.title} — ${when}`;
+
+    await this.enqueueAndNotify(
+      event.tenantId,
+      event.recipientUserIds,
+      title,
+      body,
+      {
+        type: 'event',
+        eventId: event.eventId,
+        category: event.category,
+        eventDate: event.eventDate,
       },
     );
   }

@@ -53,7 +53,7 @@ export class GradesController {
 
   @Get()
   @HttpCache('private, max-age=30, stale-while-revalidate=120')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Get all grades' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -64,7 +64,7 @@ export class GradesController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF, Role.TEACHER)
   @ApiOperation({ summary: 'Get a grade by ID' })
   @ApiParam({
     name: 'id',

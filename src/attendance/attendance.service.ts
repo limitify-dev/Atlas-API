@@ -7,8 +7,14 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CacheService } from '../common/cache/cache.service';
 import { DomainEventsService } from '../domain-events/domain-events.service';
+import { SchoolEntryService } from '../school-entry/school-entry.service';
 import { AttendanceMarkedEvent } from '../domain-events/events';
-import { AttendanceStatus, Prisma } from '../../prisma/generated/client';
+import {
+  AttendanceStatus,
+  DeviceDirection,
+  DeviceScanOutcome,
+  Prisma,
+} from '../../prisma/generated/client';
 import type { AttendanceWhereInput } from '../../prisma/generated/models/Attendance';
 import type { AttendanceGetPayload } from '../../prisma/generated/models/Attendance';
 import type { StudentGetPayload } from '../../prisma/generated/models/Student';
@@ -32,6 +38,7 @@ export class AttendanceService {
     private readonly prisma: PrismaService,
     private readonly events: DomainEventsService,
     private readonly cache: CacheService,
+    private readonly schoolEntry: SchoolEntryService,
   ) {}
 
   private normalizeSettings(settings: unknown): AttendanceSettings {
@@ -455,29 +462,25 @@ export class AttendanceService {
     const status: AttendanceStatus = isLate ? 'LATE' : 'PRESENT';
 
     if (card.student) {
-      // Student check-in
-      const attendance = await this.markAttendance({
+      // Student campus check-in / check-out → SchoolEntry (not in-class attendance)
+      const entry = await this.schoolEntry.recordScan({
         tenantId: data.tenantId,
         studentId: card.studentId!,
-        status,
-        isManual: false,
-        checkInTime,
-        checkInDateTime: checkInDateTime,
-        remarks: `Auto check-in at ${data.location || 'entrance'}`,
+        at: checkInDateTime,
+        method: 'CARD',
+        location: data.location || 'entrance',
       });
 
-      // Log the card usage
       await this.prisma.cardLog.create({
         data: {
           tenantId: data.tenantId,
           cardId: card.id,
           action: 'SCANNED',
           location: data.location || 'entrance',
-          description: `Student attendance check-in - ${status}`,
+          description: `Student school ${entry.action} - ${entry.status}`,
         },
       });
 
-      // Update card last used
       await this.prisma.card.update({
         where: { id: card.id },
         data: { lastUsedAt: checkInDateTime },
@@ -486,9 +489,10 @@ export class AttendanceService {
       return {
         success: true,
         type: 'student',
-        attendance,
+        attendance: entry,
         checkInTime,
-        status,
+        status: entry.status,
+        action: entry.action,
       };
     } else if (card.teacher) {
       const dayRange = getTenantDayRange(dateEntry, timezone);
@@ -566,6 +570,183 @@ export class AttendanceService {
     throw new BadRequestException(
       'Card is not associated with a student or teacher',
     );
+  }
+
+  /**
+   * Smart-attendance ingest: one card tap reported by an edge device.
+   *
+   * Resolves the card, writes campus presence via SchoolEntry, and records a
+   * raw `DeviceScan` audit row (even for unmatched cards) so the Devices
+   * dashboard can show throughput / unknown-card rate. Idempotent on
+   * `(deviceId, idempotencyKey)` — a replayed buffered scan returns its
+   * original outcome without double-processing.
+   */
+  async recordDeviceScan(input: {
+    tenantId: string;
+    deviceId: string;
+    cardNumber: string;
+    scannedAt: Date;
+    direction?: DeviceDirection;
+    idempotencyKey?: string;
+    location?: string;
+  }): Promise<{
+    outcome: DeviceScanOutcome;
+    action: 'check-in' | 'check-out' | 'noop' | null;
+    student?: { id: string; name: string } | null;
+    scanId: string;
+    duplicate?: boolean;
+  }> {
+    const direction: DeviceDirection = input.direction ?? 'BIDIRECTIONAL';
+
+    if (input.idempotencyKey) {
+      const prior = await this.prisma.deviceScan.findUnique({
+        where: {
+          deviceId_idempotencyKey: {
+            deviceId: input.deviceId,
+            idempotencyKey: input.idempotencyKey,
+          },
+        },
+        select: { id: true, outcome: true, resolvedStudentId: true },
+      });
+      if (prior) {
+        return {
+          outcome: prior.outcome,
+          action: null,
+          scanId: prior.id,
+          duplicate: true,
+        };
+      }
+    }
+
+    const card = await this.prisma.card.findFirst({
+      where: { cardNumber: input.cardNumber, tenantId: input.tenantId },
+      select: { id: true, status: true, studentId: true },
+    });
+
+    let outcome: DeviceScanOutcome;
+    let action: 'check-in' | 'check-out' | 'noop' | null = null;
+    let student: { id: string; name: string } | null = null;
+    let schoolEntryId: string | null = null;
+    let errorReason: string | null = null;
+
+    if (!card) {
+      outcome = 'UNKNOWN_CARD';
+      errorReason = `No card "${input.cardNumber}"`;
+    } else if (card.status !== 'ACTIVE') {
+      outcome = 'INACTIVE_CARD';
+      errorReason = `Card is ${card.status}`;
+    } else if (!card.studentId) {
+      outcome = 'ERROR';
+      errorReason = 'Card is not linked to a student';
+    } else {
+      try {
+        const entry = await this.schoolEntry.recordScan({
+          tenantId: input.tenantId,
+          studentId: card.studentId,
+          at: input.scannedAt,
+          method: 'DEVICE',
+          location: input.location,
+          deviceId: input.deviceId,
+          direction,
+        });
+        schoolEntryId = entry.id;
+        action = entry.action;
+        outcome =
+          entry.action === 'check-in'
+            ? 'CHECK_IN'
+            : entry.action === 'check-out'
+              ? 'CHECK_OUT'
+              : 'DUPLICATE';
+        const s = await this.prisma.student.findUnique({
+          where: { id: card.studentId },
+          select: { firstName: true, lastName: true },
+        });
+        student = {
+          id: card.studentId,
+          name: s ? `${s.firstName} ${s.lastName}`.trim() : 'Student',
+        };
+        await this.prisma.card
+          .update({
+            where: { id: card.id },
+            data: { lastUsedAt: input.scannedAt },
+          })
+          .catch(() => undefined);
+      } catch (err) {
+        outcome = 'ERROR';
+        errorReason =
+          err instanceof Error ? err.message : 'Scan processing failed';
+      }
+    }
+
+    const scan = await this.prisma.deviceScan.create({
+      data: {
+        tenantId: input.tenantId,
+        deviceId: input.deviceId,
+        cardNumber: input.cardNumber,
+        scannedAt: input.scannedAt,
+        direction,
+        outcome,
+        resolvedStudentId: student?.id ?? null,
+        schoolEntryId,
+        idempotencyKey: input.idempotencyKey ?? null,
+        errorReason,
+      },
+      select: { id: true },
+    });
+
+    return { outcome, action, student, scanId: scan.id };
+  }
+
+  /** Offline-buffer replay: many buffered scans in one request. */
+  async recordDeviceScanBatch(input: {
+    tenantId: string;
+    deviceId: string;
+    scans: Array<{
+      cardNumber: string;
+      scannedAt: Date;
+      direction?: DeviceDirection;
+      idempotencyKey?: string;
+      location?: string;
+    }>;
+  }) {
+    const results: Array<{
+      cardNumber: string;
+      scannedAt: string;
+      outcome: DeviceScanOutcome;
+      duplicate: boolean;
+    }> = [];
+    const tally: Record<string, number> = {};
+
+    for (const s of input.scans) {
+      try {
+        const r = await this.recordDeviceScan({
+          tenantId: input.tenantId,
+          deviceId: input.deviceId,
+          cardNumber: s.cardNumber,
+          scannedAt: s.scannedAt,
+          direction: s.direction,
+          idempotencyKey: s.idempotencyKey,
+          location: s.location,
+        });
+        results.push({
+          cardNumber: s.cardNumber,
+          scannedAt: s.scannedAt.toISOString(),
+          outcome: r.outcome,
+          duplicate: !!r.duplicate,
+        });
+        tally[r.outcome] = (tally[r.outcome] ?? 0) + 1;
+      } catch {
+        results.push({
+          cardNumber: s.cardNumber,
+          scannedAt: s.scannedAt.toISOString(),
+          outcome: 'ERROR',
+          duplicate: false,
+        });
+        tally.ERROR = (tally.ERROR ?? 0) + 1;
+      }
+    }
+
+    return { received: input.scans.length, tally, results };
   }
 
   /**

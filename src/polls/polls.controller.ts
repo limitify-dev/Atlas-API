@@ -15,12 +15,14 @@ import { CurrentUser, AuthUser } from '../auth/decorators/current-user.decorator
 import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { RequireModule } from '../common/module-access/require-module.decorator';
 import { PollsService } from './polls.service';
 import { CreatePollDto, PollFiltersDto, VotePollDto } from './dto';
 
 @ApiTags('Polls')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('connect')
 @Controller('polls')
 export class PollsController {
   constructor(private readonly pollsService: PollsService) {}

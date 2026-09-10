@@ -68,6 +68,8 @@ export const ModelName = {
   TimetablePeriod: 'TimetablePeriod',
   TimetableEntry: 'TimetableEntry',
   Attendance: 'Attendance',
+  SchoolEntry: 'SchoolEntry',
+  StudentAttendanceDay: 'StudentAttendanceDay',
   TeacherAttendance: 'TeacherAttendance',
   Book: 'Book',
   BookCopy: 'BookCopy',
@@ -100,6 +102,7 @@ export const ModelName = {
   ConsultationConfig: 'ConsultationConfig',
   ConsultationTeacherOverride: 'ConsultationTeacherOverride',
   Device: 'Device',
+  DeviceScan: 'DeviceScan',
   DeviceLog: 'DeviceLog',
   SystemLog: 'SystemLog',
   AcademicTimeline: 'AcademicTimeline',
@@ -235,6 +238,7 @@ export const StudentScalarFieldEnum = {
   lastName: 'lastName',
   dateOfBirth: 'dateOfBirth',
   gender: 'gender',
+  program: 'program',
   bloodGroup: 'bloodGroup',
   nationality: 'nationality',
   address: 'address',
@@ -422,10 +426,58 @@ export const AttendanceScalarFieldEnum = {
   remarks: 'remarks',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  checkInTime: 'checkInTime'
+  checkInTime: 'checkInTime',
+  sectionId: 'sectionId',
+  subjectId: 'subjectId',
+  teacherId: 'teacherId',
+  date: 'date'
 } as const
 
 export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
+
+
+export const SchoolEntryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentId: 'studentId',
+  date: 'date',
+  status: 'status',
+  checkInAt: 'checkInAt',
+  checkOutAt: 'checkOutAt',
+  checkInMethod: 'checkInMethod',
+  checkOutMethod: 'checkOutMethod',
+  checkInLocation: 'checkInLocation',
+  checkOutLocation: 'checkOutLocation',
+  deviceId: 'deviceId',
+  recordedBy: 'recordedBy',
+  remarks: 'remarks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SchoolEntryScalarFieldEnum = (typeof SchoolEntryScalarFieldEnum)[keyof typeof SchoolEntryScalarFieldEnum]
+
+
+export const StudentAttendanceDayScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentId: 'studentId',
+  date: 'date',
+  campusStatus: 'campusStatus',
+  firstInAt: 'firstInAt',
+  lastOutAt: 'lastOutAt',
+  checkInMethod: 'checkInMethod',
+  periodsExpected: 'periodsExpected',
+  periodsPresent: 'periodsPresent',
+  periodsAbsent: 'periodsAbsent',
+  cycleComplete: 'cycleComplete',
+  truancyFlag: 'truancyFlag',
+  unaccounted: 'unaccounted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudentAttendanceDayScalarFieldEnum = (typeof StudentAttendanceDayScalarFieldEnum)[keyof typeof StudentAttendanceDayScalarFieldEnum]
 
 
 export const TeacherAttendanceScalarFieldEnum = {
@@ -984,7 +1036,14 @@ export const DeviceScalarFieldEnum = {
   apiKeyHash: 'apiKeyHash',
   status: 'status',
   lastSeenAt: 'lastSeenAt',
+  lastHeartbeatAt: 'lastHeartbeatAt',
   ipAddress: 'ipAddress',
+  macAddress: 'macAddress',
+  networkName: 'networkName',
+  firmwareVersion: 'firmwareVersion',
+  expectedOnline: 'expectedOnline',
+  heartbeatIntervalSec: 'heartbeatIntervalSec',
+  direction: 'direction',
   metadata: 'metadata',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
@@ -992,6 +1051,24 @@ export const DeviceScalarFieldEnum = {
 } as const
 
 export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
+
+
+export const DeviceScanScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  deviceId: 'deviceId',
+  cardNumber: 'cardNumber',
+  scannedAt: 'scannedAt',
+  direction: 'direction',
+  outcome: 'outcome',
+  resolvedStudentId: 'resolvedStudentId',
+  schoolEntryId: 'schoolEntryId',
+  idempotencyKey: 'idempotencyKey',
+  errorReason: 'errorReason',
+  createdAt: 'createdAt'
+} as const
+
+export type DeviceScanScalarFieldEnum = (typeof DeviceScanScalarFieldEnum)[keyof typeof DeviceScanScalarFieldEnum]
 
 
 export const DeviceLogScalarFieldEnum = {

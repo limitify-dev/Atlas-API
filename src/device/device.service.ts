@@ -8,9 +8,24 @@ import { PrismaService } from '../prisma/prisma.service';
 import {
   DeviceStatus,
   DeviceType,
+  DeviceDirection,
   Prisma,
 } from '../../prisma/generated/client';
 import * as crypto from 'crypto';
+
+/** A device with no contact for longer than this × heartbeatIntervalSec reads as offline. */
+export const OFFLINE_HEARTBEAT_MULTIPLIER = 2.5;
+
+/** Floor for the offline grace window, so very short intervals still tolerate jitter. */
+export const OFFLINE_MIN_GRACE_MS = 90_000;
+
+/** Milliseconds a device may be silent before the sweep flips it OFFLINE. */
+export function offlineGraceMs(heartbeatIntervalSec: number): number {
+  return Math.max(
+    OFFLINE_MIN_GRACE_MS,
+    heartbeatIntervalSec * 1000 * OFFLINE_HEARTBEAT_MULTIPLIER,
+  );
+}
 
 @Injectable()
 export class DeviceService {
@@ -39,6 +54,8 @@ export class DeviceService {
     deviceType: DeviceType;
     location?: string;
     description?: string;
+    direction?: DeviceDirection;
+    heartbeatIntervalSec?: number;
     createdBy: string;
   }) {
     // Check if device with same name already exists for this tenant
@@ -67,6 +84,8 @@ export class DeviceService {
         deviceType: data.deviceType,
         location: data.location,
         description: data.description,
+        direction: data.direction ?? 'BIDIRECTIONAL',
+        heartbeatIntervalSec: data.heartbeatIntervalSec ?? 60,
         apiKey: apiKeyHash,
         apiKeyHash: apiKeyHash,
         status: 'INACTIVE',
@@ -198,7 +217,12 @@ export class DeviceService {
       location?: string;
       description?: string;
       status?: DeviceStatus;
-      metadata?: any;
+      direction?: DeviceDirection;
+      heartbeatIntervalSec?: number;
+      expectedOnline?: boolean;
+      networkName?: string;
+      lastHeartbeatAt?: Date;
+      metadata?: Prisma.InputJsonValue;
     },
   ) {
     const device = await this.prisma.device.findFirst({
@@ -401,5 +425,104 @@ export class DeviceService {
     ).length;
 
     return stats;
+  }
+
+  /**
+   * Derive the *live* availability of a device from its stored status and how
+   * long it has been silent — so the UI is accurate between offline sweeps.
+   * `ONLINE` = seen within its heartbeat window; `DEGRADED` = silent but still
+   * inside the offline grace period; `OFFLINE` = past the grace period;
+   * `NEVER` = provisioned but never connected. SUSPENDED/INACTIVE pass through.
+   */
+  deriveAvailability(
+    device: {
+      status: DeviceStatus;
+      lastSeenAt: Date | null;
+      heartbeatIntervalSec: number;
+    },
+    now: Date = new Date(),
+  ): 'ONLINE' | 'DEGRADED' | 'OFFLINE' | 'NEVER' | 'SUSPENDED' | 'INACTIVE' {
+    if (device.status === 'SUSPENDED') return 'SUSPENDED';
+    if (device.status === 'INACTIVE') return 'INACTIVE';
+    if (!device.lastSeenAt) return 'NEVER';
+
+    const silentMs = now.getTime() - device.lastSeenAt.getTime();
+    if (silentMs <= device.heartbeatIntervalSec * 1000 * 1.5) return 'ONLINE';
+    if (silentMs <= offlineGraceMs(device.heartbeatIntervalSec))
+      return 'DEGRADED';
+    return 'OFFLINE';
+  }
+
+  /**
+   * Network-availability dashboard for a tenant's devices: per-device live
+   * availability + recent scan throughput, plus a rollup.
+   */
+  async getHealthSummary(tenantId: string) {
+    const now = new Date();
+    const hourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+
+    const devices = await this.prisma.device.findMany({
+      where: { tenantId },
+      orderBy: { name: 'asc' },
+    });
+
+    const scanCounts = await this.prisma.deviceScan.groupBy({
+      by: ['deviceId', 'outcome'],
+      where: { tenantId, scannedAt: { gte: hourAgo } },
+      _count: { _all: true },
+    });
+
+    const perDevice = devices.map((d) => {
+      const rows = scanCounts.filter((s) => s.deviceId === d.id);
+      const scansLastHour = rows.reduce((n, r) => n + r._count._all, 0);
+      const unknownLastHour = rows
+        .filter(
+          (r) => r.outcome === 'UNKNOWN_CARD' || r.outcome === 'INACTIVE_CARD',
+        )
+        .reduce((n, r) => n + r._count._all, 0);
+      return {
+        id: d.id,
+        name: d.name,
+        deviceType: d.deviceType,
+        location: d.location,
+        direction: d.direction,
+        status: d.status,
+        availability: this.deriveAvailability(d, now),
+        lastSeenAt: d.lastSeenAt,
+        lastHeartbeatAt: d.lastHeartbeatAt,
+        secondsSinceSeen: d.lastSeenAt
+          ? Math.round((now.getTime() - d.lastSeenAt.getTime()) / 1000)
+          : null,
+        heartbeatIntervalSec: d.heartbeatIntervalSec,
+        expectedOnline: d.expectedOnline,
+        ipAddress: d.ipAddress,
+        macAddress: d.macAddress,
+        networkName: d.networkName,
+        firmwareVersion: d.firmwareVersion,
+        scansLastHour,
+        unknownCardRateLastHour:
+          scansLastHour > 0
+            ? Math.round((unknownLastHour / scansLastHour) * 100)
+            : 0,
+      };
+    });
+
+    const tally = (a: string) =>
+      perDevice.filter((d) => d.availability === a).length;
+
+    return {
+      generatedAt: now.toISOString(),
+      rollup: {
+        total: perDevice.length,
+        online: tally('ONLINE'),
+        degraded: tally('DEGRADED'),
+        offline: tally('OFFLINE'),
+        neverConnected: tally('NEVER'),
+        suspended: tally('SUSPENDED'),
+        inactive: tally('INACTIVE'),
+        scansLastHour: perDevice.reduce((n, d) => n + d.scansLastHour, 0),
+      },
+      devices: perDevice,
+    };
   }
 }

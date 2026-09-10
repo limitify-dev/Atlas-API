@@ -28,11 +28,16 @@ import * as XLSX from 'xlsx';
 import { AttendanceService } from './attendance.service';
 import { AttendanceAnalyticsService } from './attendance-analytics.service';
 import { TeacherAttendanceAnalyticsService } from './teacher-attendance-analytics.service';
+import { StudentDayService } from './student-day.service';
+import { AttendanceReportService } from './attendance-report.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { RequireModule } from '../common/module-access/require-module.decorator';
 import { Role } from '../../prisma/generated/client';
 import { DeviceApiKeyGuard } from '../device/guards/device-api-key.guard';
+import { Public } from '../auth/decorators/public.decorator';
+import { DeviceScanDto, DeviceScanBatchDto } from '../device/dto';
 import { StaffRoleGuard } from '../common/guards/staff-role.guard';
 import { RequiresStaffRole } from '../common/decorators/staff-role.decorator';
 import { ACADEMICS_STAFF_ROLES } from '../common/constants/staff-roles';
@@ -162,12 +167,15 @@ type StudentReportExportData = {
 };
 
 @ApiTags('Attendance')
+@RequireModule('attendance')
 @Controller('attendance')
 export class AttendanceController {
   constructor(
     private readonly attendanceService: AttendanceService,
     private readonly analyticsService: AttendanceAnalyticsService,
     private readonly teacherAnalyticsService: TeacherAttendanceAnalyticsService,
+    private readonly studentDayService: StudentDayService,
+    private readonly reportService: AttendanceReportService,
   ) {}
 
   @Get('settings')
@@ -287,6 +295,196 @@ export class AttendanceController {
     return this.attendanceService.markBulkAttendance(tenantId, data.records);
   }
 
+  // ─── Student daily cycle & analytics ───────────────────────────────────────
+
+  @Get('students/cohort')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.TEACHER, Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Roster with campus attendance rate and risk flag',
+  })
+  @ApiQuery({ name: 'from', required: false })
+  @ApiQuery({ name: 'to', required: false })
+  @ApiQuery({ name: 'sectionId', required: false })
+  @ApiQuery({ name: 'gradeId', required: false })
+  async studentCohort(
+    @Request() req: AuthUser,
+    @Query('from') from?: string,
+    @Query('to') to?: string,
+    @Query('sectionId') sectionId?: string,
+    @Query('gradeId') gradeId?: string,
+  ) {
+    const now = new Date();
+    const monthAgo = new Date(now.getTime() - 30 * 86_400_000);
+    return this.studentDayService.getCohort(
+      req.user.tenantId,
+      from || monthAgo.toISOString().slice(0, 10),
+      to || now.toISOString().slice(0, 10),
+      { sectionId, gradeId },
+    );
+  }
+
+  @Get('students/:studentId/day')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.TEACHER, Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'One student’s full attendance cycle for a day' })
+  @ApiQuery({ name: 'date', required: false })
+  async studentDay(
+    @Request() req: AuthUser,
+    @Param('studentId') studentId: string,
+    @Query('date') date?: string,
+  ) {
+    return this.studentDayService.getStudentDay(
+      req.user.tenantId,
+      studentId,
+      date || new Date().toISOString().slice(0, 10),
+    );
+  }
+
+  @Get('students/:studentId/profile')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.TEACHER, Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      'Full per-student campus attendance profile — day-by-day trace, ' +
+      'day-of-week / weekly patterns and derived risk signals.',
+  })
+  @ApiQuery({ name: 'from', required: false })
+  @ApiQuery({ name: 'to', required: false })
+  async studentProfile(
+    @Request() req: AuthUser,
+    @Param('studentId') studentId: string,
+    @Query('from') from?: string,
+    @Query('to') to?: string,
+  ) {
+    const now = new Date();
+    const monthAgo = new Date(now.getTime() - 30 * 86_400_000);
+    return this.studentDayService.getStudentProfile(
+      req.user.tenantId,
+      studentId,
+      from || monthAgo.toISOString().slice(0, 10),
+      to || now.toISOString().slice(0, 10),
+    );
+  }
+
+  @Post('students/materialize')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Rebuild the materialised student-day rows for a date range',
+  })
+  async materializeStudentDays(
+    @Request() req: AuthUser,
+    @Body() body: { from?: string; to?: string },
+  ) {
+    const now = new Date();
+    const from =
+      body.from ||
+      new Date(now.getTime() - 7 * 86_400_000).toISOString().slice(0, 10);
+    const to = body.to || now.toISOString().slice(0, 10);
+    return this.studentDayService.materializeRange(req.user.tenantId, from, to);
+  }
+
+  // ─── Excel attendance returns (school + district) ────────────────────────────
+
+  @Get('reports/school')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'School-level daily attendance return (Excel)',
+    description:
+      'One row per classroom for a single day: registered vs reported, by ' +
+      'gender, with per-form subtotals and a grand total.',
+  })
+  @ApiQuery({ name: 'date', required: false })
+  @ApiQuery({ name: 'format', required: false, enum: ['xlsx', 'json'] })
+  async schoolReport(
+    @Request() req: AuthUser,
+    @Res() res: Response,
+    @Query('date') date?: string,
+    @Query('format') format?: string,
+  ) {
+    const dateKey = date || new Date().toISOString().slice(0, 10);
+    if (format === 'json') {
+      res.json(
+        await this.reportService.getSchoolReportModel(
+          req.user.tenantId,
+          dateKey,
+        ),
+      );
+      return;
+    }
+    const buffer = await this.reportService.buildSchoolReport(
+      req.user.tenantId,
+      dateKey,
+    );
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    );
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="school-attendance-${dateKey}.xlsx"`,
+    );
+    res.send(buffer);
+  }
+
+  @Get('reports/district')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'District-level attendance return for this school (Excel)',
+    description:
+      'One sheet per education-level category (Nursery / Primary / Secondary) ' +
+      'carrying this school’s figures, plus a district-summary sheet.',
+  })
+  @ApiQuery({ name: 'date', required: false })
+  @ApiQuery({ name: 'secondary', required: false, enum: ['day', 'boarding'] })
+  @ApiQuery({ name: 'format', required: false, enum: ['xlsx', 'json'] })
+  async districtReport(
+    @Request() req: AuthUser,
+    @Res() res: Response,
+    @Query('date') date?: string,
+    @Query('secondary') secondary?: 'day' | 'boarding',
+    @Query('format') format?: string,
+  ) {
+    const dateKey = date || new Date().toISOString().slice(0, 10);
+    const opts = {
+      secondary:
+        secondary === 'boarding' ? ('boarding' as const) : ('day' as const),
+    };
+    if (format === 'json') {
+      res.json(
+        await this.reportService.getDistrictReportModel(
+          req.user.tenantId,
+          dateKey,
+          opts,
+        ),
+      );
+      return;
+    }
+    const buffer = await this.reportService.buildDistrictReport(
+      req.user.tenantId,
+      dateKey,
+      opts,
+    );
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    );
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="district-attendance-${dateKey}.xlsx"`,
+    );
+    res.send(buffer);
+  }
+
   @Get('records')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -329,6 +527,7 @@ export class AttendanceController {
   }
 
   @Post('auto-checkin')
+  @Public()
   @UseGuards(DeviceApiKeyGuard)
   @ApiSecurity('device-api-key')
   @ApiOperation({
@@ -437,6 +636,7 @@ export class AttendanceController {
    * Processes multiple attendance records from offline storage sync
    */
   @Post('batch')
+  @Public()
   @UseGuards(DeviceApiKeyGuard)
   @ApiSecurity('device-api-key')
   @ApiOperation({
@@ -530,6 +730,60 @@ export class AttendanceController {
       count: data.records.length,
       results,
     };
+  }
+
+  // ─── Smart-attendance ingest (edge device, API-key auth) ─────────────────────
+
+  @Post('scan')
+  @Public()
+  @UseGuards(DeviceApiKeyGuard)
+  @ApiSecurity('device-api-key')
+  @ApiOperation({
+    summary: 'Report one card scan from an edge device',
+    description:
+      'Resolves the card, records campus presence (SchoolEntry) and a raw ' +
+      'DeviceScan audit row. Idempotent on (device, idempotencyKey).',
+  })
+  async deviceScan(
+    @Request() req: { device: { id: string }; tenantId: string },
+    @Body() dto: DeviceScanDto,
+  ) {
+    return this.attendanceService.recordDeviceScan({
+      tenantId: req.tenantId,
+      deviceId: req.device.id,
+      cardNumber: dto.cardNumber,
+      scannedAt: new Date(dto.scannedAt),
+      direction: dto.direction,
+      idempotencyKey: dto.idempotencyKey,
+      location: dto.location,
+    });
+  }
+
+  @Post('scan/batch')
+  @Public()
+  @UseGuards(DeviceApiKeyGuard)
+  @ApiSecurity('device-api-key')
+  @ApiOperation({
+    summary: 'Replay a buffer of offline scans from an edge device',
+    description:
+      'Each scan keeps its original timestamp; duplicates (by idempotencyKey) ' +
+      'are skipped and reported as such.',
+  })
+  async deviceScanBatch(
+    @Request() req: { device: { id: string }; tenantId: string },
+    @Body() dto: DeviceScanBatchDto,
+  ) {
+    return this.attendanceService.recordDeviceScanBatch({
+      tenantId: req.tenantId,
+      deviceId: req.device.id,
+      scans: dto.scans.map((s) => ({
+        cardNumber: s.cardNumber,
+        scannedAt: new Date(s.scannedAt),
+        direction: s.direction,
+        idempotencyKey: s.idempotencyKey,
+        location: s.location,
+      })),
+    });
   }
 
   @Get('report')
@@ -1268,6 +1522,38 @@ export class AttendanceController {
       period || 'month',
       startDate,
       endDate,
+    );
+  }
+
+  @Get('analytics/classroom-report')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Per-classroom attendance report for a time frame',
+    description:
+      'Attendance for each classroom over the selected period, aggregated by gender and overall. Powers the printable report.',
+  })
+  @ApiQuery({ name: 'period', required: false })
+  @ApiQuery({ name: 'startDate', required: false })
+  @ApiQuery({ name: 'endDate', required: false })
+  @ApiQuery({ name: 'gradeId', required: false })
+  async getClassroomReport(
+    @Request() req: AuthUser,
+    @Query('period') period?: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+    @Query('gradeId') gradeId?: string,
+  ) {
+    const effectiveTenantId = req.user.tenantId;
+    if (!effectiveTenantId) {
+      throw new Error('Tenant ID is required');
+    }
+    return this.analyticsService.getClassroomGenderReport(
+      effectiveTenantId,
+      period || 'month',
+      startDate,
+      endDate,
+      gradeId,
     );
   }
 

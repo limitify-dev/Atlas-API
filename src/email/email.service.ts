@@ -21,6 +21,9 @@ export class EmailService {
   private getRequiredEnv(name: string): string {
     const value = this.configService.get<string>(name)?.trim();
     if (!value) {
+      this.logger.error(
+        `Email not sent: ${name} is missing or empty. Set SMTP_HOST, SMTP_USER and SMTP_PASS in the environment.`,
+      );
       throw new InternalServerErrorException(
         `Missing required email configuration: ${name}`,
       );
@@ -76,7 +79,14 @@ export class EmailService {
       pool: true,
       maxConnections: 3,
       maxMessages: 100,
-    }) as nodemailer.Transporter;
+      // Force IPv4. Many mail hosts (e.g. smtp.gmail.com) publish an AAAA
+      // record; on a box without working IPv6 the connect fails with
+      // `EADDRNOTAVAIL` / `ESOCKET` before TLS even starts.
+      family: 4,
+      connectionTimeout: 10_000,
+      greetingTimeout: 10_000,
+      socketTimeout: 20_000,
+    } as nodemailer.TransportOptions) as nodemailer.Transporter;
 
     if (!this.isMailTransporter(transporter)) {
       throw new InternalServerErrorException(
@@ -102,12 +112,15 @@ export class EmailService {
   }
 
   private getFromAddress(): string {
+    const smtpUser = this.getRequiredEnv('SMTP_USER');
     const from = this.configService.get<string>('SMTP_FROM')?.trim();
     if (from) {
+      // A bare display name (no address) is rejected by most SMTP servers —
+      // wrap it around the authenticated user. `Name <addr>` and plain
+      // addresses pass through unchanged.
+      if (!from.includes('@')) return `${from.replace(/[<>"]/g, '')} <${smtpUser}>`;
       return from;
     }
-
-    const smtpUser = this.getRequiredEnv('SMTP_USER');
     return `Atlas <${smtpUser}>`;
   }
 
@@ -254,6 +267,37 @@ export class EmailService {
       `${greeting}`,
       `You have been invited to manage ${params.tenantName} on Atlas School Management.`,
       `Accept your invitation: ${params.inviteUrl}`,
+      'This link expires in 48 hours.',
+    ].join('\n\n');
+
+    await this.sendEmail({ to: params.email, subject, html, text });
+  }
+
+  async sendTeacherInviteEmail(params: {
+    email: string;
+    name?: string;
+    tenantName: string;
+    department?: string;
+    inviteUrl: string;
+  }): Promise<void> {
+    const greeting = params.name ? `Hi ${params.name},` : 'Hello,';
+    const deptLine = params.department
+      ? ` in the <strong>${params.department}</strong> department`
+      : '';
+    const subject = `You've been invited to join ${params.tenantName} on Atlas`;
+    const html = this.buildEmailShell({
+      title: `Welcome to ${params.tenantName}`,
+      subtitle: `You have been added as a teacher${params.department ? ` — ${params.department}` : ''}.`,
+      body: `<p>${greeting}</p>
+             <p>You have been registered as a <strong>teacher</strong>${deptLine} at <strong>${params.tenantName}</strong> on Atlas School Management.</p>
+             <p>Click the button below to set up your account and create your password. This link expires in 48 hours.</p>`,
+      ctaLabel: 'Set Up My Account',
+      ctaUrl: params.inviteUrl,
+    });
+    const text = [
+      `${greeting}`,
+      `You have been registered as a teacher${params.department ? ` in the ${params.department} department` : ''} at ${params.tenantName}.`,
+      `Set up your account: ${params.inviteUrl}`,
       'This link expires in 48 hours.',
     ].join('\n\n');
 

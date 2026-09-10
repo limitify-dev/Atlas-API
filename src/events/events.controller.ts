@@ -15,12 +15,14 @@ import { CurrentUser, AuthUser } from '../auth/decorators/current-user.decorator
 import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { RequireModule } from '../common/module-access/require-module.decorator';
 import { EventsService } from './events.service';
 import { CreateEventDto, EventFiltersDto, UpdateEventDto } from './dto';
 
 @ApiTags('Events')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('connect')
 @Controller('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}

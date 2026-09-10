@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Gender } from '../../../prisma/generated/client';
+import { Gender, SchoolProgram } from '../../../prisma/generated/client';
 import {
   IsString,
   IsEmail,
@@ -7,6 +7,7 @@ import {
   IsDateString,
   IsOptional,
   IsNotEmpty,
+  ValidateIf,
 } from 'class-validator';
 
 export class CreateStudentDto {
@@ -59,6 +60,16 @@ export class CreateStudentDto {
   @IsEnum(Gender)
   @IsNotEmpty()
   gender: Gender;
+
+  @ApiProperty({
+    description: 'Boarding or day scholar ("" clears it)',
+    enum: SchoolProgram,
+    required: false,
+  })
+  @IsOptional()
+  @ValidateIf((o) => o.program !== '' && o.program != null)
+  @IsEnum(SchoolProgram)
+  program?: SchoolProgram | '';
 
   @ApiProperty({
     description: 'Nationality of the student',
@@ -139,30 +150,35 @@ export class CreateStudentDto {
   @IsOptional()
   photoUrl?: string;
 
-  // Parent Information
+  // Parent Information — optional at creation. A parent can be linked later
+  // via POST /students/:id/parents. If any of name/email/phone is provided,
+  // all three are needed to actually create the parent (see StudentsService).
   @ApiProperty({
     description: 'Parent/Guardian name',
     example: 'Jane Doe',
+    required: false,
   })
   @IsString()
-  @IsNotEmpty()
-  parentName: string;
+  @IsOptional()
+  parentName?: string;
 
   @ApiProperty({
     description: 'Parent email',
     example: 'jane.doe@email.com',
+    required: false,
   })
   @IsEmail()
-  @IsNotEmpty()
-  parentEmail: string;
+  @IsOptional()
+  parentEmail?: string;
 
   @ApiProperty({
     description: 'Parent phone',
     example: '+1234567890',
+    required: false,
   })
   @IsString()
-  @IsNotEmpty()
-  parentPhone: string;
+  @IsOptional()
+  parentPhone?: string;
 
   @ApiProperty({
     description: 'Relationship with student',

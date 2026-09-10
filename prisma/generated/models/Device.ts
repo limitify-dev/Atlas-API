@@ -20,8 +20,18 @@ export type DeviceModel = runtime.Types.Result.DefaultSelection<Prisma.$DevicePa
 
 export type AggregateDevice = {
   _count: DeviceCountAggregateOutputType | null
+  _avg: DeviceAvgAggregateOutputType | null
+  _sum: DeviceSumAggregateOutputType | null
   _min: DeviceMinAggregateOutputType | null
   _max: DeviceMaxAggregateOutputType | null
+}
+
+export type DeviceAvgAggregateOutputType = {
+  heartbeatIntervalSec: number | null
+}
+
+export type DeviceSumAggregateOutputType = {
+  heartbeatIntervalSec: number | null
 }
 
 export type DeviceMinAggregateOutputType = {
@@ -35,7 +45,14 @@ export type DeviceMinAggregateOutputType = {
   apiKeyHash: string | null
   status: $Enums.DeviceStatus | null
   lastSeenAt: Date | null
+  lastHeartbeatAt: Date | null
   ipAddress: string | null
+  macAddress: string | null
+  networkName: string | null
+  firmwareVersion: string | null
+  expectedOnline: boolean | null
+  heartbeatIntervalSec: number | null
+  direction: $Enums.DeviceDirection | null
   createdBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,7 +69,14 @@ export type DeviceMaxAggregateOutputType = {
   apiKeyHash: string | null
   status: $Enums.DeviceStatus | null
   lastSeenAt: Date | null
+  lastHeartbeatAt: Date | null
   ipAddress: string | null
+  macAddress: string | null
+  networkName: string | null
+  firmwareVersion: string | null
+  expectedOnline: boolean | null
+  heartbeatIntervalSec: number | null
+  direction: $Enums.DeviceDirection | null
   createdBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -69,7 +93,14 @@ export type DeviceCountAggregateOutputType = {
   apiKeyHash: number
   status: number
   lastSeenAt: number
+  lastHeartbeatAt: number
   ipAddress: number
+  macAddress: number
+  networkName: number
+  firmwareVersion: number
+  expectedOnline: number
+  heartbeatIntervalSec: number
+  direction: number
   metadata: number
   createdBy: number
   createdAt: number
@@ -77,6 +108,14 @@ export type DeviceCountAggregateOutputType = {
   _all: number
 }
 
+
+export type DeviceAvgAggregateInputType = {
+  heartbeatIntervalSec?: true
+}
+
+export type DeviceSumAggregateInputType = {
+  heartbeatIntervalSec?: true
+}
 
 export type DeviceMinAggregateInputType = {
   id?: true
@@ -89,7 +128,14 @@ export type DeviceMinAggregateInputType = {
   apiKeyHash?: true
   status?: true
   lastSeenAt?: true
+  lastHeartbeatAt?: true
   ipAddress?: true
+  macAddress?: true
+  networkName?: true
+  firmwareVersion?: true
+  expectedOnline?: true
+  heartbeatIntervalSec?: true
+  direction?: true
   createdBy?: true
   createdAt?: true
   updatedAt?: true
@@ -106,7 +152,14 @@ export type DeviceMaxAggregateInputType = {
   apiKeyHash?: true
   status?: true
   lastSeenAt?: true
+  lastHeartbeatAt?: true
   ipAddress?: true
+  macAddress?: true
+  networkName?: true
+  firmwareVersion?: true
+  expectedOnline?: true
+  heartbeatIntervalSec?: true
+  direction?: true
   createdBy?: true
   createdAt?: true
   updatedAt?: true
@@ -123,7 +176,14 @@ export type DeviceCountAggregateInputType = {
   apiKeyHash?: true
   status?: true
   lastSeenAt?: true
+  lastHeartbeatAt?: true
   ipAddress?: true
+  macAddress?: true
+  networkName?: true
+  firmwareVersion?: true
+  expectedOnline?: true
+  heartbeatIntervalSec?: true
+  direction?: true
   metadata?: true
   createdBy?: true
   createdAt?: true
@@ -169,6 +229,18 @@ export type DeviceAggregateArgs<ExtArgs extends runtime.Types.Extensions.Interna
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: DeviceAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: DeviceSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: DeviceMinAggregateInputType
@@ -199,6 +271,8 @@ export type DeviceGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   _count?: DeviceCountAggregateInputType | true
+  _avg?: DeviceAvgAggregateInputType
+  _sum?: DeviceSumAggregateInputType
   _min?: DeviceMinAggregateInputType
   _max?: DeviceMaxAggregateInputType
 }
@@ -214,12 +288,21 @@ export type DeviceGroupByOutputType = {
   apiKeyHash: string
   status: $Enums.DeviceStatus
   lastSeenAt: Date | null
+  lastHeartbeatAt: Date | null
   ipAddress: string | null
+  macAddress: string | null
+  networkName: string | null
+  firmwareVersion: string | null
+  expectedOnline: boolean
+  heartbeatIntervalSec: number
+  direction: $Enums.DeviceDirection
   metadata: runtime.JsonValue | null
   createdBy: string
   createdAt: Date
   updatedAt: Date
   _count: DeviceCountAggregateOutputType | null
+  _avg: DeviceAvgAggregateOutputType | null
+  _sum: DeviceSumAggregateOutputType | null
   _min: DeviceMinAggregateOutputType | null
   _max: DeviceMaxAggregateOutputType | null
 }
@@ -253,12 +336,21 @@ export type DeviceWhereInput = {
   apiKeyHash?: Prisma.StringFilter<"Device"> | string
   status?: Prisma.EnumDeviceStatusFilter<"Device"> | $Enums.DeviceStatus
   lastSeenAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  lastHeartbeatAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   ipAddress?: Prisma.StringNullableFilter<"Device"> | string | null
+  macAddress?: Prisma.StringNullableFilter<"Device"> | string | null
+  networkName?: Prisma.StringNullableFilter<"Device"> | string | null
+  firmwareVersion?: Prisma.StringNullableFilter<"Device"> | string | null
+  expectedOnline?: Prisma.BoolFilter<"Device"> | boolean
+  heartbeatIntervalSec?: Prisma.IntFilter<"Device"> | number
+  direction?: Prisma.EnumDeviceDirectionFilter<"Device"> | $Enums.DeviceDirection
   metadata?: Prisma.JsonNullableFilter<"Device">
   createdBy?: Prisma.StringFilter<"Device"> | string
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   logs?: Prisma.DeviceLogListRelationFilter
+  scans?: Prisma.DeviceScanListRelationFilter
+  schoolEntries?: Prisma.SchoolEntryListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }
 
@@ -273,12 +365,21 @@ export type DeviceOrderByWithRelationInput = {
   apiKeyHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastHeartbeatAt?: Prisma.SortOrderInput | Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  macAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  networkName?: Prisma.SortOrderInput | Prisma.SortOrder
+  firmwareVersion?: Prisma.SortOrderInput | Prisma.SortOrder
+  expectedOnline?: Prisma.SortOrder
+  heartbeatIntervalSec?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   logs?: Prisma.DeviceLogOrderByRelationAggregateInput
+  scans?: Prisma.DeviceScanOrderByRelationAggregateInput
+  schoolEntries?: Prisma.SchoolEntryOrderByRelationAggregateInput
   tenant?: Prisma.TenantOrderByWithRelationInput
 }
 
@@ -297,12 +398,21 @@ export type DeviceWhereUniqueInput = Prisma.AtLeast<{
   apiKeyHash?: Prisma.StringFilter<"Device"> | string
   status?: Prisma.EnumDeviceStatusFilter<"Device"> | $Enums.DeviceStatus
   lastSeenAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  lastHeartbeatAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   ipAddress?: Prisma.StringNullableFilter<"Device"> | string | null
+  macAddress?: Prisma.StringNullableFilter<"Device"> | string | null
+  networkName?: Prisma.StringNullableFilter<"Device"> | string | null
+  firmwareVersion?: Prisma.StringNullableFilter<"Device"> | string | null
+  expectedOnline?: Prisma.BoolFilter<"Device"> | boolean
+  heartbeatIntervalSec?: Prisma.IntFilter<"Device"> | number
+  direction?: Prisma.EnumDeviceDirectionFilter<"Device"> | $Enums.DeviceDirection
   metadata?: Prisma.JsonNullableFilter<"Device">
   createdBy?: Prisma.StringFilter<"Device"> | string
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   logs?: Prisma.DeviceLogListRelationFilter
+  scans?: Prisma.DeviceScanListRelationFilter
+  schoolEntries?: Prisma.SchoolEntryListRelationFilter
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
 }, "id" | "apiKey" | "tenantId_name">
 
@@ -317,14 +427,23 @@ export type DeviceOrderByWithAggregationInput = {
   apiKeyHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastHeartbeatAt?: Prisma.SortOrderInput | Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  macAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  networkName?: Prisma.SortOrderInput | Prisma.SortOrder
+  firmwareVersion?: Prisma.SortOrderInput | Prisma.SortOrder
+  expectedOnline?: Prisma.SortOrder
+  heartbeatIntervalSec?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   metadata?: Prisma.SortOrderInput | Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DeviceCountOrderByAggregateInput
+  _avg?: Prisma.DeviceAvgOrderByAggregateInput
   _max?: Prisma.DeviceMaxOrderByAggregateInput
   _min?: Prisma.DeviceMinOrderByAggregateInput
+  _sum?: Prisma.DeviceSumOrderByAggregateInput
 }
 
 export type DeviceScalarWhereWithAggregatesInput = {
@@ -341,7 +460,14 @@ export type DeviceScalarWhereWithAggregatesInput = {
   apiKeyHash?: Prisma.StringWithAggregatesFilter<"Device"> | string
   status?: Prisma.EnumDeviceStatusWithAggregatesFilter<"Device"> | $Enums.DeviceStatus
   lastSeenAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
+  lastHeartbeatAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Device"> | Date | string | null
   ipAddress?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
+  macAddress?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
+  networkName?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
+  firmwareVersion?: Prisma.StringNullableWithAggregatesFilter<"Device"> | string | null
+  expectedOnline?: Prisma.BoolWithAggregatesFilter<"Device"> | boolean
+  heartbeatIntervalSec?: Prisma.IntWithAggregatesFilter<"Device"> | number
+  direction?: Prisma.EnumDeviceDirectionWithAggregatesFilter<"Device"> | $Enums.DeviceDirection
   metadata?: Prisma.JsonNullableWithAggregatesFilter<"Device">
   createdBy?: Prisma.StringWithAggregatesFilter<"Device"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Device"> | Date | string
@@ -358,12 +484,21 @@ export type DeviceCreateInput = {
   apiKeyHash: string
   status?: $Enums.DeviceStatus
   lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
   ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
   logs?: Prisma.DeviceLogCreateNestedManyWithoutDeviceInput
+  scans?: Prisma.DeviceScanCreateNestedManyWithoutDeviceInput
+  schoolEntries?: Prisma.SchoolEntryCreateNestedManyWithoutDeviceInput
   tenant: Prisma.TenantCreateNestedOneWithoutDevicesInput
 }
 
@@ -378,12 +513,21 @@ export type DeviceUncheckedCreateInput = {
   apiKeyHash: string
   status?: $Enums.DeviceStatus
   lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
   ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
   logs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutDeviceInput
+  scans?: Prisma.DeviceScanUncheckedCreateNestedManyWithoutDeviceInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUpdateInput = {
@@ -396,12 +540,21 @@ export type DeviceUpdateInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.DeviceLogUpdateManyWithoutDeviceNestedInput
+  scans?: Prisma.DeviceScanUpdateManyWithoutDeviceNestedInput
+  schoolEntries?: Prisma.SchoolEntryUpdateManyWithoutDeviceNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDevicesNestedInput
 }
 
@@ -416,12 +569,21 @@ export type DeviceUncheckedUpdateInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.DeviceLogUncheckedUpdateManyWithoutDeviceNestedInput
+  scans?: Prisma.DeviceScanUncheckedUpdateManyWithoutDeviceNestedInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateManyInput = {
@@ -435,7 +597,14 @@ export type DeviceCreateManyInput = {
   apiKeyHash: string
   status?: $Enums.DeviceStatus
   lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
   ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy: string
   createdAt?: Date | string
@@ -452,7 +621,14 @@ export type DeviceUpdateManyMutationInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -470,7 +646,14 @@ export type DeviceUncheckedUpdateManyInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -485,6 +668,11 @@ export type DeviceListRelationFilter = {
 
 export type DeviceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type DeviceNullableScalarRelationFilter = {
+  is?: Prisma.DeviceWhereInput | null
+  isNot?: Prisma.DeviceWhereInput | null
 }
 
 export type DeviceTenantIdNameCompoundUniqueInput = {
@@ -503,11 +691,22 @@ export type DeviceCountOrderByAggregateInput = {
   apiKeyHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrder
+  lastHeartbeatAt?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
+  macAddress?: Prisma.SortOrder
+  networkName?: Prisma.SortOrder
+  firmwareVersion?: Prisma.SortOrder
+  expectedOnline?: Prisma.SortOrder
+  heartbeatIntervalSec?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   metadata?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type DeviceAvgOrderByAggregateInput = {
+  heartbeatIntervalSec?: Prisma.SortOrder
 }
 
 export type DeviceMaxOrderByAggregateInput = {
@@ -521,7 +720,14 @@ export type DeviceMaxOrderByAggregateInput = {
   apiKeyHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrder
+  lastHeartbeatAt?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
+  macAddress?: Prisma.SortOrder
+  networkName?: Prisma.SortOrder
+  firmwareVersion?: Prisma.SortOrder
+  expectedOnline?: Prisma.SortOrder
+  heartbeatIntervalSec?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -538,10 +744,21 @@ export type DeviceMinOrderByAggregateInput = {
   apiKeyHash?: Prisma.SortOrder
   status?: Prisma.SortOrder
   lastSeenAt?: Prisma.SortOrder
+  lastHeartbeatAt?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
+  macAddress?: Prisma.SortOrder
+  networkName?: Prisma.SortOrder
+  firmwareVersion?: Prisma.SortOrder
+  expectedOnline?: Prisma.SortOrder
+  heartbeatIntervalSec?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type DeviceSumOrderByAggregateInput = {
+  heartbeatIntervalSec?: Prisma.SortOrder
 }
 
 export type DeviceScalarRelationFilter = {
@@ -591,12 +808,46 @@ export type DeviceUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.DeviceScalarWhereInput | Prisma.DeviceScalarWhereInput[]
 }
 
+export type DeviceCreateNestedOneWithoutSchoolEntriesInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutSchoolEntriesInput, Prisma.DeviceUncheckedCreateWithoutSchoolEntriesInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutSchoolEntriesInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneWithoutSchoolEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutSchoolEntriesInput, Prisma.DeviceUncheckedCreateWithoutSchoolEntriesInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutSchoolEntriesInput
+  upsert?: Prisma.DeviceUpsertWithoutSchoolEntriesInput
+  disconnect?: Prisma.DeviceWhereInput | boolean
+  delete?: Prisma.DeviceWhereInput | boolean
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutSchoolEntriesInput, Prisma.DeviceUpdateWithoutSchoolEntriesInput>, Prisma.DeviceUncheckedUpdateWithoutSchoolEntriesInput>
+}
+
 export type EnumDeviceTypeFieldUpdateOperationsInput = {
   set?: $Enums.DeviceType
 }
 
 export type EnumDeviceStatusFieldUpdateOperationsInput = {
   set?: $Enums.DeviceStatus
+}
+
+export type EnumDeviceDirectionFieldUpdateOperationsInput = {
+  set?: $Enums.DeviceDirection
+}
+
+export type DeviceCreateNestedOneWithoutScansInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutScansInput, Prisma.DeviceUncheckedCreateWithoutScansInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutScansInput
+  connect?: Prisma.DeviceWhereUniqueInput
+}
+
+export type DeviceUpdateOneRequiredWithoutScansNestedInput = {
+  create?: Prisma.XOR<Prisma.DeviceCreateWithoutScansInput, Prisma.DeviceUncheckedCreateWithoutScansInput>
+  connectOrCreate?: Prisma.DeviceCreateOrConnectWithoutScansInput
+  upsert?: Prisma.DeviceUpsertWithoutScansInput
+  connect?: Prisma.DeviceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DeviceUpdateToOneWithWhereWithoutScansInput, Prisma.DeviceUpdateWithoutScansInput>, Prisma.DeviceUncheckedUpdateWithoutScansInput>
 }
 
 export type DeviceCreateNestedOneWithoutLogsInput = {
@@ -623,12 +874,21 @@ export type DeviceCreateWithoutTenantInput = {
   apiKeyHash: string
   status?: $Enums.DeviceStatus
   lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
   ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
   logs?: Prisma.DeviceLogCreateNestedManyWithoutDeviceInput
+  scans?: Prisma.DeviceScanCreateNestedManyWithoutDeviceInput
+  schoolEntries?: Prisma.SchoolEntryCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceUncheckedCreateWithoutTenantInput = {
@@ -641,12 +901,21 @@ export type DeviceUncheckedCreateWithoutTenantInput = {
   apiKeyHash: string
   status?: $Enums.DeviceStatus
   lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
   ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
   logs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutDeviceInput
+  scans?: Prisma.DeviceScanUncheckedCreateNestedManyWithoutDeviceInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutTenantInput = {
@@ -689,11 +958,266 @@ export type DeviceScalarWhereInput = {
   apiKeyHash?: Prisma.StringFilter<"Device"> | string
   status?: Prisma.EnumDeviceStatusFilter<"Device"> | $Enums.DeviceStatus
   lastSeenAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
+  lastHeartbeatAt?: Prisma.DateTimeNullableFilter<"Device"> | Date | string | null
   ipAddress?: Prisma.StringNullableFilter<"Device"> | string | null
+  macAddress?: Prisma.StringNullableFilter<"Device"> | string | null
+  networkName?: Prisma.StringNullableFilter<"Device"> | string | null
+  firmwareVersion?: Prisma.StringNullableFilter<"Device"> | string | null
+  expectedOnline?: Prisma.BoolFilter<"Device"> | boolean
+  heartbeatIntervalSec?: Prisma.IntFilter<"Device"> | number
+  direction?: Prisma.EnumDeviceDirectionFilter<"Device"> | $Enums.DeviceDirection
   metadata?: Prisma.JsonNullableFilter<"Device">
   createdBy?: Prisma.StringFilter<"Device"> | string
   createdAt?: Prisma.DateTimeFilter<"Device"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Device"> | Date | string
+}
+
+export type DeviceCreateWithoutSchoolEntriesInput = {
+  id?: string
+  name: string
+  deviceType: $Enums.DeviceType
+  location?: string | null
+  description?: string | null
+  apiKey: string
+  apiKeyHash: string
+  status?: $Enums.DeviceStatus
+  lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
+  ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logs?: Prisma.DeviceLogCreateNestedManyWithoutDeviceInput
+  scans?: Prisma.DeviceScanCreateNestedManyWithoutDeviceInput
+  tenant: Prisma.TenantCreateNestedOneWithoutDevicesInput
+}
+
+export type DeviceUncheckedCreateWithoutSchoolEntriesInput = {
+  id?: string
+  tenantId: string
+  name: string
+  deviceType: $Enums.DeviceType
+  location?: string | null
+  description?: string | null
+  apiKey: string
+  apiKeyHash: string
+  status?: $Enums.DeviceStatus
+  lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
+  ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutDeviceInput
+  scans?: Prisma.DeviceScanUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutSchoolEntriesInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutSchoolEntriesInput, Prisma.DeviceUncheckedCreateWithoutSchoolEntriesInput>
+}
+
+export type DeviceUpsertWithoutSchoolEntriesInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutSchoolEntriesInput, Prisma.DeviceUncheckedUpdateWithoutSchoolEntriesInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutSchoolEntriesInput, Prisma.DeviceUncheckedCreateWithoutSchoolEntriesInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutSchoolEntriesInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutSchoolEntriesInput, Prisma.DeviceUncheckedUpdateWithoutSchoolEntriesInput>
+}
+
+export type DeviceUpdateWithoutSchoolEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKey?: Prisma.StringFieldUpdateOperationsInput | string
+  apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.DeviceLogUpdateManyWithoutDeviceNestedInput
+  scans?: Prisma.DeviceScanUpdateManyWithoutDeviceNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutDevicesNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutSchoolEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKey?: Prisma.StringFieldUpdateOperationsInput | string
+  apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.DeviceLogUncheckedUpdateManyWithoutDeviceNestedInput
+  scans?: Prisma.DeviceScanUncheckedUpdateManyWithoutDeviceNestedInput
+}
+
+export type DeviceCreateWithoutScansInput = {
+  id?: string
+  name: string
+  deviceType: $Enums.DeviceType
+  location?: string | null
+  description?: string | null
+  apiKey: string
+  apiKeyHash: string
+  status?: $Enums.DeviceStatus
+  lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
+  ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logs?: Prisma.DeviceLogCreateNestedManyWithoutDeviceInput
+  schoolEntries?: Prisma.SchoolEntryCreateNestedManyWithoutDeviceInput
+  tenant: Prisma.TenantCreateNestedOneWithoutDevicesInput
+}
+
+export type DeviceUncheckedCreateWithoutScansInput = {
+  id?: string
+  tenantId: string
+  name: string
+  deviceType: $Enums.DeviceType
+  location?: string | null
+  description?: string | null
+  apiKey: string
+  apiKeyHash: string
+  status?: $Enums.DeviceStatus
+  lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
+  ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  logs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutDeviceInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedCreateNestedManyWithoutDeviceInput
+}
+
+export type DeviceCreateOrConnectWithoutScansInput = {
+  where: Prisma.DeviceWhereUniqueInput
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutScansInput, Prisma.DeviceUncheckedCreateWithoutScansInput>
+}
+
+export type DeviceUpsertWithoutScansInput = {
+  update: Prisma.XOR<Prisma.DeviceUpdateWithoutScansInput, Prisma.DeviceUncheckedUpdateWithoutScansInput>
+  create: Prisma.XOR<Prisma.DeviceCreateWithoutScansInput, Prisma.DeviceUncheckedCreateWithoutScansInput>
+  where?: Prisma.DeviceWhereInput
+}
+
+export type DeviceUpdateToOneWithWhereWithoutScansInput = {
+  where?: Prisma.DeviceWhereInput
+  data: Prisma.XOR<Prisma.DeviceUpdateWithoutScansInput, Prisma.DeviceUncheckedUpdateWithoutScansInput>
+}
+
+export type DeviceUpdateWithoutScansInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKey?: Prisma.StringFieldUpdateOperationsInput | string
+  apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.DeviceLogUpdateManyWithoutDeviceNestedInput
+  schoolEntries?: Prisma.SchoolEntryUpdateManyWithoutDeviceNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutDevicesNestedInput
+}
+
+export type DeviceUncheckedUpdateWithoutScansInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  deviceType?: Prisma.EnumDeviceTypeFieldUpdateOperationsInput | $Enums.DeviceType
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apiKey?: Prisma.StringFieldUpdateOperationsInput | string
+  apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
+  lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.DeviceLogUncheckedUpdateManyWithoutDeviceNestedInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateWithoutLogsInput = {
@@ -706,11 +1230,20 @@ export type DeviceCreateWithoutLogsInput = {
   apiKeyHash: string
   status?: $Enums.DeviceStatus
   lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
   ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  scans?: Prisma.DeviceScanCreateNestedManyWithoutDeviceInput
+  schoolEntries?: Prisma.SchoolEntryCreateNestedManyWithoutDeviceInput
   tenant: Prisma.TenantCreateNestedOneWithoutDevicesInput
 }
 
@@ -725,11 +1258,20 @@ export type DeviceUncheckedCreateWithoutLogsInput = {
   apiKeyHash: string
   status?: $Enums.DeviceStatus
   lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
   ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  scans?: Prisma.DeviceScanUncheckedCreateNestedManyWithoutDeviceInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedCreateNestedManyWithoutDeviceInput
 }
 
 export type DeviceCreateOrConnectWithoutLogsInput = {
@@ -758,11 +1300,20 @@ export type DeviceUpdateWithoutLogsInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scans?: Prisma.DeviceScanUpdateManyWithoutDeviceNestedInput
+  schoolEntries?: Prisma.SchoolEntryUpdateManyWithoutDeviceNestedInput
   tenant?: Prisma.TenantUpdateOneRequiredWithoutDevicesNestedInput
 }
 
@@ -777,11 +1328,20 @@ export type DeviceUncheckedUpdateWithoutLogsInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  scans?: Prisma.DeviceScanUncheckedUpdateManyWithoutDeviceNestedInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceCreateManyTenantInput = {
@@ -794,7 +1354,14 @@ export type DeviceCreateManyTenantInput = {
   apiKeyHash: string
   status?: $Enums.DeviceStatus
   lastSeenAt?: Date | string | null
+  lastHeartbeatAt?: Date | string | null
   ipAddress?: string | null
+  macAddress?: string | null
+  networkName?: string | null
+  firmwareVersion?: string | null
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: number
+  direction?: $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy: string
   createdAt?: Date | string
@@ -811,12 +1378,21 @@ export type DeviceUpdateWithoutTenantInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.DeviceLogUpdateManyWithoutDeviceNestedInput
+  scans?: Prisma.DeviceScanUpdateManyWithoutDeviceNestedInput
+  schoolEntries?: Prisma.SchoolEntryUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateWithoutTenantInput = {
@@ -829,12 +1405,21 @@ export type DeviceUncheckedUpdateWithoutTenantInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   logs?: Prisma.DeviceLogUncheckedUpdateManyWithoutDeviceNestedInput
+  scans?: Prisma.DeviceScanUncheckedUpdateManyWithoutDeviceNestedInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedUpdateManyWithoutDeviceNestedInput
 }
 
 export type DeviceUncheckedUpdateManyWithoutTenantInput = {
@@ -847,7 +1432,14 @@ export type DeviceUncheckedUpdateManyWithoutTenantInput = {
   apiKeyHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDeviceStatusFieldUpdateOperationsInput | $Enums.DeviceStatus
   lastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastHeartbeatAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  networkName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  firmwareVersion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  expectedOnline?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heartbeatIntervalSec?: Prisma.IntFieldUpdateOperationsInput | number
+  direction?: Prisma.EnumDeviceDirectionFieldUpdateOperationsInput | $Enums.DeviceDirection
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -861,10 +1453,14 @@ export type DeviceUncheckedUpdateManyWithoutTenantInput = {
 
 export type DeviceCountOutputType = {
   logs: number
+  scans: number
+  schoolEntries: number
 }
 
 export type DeviceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   logs?: boolean | DeviceCountOutputTypeCountLogsArgs
+  scans?: boolean | DeviceCountOutputTypeCountScansArgs
+  schoolEntries?: boolean | DeviceCountOutputTypeCountSchoolEntriesArgs
 }
 
 /**
@@ -884,6 +1480,20 @@ export type DeviceCountOutputTypeCountLogsArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.DeviceLogWhereInput
 }
 
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountScansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DeviceScanWhereInput
+}
+
+/**
+ * DeviceCountOutputType without action
+ */
+export type DeviceCountOutputTypeCountSchoolEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SchoolEntryWhereInput
+}
+
 
 export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -896,12 +1506,21 @@ export type DeviceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   apiKeyHash?: boolean
   status?: boolean
   lastSeenAt?: boolean
+  lastHeartbeatAt?: boolean
   ipAddress?: boolean
+  macAddress?: boolean
+  networkName?: boolean
+  firmwareVersion?: boolean
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: boolean
+  direction?: boolean
   metadata?: boolean
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   logs?: boolean | Prisma.Device$logsArgs<ExtArgs>
+  scans?: boolean | Prisma.Device$scansArgs<ExtArgs>
+  schoolEntries?: boolean | Prisma.Device$schoolEntriesArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.DeviceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["device"]>
@@ -917,7 +1536,14 @@ export type DeviceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   apiKeyHash?: boolean
   status?: boolean
   lastSeenAt?: boolean
+  lastHeartbeatAt?: boolean
   ipAddress?: boolean
+  macAddress?: boolean
+  networkName?: boolean
+  firmwareVersion?: boolean
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: boolean
+  direction?: boolean
   metadata?: boolean
   createdBy?: boolean
   createdAt?: boolean
@@ -936,7 +1562,14 @@ export type DeviceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   apiKeyHash?: boolean
   status?: boolean
   lastSeenAt?: boolean
+  lastHeartbeatAt?: boolean
   ipAddress?: boolean
+  macAddress?: boolean
+  networkName?: boolean
+  firmwareVersion?: boolean
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: boolean
+  direction?: boolean
   metadata?: boolean
   createdBy?: boolean
   createdAt?: boolean
@@ -955,16 +1588,25 @@ export type DeviceSelectScalar = {
   apiKeyHash?: boolean
   status?: boolean
   lastSeenAt?: boolean
+  lastHeartbeatAt?: boolean
   ipAddress?: boolean
+  macAddress?: boolean
+  networkName?: boolean
+  firmwareVersion?: boolean
+  expectedOnline?: boolean
+  heartbeatIntervalSec?: boolean
+  direction?: boolean
   metadata?: boolean
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DeviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "deviceType" | "location" | "description" | "apiKey" | "apiKeyHash" | "status" | "lastSeenAt" | "ipAddress" | "metadata" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["device"]>
+export type DeviceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "name" | "deviceType" | "location" | "description" | "apiKey" | "apiKeyHash" | "status" | "lastSeenAt" | "lastHeartbeatAt" | "ipAddress" | "macAddress" | "networkName" | "firmwareVersion" | "expectedOnline" | "heartbeatIntervalSec" | "direction" | "metadata" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["device"]>
 export type DeviceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   logs?: boolean | Prisma.Device$logsArgs<ExtArgs>
+  scans?: boolean | Prisma.Device$scansArgs<ExtArgs>
+  schoolEntries?: boolean | Prisma.Device$schoolEntriesArgs<ExtArgs>
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.DeviceCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -979,6 +1621,8 @@ export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Device"
   objects: {
     logs: Prisma.$DeviceLogPayload<ExtArgs>[]
+    scans: Prisma.$DeviceScanPayload<ExtArgs>[]
+    schoolEntries: Prisma.$SchoolEntryPayload<ExtArgs>[]
     tenant: Prisma.$TenantPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -992,7 +1636,23 @@ export type $DevicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     apiKeyHash: string
     status: $Enums.DeviceStatus
     lastSeenAt: Date | null
+    lastHeartbeatAt: Date | null
     ipAddress: string | null
+    macAddress: string | null
+    networkName: string | null
+    firmwareVersion: string | null
+    /**
+     * Whether this device is expected to stay online (drives the offline sweep).
+     */
+    expectedOnline: boolean
+    /**
+     * Seconds between heartbeats; a device is OFFLINE after ~2× this with no contact.
+     */
+    heartbeatIntervalSec: number
+    /**
+     * Which side of the gate this device sits on. BIDIRECTIONAL = infer from scans.
+     */
+    direction: $Enums.DeviceDirection
     metadata: runtime.JsonValue | null
     createdBy: string
     createdAt: Date
@@ -1392,6 +2052,8 @@ readonly fields: DeviceFieldRefs;
 export interface Prisma__DeviceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   logs<T extends Prisma.Device$logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  scans<T extends Prisma.Device$scansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$scansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DeviceScanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  schoolEntries<T extends Prisma.Device$schoolEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Device$schoolEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SchoolEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tenant<T extends Prisma.TenantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TenantDefaultArgs<ExtArgs>>): Prisma.Prisma__TenantClient<runtime.Types.Result.GetResult<Prisma.$TenantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1432,7 +2094,14 @@ export interface DeviceFieldRefs {
   readonly apiKeyHash: Prisma.FieldRef<"Device", 'String'>
   readonly status: Prisma.FieldRef<"Device", 'DeviceStatus'>
   readonly lastSeenAt: Prisma.FieldRef<"Device", 'DateTime'>
+  readonly lastHeartbeatAt: Prisma.FieldRef<"Device", 'DateTime'>
   readonly ipAddress: Prisma.FieldRef<"Device", 'String'>
+  readonly macAddress: Prisma.FieldRef<"Device", 'String'>
+  readonly networkName: Prisma.FieldRef<"Device", 'String'>
+  readonly firmwareVersion: Prisma.FieldRef<"Device", 'String'>
+  readonly expectedOnline: Prisma.FieldRef<"Device", 'Boolean'>
+  readonly heartbeatIntervalSec: Prisma.FieldRef<"Device", 'Int'>
+  readonly direction: Prisma.FieldRef<"Device", 'DeviceDirection'>
   readonly metadata: Prisma.FieldRef<"Device", 'Json'>
   readonly createdBy: Prisma.FieldRef<"Device", 'String'>
   readonly createdAt: Prisma.FieldRef<"Device", 'DateTime'>
@@ -1854,6 +2523,54 @@ export type Device$logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.DeviceLogScalarFieldEnum | Prisma.DeviceLogScalarFieldEnum[]
+}
+
+/**
+ * Device.scans
+ */
+export type Device$scansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DeviceScan
+   */
+  select?: Prisma.DeviceScanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DeviceScan
+   */
+  omit?: Prisma.DeviceScanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DeviceScanInclude<ExtArgs> | null
+  where?: Prisma.DeviceScanWhereInput
+  orderBy?: Prisma.DeviceScanOrderByWithRelationInput | Prisma.DeviceScanOrderByWithRelationInput[]
+  cursor?: Prisma.DeviceScanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DeviceScanScalarFieldEnum | Prisma.DeviceScanScalarFieldEnum[]
+}
+
+/**
+ * Device.schoolEntries
+ */
+export type Device$schoolEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SchoolEntry
+   */
+  select?: Prisma.SchoolEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SchoolEntry
+   */
+  omit?: Prisma.SchoolEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SchoolEntryInclude<ExtArgs> | null
+  where?: Prisma.SchoolEntryWhereInput
+  orderBy?: Prisma.SchoolEntryOrderByWithRelationInput | Prisma.SchoolEntryOrderByWithRelationInput[]
+  cursor?: Prisma.SchoolEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SchoolEntryScalarFieldEnum | Prisma.SchoolEntryScalarFieldEnum[]
 }
 
 /**

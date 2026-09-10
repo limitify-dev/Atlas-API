@@ -29,6 +29,7 @@ import {
   AuthUser,
 } from '../../common/decorators/current-user.decorator';
 import { Role } from '../../../prisma/generated/client';
+import { RequireModule } from '../../common/module-access/require-module.decorator';
 import { AnnouncementsService } from './announcements.service';
 import {
   AnnouncementFiltersDto,
@@ -39,6 +40,7 @@ import {
 @ApiTags('Announcements')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@RequireModule('connect')
 @Controller('announcements')
 export class AnnouncementsController {
   constructor(private readonly announcementsService: AnnouncementsService) {}

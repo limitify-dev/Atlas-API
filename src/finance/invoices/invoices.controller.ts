@@ -20,6 +20,7 @@ import {
   AuthUser,
 } from '../../auth/decorators/current-user.decorator';
 import { Role } from '../../../prisma/generated/client';
+import { RequireModule } from '../../common/module-access/require-module.decorator';
 import { InvoicesService } from './invoices.service';
 import {
   BulkCreateInvoiceDto,
@@ -35,6 +36,7 @@ const READ_THROTTLE = { default: { limit: 200, ttl: 60_000 } };
 @ApiTags('Finance — Invoices')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('finance')
 @Controller('finance/invoices')
 export class InvoicesController {
   constructor(private readonly invoicesService: InvoicesService) {}

@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { SupabaseService } from 'src/common/supabase/supabase.service';
+import { ConversationType } from '../../prisma/generated/client';
 import { CreateTenantDto, UpdateTenantDto } from './dto';
 
 @Injectable()
@@ -176,7 +177,9 @@ export class TenantsService {
           const { data: urlData } = this.supabase.client.storage
             .from('atlas-profiles')
             .getPublicUrl(filePath);
-          logoUrl = urlData.publicUrl;
+          // Stable file path → unchanging URL; a version token busts browser /
+          // RN <Image> / CDN caches so the new logo actually shows.
+          logoUrl = `${urlData.publicUrl}?v=${Date.now()}`;
         }
       } catch (uploadErr) {
         console.error(
@@ -198,13 +201,36 @@ export class TenantsService {
       updateData.maxTeachers = Number(updateData.maxTeachers);
     }
 
-    return await this.prisma.tenant.update({
+    const updated = await this.prisma.tenant.update({
       where: { id },
       data: {
         ...updateData,
         ...(logoUrl && { logo: logoUrl }),
       },
     });
+
+    // Group/channel conversation avatars are denormalised copies of the tenant
+    // logo (set at creation time — there's no per-group custom avatar). When the
+    // logo changes, re-point every group/channel avatar so they adapt too.
+    const newLogo = logoUrl ?? updateTenantDto.logo;
+    if (newLogo) {
+      await this.prisma.conversation
+        .updateMany({
+          where: {
+            tenantId: id,
+            type: { in: [ConversationType.GROUP, ConversationType.CHANNEL] },
+          },
+          data: { avatar: newLogo },
+        })
+        .catch((err) =>
+          console.error(
+            `Failed to sync group avatars for tenant ${id}:`,
+            err,
+          ),
+        );
+    }
+
+    return updated;
   }
 
   /**

@@ -19,6 +19,7 @@ import {
 import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { RequireModule } from '../common/module-access/require-module.decorator';
 import { TimetableService } from './timetable.service';
 import {
   BulkSetPeriodsDto,
@@ -32,6 +33,7 @@ import {
 @ApiTags('Timetable')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('academics')
 @Controller('timetable')
 export class TimetableController {
   constructor(private readonly timetableService: TimetableService) {}

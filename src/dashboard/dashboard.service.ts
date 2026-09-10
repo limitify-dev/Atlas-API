@@ -33,10 +33,25 @@ export class DashboardService {
       new Date(todayRange.start.getTime() - 1),
       timezone,
     );
-    const today = todayRange.start;
-    const tomorrow = todayRange.end;
-    const yesterday = yesterdayRange.start;
-    const weekAgo = new Date(today.getTime() - 7 * 86_400_000);
+    // `SchoolEntry.date` is a `@db.Date` column: every row is stored at
+    // UTC-midnight of the tenant-local calendar day. Query it with UTC-midnight
+    // boundaries derived from the tenant-local date key — NOT the offset-shifted
+    // instants in `todayRange`, which a date-only column truncates to the wrong
+    // day for any non-UTC tenant.
+    const dayStart = new Date(`${todayRange.dateKey}T00:00:00.000Z`);
+    const tomorrow = new Date(dayStart);
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+    const yesterday = new Date(dayStart);
+    yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+    const weekAgo = new Date(dayStart);
+    weekAgo.setUTCDate(weekAgo.getUTCDate() - 7);
+    const monthStart = new Date(dayStart);
+    monthStart.setUTCDate(monthStart.getUTCDate() - 30);
+    const today = dayStart;
+    // Instant range (real timestamps like `checkInAt`) still uses the tenant's
+    // actual local-day boundaries.
+    const todayInstantStart = todayRange.start;
+    const todayInstantEnd = todayRange.end;
 
     const [
       totalStudents,
@@ -65,6 +80,12 @@ export class DashboardService {
       recentAttendance,
       // Recent permissions
       recentPermissions,
+      // Live campus headcount (checked in, not yet checked out)
+      onCampusNow,
+      // 30-day chronic-absence cohort inputs
+      month30DayGroups,
+      present30ByStudent,
+      any30ByStudent,
     ] = await Promise.all([
       // Core counts
       this.prisma.student.count({ where: { tenantId } }),
@@ -72,32 +93,33 @@ export class DashboardService {
       this.prisma.user.count({ where: { tenantId } }),
       this.prisma.teacher.count({ where: { tenantId } }),
 
-      // Today's attendance
-      this.prisma.attendance.count({
+      // Today's campus attendance (SchoolEntry — the "on campus" signal).
+      // "Attending" = present OR late.
+      this.prisma.schoolEntry.count({
         where: {
           tenantId,
-          createdAt: { gte: today, lt: tomorrow },
-          status: 'PRESENT',
+          date: { gte: today, lt: tomorrow },
+          status: { in: ['PRESENT', 'LATE'] },
         },
       }),
       // The denominator is the full student population, including students
       // whose attendance has not been logged yet.
       this.prisma.student.count({ where: { tenantId } }),
 
-      // Yesterday's attendance
-      this.prisma.attendance.count({
+      // Yesterday's campus attendance
+      this.prisma.schoolEntry.count({
         where: {
           tenantId,
-          createdAt: { gte: yesterday, lt: today },
-          status: 'PRESENT',
+          date: { gte: yesterday, lt: today },
+          status: { in: ['PRESENT', 'LATE'] },
         },
       }),
       this.prisma.student.count({ where: { tenantId } }),
 
       // Weekly attendance (last 7 days)
-      this.prisma.attendance.groupBy({
-        by: ['createdAt'],
-        where: { tenantId, createdAt: { gte: weekAgo } },
+      this.prisma.schoolEntry.groupBy({
+        by: ['date'],
+        where: { tenantId, date: { gte: weekAgo } },
         _count: { id: true },
       }),
 
@@ -117,7 +139,7 @@ export class DashboardService {
         where: {
           tenantId,
           status: 'APPROVED',
-          approvedAt: { gte: today, lt: tomorrow },
+          approvedAt: { gte: todayInstantStart, lt: todayInstantEnd },
         },
       }),
 
@@ -141,17 +163,17 @@ export class DashboardService {
         where: { tenantId, status: 'PARTIALLY_PAID' },
       }),
 
-      // Recent attendance (last 10) - Only auto mode (card-based) entries with checkInTime from today
-      this.prisma.attendance.findMany({
+      // Recent campus check-ins today (card / device)
+      this.prisma.schoolEntry.findMany({
         where: {
           tenantId,
-          checkInTime: {
-            not: null, // Only show card-based auto check-ins
-            gte: today, // Only today's records
-            lt: tomorrow,
+          checkInAt: {
+            not: null,
+            gte: todayInstantStart,
+            lt: todayInstantEnd,
           },
         },
-        orderBy: { checkInTime: 'desc' }, // Order by actual check-in time
+        orderBy: { checkInAt: 'desc' },
         take: 5,
         include: {
           student: {
@@ -181,14 +203,66 @@ export class DashboardService {
           },
         },
       }),
+
+      // On campus right now — checked in today and not checked out
+      this.prisma.schoolEntry.count({
+        where: {
+          tenantId,
+          date: { gte: today, lt: tomorrow },
+          checkInAt: { not: null },
+          checkOutAt: null,
+          status: { in: ['PRESENT', 'LATE'] },
+        },
+      }),
+
+      // Distinct school days that actually have entries in the last 30 days
+      this.prisma.schoolEntry.groupBy({
+        by: ['date'],
+        where: { tenantId, date: { gte: monthStart, lt: tomorrow } },
+        _count: { _all: true },
+      }),
+      // Per-student present-or-late day count over the same window
+      this.prisma.schoolEntry.groupBy({
+        by: ['studentId'],
+        where: {
+          tenantId,
+          date: { gte: monthStart, lt: tomorrow },
+          status: { in: ['PRESENT', 'LATE'] },
+        },
+        _count: { _all: true },
+      }),
+      // Every student who has any entry in the window (so a student marked
+      // absent every day is still in the cohort, not silently excluded)
+      this.prisma.schoolEntry.groupBy({
+        by: ['studentId'],
+        where: { tenantId, date: { gte: monthStart, lt: tomorrow } },
+        _count: { _all: true },
+      }),
     ]);
 
-    // Calculate attendance rate
+    // Chronic absentees: students with attendance data in the last 30 school
+    // days whose present-or-late rate is under 80%. Suppressed until there is
+    // at least a week of data so a fresh rollout doesn't look alarming.
+    const schoolDays30 = month30DayGroups.length;
+    const present30Map = new Map(
+      present30ByStudent.map((g) => [g.studentId, g._count._all]),
+    );
+    let chronicAbsentees = 0;
+    if (schoolDays30 >= 5) {
+      for (const g of any30ByStudent) {
+        const rate = (present30Map.get(g.studentId) ?? 0) / schoolDays30;
+        if (rate < 0.8) chronicAbsentees += 1;
+      }
+    }
+
+    // Calculate attendance rate (present-or-late ÷ enrolled students)
     const attendanceRate =
-      todayTotal > 0 ? (todayPresent / todayTotal) * 100 : 0;
+      todayTotal > 0 ? Math.min(100, (todayPresent / todayTotal) * 100) : 0;
 
     const yesterdayRate =
-      yesterdayTotal > 0 ? (yesterdayPresent / yesterdayTotal) * 100 : 0;
+      yesterdayTotal > 0
+        ? Math.min(100, (yesterdayPresent / yesterdayTotal) * 100)
+        : 0;
 
     const attendanceChange =
       yesterdayRate > 0
@@ -209,20 +283,20 @@ export class DashboardService {
       dayMap.set(key, { present: 0, total: 0 });
     }
 
-    // We need a more specific query for weekly chart data
-    const weeklyRaw = await this.prisma.attendance.findMany({
-      where: { tenantId, createdAt: { gte: weekAgo } },
-      select: { createdAt: true, status: true },
+    // Weekly chart data from campus attendance. Rate is present-or-late as a
+    // share of the whole enrolled population, not of the marks that exist.
+    const weeklyRaw = await this.prisma.schoolEntry.findMany({
+      where: { tenantId, date: { gte: weekAgo } },
+      select: { date: true, status: true },
     });
 
+    for (const entry of dayMap.values()) entry.total = totalStudents;
+
     weeklyRaw.forEach((record) => {
-      const key = getTenantDayRange(record.createdAt, timezone).dateKey;
+      const key = getTenantDayRange(record.date, timezone).dateKey;
       const entry = dayMap.get(key);
-      if (entry) {
-        entry.total += 1;
-        if (record.status === 'PRESENT') {
-          entry.present += 1;
-        }
+      if (entry && (record.status === 'PRESENT' || record.status === 'LATE')) {
+        entry.present += 1;
       }
     });
 
@@ -235,7 +309,9 @@ export class DashboardService {
           present: data.present,
           total: data.total,
           rate:
-            data.total > 0 ? Math.round((data.present / data.total) * 100) : 0,
+            data.total > 0
+              ? Math.min(100, Math.round((data.present / data.total) * 100))
+              : 0,
         };
       },
     );
@@ -253,6 +329,9 @@ export class DashboardService {
         (attendanceChange >= 0 ? '+' : '') + attendanceChange.toFixed(1) + '%',
       todayPresent,
       todayTotal,
+      onCampusNow,
+      chronicAbsentees,
+      chronicWindowDays: schoolDays30,
 
       // Permissions
       pendingPermissions,
@@ -278,7 +357,8 @@ export class DashboardService {
         grade: a.student.grade.name,
         section: a.student.section.name,
         status: a.status,
-        checkInTime: a.checkInTime,
+        checkInTime: a.checkInAt,
+        checkOutTime: a.checkOutAt,
         createdAt: a.createdAt,
       })),
 

@@ -27,6 +27,7 @@ import {
   AcademicWindowType,
   Role,
 } from '../../../prisma/generated/client';
+import { RequireModule } from '../../common/module-access/require-module.decorator';
 import { AcademicTimelinesService } from './academic-timelines.service';
 import {
   AcademicTimelineFiltersDto,
@@ -42,6 +43,7 @@ const READ_ROLES = [...MANAGE_ROLES, Role.TEACHER] as const;
 @ApiTags('Academics — Timelines')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('academics')
 @Controller('academics/timelines')
 export class AcademicTimelinesController {
   constructor(private readonly timelinesService: AcademicTimelinesService) {}

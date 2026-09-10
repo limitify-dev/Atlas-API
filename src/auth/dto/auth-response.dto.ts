@@ -116,6 +116,15 @@ export class UserDto {
     required: false,
   })
   staffRole?: string | null;
+
+  @ApiProperty({
+    description:
+      'Platform modules enabled for the user’s tenant (fail-open: empty ⇒ all). Used for client-side module routing.',
+    example: ['attendance', 'connect'],
+    isArray: true,
+    required: false,
+  })
+  enabledModules?: string[];
 }
 
 export class AuthResponseDto {

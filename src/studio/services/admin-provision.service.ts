@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Logger,
   ConflictException,
   NotFoundException,
   BadRequestException,
@@ -11,6 +12,8 @@ import { CreateAdminInviteDto } from '../dto';
 
 @Injectable()
 export class AdminProvisionService {
+  private readonly logger = new Logger(AdminProvisionService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly email: EmailService,
@@ -64,6 +67,8 @@ export class AdminProvisionService {
       },
     });
 
+    let emailSent = false;
+    let emailError: string | undefined;
     if (invite.email) {
       try {
         await this.email.sendAdminInviteEmail({
@@ -72,12 +77,18 @@ export class AdminProvisionService {
           tenantName: tenant.name ?? 'your school',
           inviteUrl: this.inviteUrl(invite.token),
         });
-      } catch {
-        // Email failure is non-fatal — invite is still valid
+        emailSent = true;
+      } catch (err) {
+        // Email failure is non-fatal — the invite link is still valid and can
+        // be copied from Studio, but surface it so it isn't silently lost.
+        emailError = err instanceof Error ? err.message : 'Unknown email error';
+        this.logger.error(
+          `Admin invite ${invite.id} for ${invite.email} was created but the email failed: ${emailError}`,
+        );
       }
     }
 
-    return invite;
+    return { ...invite, emailSent, emailError };
   }
 
   async getInvites(tenantId: string) {
@@ -131,14 +142,28 @@ export class AdminProvisionService {
       data: { expiresAt },
     });
 
-    await this.email.sendAdminInviteEmail({
-      email: invite.email,
-      name: invite.name ?? undefined,
-      tenantName: invite.tenant.name ?? 'your school',
-      inviteUrl: this.inviteUrl(invite.token),
-    });
+    try {
+      await this.email.sendAdminInviteEmail({
+        email: invite.email,
+        name: invite.name ?? undefined,
+        tenantName: invite.tenant.name ?? 'your school',
+        inviteUrl: this.inviteUrl(invite.token),
+      });
+    } catch (err) {
+      const emailError =
+        err instanceof Error ? err.message : 'Unknown email error';
+      this.logger.error(
+        `Resend of admin invite ${invite.id} to ${invite.email} failed: ${emailError}`,
+      );
+      return {
+        message:
+          'Invite expiry extended, but the email could not be sent. Check SMTP configuration; the invite link can be shared manually.',
+        emailSent: false,
+        emailError,
+      };
+    }
 
-    return { message: 'Invite resent successfully.' };
+    return { message: 'Invite resent successfully.', emailSent: true };
   }
 
   /** Validate and claim an invite token (called by the Auth module during onboarding) */

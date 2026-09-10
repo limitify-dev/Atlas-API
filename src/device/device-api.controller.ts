@@ -171,11 +171,12 @@ export class DeviceApiController {
     // Update device status to ACTIVE and last seen time
     await this.deviceService.updateDevice(device.id, device.tenantId, {
       status: 'ACTIVE',
+      lastHeartbeatAt: new Date(),
       metadata: {
-        ...device.metadata,
+        ...(device.metadata as Record<string, unknown> | undefined),
         lastHeartbeat: new Date().toISOString(),
-        ...data.metadata,
-      },
+        ...(data.metadata as Record<string, unknown> | undefined),
+      } as Prisma.InputJsonValue,
     });
 
     // Log heartbeat

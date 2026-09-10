@@ -1,5 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Gender, Status } from '../../../prisma/generated/client';
+import {
+  Gender,
+  SchoolProgram,
+  Status,
+} from '../../../prisma/generated/client';
 
 export class StudentResponseDto {
   @ApiProperty({
@@ -48,8 +52,9 @@ export class StudentResponseDto {
   @ApiProperty({
     description: 'Date of birth',
     example: '2008-01-15T00:00:00.000Z',
+    nullable: true,
   })
-  dateOfBirth: Date;
+  dateOfBirth: Date | null;
 
   @ApiProperty({
     description: 'Gender',
@@ -57,6 +62,13 @@ export class StudentResponseDto {
     example: 'MALE',
   })
   gender: Gender;
+
+  @ApiProperty({
+    description: 'Boarding or day scholar',
+    enum: SchoolProgram,
+    nullable: true,
+  })
+  program: SchoolProgram | null;
 
   @ApiProperty({
     description: 'Nationality',
@@ -124,6 +136,12 @@ export class StudentResponseDto {
     id: string;
     name: string;
   };
+
+  @ApiProperty({
+    description: 'Subject combination (advanced level), if any',
+    nullable: true,
+  })
+  combination: { id: string; code: string; name: string } | null;
 
   @ApiProperty({
     description: 'Parent information',

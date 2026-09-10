@@ -273,6 +273,7 @@ export type SectionWhereInput = {
   students?: Prisma.StudentListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
   timetableEntries?: Prisma.TimetableEntryListRelationFilter
+  attendances?: Prisma.AttendanceListRelationFilter
 }
 
 export type SectionOrderByWithRelationInput = {
@@ -296,6 +297,7 @@ export type SectionOrderByWithRelationInput = {
   students?: Prisma.StudentOrderByRelationAggregateInput
   conversations?: Prisma.ConversationOrderByRelationAggregateInput
   timetableEntries?: Prisma.TimetableEntryOrderByRelationAggregateInput
+  attendances?: Prisma.AttendanceOrderByRelationAggregateInput
 }
 
 export type SectionWhereUniqueInput = Prisma.AtLeast<{
@@ -323,6 +325,7 @@ export type SectionWhereUniqueInput = Prisma.AtLeast<{
   students?: Prisma.StudentListRelationFilter
   conversations?: Prisma.ConversationListRelationFilter
   timetableEntries?: Prisma.TimetableEntryListRelationFilter
+  attendances?: Prisma.AttendanceListRelationFilter
 }, "id" | "tenantId_gradeId_name">
 
 export type SectionOrderByWithAggregationInput = {
@@ -378,6 +381,7 @@ export type SectionCreateInput = {
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateInput = {
@@ -397,6 +401,7 @@ export type SectionUncheckedCreateInput = {
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUpdateInput = {
@@ -416,6 +421,7 @@ export type SectionUpdateInput = {
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateInput = {
@@ -435,6 +441,7 @@ export type SectionUncheckedUpdateInput = {
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateManyInput = {
@@ -719,6 +726,22 @@ export type SectionUpdateOneRequiredWithoutTimetableEntriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SectionUpdateToOneWithWhereWithoutTimetableEntriesInput, Prisma.SectionUpdateWithoutTimetableEntriesInput>, Prisma.SectionUncheckedUpdateWithoutTimetableEntriesInput>
 }
 
+export type SectionCreateNestedOneWithoutAttendancesInput = {
+  create?: Prisma.XOR<Prisma.SectionCreateWithoutAttendancesInput, Prisma.SectionUncheckedCreateWithoutAttendancesInput>
+  connectOrCreate?: Prisma.SectionCreateOrConnectWithoutAttendancesInput
+  connect?: Prisma.SectionWhereUniqueInput
+}
+
+export type SectionUpdateOneWithoutAttendancesNestedInput = {
+  create?: Prisma.XOR<Prisma.SectionCreateWithoutAttendancesInput, Prisma.SectionUncheckedCreateWithoutAttendancesInput>
+  connectOrCreate?: Prisma.SectionCreateOrConnectWithoutAttendancesInput
+  upsert?: Prisma.SectionUpsertWithoutAttendancesInput
+  disconnect?: Prisma.SectionWhereInput | boolean
+  delete?: Prisma.SectionWhereInput | boolean
+  connect?: Prisma.SectionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SectionUpdateToOneWithWhereWithoutAttendancesInput, Prisma.SectionUpdateWithoutAttendancesInput>, Prisma.SectionUncheckedUpdateWithoutAttendancesInput>
+}
+
 export type SectionCreateNestedOneWithoutBookTransactionsInput = {
   create?: Prisma.XOR<Prisma.SectionCreateWithoutBookTransactionsInput, Prisma.SectionUncheckedCreateWithoutBookTransactionsInput>
   connectOrCreate?: Prisma.SectionCreateOrConnectWithoutBookTransactionsInput
@@ -809,6 +832,7 @@ export type SectionCreateWithoutTenantInput = {
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutTenantInput = {
@@ -827,6 +851,7 @@ export type SectionUncheckedCreateWithoutTenantInput = {
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutTenantInput = {
@@ -888,6 +913,7 @@ export type SectionCreateWithoutStudentsInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutStudentsInput = {
@@ -906,6 +932,7 @@ export type SectionUncheckedCreateWithoutStudentsInput = {
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutStudentsInput = {
@@ -940,6 +967,7 @@ export type SectionUpdateWithoutStudentsInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutStudentsInput = {
@@ -958,6 +986,7 @@ export type SectionUncheckedUpdateWithoutStudentsInput = {
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateWithoutGradeInput = {
@@ -976,6 +1005,7 @@ export type SectionCreateWithoutGradeInput = {
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutGradeInput = {
@@ -994,6 +1024,7 @@ export type SectionUncheckedCreateWithoutGradeInput = {
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutGradeInput = {
@@ -1038,6 +1069,7 @@ export type SectionCreateWithoutCombinationInput = {
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutCombinationInput = {
@@ -1056,6 +1088,7 @@ export type SectionUncheckedCreateWithoutCombinationInput = {
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutCombinationInput = {
@@ -1100,6 +1133,7 @@ export type SectionCreateWithoutClassesInput = {
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutClassesInput = {
@@ -1118,6 +1152,7 @@ export type SectionUncheckedCreateWithoutClassesInput = {
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutClassesInput = {
@@ -1152,6 +1187,7 @@ export type SectionUpdateWithoutClassesInput = {
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutClassesInput = {
@@ -1170,6 +1206,7 @@ export type SectionUncheckedUpdateWithoutClassesInput = {
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateWithoutTimetableEntriesInput = {
@@ -1188,6 +1225,7 @@ export type SectionCreateWithoutTimetableEntriesInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutTimetableEntriesInput = {
@@ -1206,6 +1244,7 @@ export type SectionUncheckedCreateWithoutTimetableEntriesInput = {
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutTimetableEntriesInput = {
@@ -1240,6 +1279,7 @@ export type SectionUpdateWithoutTimetableEntriesInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutTimetableEntriesInput = {
@@ -1258,6 +1298,99 @@ export type SectionUncheckedUpdateWithoutTimetableEntriesInput = {
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
+}
+
+export type SectionCreateWithoutAttendancesInput = {
+  id?: string
+  name: string
+  capacity?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutSectionInput
+  classes?: Prisma.ClassTeacherCreateNestedManyWithoutSectionInput
+  combination?: Prisma.CombinationCreateNestedOneWithoutSectionsInput
+  grade: Prisma.GradeCreateNestedOneWithoutSectionsInput
+  promotion?: Prisma.PromotionCreateNestedOneWithoutSectionsInput
+  tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
+  students?: Prisma.StudentCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
+  timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+}
+
+export type SectionUncheckedCreateWithoutAttendancesInput = {
+  id?: string
+  tenantId: string
+  name: string
+  gradeId: string
+  promotionId?: string | null
+  capacity?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  combinationId?: string | null
+  division?: string | null
+  isActive?: boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutSectionInput
+  classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+}
+
+export type SectionCreateOrConnectWithoutAttendancesInput = {
+  where: Prisma.SectionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SectionCreateWithoutAttendancesInput, Prisma.SectionUncheckedCreateWithoutAttendancesInput>
+}
+
+export type SectionUpsertWithoutAttendancesInput = {
+  update: Prisma.XOR<Prisma.SectionUpdateWithoutAttendancesInput, Prisma.SectionUncheckedUpdateWithoutAttendancesInput>
+  create: Prisma.XOR<Prisma.SectionCreateWithoutAttendancesInput, Prisma.SectionUncheckedCreateWithoutAttendancesInput>
+  where?: Prisma.SectionWhereInput
+}
+
+export type SectionUpdateToOneWithWhereWithoutAttendancesInput = {
+  where?: Prisma.SectionWhereInput
+  data: Prisma.XOR<Prisma.SectionUpdateWithoutAttendancesInput, Prisma.SectionUncheckedUpdateWithoutAttendancesInput>
+}
+
+export type SectionUpdateWithoutAttendancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutSectionNestedInput
+  classes?: Prisma.ClassTeacherUpdateManyWithoutSectionNestedInput
+  combination?: Prisma.CombinationUpdateOneWithoutSectionsNestedInput
+  grade?: Prisma.GradeUpdateOneRequiredWithoutSectionsNestedInput
+  promotion?: Prisma.PromotionUpdateOneWithoutSectionsNestedInput
+  tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
+  students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
+  timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+}
+
+export type SectionUncheckedUpdateWithoutAttendancesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  tenantId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  gradeId?: Prisma.StringFieldUpdateOperationsInput | string
+  promotionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  capacity?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  combinationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  division?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutSectionNestedInput
+  classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateWithoutBookTransactionsInput = {
@@ -1276,6 +1409,7 @@ export type SectionCreateWithoutBookTransactionsInput = {
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutBookTransactionsInput = {
@@ -1294,6 +1428,7 @@ export type SectionUncheckedCreateWithoutBookTransactionsInput = {
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutBookTransactionsInput = {
@@ -1328,6 +1463,7 @@ export type SectionUpdateWithoutBookTransactionsInput = {
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutBookTransactionsInput = {
@@ -1346,6 +1482,7 @@ export type SectionUncheckedUpdateWithoutBookTransactionsInput = {
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateWithoutConversationsInput = {
@@ -1364,6 +1501,7 @@ export type SectionCreateWithoutConversationsInput = {
   tenant: Prisma.TenantCreateNestedOneWithoutSectionsInput
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutConversationsInput = {
@@ -1382,6 +1520,7 @@ export type SectionUncheckedCreateWithoutConversationsInput = {
   classes?: Prisma.ClassTeacherUncheckedCreateNestedManyWithoutSectionInput
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutConversationsInput = {
@@ -1416,6 +1555,7 @@ export type SectionUpdateWithoutConversationsInput = {
   tenant?: Prisma.TenantUpdateOneRequiredWithoutSectionsNestedInput
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutConversationsInput = {
@@ -1434,6 +1574,7 @@ export type SectionUncheckedUpdateWithoutConversationsInput = {
   classes?: Prisma.ClassTeacherUncheckedUpdateManyWithoutSectionNestedInput
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateWithoutPromotionInput = {
@@ -1452,6 +1593,7 @@ export type SectionCreateWithoutPromotionInput = {
   students?: Prisma.StudentCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutPromotionInput = {
@@ -1470,6 +1612,7 @@ export type SectionUncheckedCreateWithoutPromotionInput = {
   students?: Prisma.StudentUncheckedCreateNestedManyWithoutSectionInput
   conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutSectionInput
   timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutSectionInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionCreateOrConnectWithoutPromotionInput = {
@@ -1527,6 +1670,7 @@ export type SectionUpdateWithoutTenantInput = {
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutTenantInput = {
@@ -1545,6 +1689,7 @@ export type SectionUncheckedUpdateWithoutTenantInput = {
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutTenantInput = {
@@ -1589,6 +1734,7 @@ export type SectionUpdateWithoutGradeInput = {
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutGradeInput = {
@@ -1607,6 +1753,7 @@ export type SectionUncheckedUpdateWithoutGradeInput = {
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutGradeInput = {
@@ -1651,6 +1798,7 @@ export type SectionUpdateWithoutCombinationInput = {
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutCombinationInput = {
@@ -1669,6 +1817,7 @@ export type SectionUncheckedUpdateWithoutCombinationInput = {
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutCombinationInput = {
@@ -1713,6 +1862,7 @@ export type SectionUpdateWithoutPromotionInput = {
   students?: Prisma.StudentUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutPromotionInput = {
@@ -1731,6 +1881,7 @@ export type SectionUncheckedUpdateWithoutPromotionInput = {
   students?: Prisma.StudentUncheckedUpdateManyWithoutSectionNestedInput
   conversations?: Prisma.ConversationUncheckedUpdateManyWithoutSectionNestedInput
   timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutSectionNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutPromotionInput = {
@@ -1757,6 +1908,7 @@ export type SectionCountOutputType = {
   students: number
   conversations: number
   timetableEntries: number
+  attendances: number
 }
 
 export type SectionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1765,6 +1917,7 @@ export type SectionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   students?: boolean | SectionCountOutputTypeCountStudentsArgs
   conversations?: boolean | SectionCountOutputTypeCountConversationsArgs
   timetableEntries?: boolean | SectionCountOutputTypeCountTimetableEntriesArgs
+  attendances?: boolean | SectionCountOutputTypeCountAttendancesArgs
 }
 
 /**
@@ -1812,6 +1965,13 @@ export type SectionCountOutputTypeCountTimetableEntriesArgs<ExtArgs extends runt
   where?: Prisma.TimetableEntryWhereInput
 }
 
+/**
+ * SectionCountOutputType without action
+ */
+export type SectionCountOutputTypeCountAttendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttendanceWhereInput
+}
+
 
 export type SectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1834,6 +1994,7 @@ export type SectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   students?: boolean | Prisma.Section$studentsArgs<ExtArgs>
   conversations?: boolean | Prisma.Section$conversationsArgs<ExtArgs>
   timetableEntries?: boolean | Prisma.Section$timetableEntriesArgs<ExtArgs>
+  attendances?: boolean | Prisma.Section$attendancesArgs<ExtArgs>
   _count?: boolean | Prisma.SectionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["section"]>
 
@@ -1898,6 +2059,7 @@ export type SectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   students?: boolean | Prisma.Section$studentsArgs<ExtArgs>
   conversations?: boolean | Prisma.Section$conversationsArgs<ExtArgs>
   timetableEntries?: boolean | Prisma.Section$timetableEntriesArgs<ExtArgs>
+  attendances?: boolean | Prisma.Section$attendancesArgs<ExtArgs>
   _count?: boolean | Prisma.SectionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SectionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1925,6 +2087,7 @@ export type $SectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     students: Prisma.$StudentPayload<ExtArgs>[]
     conversations: Prisma.$ConversationPayload<ExtArgs>[]
     timetableEntries: Prisma.$TimetableEntryPayload<ExtArgs>[]
+    attendances: Prisma.$AttendancePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2341,6 +2504,7 @@ export interface Prisma__SectionClient<T, Null = never, ExtArgs extends runtime.
   students<T extends Prisma.Section$studentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$studentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conversations<T extends Prisma.Section$conversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$conversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   timetableEntries<T extends Prisma.Section$timetableEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$timetableEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimetableEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  attendances<T extends Prisma.Section$attendancesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Section$attendancesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2932,6 +3096,30 @@ export type Section$timetableEntriesArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.TimetableEntryScalarFieldEnum | Prisma.TimetableEntryScalarFieldEnum[]
+}
+
+/**
+ * Section.attendances
+ */
+export type Section$attendancesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attendance
+   */
+  select?: Prisma.AttendanceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attendance
+   */
+  omit?: Prisma.AttendanceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceInclude<ExtArgs> | null
+  where?: Prisma.AttendanceWhereInput
+  orderBy?: Prisma.AttendanceOrderByWithRelationInput | Prisma.AttendanceOrderByWithRelationInput[]
+  cursor?: Prisma.AttendanceWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttendanceScalarFieldEnum | Prisma.AttendanceScalarFieldEnum[]
 }
 
 /**

@@ -68,6 +68,13 @@ export class TeachersController {
     return this.teachersService.create(createTeacherDto, user.tenantId, photo);
   }
 
+  @Post(':id/resend-invite')
+  @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
+  @ApiOperation({ summary: 'Re-send the account-setup invite for a teacher' })
+  resendInvite(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.teachersService.resendInvite(user.tenantId, id);
+  }
+
   @Post('bulk-upload')
   @Roles(Role.ADMIN, Role.SUPER_ADMIN, Role.STAFF)
   @UseInterceptors(FileInterceptor('file'))

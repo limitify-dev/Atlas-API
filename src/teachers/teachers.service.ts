@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Logger,
   NotFoundException,
   ConflictException,
   BadRequestException,
@@ -12,6 +13,8 @@ import {
   TeacherResponseDto,
 } from './dto';
 import * as bcrypt from 'bcryptjs';
+import * as crypto from 'crypto';
+import { ConfigService } from '@nestjs/config';
 import {
   Prisma,
   UserType,
@@ -21,12 +24,17 @@ import {
 } from '../../prisma/generated/client';
 import * as XLSX from 'xlsx';
 import { SupabaseService } from 'src/common/supabase/supabase.service';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class TeachersService {
+  private readonly logger = new Logger(TeachersService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private supabase: SupabaseService,
+    private readonly email: EmailService,
+    private readonly config: ConfigService,
   ) {}
 
   private formatTime(totalMinutes: number) {
@@ -110,14 +118,16 @@ export class TeachersService {
     }
 
     try {
-      // Create user and teacher in a transaction
+      // Create user and teacher in a transaction. The account starts PENDING
+      // with an unusable random password — the teacher sets their real password
+      // via the invite link (see below), which flips them to ACTIVE.
       const result = await this.prisma.$transaction(async (tx) => {
         // Create user account for the teacher
         const username =
           createTeacherDto.email.split('@')[0] +
           Math.random().toString(36).substring(2, 6);
-        const defaultPassword = 'Teacher@123';
-        const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+        const tempPassword = crypto.randomBytes(16).toString('hex');
+        const hashedPassword = await bcrypt.hash(tempPassword, 12);
 
         const user = await tx.user.create({
           data: {
@@ -127,9 +137,10 @@ export class TeachersService {
             username,
             password: hashedPassword,
             phone: createTeacherDto.phone,
-            role: Role.TEACHER, // Or Role.TEACHER if you have that role, but schema says USER/ADMIN/SUPER_ADMIN
+            role: Role.TEACHER,
             userType: UserType.TEACHER,
-            status: Status.ACTIVE,
+            status: Status.PENDING,
+            emailVerified: false,
           },
         });
 
@@ -165,6 +176,25 @@ export class TeachersService {
 
         return teacher;
       });
+
+      // Send the account-setup invite. The teacher clicks the link, sets a
+      // password, and their account becomes ACTIVE (no platform approval).
+      try {
+        await this.sendTeacherInvite(
+          tenantId,
+          createTeacherDto.email,
+          `${createTeacherDto.firstName} ${createTeacherDto.lastName}`,
+          createTeacherDto.department,
+        );
+      } catch (err) {
+        // Non-fatal — admin can resend from the teacher's profile — but log it
+        // so a broken SMTP config isn't invisible.
+        this.logger.error(
+          `Teacher ${result.id} (${createTeacherDto.email}) created but invite email failed: ${
+            err instanceof Error ? err.message : err
+          }`,
+        );
+      }
 
       let photoUrl: string | null = null;
       if (photo) {
@@ -219,6 +249,61 @@ export class TeachersService {
       }
       throw error;
     }
+  }
+
+  /** Create an AdminInvite for a teacher and email them the setup link. */
+  private async sendTeacherInvite(
+    tenantId: string,
+    email: string,
+    name: string,
+    department?: string,
+  ) {
+    await this.prisma.adminInvite.updateMany({
+      where: { tenantId, email, status: 'PENDING' },
+      data: { status: 'EXPIRED' },
+    });
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 48);
+    const invite = await this.prisma.adminInvite.create({
+      data: { tenantId, email, name, role: Role.TEACHER, expiresAt, status: 'PENDING' },
+    });
+    const base =
+      this.config.get<string>('FRONTEND_URL') ?? 'http://localhost:3000';
+    const inviteUrl = `${base.replace(/\/$/, '')}/admin-setup?token=${invite.token}`;
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { name: true },
+    });
+    await this.email.sendTeacherInviteEmail({
+      email,
+      name,
+      tenantName: tenant?.name ?? 'your school',
+      department,
+      inviteUrl,
+    });
+  }
+
+  /** Re-issue the account-setup invite for a teacher still onboarding. */
+  async resendInvite(tenantId: string, teacherId: string) {
+    const teacher = await this.prisma.teacher.findFirst({
+      where: { id: teacherId, tenantId },
+      include: { user: { select: { email: true, status: true } } },
+    });
+    if (!teacher) throw new NotFoundException('Teacher not found');
+    if (!teacher.user?.email)
+      throw new BadRequestException('This teacher has no email on file.');
+    if (teacher.user.status !== Status.PENDING)
+      throw new BadRequestException(
+        'This teacher has already completed onboarding.',
+      );
+
+    await this.sendTeacherInvite(
+      tenantId,
+      teacher.user.email,
+      `${teacher.firstName} ${teacher.lastName}`,
+      teacher.department ?? undefined,
+    );
+    return { sent: true, email: teacher.user.email };
   }
 
   async processBulkUpload(
@@ -672,7 +757,7 @@ export class TeachersService {
     }
 
     try {
-      const result = await this.prisma.$transaction(async (tx) => {
+      await this.prisma.$transaction(async (tx) => {
         // Update user info if needed
         if (
           updateTeacherDto.email ||
@@ -699,18 +784,21 @@ export class TeachersService {
           });
         }
 
-        // Update teacher info
+        // Update teacher info. Use `!== undefined` (not truthiness) so optional
+        // text fields can be cleared by passing an empty string.
         const teacherUpdateData: Prisma.TeacherUpdateInput = {};
         if (updateTeacherDto.firstName)
           teacherUpdateData.firstName = updateTeacherDto.firstName;
         if (updateTeacherDto.lastName)
           teacherUpdateData.lastName = updateTeacherDto.lastName;
-        if (updateTeacherDto.department)
-          teacherUpdateData.department = updateTeacherDto.department;
-        if (updateTeacherDto.qualification)
-          teacherUpdateData.qualification = updateTeacherDto.qualification;
-        if (updateTeacherDto.specialization)
-          teacherUpdateData.specialization = updateTeacherDto.specialization;
+        if (updateTeacherDto.department !== undefined)
+          teacherUpdateData.department = updateTeacherDto.department || null;
+        if (updateTeacherDto.qualification !== undefined)
+          teacherUpdateData.qualification =
+            updateTeacherDto.qualification || null;
+        if (updateTeacherDto.specialization !== undefined)
+          teacherUpdateData.specialization =
+            updateTeacherDto.specialization || null;
         if (updateTeacherDto.gender)
           teacherUpdateData.gender = updateTeacherDto.gender;
         if (updateTeacherDto.dateOfBirth)
@@ -785,9 +873,30 @@ export class TeachersService {
             uploadErr,
           );
         }
+      } else if (
+        updateTeacherDto.removePhoto === 'true' ||
+        updateTeacherDto.photoUrl === ''
+      ) {
+        // Explicit photo removal — null the column, best-effort delete the object.
+        try {
+          await this.supabase.client.storage
+            .from('atlas-profiles')
+            .remove([
+              `${tenantId}/teachers/${id}/profile.jpg`,
+              `${tenantId}/teachers/${id}/profile.png`,
+              `${tenantId}/teachers/${id}/profile.webp`,
+            ]);
+        } catch {
+          // ignore storage errors — the DB is the source of truth
+        }
+        await this.prisma.teacher.update({
+          where: { id },
+          data: { photoUrl: null },
+        });
       }
 
-      return this.transformToResponse(result);
+      // Re-fetch so the response reflects any post-transaction photo change.
+      return this.findOne(id, tenantId);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {

@@ -1,13 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { DomainEventsService } from '../domain-events/domain-events.service';
+import { SchoolEventCreatedEvent } from '../domain-events/events';
+import { Role } from '../../prisma/generated/client';
 import { CreateEventDto, EventFiltersDto, UpdateEventDto } from './dto';
 
 @Injectable()
 export class EventsService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(EventsService.name);
 
-  create(tenantId: string, dto: CreateEventDto) {
-    return this.prisma.event.create({
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly events: DomainEventsService,
+  ) {}
+
+  async create(tenantId: string, dto: CreateEventDto) {
+    const event = await this.prisma.event.create({
       data: {
         tenantId,
         title: dto.title,
@@ -23,6 +31,68 @@ export class EventsService {
         thumbnailUrl: dto.thumbnailUrl,
       },
     });
+
+    // Notify the audience (push + in-app) — best effort, never blocks creation.
+    try {
+      const recipientUserIds = await this.resolveAudienceUserIds(
+        tenantId,
+        event.audience,
+      );
+      if (recipientUserIds.length > 0) {
+        this.events.emit(
+          new SchoolEventCreatedEvent(
+            tenantId,
+            event.id,
+            event.title,
+            event.category,
+            event.eventDate.toISOString(),
+            event.location ?? null,
+            recipientUserIds,
+          ),
+        );
+      }
+    } catch (err) {
+      this.logger.error(
+        `Failed to dispatch notifications for event ${event.id}: ${
+          (err as Error).message
+        }`,
+      );
+    }
+
+    return event;
+  }
+
+  /**
+   * Maps an event's `audience` string to the userIds that should be notified.
+   * Students have no user accounts, so a STUDENTS audience notifies parents.
+   */
+  private async resolveAudienceUserIds(
+    tenantId: string,
+    audience: string,
+  ): Promise<string[]> {
+    const where: {
+      tenantId: string;
+      role?: { in: Role[] };
+    } = { tenantId };
+
+    switch (audience) {
+      case 'PARENTS':
+      case 'STUDENTS':
+        where.role = { in: [Role.PARENT] };
+        break;
+      case 'STAFF':
+        where.role = { in: [Role.SUPER_ADMIN, Role.ADMIN, Role.TEACHER, Role.STAFF] };
+        break;
+      case 'ALL':
+      default:
+        break;
+    }
+
+    const users = await this.prisma.user.findMany({
+      where,
+      select: { id: true },
+    });
+    return users.map((u) => u.id);
   }
 
   findAll(tenantId: string, filters: EventFiltersDto) {

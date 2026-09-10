@@ -106,6 +106,14 @@ export const Gender = {
 export type Gender = (typeof Gender)[keyof typeof Gender]
 
 
+export const SchoolProgram = {
+  BOARDING: 'BOARDING',
+  DAY: 'DAY'
+} as const
+
+export type SchoolProgram = (typeof SchoolProgram)[keyof typeof SchoolProgram]
+
+
 export const AttendanceStatus = {
   PRESENT: 'PRESENT',
   ABSENT: 'ABSENT',
@@ -114,6 +122,15 @@ export const AttendanceStatus = {
 } as const
 
 export type AttendanceStatus = (typeof AttendanceStatus)[keyof typeof AttendanceStatus]
+
+
+export const AttendanceMethod = {
+  CARD: 'CARD',
+  DEVICE: 'DEVICE',
+  MANUAL: 'MANUAL'
+} as const
+
+export type AttendanceMethod = (typeof AttendanceMethod)[keyof typeof AttendanceMethod]
 
 
 export const BookStatus = {
@@ -296,6 +313,27 @@ export const DeviceStatus = {
 } as const
 
 export type DeviceStatus = (typeof DeviceStatus)[keyof typeof DeviceStatus]
+
+
+export const DeviceDirection = {
+  IN: 'IN',
+  OUT: 'OUT',
+  BIDIRECTIONAL: 'BIDIRECTIONAL'
+} as const
+
+export type DeviceDirection = (typeof DeviceDirection)[keyof typeof DeviceDirection]
+
+
+export const DeviceScanOutcome = {
+  CHECK_IN: 'CHECK_IN',
+  CHECK_OUT: 'CHECK_OUT',
+  DUPLICATE: 'DUPLICATE',
+  UNKNOWN_CARD: 'UNKNOWN_CARD',
+  INACTIVE_CARD: 'INACTIVE_CARD',
+  ERROR: 'ERROR'
+} as const
+
+export type DeviceScanOutcome = (typeof DeviceScanOutcome)[keyof typeof DeviceScanOutcome]
 
 
 export const AcademicRecordStatus = {

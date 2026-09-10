@@ -27,6 +27,7 @@ import {
   AuthUser,
 } from '../../auth/decorators/current-user.decorator';
 import { Role } from '../../../prisma/generated/client';
+import { RequireModule } from '../../common/module-access/require-module.decorator';
 import {
   ImportService,
   InvoiceImportPreview,
@@ -37,6 +38,7 @@ import {
 @ApiTags('Finance — Import')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('finance')
 @Controller('finance/import')
 export class ImportController {
   constructor(private readonly importService: ImportService) {}

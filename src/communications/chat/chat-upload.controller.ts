@@ -12,6 +12,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiBearerAuth, ApiOperation, ApiConsumes } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { SupabaseService } from '../../common/supabase/supabase.service';
+import { RequireModule } from '../../common/module-access/require-module.decorator';
 import { ChatService } from './chat.service';
 import { extname } from 'path';
 
@@ -39,6 +40,7 @@ const ALLOWED_MIME = {
 @ApiTags('Chat')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@RequireModule('connect')
 @Controller('chat/conversations/:id/attachments')
 export class ChatUploadController {
   constructor(

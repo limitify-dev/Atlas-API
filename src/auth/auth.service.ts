@@ -1,8 +1,10 @@
 import {
   Injectable,
+  Logger,
   UnauthorizedException,
   ConflictException,
   BadRequestException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import * as crypto from 'crypto';
 import { AuthResponseDto, PendingApprovalResponseDto } from './dto';
@@ -25,6 +27,7 @@ import { CompleteOnboardingDto } from './dto';
 import { SubscriptionBillingService } from '../subscription/services/subscription-billing.service';
 import { SystemSettingsService } from '../subscription/services/system-settings.service';
 import { AdminApprovalService } from '../studio/services/admin-approval.service';
+import { ModuleAccessService } from '../common/module-access/module-access.service';
 
 export type AuthenticatedUser = Omit<User, 'password'> & {
   schoolName: string | null;
@@ -35,6 +38,7 @@ export type AuthenticatedUser = Omit<User, 'password'> & {
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
   private static readonly DEFAULT_PARENT_PASSWORD = 'Parent@123';
   private static readonly PASSWORD_RESET_TOKEN_EXPIRY_SECONDS = 30 * 60;
   private static readonly PASSWORD_RESET_COOLDOWN_DAYS = 14;
@@ -54,6 +58,7 @@ export class AuthService {
     private subscriptionBilling: SubscriptionBillingService,
     private systemSettings: SystemSettingsService,
     private adminApproval: AdminApprovalService,
+    private moduleAccess: ModuleAccessService,
   ) {}
 
   private getPasswordResetCooldownBoundary(): Date {
@@ -100,6 +105,10 @@ export class AuthService {
       schoolName: user.schoolName,
       schoolLogo: user.schoolLogo,
       brandColor: user.brandColor,
+      // Unique per issuance — without this, two sign() calls in the same second
+      // with an identical payload produce byte-identical JWTs, which then
+      // collide on the `@unique` token columns and 500 the login/refresh.
+      jti: crypto.randomUUID(),
     };
     const accessToken = this.jwtService.sign(payload);
     const refreshToken = this.jwtService.sign(payload, {
@@ -142,10 +151,17 @@ export class AuthService {
       staffRole = staff?.staffRole ?? null;
     }
 
+    // Per-tenant module entitlements — the client uses these to route the
+    // user to a module they actually have (e.g. attendance-only tenants must
+    // not land on the academics-centric dashboard). Mirrors getProfile().
+    const enabledModules = user.tenantId
+      ? await this.moduleAccess.getEnabledModules(user.tenantId)
+      : [];
+
     return {
       accessToken,
       refreshToken,
-      user: { ...user, staffRole },
+      user: { ...user, staffRole, enabledModules },
     };
   }
 
@@ -221,6 +237,10 @@ export class AuthService {
         schoolName: userWithTenant?.tenant?.name,
         schoolLogo: userWithTenant?.tenant?.logo || null,
         brandColor: userWithTenant?.tenant?.brandColor || '#1e40af',
+        // Unique per issuance — see login(). Two refreshes in the same second
+        // (e.g. two open tabs) would otherwise mint identical tokens that
+        // collide on the `@unique` columns and turn into a forced logout.
+        jti: crypto.randomUUID(),
       };
       const newAccessToken = this.jwtService.sign(newPayload);
       const newRefreshToken = this.jwtService.sign(newPayload, {
@@ -268,6 +288,25 @@ export class AuthService {
       const { tenant, teacher, student, ...userWithoutPassword } =
         userWithTenant!;
 
+      // staffRole + enabledModules must survive a token refresh — the web
+      // client rewrites the `atlas_user` cookie from this response, and the
+      // route middleware (proxy.ts) reads staffRole/enabledModules from that
+      // cookie to decide where staff may go. Dropping them here sent staff
+      // back to /academics ~14 min into a session.
+      let staffRole: string | null = null;
+      if (userWithoutPassword.role === Role.STAFF) {
+        const staff = await this.prisma.staff.findUnique({
+          where: { userId: userWithoutPassword.id },
+          select: { staffRole: true },
+        });
+        staffRole = staff?.staffRole ?? null;
+      }
+      const enabledModules = userWithoutPassword.tenantId
+        ? await this.moduleAccess.getEnabledModules(
+            userWithoutPassword.tenantId,
+          )
+        : [];
+
       return {
         accessToken: newAccessToken,
         refreshToken: newRefreshToken,
@@ -283,10 +322,29 @@ export class AuthService {
           schoolName: tenant?.name,
           schoolLogo: tenant?.logo || null,
           brandColor: tenant?.brandColor || '#1e40af',
+          staffRole,
+          enabledModules,
         },
       };
-    } catch {
-      throw new UnauthorizedException('Invalid or expired refresh token');
+    } catch (err) {
+      // A genuinely bad / expired token → 401 (client logs out).
+      if (
+        err instanceof UnauthorizedException ||
+        (err as { name?: string })?.name === 'JsonWebTokenError' ||
+        (err as { name?: string })?.name === 'TokenExpiredError' ||
+        (err as { name?: string })?.name === 'NotBeforeError'
+      ) {
+        throw new UnauthorizedException('Invalid or expired refresh token');
+      }
+      // Anything else (DB hiccup, token-column collision, etc.) is transient —
+      // surface a 5xx so the web client keeps the session and retries instead
+      // of wiping a valid login.
+      this.logger.error(
+        `refreshToken() failed unexpectedly: ${
+          err instanceof Error ? (err.stack ?? err.message) : String(err)
+        }`,
+      );
+      throw new InternalServerErrorException('Could not refresh session');
     }
   }
   /**
@@ -513,6 +571,11 @@ export class AuthService {
       staffRole = staff?.staffRole ?? null;
     }
 
+    // Gate-able platform modules this tenant may use (fail-open).
+    const enabledModules = user.tenantId
+      ? await this.moduleAccess.getEnabledModules(user.tenantId)
+      : [];
+
     return {
       ...userWithoutPassword,
       avatar:
@@ -526,6 +589,7 @@ export class AuthService {
       schoolLogo: tenant?.logo || null,
       brandColor: tenant?.brandColor || '#1e40af',
       staffRole,
+      enabledModules,
     };
   }
 
@@ -621,15 +685,18 @@ export class AuthService {
   }
 
   /**
-   * Complete admin onboarding: creates the User and claims the invite, but
-   * does NOT issue tokens — the account sits PENDING until a platform admin
-   * approves it in Atlas Studio (see AdminApprovalService.review()).
+   * Complete invite onboarding from an emailed link (/admin-setup).
+   *
+   * - ADMIN invites: the account is created PENDING and sits behind Atlas
+   *   Studio platform approval (see AdminApprovalService.review()). No tokens.
+   * - TEACHER / STAFF invites: the tenant admin already vetted them, so the
+   *   account goes straight to ACTIVE and we return auth tokens (auto sign-in).
    */
   async completeAdminInvite(dto: {
     token: string;
     name: string;
     password: string;
-  }): Promise<PendingApprovalResponseDto> {
+  }): Promise<PendingApprovalResponseDto | AuthResponseDto> {
     const invite = await this.prisma.adminInvite.findUnique({
       where: { token: dto.token },
       include: {
@@ -677,7 +744,14 @@ export class AuthService {
 
     const hashed = await bcrypt.hash(dto.password, 12);
 
-    // If a user was pre-created for this email (e.g. from staff/register), update instead of create
+    // Admins need platform vetting; teachers/staff were already vetted by the
+    // school admin who registered them.
+    const needsApproval = invite.role === Role.ADMIN;
+    const targetStatus = needsApproval ? Status.PENDING : Status.ACTIVE;
+    const userType = this.roleToUserType(invite.role);
+
+    // If a user was pre-created for this email (e.g. from staff/register or
+    // teachers/register), update it instead of creating a duplicate.
     const existingUser = invite.email
       ? await this.prisma.user.findFirst({
           where: { email: invite.email, tenantId: invite.tenantId },
@@ -692,8 +766,9 @@ export class AuthService {
           data: {
             name: dto.name,
             password: hashed,
-            status: Status.PENDING,
+            status: targetStatus,
             emailVerified: true,
+            ...(userType ? { userType } : {}),
           },
         });
       } else {
@@ -706,8 +781,9 @@ export class AuthService {
             username,
             password: hashed,
             role: invite.role,
-            status: Status.PENDING,
+            status: targetStatus,
             emailVerified: !!invite.email,
+            ...(userType ? { userType } : {}),
           },
         });
       }
@@ -718,13 +794,24 @@ export class AuthService {
       return created;
     });
 
-    await this.adminApproval.createForUser(invite.tenantId, newUser.id);
+    if (needsApproval) {
+      await this.adminApproval.createForUser(invite.tenantId, newUser.id);
+      return {
+        pendingApproval: true,
+        message:
+          'Your account has been created and is pending platform approval. You’ll be able to sign in once an administrator approves your access.',
+      };
+    }
 
-    return {
-      pendingApproval: true,
-      message:
-        'Your account has been created and is pending platform approval. You’ll be able to sign in once an administrator approves your access.',
+    // Teacher / staff — sign them straight in.
+    const authenticatedUser: AuthenticatedUser = {
+      ...newUser,
+      schoolName: invite.tenant?.name ?? null,
+      schoolLogo: invite.tenant?.logo ?? null,
+      brandColor: invite.tenant?.brandColor ?? '#1e40af',
+      timezone: invite.tenant?.timezone ?? 'UTC',
     };
+    return this.login(authenticatedUser);
   }
 
   async changePassword(

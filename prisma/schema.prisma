@@ -41,6 +41,7 @@ model Tenant {
   brandColor               String?                   @default("#1e40af")
   announcements            Announcement[]
   attendances              Attendance[]
+  schoolEntries            SchoolEntry[]
   bookCopies               BookCopy[]
   bookTransactions         BookTransaction[]
   books                    Book[]
@@ -52,7 +53,9 @@ model Tenant {
   conductRecords           ConductRecord[]
   conversations            Conversation[]
   deviceLogs               DeviceLog[]
+  deviceScans              DeviceScan[]
   devices                  Device[]
+  studentAttendanceDays    StudentAttendanceDay[]
   events                   Event[]
   moments                  Moment[]
   grades                   Grade[]
@@ -176,14 +179,15 @@ model RefreshToken {
 }
 
 model Student {
-  id             String                @id @default(uuid())
+  id             String                 @id @default(uuid())
   tenantId       String
-  userId         String?               @unique
+  userId         String?                @unique
   studentId      String
   firstName      String
   lastName       String
-  dateOfBirth    DateTime
+  dateOfBirth    DateTime?
   gender         Gender
+  program        SchoolProgram?
   bloodGroup     String?
   nationality    String?
   address        String?
@@ -193,11 +197,13 @@ model Student {
   gradeId        String
   sectionId      String
   promotionId    String?
-  createdAt      DateTime              @default(now())
-  updatedAt      DateTime              @updatedAt
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
   email          String?
   phone          String?
   attendances    Attendance[]
+  schoolEntries  SchoolEntry[]
+  attendanceDays StudentAttendanceDay[]
   borrowedBooks  BookTransaction[]
   card           Card?
   conductRecords ConductRecord[]
@@ -206,11 +212,11 @@ model Student {
   conductPoints  StudentConductPoints?
   parents        StudentParent[]
   studentGrades  StudentGrade[]
-  grade          Grade                 @relation(fields: [gradeId], references: [id])
-  promotion      Promotion?            @relation(fields: [promotionId], references: [id])
-  section        Section               @relation(fields: [sectionId], references: [id])
-  tenant         Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  user           User?                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  grade          Grade                  @relation(fields: [gradeId], references: [id])
+  promotion      Promotion?             @relation(fields: [promotionId], references: [id])
+  section        Section                @relation(fields: [sectionId], references: [id])
+  tenant         Tenant                 @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user           User?                  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, studentId])
   @@index([tenantId])
@@ -277,6 +283,7 @@ model Teacher {
   conductRecords        ConductRecord[]
   subjects              SubjectTeacher[]
   attendances           TeacherAttendance[]
+  classAttendances      Attendance[]
   timetableEntries      TimetableEntry[]
   consultationOverrides ConsultationTeacherOverride[]
   tenant                Tenant                        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
@@ -353,6 +360,7 @@ model Section {
   students         Student[]
   conversations    Conversation[]
   timetableEntries TimetableEntry[]
+  attendances      Attendance[]
 
   @@unique([tenantId, gradeId, name])
   @@index([tenantId])
@@ -376,6 +384,7 @@ model Subject {
   grade            Grade            @relation(fields: [gradeId], references: [id], onDelete: Cascade)
   tenant           Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   timetableEntries TimetableEntry[]
+  attendances      Attendance[]
 
   @@unique([tenantId, code])
   @@index([tenantId])
@@ -460,6 +469,9 @@ model TimetableEntry {
   @@map("timetable_entries")
 }
 
+/// In-class attendance: one row per student per subject per day, marked by the
+/// teacher of that section+subject. Campus presence lives in SchoolEntry.
+/// Legacy rows (pre-split) have null section/subject/teacher/date.
 model Attendance {
   id          String           @id @default(uuid())
   tenantId    String
@@ -469,15 +481,91 @@ model Attendance {
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
   checkInTime DateTime?
+  sectionId   String?
+  subjectId   String?
+  teacherId   String?
+  date        DateTime?        @db.Date
   student     Student          @relation(fields: [studentId], references: [id], onDelete: Cascade)
   tenant      Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  section     Section?         @relation(fields: [sectionId], references: [id], onDelete: SetNull)
+  subject     Subject?         @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  teacher     Teacher?         @relation(fields: [teacherId], references: [id], onDelete: SetNull)
 
   @@index([tenantId])
   @@index([studentId])
   @@index([status])
   @@index([createdAt])
   @@index([tenantId, studentId, createdAt])
+  @@index([tenantId, sectionId, subjectId, date])
+  @@index([teacherId, date])
   @@map("attendances")
+}
+
+/// Campus check-in / check-out (gate scans, edge devices, manual override).
+/// One row per student per calendar day. The authoritative "on campus" signal.
+model SchoolEntry {
+  id               String            @id @default(uuid())
+  tenantId         String
+  studentId        String
+  date             DateTime          @db.Date
+  status           AttendanceStatus
+  checkInAt        DateTime?
+  checkOutAt       DateTime?
+  checkInMethod    AttendanceMethod?
+  checkOutMethod   AttendanceMethod?
+  checkInLocation  String?
+  checkOutLocation String?
+  deviceId         String?
+  recordedBy       String?
+  remarks          String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  student          Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  tenant           Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  device           Device?           @relation(fields: [deviceId], references: [id], onDelete: SetNull)
+
+  @@unique([tenantId, studentId, date])
+  @@index([tenantId, date])
+  @@index([studentId])
+  @@index([status])
+  @@index([deviceId])
+  @@map("school_entries")
+}
+
+/// Materialised per-student, per-day attendance cycle. Composed nightly (and
+/// on demand) from SchoolEntry (campus) + Attendance (in-class registers) so
+/// the Students dashboard, triage queue and per-student analytics read one
+/// flat table instead of re-joining. Derived data — safe to delete + rebuild.
+model StudentAttendanceDay {
+  id              String            @id @default(uuid())
+  tenantId        String
+  studentId       String
+  date            DateTime          @db.Date
+  /// Campus presence for the day (mirrors SchoolEntry.status; ABSENT if none).
+  campusStatus    AttendanceStatus
+  firstInAt       DateTime?
+  lastOutAt       DateTime?
+  checkInMethod   AttendanceMethod?
+  /// In-class registers that were taken for this student's section that day.
+  periodsExpected Int               @default(0)
+  periodsPresent  Int               @default(0)
+  periodsAbsent   Int               @default(0)
+  /// Both a check-in and a check-out are recorded.
+  cycleComplete   Boolean           @default(false)
+  /// On campus but absent from ≥1 in-class register (internal truancy).
+  truancyFlag     Boolean           @default(false)
+  /// On campus but no in-class register recorded at all.
+  unaccounted     Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  student         Student           @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  tenant          Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, studentId, date])
+  @@index([tenantId, date])
+  @@index([tenantId, date, truancyFlag])
+  @@index([studentId, date])
+  @@map("student_attendance_days")
 }
 
 model TeacherAttendance {
@@ -1192,23 +1280,35 @@ model ConsultationTeacherOverride {
 }
 
 model Device {
-  id          String       @id @default(uuid())
-  tenantId    String
-  name        String
-  deviceType  DeviceType
-  location    String?
-  description String?
-  apiKey      String       @unique
-  apiKeyHash  String
-  status      DeviceStatus @default(INACTIVE)
-  lastSeenAt  DateTime?
-  ipAddress   String?
-  metadata    Json?
-  createdBy   String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  logs        DeviceLog[]
-  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id                   String          @id @default(uuid())
+  tenantId             String
+  name                 String
+  deviceType           DeviceType
+  location             String?
+  description          String?
+  apiKey               String          @unique
+  apiKeyHash           String
+  status               DeviceStatus    @default(INACTIVE)
+  lastSeenAt           DateTime?
+  lastHeartbeatAt      DateTime?
+  ipAddress            String?
+  macAddress           String?
+  networkName          String?
+  firmwareVersion      String?
+  /// Whether this device is expected to stay online (drives the offline sweep).
+  expectedOnline       Boolean         @default(true)
+  /// Seconds between heartbeats; a device is OFFLINE after ~2× this with no contact.
+  heartbeatIntervalSec Int             @default(60)
+  /// Which side of the gate this device sits on. BIDIRECTIONAL = infer from scans.
+  direction            DeviceDirection @default(BIDIRECTIONAL)
+  metadata             Json?
+  createdBy            String
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  logs                 DeviceLog[]
+  scans                DeviceScan[]
+  schoolEntries        SchoolEntry[]
+  tenant               Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@unique([tenantId, name])
   @@index([tenantId])
@@ -1217,6 +1317,35 @@ model Device {
   @@index([deviceType])
   @@index([lastSeenAt])
   @@map("devices")
+}
+
+/// Raw device scan audit — every card tap an edge device reports, whether or
+/// not it resolved to a student. The campus-presence effect lives in
+/// SchoolEntry; this table is for device throughput / unmatched-card monitoring
+/// and offline-buffer replay de-duplication.
+model DeviceScan {
+  id                String            @id @default(uuid())
+  tenantId          String
+  deviceId          String
+  cardNumber        String
+  scannedAt         DateTime
+  direction         DeviceDirection   @default(BIDIRECTIONAL)
+  outcome           DeviceScanOutcome
+  resolvedStudentId String?
+  schoolEntryId     String?
+  /// Device-supplied dedupe key for offline-buffer replay. Null = live scan.
+  idempotencyKey    String?
+  errorReason       String?
+  createdAt         DateTime          @default(now())
+  device            Device            @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  tenant            Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([deviceId, idempotencyKey])
+  @@index([tenantId, scannedAt])
+  @@index([deviceId, scannedAt])
+  @@index([outcome])
+  @@index([resolvedStudentId])
+  @@map("device_scans")
 }
 
 model DeviceLog {
@@ -1551,11 +1680,22 @@ enum Gender {
   OTHER
 }
 
+enum SchoolProgram {
+  BOARDING
+  DAY
+}
+
 enum AttendanceStatus {
   PRESENT
   ABSENT
   LATE
   EXCUSED
+}
+
+enum AttendanceMethod {
+  CARD
+  DEVICE
+  MANUAL
 }
 
 enum BookStatus {
@@ -1728,6 +1868,21 @@ enum DeviceStatus {
   INACTIVE
   SUSPENDED
   OFFLINE
+}
+
+enum DeviceDirection {
+  IN
+  OUT
+  BIDIRECTIONAL
+}
+
+enum DeviceScanOutcome {
+  CHECK_IN
+  CHECK_OUT
+  DUPLICATE
+  UNKNOWN_CARD
+  INACTIVE_CARD
+  ERROR
 }
 
 enum AcademicRecordStatus {

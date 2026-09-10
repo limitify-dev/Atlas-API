@@ -121,6 +121,44 @@ services:
     networks:
       - atlas-network
 
+  # ============================================
+  # Background Worker (BullMQ) — processes the `push-notifications` queue.
+  # Without this, chat/event/announcement pushes are enqueued but never sent.
+  # Same image as `api`; only the `api` role runs migrations.
+  # ============================================
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: atlas-worker
+    restart: unless-stopped
+    command: ['./docker-entrypoint.sh', 'worker']
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-atlas}:${POSTGRES_PASSWORD:-atlas}@postgres:5432/${POSTGRES_DB:-atlas}?schema=public}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      JWT_SECRET: ${JWT_SECRET:-}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'
+    networks:
+      - atlas-network
+
 volumes:
   postgres-data:
   redis-data:

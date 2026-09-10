@@ -26,6 +26,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Role } from '../../prisma/generated/client';
+import { RequireModule } from '../common/module-access/require-module.decorator';
 import { AcademicsService } from './academics.service';
 import {
   CreateAcademicExamDto,
@@ -47,6 +48,7 @@ import {
 @ApiTags('Academics')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('academics')
 @Controller('academics')
 export class AcademicsController {
   constructor(private readonly academicsService: AcademicsService) {}

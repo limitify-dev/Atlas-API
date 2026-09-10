@@ -41,6 +41,16 @@ export class QueryStudentsDto {
   promotionId?: string;
 
   @ApiProperty({
+    description:
+      'Filter by subject combination — accepts the combination code (e.g. "MCB") or its UUID',
+    example: 'MCB',
+    required: false,
+  })
+  @IsString()
+  @IsOptional()
+  combination?: string;
+
+  @ApiProperty({
     description: 'Filter by gender',
     enum: Gender,
     example: 'MALE',

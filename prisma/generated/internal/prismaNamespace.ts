@@ -401,6 +401,8 @@ export const ModelName = {
   TimetablePeriod: 'TimetablePeriod',
   TimetableEntry: 'TimetableEntry',
   Attendance: 'Attendance',
+  SchoolEntry: 'SchoolEntry',
+  StudentAttendanceDay: 'StudentAttendanceDay',
   TeacherAttendance: 'TeacherAttendance',
   Book: 'Book',
   BookCopy: 'BookCopy',
@@ -433,6 +435,7 @@ export const ModelName = {
   ConsultationConfig: 'ConsultationConfig',
   ConsultationTeacherOverride: 'ConsultationTeacherOverride',
   Device: 'Device',
+  DeviceScan: 'DeviceScan',
   DeviceLog: 'DeviceLog',
   SystemLog: 'SystemLog',
   AcademicTimeline: 'AcademicTimeline',
@@ -473,7 +476,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "timetablePeriod" | "timetableEntry" | "attendance" | "teacherAttendance" | "book" | "bookCopy" | "bookTransaction" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "conversation" | "conversationParticipant" | "chatMessage" | "pushToken" | "message" | "announcement" | "notification" | "notificationRecipient" | "card" | "cardLog" | "cardPermission" | "event" | "moment" | "momentLike" | "academicExam" | "academicAssignment" | "academicCourse" | "academicAssignmentResult" | "academicReportCard" | "consultationBooking" | "consultationConfig" | "consultationTeacherOverride" | "device" | "deviceLog" | "systemLog" | "academicTimeline" | "promotion" | "staff" | "studentGrade" | "invoice" | "paymentSubmission" | "paymentPromise" | "invite" | "otpCode" | "poll" | "pollOption" | "pollVote" | "studioModule" | "tenantModule" | "studioSubscription" | "adminInvite" | "tenantBilling" | "adminApproval" | "onboardingRequest" | "feedback" | "subscriptionPayment" | "subscriptionAuditLog" | "systemSetting"
+    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "timetablePeriod" | "timetableEntry" | "attendance" | "schoolEntry" | "studentAttendanceDay" | "teacherAttendance" | "book" | "bookCopy" | "bookTransaction" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "conversation" | "conversationParticipant" | "chatMessage" | "pushToken" | "message" | "announcement" | "notification" | "notificationRecipient" | "card" | "cardLog" | "cardPermission" | "event" | "moment" | "momentLike" | "academicExam" | "academicAssignment" | "academicCourse" | "academicAssignmentResult" | "academicReportCard" | "consultationBooking" | "consultationConfig" | "consultationTeacherOverride" | "device" | "deviceScan" | "deviceLog" | "systemLog" | "academicTimeline" | "promotion" | "staff" | "studentGrade" | "invoice" | "paymentSubmission" | "paymentPromise" | "invite" | "otpCode" | "poll" | "pollOption" | "pollVote" | "studioModule" | "tenantModule" | "studioSubscription" | "adminInvite" | "tenantBilling" | "adminApproval" | "onboardingRequest" | "feedback" | "subscriptionPayment" | "subscriptionAuditLog" | "systemSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1732,6 +1735,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AttendanceCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AttendanceCountAggregateOutputType> | number
+        }
+      }
+    }
+    SchoolEntry: {
+      payload: Prisma.$SchoolEntryPayload<ExtArgs>
+      fields: Prisma.SchoolEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SchoolEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SchoolEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.SchoolEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SchoolEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>
+        }
+        findMany: {
+          args: Prisma.SchoolEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>[]
+        }
+        create: {
+          args: Prisma.SchoolEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>
+        }
+        createMany: {
+          args: Prisma.SchoolEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SchoolEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.SchoolEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>
+        }
+        update: {
+          args: Prisma.SchoolEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.SchoolEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SchoolEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SchoolEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.SchoolEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SchoolEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.SchoolEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSchoolEntry>
+        }
+        groupBy: {
+          args: Prisma.SchoolEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SchoolEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SchoolEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SchoolEntryCountAggregateOutputType> | number
+        }
+      }
+    }
+    StudentAttendanceDay: {
+      payload: Prisma.$StudentAttendanceDayPayload<ExtArgs>
+      fields: Prisma.StudentAttendanceDayFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudentAttendanceDayFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudentAttendanceDayFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>
+        }
+        findFirst: {
+          args: Prisma.StudentAttendanceDayFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudentAttendanceDayFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>
+        }
+        findMany: {
+          args: Prisma.StudentAttendanceDayFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>[]
+        }
+        create: {
+          args: Prisma.StudentAttendanceDayCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>
+        }
+        createMany: {
+          args: Prisma.StudentAttendanceDayCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudentAttendanceDayCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>[]
+        }
+        delete: {
+          args: Prisma.StudentAttendanceDayDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>
+        }
+        update: {
+          args: Prisma.StudentAttendanceDayUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>
+        }
+        deleteMany: {
+          args: Prisma.StudentAttendanceDayDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudentAttendanceDayUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudentAttendanceDayUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>[]
+        }
+        upsert: {
+          args: Prisma.StudentAttendanceDayUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudentAttendanceDayPayload>
+        }
+        aggregate: {
+          args: Prisma.StudentAttendanceDayAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudentAttendanceDay>
+        }
+        groupBy: {
+          args: Prisma.StudentAttendanceDayGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentAttendanceDayGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudentAttendanceDayCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudentAttendanceDayCountAggregateOutputType> | number
         }
       }
     }
@@ -4103,6 +4254,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DeviceScan: {
+      payload: Prisma.$DeviceScanPayload<ExtArgs>
+      fields: Prisma.DeviceScanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DeviceScanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DeviceScanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>
+        }
+        findFirst: {
+          args: Prisma.DeviceScanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DeviceScanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>
+        }
+        findMany: {
+          args: Prisma.DeviceScanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>[]
+        }
+        create: {
+          args: Prisma.DeviceScanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>
+        }
+        createMany: {
+          args: Prisma.DeviceScanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DeviceScanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>[]
+        }
+        delete: {
+          args: Prisma.DeviceScanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>
+        }
+        update: {
+          args: Prisma.DeviceScanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>
+        }
+        deleteMany: {
+          args: Prisma.DeviceScanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DeviceScanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DeviceScanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>[]
+        }
+        upsert: {
+          args: Prisma.DeviceScanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DeviceScanPayload>
+        }
+        aggregate: {
+          args: Prisma.DeviceScanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDeviceScan>
+        }
+        groupBy: {
+          args: Prisma.DeviceScanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceScanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DeviceScanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DeviceScanCountAggregateOutputType> | number
+        }
+      }
+    }
     DeviceLog: {
       payload: Prisma.$DeviceLogPayload<ExtArgs>
       fields: Prisma.DeviceLogFieldRefs
@@ -6084,6 +6309,7 @@ export const StudentScalarFieldEnum = {
   lastName: 'lastName',
   dateOfBirth: 'dateOfBirth',
   gender: 'gender',
+  program: 'program',
   bloodGroup: 'bloodGroup',
   nationality: 'nationality',
   address: 'address',
@@ -6271,10 +6497,58 @@ export const AttendanceScalarFieldEnum = {
   remarks: 'remarks',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  checkInTime: 'checkInTime'
+  checkInTime: 'checkInTime',
+  sectionId: 'sectionId',
+  subjectId: 'subjectId',
+  teacherId: 'teacherId',
+  date: 'date'
 } as const
 
 export type AttendanceScalarFieldEnum = (typeof AttendanceScalarFieldEnum)[keyof typeof AttendanceScalarFieldEnum]
+
+
+export const SchoolEntryScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentId: 'studentId',
+  date: 'date',
+  status: 'status',
+  checkInAt: 'checkInAt',
+  checkOutAt: 'checkOutAt',
+  checkInMethod: 'checkInMethod',
+  checkOutMethod: 'checkOutMethod',
+  checkInLocation: 'checkInLocation',
+  checkOutLocation: 'checkOutLocation',
+  deviceId: 'deviceId',
+  recordedBy: 'recordedBy',
+  remarks: 'remarks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SchoolEntryScalarFieldEnum = (typeof SchoolEntryScalarFieldEnum)[keyof typeof SchoolEntryScalarFieldEnum]
+
+
+export const StudentAttendanceDayScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  studentId: 'studentId',
+  date: 'date',
+  campusStatus: 'campusStatus',
+  firstInAt: 'firstInAt',
+  lastOutAt: 'lastOutAt',
+  checkInMethod: 'checkInMethod',
+  periodsExpected: 'periodsExpected',
+  periodsPresent: 'periodsPresent',
+  periodsAbsent: 'periodsAbsent',
+  cycleComplete: 'cycleComplete',
+  truancyFlag: 'truancyFlag',
+  unaccounted: 'unaccounted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudentAttendanceDayScalarFieldEnum = (typeof StudentAttendanceDayScalarFieldEnum)[keyof typeof StudentAttendanceDayScalarFieldEnum]
 
 
 export const TeacherAttendanceScalarFieldEnum = {
@@ -6833,7 +7107,14 @@ export const DeviceScalarFieldEnum = {
   apiKeyHash: 'apiKeyHash',
   status: 'status',
   lastSeenAt: 'lastSeenAt',
+  lastHeartbeatAt: 'lastHeartbeatAt',
   ipAddress: 'ipAddress',
+  macAddress: 'macAddress',
+  networkName: 'networkName',
+  firmwareVersion: 'firmwareVersion',
+  expectedOnline: 'expectedOnline',
+  heartbeatIntervalSec: 'heartbeatIntervalSec',
+  direction: 'direction',
   metadata: 'metadata',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
@@ -6841,6 +7122,24 @@ export const DeviceScalarFieldEnum = {
 } as const
 
 export type DeviceScalarFieldEnum = (typeof DeviceScalarFieldEnum)[keyof typeof DeviceScalarFieldEnum]
+
+
+export const DeviceScanScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  deviceId: 'deviceId',
+  cardNumber: 'cardNumber',
+  scannedAt: 'scannedAt',
+  direction: 'direction',
+  outcome: 'outcome',
+  resolvedStudentId: 'resolvedStudentId',
+  schoolEntryId: 'schoolEntryId',
+  idempotencyKey: 'idempotencyKey',
+  errorReason: 'errorReason',
+  createdAt: 'createdAt'
+} as const
+
+export type DeviceScanScalarFieldEnum = (typeof DeviceScanScalarFieldEnum)[keyof typeof DeviceScanScalarFieldEnum]
 
 
 export const DeviceLogScalarFieldEnum = {
@@ -7463,6 +7762,20 @@ export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$Prism
 
 
 /**
+ * Reference to a field of type 'SchoolProgram'
+ */
+export type EnumSchoolProgramFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SchoolProgram'>
+    
+
+
+/**
+ * Reference to a field of type 'SchoolProgram[]'
+ */
+export type ListEnumSchoolProgramFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SchoolProgram[]'>
+    
+
+
+/**
  * Reference to a field of type 'SchoolLevel'
  */
 export type EnumSchoolLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SchoolLevel'>
@@ -7515,6 +7828,20 @@ export type EnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'AttendanceStatus[]'
  */
 export type ListEnumAttendanceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'AttendanceMethod'
+ */
+export type EnumAttendanceMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceMethod'>
+    
+
+
+/**
+ * Reference to a field of type 'AttendanceMethod[]'
+ */
+export type ListEnumAttendanceMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttendanceMethod[]'>
     
 
 
@@ -7809,6 +8136,34 @@ export type EnumDeviceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'DeviceStatus[]'
  */
 export type ListEnumDeviceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceDirection'
+ */
+export type EnumDeviceDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceDirection'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceDirection[]'
+ */
+export type ListEnumDeviceDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceDirection[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceScanOutcome'
+ */
+export type EnumDeviceScanOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceScanOutcome'>
+    
+
+
+/**
+ * Reference to a field of type 'DeviceScanOutcome[]'
+ */
+export type ListEnumDeviceScanOutcomeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeviceScanOutcome[]'>
     
 
 
@@ -8259,6 +8614,8 @@ export type GlobalOmitConfig = {
   timetablePeriod?: Prisma.TimetablePeriodOmit
   timetableEntry?: Prisma.TimetableEntryOmit
   attendance?: Prisma.AttendanceOmit
+  schoolEntry?: Prisma.SchoolEntryOmit
+  studentAttendanceDay?: Prisma.StudentAttendanceDayOmit
   teacherAttendance?: Prisma.TeacherAttendanceOmit
   book?: Prisma.BookOmit
   bookCopy?: Prisma.BookCopyOmit
@@ -8291,6 +8648,7 @@ export type GlobalOmitConfig = {
   consultationConfig?: Prisma.ConsultationConfigOmit
   consultationTeacherOverride?: Prisma.ConsultationTeacherOverrideOmit
   device?: Prisma.DeviceOmit
+  deviceScan?: Prisma.DeviceScanOmit
   deviceLog?: Prisma.DeviceLogOmit
   systemLog?: Prisma.SystemLogOmit
   academicTimeline?: Prisma.AcademicTimelineOmit

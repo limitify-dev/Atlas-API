@@ -240,3 +240,44 @@ export class BulkMarkAttendanceDto {
   @Type(() => BulkAttendanceRecordDto)
   records: BulkAttendanceRecordDto[];
 }
+
+/**
+ * DTO for a teacher marking in-class attendance for one section + subject + day.
+ */
+export class ClassAttendanceRecordDto {
+  @IsString()
+  @IsNotEmpty()
+  studentId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  status: 'PRESENT' | 'ABSENT' | 'LATE' | 'EXCUSED';
+
+  @IsString()
+  @IsOptional()
+  remarks?: string;
+}
+
+export class MarkClassAttendanceDto {
+  @ApiProperty({ example: 'section-uuid' })
+  @IsString()
+  @IsNotEmpty()
+  sectionId: string;
+
+  @ApiProperty({ example: 'subject-uuid' })
+  @IsString()
+  @IsNotEmpty()
+  subjectId: string;
+
+  @ApiProperty({ example: '2026-09-03' })
+  @IsString()
+  @IsNotEmpty()
+  @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'Date must use YYYY-MM-DD format' })
+  date: string;
+
+  @ApiProperty({ type: [ClassAttendanceRecordDto] })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ClassAttendanceRecordDto)
+  records: ClassAttendanceRecordDto[];
+}

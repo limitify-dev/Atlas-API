@@ -1023,19 +1023,19 @@ export class ParentsService {
     const rows = await Promise.all(
       selectedChildren.map(async (student) => {
         const [attendedCount, totalCount, conduct] = await Promise.all([
-          this.prisma.attendance.count({
+          this.prisma.schoolEntry.count({
             where: {
               tenantId,
               studentId: student.id,
-              createdAt: { gte: termStart },
+              date: { gte: termStart },
               status: { in: [AttendanceStatus.PRESENT, AttendanceStatus.LATE] },
             },
           }),
-          this.prisma.attendance.count({
+          this.prisma.schoolEntry.count({
             where: {
               tenantId,
               studentId: student.id,
-              createdAt: { gte: termStart },
+              date: { gte: termStart },
             },
           }),
           this.prisma.studentConductPoints.findUnique({

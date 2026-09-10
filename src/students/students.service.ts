@@ -23,6 +23,7 @@ import {
   Role,
   Status,
   Gender,
+  SchoolProgram,
   PermissionStatus,
 } from '../../prisma/generated/client';
 import * as XLSX from 'xlsx';
@@ -88,8 +89,11 @@ export class StudentsService {
             lastName: createStudentDto.lastName,
             email: createStudentDto.email || null,
             phone: createStudentDto.phone || null,
-            dateOfBirth: new Date(createStudentDto.dateOfBirth),
+            dateOfBirth: createStudentDto.dateOfBirth
+              ? new Date(createStudentDto.dateOfBirth)
+              : null,
             gender: createStudentDto.gender,
+            program: createStudentDto.program || null,
             nationality: createStudentDto.nationality || null,
             address: createStudentDto.address || null,
             bloodGroup: createStudentDto.bloodGroup || null,
@@ -106,22 +110,31 @@ export class StudentsService {
           },
         });
 
-        // 1. Handle primary parent
-        const parent1 = await this.getOrCreateParent(tx, tenantId, {
-          name: createStudentDto.parentName,
-          email: createStudentDto.parentEmail,
-          phone: createStudentDto.parentPhone,
-          relationship: createStudentDto.relationship,
-          occupation: createStudentDto.occupation,
-        });
+        // 1. Handle primary parent — optional. Parents can be linked later
+        //    via POST /students/:id/parents.
+        let parent1Id: string | null = null;
+        if (
+          createStudentDto.parentName &&
+          createStudentDto.parentEmail &&
+          createStudentDto.parentPhone
+        ) {
+          const parent1 = await this.getOrCreateParent(tx, tenantId, {
+            name: createStudentDto.parentName,
+            email: createStudentDto.parentEmail,
+            phone: createStudentDto.parentPhone,
+            relationship: createStudentDto.relationship,
+            occupation: createStudentDto.occupation,
+          });
+          parent1Id = parent1.id;
 
-        await tx.studentParent.create({
-          data: {
-            studentId: student.id,
-            parentId: parent1.id,
-            isPrimary: true,
-          },
-        });
+          await tx.studentParent.create({
+            data: {
+              studentId: student.id,
+              parentId: parent1.id,
+              isPrimary: true,
+            },
+          });
+        }
 
         // 2. Handle optional second parent
         if (
@@ -137,13 +150,14 @@ export class StudentsService {
             occupation: createStudentDto.parent2Occupation,
           });
 
-          // Avoid duplicate link if it's the same person
-          if (parent2.id !== parent1.id) {
+          // Avoid duplicate link if it's the same person; if there's no
+          // primary parent yet, promote this one to primary.
+          if (parent2.id !== parent1Id) {
             await tx.studentParent.create({
               data: {
                 studentId: student.id,
                 parentId: parent2.id,
-                isPrimary: false,
+                isPrimary: parent1Id === null,
               },
             });
           }
@@ -227,16 +241,37 @@ export class StudentsService {
     }
   }
 
+  /**
+   * Bulk-import students from a multi-sheet workbook where **each sheet is a
+   * classroom** (sheet name = "<grade> <section>", e.g. "S1A", "S4 MS1",
+   * "S6A"). Header-tolerant: accepts a single "Names" column or split
+   * "lastname"/"firstname", plus "Gender", "Program" (Board/Day), an
+   * optional "Comb" combination code, and an optional "student_ID".
+   *
+   * Additive: a row that matches an existing student (by student_ID, else by
+   * normalised full name within the section) is UPDATED on the fields the
+   * sheet carries; unmatched rows are created with a generated ST-id, a null
+   * date of birth and today's admission date. Missing sections (including
+   * combination classes like "S6 HLP") are created on the fly.
+   */
   async processBulkUpload(
     file: Express.Multer.File,
     tenantId: string,
     promotionId?: string,
   ): Promise<{
     success: number;
+    created: number;
+    updated: number;
     failed: number;
     errors: any[];
     cohort?: { id: string; name: string } | null;
     classroomsLinked?: number;
+    bySheet?: {
+      sheet: string;
+      created: number;
+      updated: number;
+      failed: number;
+    }[];
   }> {
     if (!file) {
       throw new BadRequestException('No file uploaded');
@@ -246,24 +281,24 @@ export class StudentsService {
       type: 'buffer',
       cellDates: true,
     });
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(sheet);
 
-    const results: {
-      success: number;
-      failed: number;
-      errors: any[];
-      cohort?: { id: string; name: string } | null;
-      classroomsLinked?: number;
-    } = {
+    const results = {
       success: 0,
+      created: 0,
+      updated: 0,
       failed: 0,
-      errors: [],
+      errors: [] as any[],
+      cohort: null as { id: string; name: string } | null,
+      classroomsLinked: 0,
+      bySheet: [] as {
+        sheet: string;
+        created: number;
+        updated: number;
+        failed: number;
+      }[],
     };
 
-    // ── Resolve the target cohort (promotion) to link students/classrooms to ──
-    // Use the explicitly chosen cohort, otherwise fall back to the active one.
+    // ── Resolve the target cohort (explicit, else the active promotion) ──
     let targetCohort: { id: string; name: string } | null = null;
     if (promotionId) {
       const promo = await this.prisma.promotion.findFirst({
@@ -283,240 +318,367 @@ export class StudentsService {
     }
     results.cohort = targetCohort;
 
-    // Pre-fetch grades and sections for lookup
-    const grades = await this.prisma.grade.findMany({
-      where: { tenantId },
-    });
+    const grades = await this.prisma.grade.findMany({ where: { tenantId } });
     const sections = await this.prisma.section.findMany({
       where: { tenantId },
     });
-
-    // Track which sections we've already linked to the cohort this run
+    const combinations = await this.prisma.combination.findMany({
+      where: { tenantId },
+    });
     const linkedSectionIds = new Set<string>();
 
-    // Normalize helper for tolerant name/code matching
+    // Cell values from the sheet are `unknown` — coerce safely to a string.
+    const str = (v: unknown): string => {
+      if (v == null) return '';
+      if (v instanceof Date) return v.toISOString();
+      if (typeof v === 'object') return '';
+      return `${v as string | number | boolean}`;
+    };
     const norm = (v: unknown) =>
-      String(v ?? '')
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, ' ');
+      str(v).trim().toLowerCase().replace(/\s+/g, ' ');
+    const tight = (v: unknown) => norm(v).replace(/[\s._-]+/g, '');
 
-    for (const [index, row] of data.entries()) {
+    // Running ST-id sequence for created students.
+    let seq = await this.prisma.student.count({ where: { tenantId } });
+    const nextStudentId = () => `ST${String(++seq).padStart(3, '0')}`;
+
+    // Find or create a "label" combination (no subject list).
+    const ensureCombination = async (code: string) => {
+      const c = code.trim();
+      if (!c) return null;
+      const hit = combinations.find((x) => tight(x.code) === tight(c));
+      if (hit) return hit;
+      const created = await this.prisma.combination.create({
+        data: {
+          tenantId,
+          name: c.toUpperCase(),
+          code: c.toUpperCase(),
+          subjectIds: [],
+        },
+      });
+      combinations.push(created);
+      return created;
+    };
+
+    // Find or create the grade for a sheet-name token like "S4" / "P3".
+    const ensureGrade = async (token: string) => {
+      const t = token.trim().toUpperCase();
+      const hit = grades.find(
+        (g) => tight(g.code) === tight(t) || tight(g.name) === tight(t),
+      );
+      if (hit) return hit;
+      const m = t.match(/^([SP])\s*(\d+)$/);
+      if (!m) return null; // don't invent a grade we can't classify
+      const kind = m[1];
+      const level = parseInt(m[2], 10);
+      const created = await this.prisma.grade.create({
+        data: {
+          tenantId,
+          code: `${kind}${level}`,
+          name: `${kind === 'P' ? 'Primary' : 'Senior'} ${level}`,
+          level,
+          schoolLevel: kind === 'P' ? 'PRIMARY' : 'SENIOR',
+          educationLevel:
+            kind === 'P' ? 'PRIMARY' : level >= 4 ? 'ADVANCED' : 'ORDINARY',
+        },
+      });
+      grades.push(created);
+      return created;
+    };
+
+    // Find or create a grade-scoped section (combination classes included).
+    const ensureSection = async (
+      grade: { id: string; code: string },
+      rawName: string,
+      isCombination: boolean,
+    ) => {
+      const target = tight(rawName);
+      const found = sections.find(
+        (s) =>
+          s.gradeId === grade.id &&
+          (target === tight(s.name) ||
+            target === tight(`${grade.code}${s.name}`) ||
+            target === tight(`${grade.code} ${s.name}`)),
+      );
+      if (found) return found;
+      const combo = isCombination ? await ensureCombination(rawName) : null;
+      const created = await this.prisma.section.create({
+        data: {
+          tenantId,
+          gradeId: grade.id,
+          name: rawName.trim().toUpperCase(),
+          capacity: 40,
+          isActive: true,
+          combinationId: combo?.id ?? null,
+          promotionId: targetCohort?.id ?? null,
+        },
+      });
+      sections.push(created);
+      if (targetCohort) linkedSectionIds.add(created.id);
+      return created;
+    };
+
+    // "S4 MS1 STUDENTS/2026-2027" → { gradeToken: "S4", sectionToken: "MS1" }
+    const parseSheetName = (name: string) => {
+      const cleaned = name
+        .replace(/students?.*$/i, '')
+        .replace(/\/.*$/, '')
+        .replace(/^kcs-?/i, '')
+        .trim();
+      const m = cleaned.match(
+        /^\s*(s\s*\d+|p\s*\d+|senior\s*\d+|primary\s*\d+|\d+)\s*(.*)$/i,
+      );
+      if (!m) return null;
+      return {
+        gradeToken: m[1].replace(/\s+/g, '').toUpperCase(),
+        sectionToken: (m[2] || '').replace(/\s+/g, ' ').trim(),
+      };
+    };
+
+    for (const sheetName of workbook.SheetNames) {
+      if (!sheetName.trim() || norm(sheetName) === 'summary') continue;
+      const stat = { sheet: sheetName, created: 0, updated: 0, failed: 0 };
+
       try {
-        const rowData = row as any;
-
-        // Helper to get value case-insensitively
-        const getVal = (key: string) => {
-          const foundKey = Object.keys(rowData).find(
-            (k) =>
-              k.toLowerCase().replace(/\s/g, '') ===
-              key.toLowerCase().replace(/\s/g, ''),
-          );
-          return foundKey ? rowData[foundKey] : undefined;
-        };
-
-        const gradeName = getVal('Grade');
-        const sectionName = getVal('Section'); // Or 'Class'
-
-        // Match grade by name OR code, case/space-insensitive
-        const grade = grades.find(
-          (g) =>
-            norm(g.name) === norm(gradeName) ||
-            norm(g.code) === norm(gradeName),
-        );
-        if (!grade) {
-          throw new Error(`Grade not found: ${gradeName}`);
-        }
-
-        if (!sectionName || !String(sectionName).trim()) {
-          throw new Error('Section is required');
-        }
-
-        // Match section within the resolved grade. Import files often prefix the
-        // section with the grade code (e.g. "S1A" = grade S1 + section "A",
-        // "S4MPG" = grade S4 + section "MPG"), so we match the bare name as well
-        // as the grade-code-prefixed forms.
-        const target = norm(sectionName);
-        const section = sections.find((s) => {
-          if (s.gradeId !== grade.id) return false;
-          return (
-            target === norm(s.name) ||
-            target === norm(`${grade.code}${s.name}`) ||
-            target === norm(`${grade.code} ${s.name}`) ||
-            target === norm(`${grade.code}-${s.name}`)
-          );
+        const sheet = workbook.Sheets[sheetName];
+        const rows: unknown[][] = XLSX.utils.sheet_to_json(sheet, {
+          header: 1,
+          blankrows: false,
+          defval: '',
         });
-        if (!section) {
-          throw new Error(
-            `Section "${sectionName}" not found in grade "${grade.name}"`,
-          );
-        }
 
-        // ── Link this classroom (section) to the target cohort, once ──
-        if (
-          targetCohort &&
-          section.promotionId !== targetCohort.id &&
-          !linkedSectionIds.has(section.id)
-        ) {
-          await this.prisma.section.update({
-            where: { id: section.id },
-            data: { promotionId: targetCohort.id },
+        const headerIdx = rows.findIndex(
+          (r) =>
+            Array.isArray(r) &&
+            r.some((c) =>
+              [
+                'names',
+                'name',
+                'lastname',
+                'last name',
+                'firstname',
+                'first name',
+              ].includes(norm(c)),
+            ),
+        );
+        if (headerIdx === -1) {
+          results.errors.push({ sheet: sheetName, error: 'No header row' });
+          results.bySheet.push(stat);
+          continue;
+        }
+        const header = rows[headerIdx].map((c) => norm(c));
+        const col = (...cands: string[]) => {
+          for (const c of cands) {
+            const i = header.indexOf(c);
+            if (i !== -1) return i;
+          }
+          return -1;
+        };
+        const iNo = col('no', 'n°', '#');
+        const iNames = col('names', 'name');
+        const iLast = col('lastname', 'last name', 'surname');
+        const iFirst = col('firstname', 'first name', 'other names');
+        const iGender = col('gender', 'sex');
+        const iProgram = col('program', 'programme');
+        const iComb = col('comb', 'combination', 'option');
+        const iSid = col('student_id', 'studentid', 'student id', 'id');
+
+        const parsed = parseSheetName(sheetName);
+        const grade = parsed ? await ensureGrade(parsed.gradeToken) : null;
+        if (!grade) {
+          results.errors.push({
+            sheet: sheetName,
+            error: `Could not resolve a grade from the sheet name`,
           });
-          section.promotionId = targetCohort.id; // keep in-memory copy fresh
-          linkedSectionIds.add(section.id);
+          results.bySheet.push(stat);
+          continue;
         }
+        const isAdvanced = grade.educationLevel === 'ADVANCED';
 
-        const dto = new CreateStudentDto();
-        dto.firstName = String(getVal('FirstName') || '');
-        dto.lastName = String(getVal('LastName') || '');
-        dto.email = String(getVal('Email') || '');
-        dto.phone = getVal('Phone') ? String(getVal('Phone')) : undefined;
+        for (let r = headerIdx + 1; r < rows.length; r++) {
+          const row = rows[r];
+          if (!Array.isArray(row)) continue;
+          try {
+            const oneName = (i: number) =>
+              i === -1 ? '' : str(row[i]).trim().replace(/\s+/g, ' ');
 
-        const dob = getVal('DateofBirth');
-        dto.dateOfBirth =
-          dob instanceof Date ? dob.toISOString() : String(dob || '');
+            const nameCell =
+              iNames !== -1
+                ? oneName(iNames)
+                : `${oneName(iLast)} ${oneName(iFirst)}`.trim();
+            if (!nameCell) continue;
+            if (iNo !== -1 && !/^\d+$/.test(str(row[iNo]).trim())) {
+              continue; // skip totals / spacer rows
+            }
 
-        dto.gender = getVal('Gender') as Gender;
-        dto.nationality = getVal('Nationality')
-          ? String(getVal('Nationality'))
-          : undefined;
-        dto.address = getVal('Address') ? String(getVal('Address')) : undefined;
-        dto.gradeId = grade.id;
-        dto.sectionId = section.id;
-        // Link the student to the target cohort (falls back to the section's
-        // own promotion inside create() when no target cohort is set)
-        if (targetCohort) dto.promotionId = targetCohort.id;
+            let firstName = '';
+            let lastName = '';
+            if (iNames !== -1) {
+              firstName = oneName(iNames);
+            } else {
+              lastName = oneName(iLast);
+              firstName = oneName(iFirst);
+            }
+            if (!firstName && !lastName) continue;
 
-        const admDate = getVal('AdmissionDate');
-        dto.admissionDate =
-          admDate instanceof Date
-            ? admDate.toISOString()
-            : String(admDate || new Date().toISOString());
+            const gRaw = norm(iGender === -1 ? '' : row[iGender]);
+            const gender: Gender | null = gRaw.startsWith('m')
+              ? Gender.MALE
+              : gRaw.startsWith('f')
+                ? Gender.FEMALE
+                : null;
+            if (!gender) {
+              throw new Error(`Unrecognised gender "${str(row[iGender])}"`);
+            }
 
-        // Parent info
-        dto.parentName = String(getVal('ParentName') || '');
-        dto.parentEmail = String(getVal('ParentEmail') || '');
-        dto.parentPhone = String(getVal('ParentPhone') || '');
-        dto.relationship = getVal('Relationship')
-          ? String(getVal('Relationship'))
-          : undefined;
-        dto.occupation = getVal('Occupation')
-          ? String(getVal('Occupation'))
-          : undefined;
+            const pRaw = norm(iProgram === -1 ? '' : row[iProgram]);
+            const program: SchoolProgram | null =
+              pRaw.startsWith('board') || pRaw.startsWith('bord')
+                ? SchoolProgram.BOARDING
+                : pRaw.startsWith('day')
+                  ? SchoolProgram.DAY
+                  : null;
 
-        // Parent 2 info
-        dto.parent2Name = getVal('Parent2Name')
-          ? String(getVal('Parent2Name'))
-          : undefined;
-        dto.parent2Email = getVal('Parent2Email')
-          ? String(getVal('Parent2Email'))
-          : undefined;
-        dto.parent2Phone = getVal('Parent2Phone')
-          ? String(getVal('Parent2Phone'))
-          : undefined;
-        dto.parent2Relationship = getVal('Parent2Relationship')
-          ? String(getVal('Parent2Relationship'))
-          : undefined;
-        dto.parent2Occupation = getVal('Parent2Occupation')
-          ? String(getVal('Parent2Occupation'))
-          : undefined;
+            const combCode = iComb === -1 ? '' : str(row[iComb]).trim();
+            const sectionRaw = combCode || parsed!.sectionToken || 'A';
+            const section = await ensureSection(
+              grade,
+              sectionRaw,
+              !!combCode || isAdvanced,
+            );
 
-        // Basic validation before calling create to save DB calls if obviously wrong
-        if (
-          !dto.firstName ||
-          !dto.lastName ||
-          !dto.email ||
-          !dto.parentEmail ||
-          !dto.parentPhone
-        ) {
-          throw new Error(
-            'Missing required fields (First Name, Last Name, Email, Parent Email, Parent Phone)',
-          );
+            if (
+              targetCohort &&
+              section.promotionId !== targetCohort.id &&
+              !linkedSectionIds.has(section.id)
+            ) {
+              await this.prisma.section.update({
+                where: { id: section.id },
+                data: { promotionId: targetCohort.id },
+              });
+              section.promotionId = targetCohort.id;
+              linkedSectionIds.add(section.id);
+            }
+
+            const sidCell = iSid === -1 ? '' : str(row[iSid]).trim();
+            let existing: { id: string } | null = null;
+            if (sidCell) {
+              existing = await this.prisma.student.findFirst({
+                where: { tenantId, studentId: sidCell },
+                select: { id: true },
+              });
+            }
+            if (!existing) {
+              const want = tight(`${firstName}${lastName}`);
+              const inSection = await this.prisma.student.findMany({
+                where: { tenantId, sectionId: section.id },
+                select: { id: true, firstName: true, lastName: true },
+              });
+              existing =
+                inSection.find(
+                  (c) => tight(`${c.firstName}${c.lastName}`) === want,
+                ) ?? null;
+            }
+
+            const data = {
+              firstName,
+              lastName,
+              gender,
+              gradeId: grade.id,
+              sectionId: section.id,
+              ...(program ? { program } : {}),
+              ...(targetCohort ? { promotionId: targetCohort.id } : {}),
+            };
+
+            if (existing) {
+              await this.prisma.student.update({
+                where: { id: existing.id },
+                data,
+              });
+              results.updated++;
+              stat.updated++;
+            } else {
+              await this.prisma.student.create({
+                data: {
+                  tenantId,
+                  studentId: sidCell || nextStudentId(),
+                  admissionDate: new Date(),
+                  dateOfBirth: null,
+                  ...data,
+                },
+              });
+              results.created++;
+              stat.created++;
+            }
+          } catch (e) {
+            results.failed++;
+            stat.failed++;
+            results.errors.push({
+              sheet: sheetName,
+              row: r + 1,
+              error: e instanceof Error ? e.message : String(e),
+            });
+          }
         }
-
-        await this.create(dto, tenantId);
-        results.success++;
-      } catch (error) {
-        results.failed++;
+      } catch (e) {
         results.errors.push({
-          row: index + 2,
-          error: error.message,
-          data: row,
+          sheet: sheetName,
+          error: e instanceof Error ? e.message : String(e),
         });
       }
+      results.bySheet.push(stat);
     }
 
+    results.success = results.created + results.updated;
     results.classroomsLinked = linkedSectionIds.size;
     return results;
   }
 
   getBulkUploadTemplate(): Buffer {
+    // Mirrors the school's own class lists: one sheet per classroom, the
+    // sheet name is "<grade> <section>". Names may be one column or split.
     const columns = [
-      'First Name',
+      'No',
+      'student_ID',
       'Last Name',
-      'Email',
-      'Phone',
-      'Date of Birth',
+      'First Name',
       'Gender',
-      'Nationality',
-      'Address',
-      'Grade',
-      'Section',
-      'Admission Date',
-      'Parent Name',
-      'Parent Email',
-      'Parent Phone',
-      'Relationship',
-      'Occupation',
-      'Parent2 Name',
-      'Parent2 Email',
-      'Parent2 Phone',
-      'Parent2 Relationship',
-      'Parent2 Occupation',
+      'Program',
+      'Comb',
     ];
 
-    const data = [
-      {
-        'First Name': 'John',
-        'Last Name': 'Doe',
-        Email: 'john.doe@example.com',
-        Phone: '1234567890',
-        'Date of Birth': '2010-01-01',
-        Gender: 'MALE',
-        Nationality: 'American',
-        Address: '123 Main St',
-        Grade: 'Senior 1',
-        Section: 'S1A',
-        'Admission Date': '2024-01-01',
-        'Parent Name': 'Jane Doe',
-        'Parent Email': 'jane.doe@example.com',
-        'Parent Phone': '0987654321',
-        Relationship: 'Mother',
-        Occupation: 'Engineer',
-      },
-      {
-        'First Name': 'Alice',
-        'Last Name': 'Smith',
-        Email: 'alice.smith@example.com',
-        Phone: '2345678901',
-        'Date of Birth': '2007-05-15',
-        Gender: 'FEMALE',
-        Nationality: 'British',
-        Address: '456 Oak Ave',
-        Grade: 'Senior 4',
-        Section: 'S4MPGE',
-        'Admission Date': '2024-01-01',
-        'Parent Name': 'Bob Smith',
-        'Parent Email': 'bob.smith@example.com',
-        'Parent Phone': '3456789012',
-        Relationship: 'Father',
-        Occupation: 'Doctor',
-      },
-    ];
+    const rowsFor = (
+      names: [string, string, 'M' | 'F', 'Board' | 'Day', string][],
+    ) =>
+      names.map(([last, first, gender, program, comb], i) => ({
+        No: i + 1,
+        student_ID: '',
+        'Last Name': last,
+        'First Name': first,
+        Gender: gender,
+        Program: program,
+        Comb: comb,
+      }));
 
-    const worksheet = XLSX.utils.json_to_sheet(data, { header: columns });
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Students');
+
+    const s1a = XLSX.utils.json_to_sheet(
+      rowsFor([
+        ['DOE', 'John', 'M', 'Board', ''],
+        ['SMITH', 'Alice', 'F', 'Day', ''],
+      ]),
+      { header: columns },
+    );
+    XLSX.utils.book_append_sheet(workbook, s1a, 'S1A');
+
+    const s6 = XLSX.utils.json_to_sheet(
+      rowsFor([
+        ['KAMANZI', 'Armand', 'M', 'Board', 'HGL'],
+        ['ISHIMWE', 'Grace', 'F', 'Day', 'MCB'],
+      ]),
+      { header: columns },
+    );
+    XLSX.utils.book_append_sheet(workbook, s6, 'S6A');
 
     return XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
   }
@@ -535,6 +697,7 @@ export class StudentsService {
       gradeId,
       sectionId,
       promotionId,
+      combination,
       gender,
       page = 1,
       limit = 10,
@@ -546,6 +709,20 @@ export class StudentsService {
       ...(sectionId && { sectionId }),
       ...(promotionId && { promotionId }),
       ...(gender && { gender }),
+      ...(combination && {
+        section: {
+          is: {
+            combination: {
+              is: {
+                OR: [
+                  { id: combination },
+                  { code: { equals: combination, mode: 'insensitive' } },
+                ],
+              },
+            },
+          },
+        },
+      }),
       ...(search && {
         OR: [
           { firstName: { contains: search, mode: 'insensitive' } },
@@ -576,6 +753,7 @@ export class StudentsService {
           section: {
             include: {
               promotion: { select: { id: true, name: true, entryYear: true } },
+              combination: { select: { id: true, code: true, name: true } },
             },
           },
           promotion: { select: { id: true, name: true, entryYear: true } },
@@ -612,7 +790,11 @@ export class StudentsService {
       where: { id, tenantId },
       include: {
         grade: true,
-        section: true,
+        section: {
+          include: {
+            combination: { select: { id: true, code: true, name: true } },
+          },
+        },
         card: true,
         parents: {
           include: {
@@ -627,7 +809,7 @@ export class StudentsService {
         borrowedBooks: {
           where: { returnDate: null },
         },
-        attendances: true,
+        schoolEntries: true,
       },
     });
 
@@ -666,7 +848,7 @@ export class StudentsService {
         borrowedBooks: {
           where: { returnDate: null },
         },
-        attendances: true,
+        schoolEntries: true,
       },
     });
 
@@ -707,11 +889,13 @@ export class StudentsService {
         if (updateStudentDto.phone !== undefined)
           studentUpdateData.phone = updateStudentDto.phone || null;
         if (updateStudentDto.dateOfBirth !== undefined)
-          studentUpdateData.dateOfBirth = new Date(
-            updateStudentDto.dateOfBirth,
-          );
+          studentUpdateData.dateOfBirth = updateStudentDto.dateOfBirth
+            ? new Date(updateStudentDto.dateOfBirth)
+            : null;
         if (updateStudentDto.gender !== undefined)
           studentUpdateData.gender = updateStudentDto.gender;
+        if (updateStudentDto.program !== undefined)
+          studentUpdateData.program = updateStudentDto.program || null;
         if (updateStudentDto.nationality !== undefined)
           studentUpdateData.nationality = updateStudentDto.nationality || null;
         if (updateStudentDto.address !== undefined)
@@ -845,6 +1029,26 @@ export class StudentsService {
         } catch (uploadErr) {
           console.error(`Unexpected error processing photo:`, uploadErr);
         }
+      } else if (
+        updateStudentDto.removePhoto === 'true' ||
+        updateStudentDto.photoUrl === ''
+      ) {
+        // Explicit photo removal — null the column, best-effort delete the object.
+        try {
+          await this.supabase.client.storage
+            .from('atlas-profiles')
+            .remove([
+              `${tenantId}/students/${id}/profile.jpg`,
+              `${tenantId}/students/${id}/profile.png`,
+              `${tenantId}/students/${id}/profile.webp`,
+            ]);
+        } catch {
+          // ignore storage errors — the DB is the source of truth
+        }
+        await this.prisma.student.update({
+          where: { id },
+          data: { photoUrl: null },
+        });
       }
 
       return this.findOne(id, tenantId);
@@ -905,6 +1109,7 @@ export class StudentsService {
       phone: student.phone,
       dateOfBirth: student.dateOfBirth,
       gender: student.gender,
+      program: student.program ?? null,
       nationality: student.nationality,
       address: student.address,
       bloodGroup: student.bloodGroup,
@@ -923,6 +1128,13 @@ export class StudentsService {
         id: student.section.id,
         name: student.section.name,
       },
+      combination: student.section?.combination
+        ? {
+            id: student.section.combination.id,
+            code: student.section.combination.code,
+            name: student.section.combination.name,
+          }
+        : null,
       parents:
         student.parents?.map((sp: any) => ({
           id: sp.parent.id,
@@ -947,12 +1159,12 @@ export class StudentsService {
       updatedAt: student.updatedAt,
       stats: {
         attendancePercentage:
-          student.attendances?.length > 0
+          student.schoolEntries?.length > 0
             ? Math.round(
-                (student.attendances.filter(
+                (student.schoolEntries.filter(
                   (a) => a.status === 'PRESENT' || a.status === 'LATE',
                 ).length /
-                  student.attendances.length) *
+                  student.schoolEntries.length) *
                   100,
               )
             : 0,
@@ -984,6 +1196,8 @@ export class StudentsService {
       studentsAddedThisWeek,
       maleCount,
       femaleCount,
+      boardingCount,
+      dayCount,
     ] = await Promise.all([
       // Total enrolled students
       this.prisma.student.count({
@@ -1014,6 +1228,13 @@ export class StudentsService {
       this.prisma.student.count({
         where: { tenantId, gender: Gender.FEMALE },
       }),
+      // Boarding / day-scholar split — surfaced on the Students list header.
+      this.prisma.student.count({
+        where: { tenantId, program: SchoolProgram.BOARDING },
+      }),
+      this.prisma.student.count({
+        where: { tenantId, program: SchoolProgram.DAY },
+      }),
     ]);
 
     // Since students don't have status field in the database, all enrolled students are considered active
@@ -1029,6 +1250,8 @@ export class StudentsService {
       newAdmissionsThisWeek: studentsAddedThisWeek, // Use createdAt for accurate weekly count
       male: maleCount,
       female: femaleCount,
+      boarding: boardingCount,
+      day: dayCount,
     };
   }
 
@@ -1293,17 +1516,29 @@ export class StudentsService {
   async linkParent(
     studentId: string,
     tenantId: string,
-    dto: { name: string; email: string; phone: string; relationship?: string; isPrimary?: boolean },
+    dto: {
+      name: string;
+      email: string;
+      phone: string;
+      relationship?: string;
+      isPrimary?: boolean;
+    },
   ) {
     return this.prisma.$transaction(async (tx) => {
-      const student = await tx.student.findFirst({ where: { id: studentId, tenantId } });
+      const student = await tx.student.findFirst({
+        where: { id: studentId, tenantId },
+      });
       if (!student) throw new NotFoundException('Student not found.');
 
       const parent = await this.getOrCreateParent(tx, tenantId, dto);
 
       await tx.studentParent.upsert({
         where: { studentId_parentId: { studentId, parentId: parent.id } },
-        create: { studentId, parentId: parent.id, isPrimary: dto.isPrimary ?? false },
+        create: {
+          studentId,
+          parentId: parent.id,
+          isPrimary: dto.isPrimary ?? false,
+        },
         update: { isPrimary: dto.isPrimary ?? false },
       });
 
@@ -1311,20 +1546,34 @@ export class StudentsService {
     });
   }
 
-  async unlinkParent(studentId: string, tenantId: string, parentUserId: string) {
-    const student = await this.prisma.student.findFirst({ where: { id: studentId, tenantId } });
+  async unlinkParent(
+    studentId: string,
+    tenantId: string,
+    parentUserId: string,
+  ) {
+    const student = await this.prisma.student.findFirst({
+      where: { id: studentId, tenantId },
+    });
     if (!student) throw new NotFoundException('Student not found.');
 
-    const parent = await this.prisma.parent.findFirst({ where: { userId: parentUserId, tenantId } });
+    const parent = await this.prisma.parent.findFirst({
+      where: { userId: parentUserId, tenantId },
+    });
     if (!parent) throw new NotFoundException('Parent not found.');
 
     const link = await this.prisma.studentParent.findUnique({
       where: { studentId_parentId: { studentId, parentId: parent.id } },
     });
-    if (!link) throw new NotFoundException('Parent is not linked to this student.');
+    if (!link)
+      throw new NotFoundException('Parent is not linked to this student.');
 
-    const count = await this.prisma.studentParent.count({ where: { studentId } });
-    if (count <= 1) throw new BadRequestException('Cannot remove the only parent linked to this student.');
+    const count = await this.prisma.studentParent.count({
+      where: { studentId },
+    });
+    if (count <= 1)
+      throw new BadRequestException(
+        'Cannot remove the only parent linked to this student.',
+      );
 
     await this.prisma.studentParent.delete({
       where: { studentId_parentId: { studentId, parentId: parent.id } },

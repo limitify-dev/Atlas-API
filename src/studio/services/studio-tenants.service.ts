@@ -17,6 +17,7 @@ import { StudioSubscriptionService } from './studio-subscription.service';
 import { AdminProvisionService } from './admin-provision.service';
 import {
   AdminInvite,
+  ConversationType,
   Prisma,
   SubscriptionPlan,
 } from '../../../prisma/generated/client';
@@ -111,7 +112,9 @@ export class StudioTenantsService {
     await this.modulesService.enableDefaults(tenant.id);
 
     // Admin invite if contact provided
-    let invite: AdminInvite | null = null;
+    let invite:
+      | (AdminInvite & { emailSent?: boolean; emailError?: string })
+      | null = null;
     if (dto.adminEmail || dto.adminPhone) {
       invite = await this.adminProvisionService.createInvite(tenant.id, {
         email: dto.adminEmail,
@@ -180,14 +183,17 @@ export class StudioTenantsService {
           const { data: urlData } = this.supabase.client.storage
             .from('atlas-profiles')
             .getPublicUrl(filePath);
-          logoUrl = urlData.publicUrl;
+          // The file path is stable (upsert), so the public URL never changes —
+          // browsers, RN <Image>, and the CDN would keep serving the old logo.
+          // A version token makes every upload a fresh URL that busts caches.
+          logoUrl = `${urlData.publicUrl}?v=${Date.now()}`;
         }
       } catch {
         /* logo upload failure is non-fatal */
       }
     }
 
-    return this.prisma.tenant.update({
+    const updated = await this.prisma.tenant.update({
       where: { id },
       data: {
         ...(dto.name !== undefined && { name: dto.name }),
@@ -199,6 +205,25 @@ export class StudioTenantsService {
         ...(logoUrl !== undefined && { logo: logoUrl }),
       },
     });
+
+    // Group/channel conversation avatars are denormalised copies of the tenant
+    // logo (set at creation — no per-group custom avatar). Re-point them so the
+    // school-wide group/announcement-channel logo adapts when the logo changes.
+    if (logoUrl) {
+      await this.prisma.conversation
+        .updateMany({
+          where: {
+            tenantId: id,
+            type: { in: [ConversationType.GROUP, ConversationType.CHANNEL] },
+          },
+          data: { avatar: logoUrl },
+        })
+        .catch((err) =>
+          console.error(`Failed to sync group avatars for tenant ${id}:`, err),
+        );
+    }
+
+    return updated;
   }
 
   async updateStatus(id: string, dto: UpdateTenantStatusDto) {

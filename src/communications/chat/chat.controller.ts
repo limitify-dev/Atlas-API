@@ -20,6 +20,7 @@ import {
   CurrentUser,
   AuthUser,
 } from '../../common/decorators/current-user.decorator';
+import { RequireModule } from '../../common/module-access/require-module.decorator';
 import { ChatService } from './chat.service';
 import {
   CreateConversationDto,
@@ -33,6 +34,7 @@ import {
 @ApiTags('Chat')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@RequireModule('connect')
 @Controller('chat')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}

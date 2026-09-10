@@ -8,6 +8,7 @@ import {
   AuthUser,
 } from '../../auth/decorators/current-user.decorator';
 import { Role } from '../../../prisma/generated/client';
+import { RequireModule } from '../../common/module-access/require-module.decorator';
 import { PaymentsService } from './payments.service';
 import { SubmitProofDto } from '../dto/submit-proof.dto';
 import { PromiseToPayDto } from '../dto/promise-to-pay.dto';
@@ -18,6 +19,7 @@ import { ReviewPromiseDto } from '../dto/review-promise.dto';
 @ApiTags('Finance — Payments')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@RequireModule('finance')
 @Controller('finance')
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
