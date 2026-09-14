@@ -296,6 +296,13 @@ export class StudentDayService {
 
       const status = d?.campusStatus ?? null;
       const onCampus = status === 'PRESENT' || status === 'LATE';
+      // What actually gets counted below must be the same thing shown in
+      // `daily[]` — a day with no materialized row was being counted as
+      // ABSENT in the aggregate (chronic-absence banner etc.) but rendered
+      // as 'NONE'/"No record" in the day-by-day trace, so the two visibly
+      // disagreed. displayStatus is set in every branch and is what both
+      // the count AND the trace now use.
+      let displayStatus: 'PRESENT' | 'LATE' | 'ABSENT' | 'EXCUSED';
 
       if (onCampus) {
         presentDays += 1;
@@ -312,16 +319,19 @@ export class StudentDayService {
           arrivalSum += local.hour * 60 + local.minute - startMinutes;
           arrivalCount += 1;
         }
+        displayStatus = status as 'PRESENT' | 'LATE';
       } else if (status === 'EXCUSED') {
         excusedDays += 1;
         curAbsent += 1;
         curPresent = 0;
         currentAbsenceStreak += 1;
+        displayStatus = 'EXCUSED';
       } else {
         absentDays += 1;
         curAbsent += 1;
         curPresent = 0;
         currentAbsenceStreak += 1;
+        displayStatus = 'ABSENT';
       }
       longestPresentStreak = Math.max(longestPresentStreak, curPresent);
       longestAbsentStreak = Math.max(longestAbsentStreak, curAbsent);
@@ -330,12 +340,7 @@ export class StudentDayService {
 
       daily.push({
         date: key,
-        campus: (status ?? 'NONE') as
-          | 'PRESENT'
-          | 'LATE'
-          | 'ABSENT'
-          | 'EXCUSED'
-          | 'NONE',
+        campus: displayStatus,
         firstInAt: d?.firstInAt?.toISOString() ?? null,
         lastOutAt: d?.lastOutAt?.toISOString() ?? null,
       });
@@ -432,7 +437,11 @@ export class StudentDayService {
     tenantId: string,
     from: string,
     to: string,
-    filters: { sectionId?: string; gradeId?: string } = {},
+    filters: {
+      sectionId?: string;
+      gradeId?: string;
+      program?: 'BOARDING' | 'DAY';
+    } = {},
   ) {
     const { schoolDays, chronicPct } = await this.tenantConfig(tenantId);
     const schoolDayCount = this.schoolDayKeys(from, to, schoolDays).length || 1;
@@ -444,12 +453,14 @@ export class StudentDayService {
         tenantId,
         ...(filters.sectionId ? { sectionId: filters.sectionId } : {}),
         ...(filters.gradeId ? { gradeId: filters.gradeId } : {}),
+        ...(filters.program ? { program: filters.program } : {}),
       },
       select: {
         id: true,
         firstName: true,
         lastName: true,
         studentId: true,
+        program: true,
         section: { select: { name: true } },
         grade: { select: { name: true } },
         attendanceDays: {
@@ -473,6 +484,12 @@ export class StudentDayService {
           name: `${s.firstName} ${s.lastName}`.trim(),
           section: s.section?.name ?? null,
           grade: s.grade?.name ?? null,
+          // Gate-based "on campus" tracking means something different for a
+          // boarder (already lives on campus — may rarely tap the gate at
+          // all) than a day scholar (the gate tap *is* their attendance
+          // signal). Surfaced per-row so the two are never silently averaged
+          // together as if they measured the same thing.
+          program: s.program ?? null,
           campusRate,
           atRisk: campusRate < chronicPct,
         };

@@ -101,6 +101,23 @@ describe('StudentDayService.getStudentProfile', () => {
     expect(r.signals.chronicAbsence).toBe(true); // 40% < 90%
     expect((r as Record<string, unknown>).inClass).toBeUndefined();
   });
+
+  it('marks a day with no materialized row as ABSENT in daily[], matching the count', async () => {
+    // Mon 09-07 present, Tue 09-08 has no StudentAttendanceDay row at all.
+    const svc = await build([day('2026-09-07')]);
+    const r = await svc.getStudentProfile(
+      't1',
+      's1',
+      '2026-09-07',
+      '2026-09-08',
+    );
+    expect(r.campus.absentDays).toBe(1);
+    const missing = r.daily.find((d) => d.date === '2026-09-08');
+    // Previously rendered 'NONE' here while still counting it as absent
+    // above — the two must agree, or the chronic-absence banner and the
+    // day-by-day trace grid visibly contradict each other.
+    expect(missing?.campus).toBe('ABSENT');
+  });
 });
 
 describe('StudentDayService.getCohort', () => {
