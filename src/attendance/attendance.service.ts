@@ -651,12 +651,9 @@ export class AttendanceService {
         });
         schoolEntryId = entry.id;
         action = entry.action;
-        outcome =
-          entry.action === 'check-in'
-            ? 'CHECK_IN'
-            : entry.action === 'check-out'
-              ? 'CHECK_OUT'
-              : 'DUPLICATE';
+        // Check-out is disabled for now (school-entry.service.ts) — recordScan
+        // only ever returns 'check-in' or 'noop', never 'check-out'.
+        outcome = entry.action === 'check-in' ? 'CHECK_IN' : 'DUPLICATE';
         const s = await this.prisma.student.findUnique({
           where: { id: card.studentId },
           select: { firstName: true, lastName: true },

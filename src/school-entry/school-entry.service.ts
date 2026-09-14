@@ -163,32 +163,10 @@ export class SchoolEntryService {
       return { ...created, action: 'check-in' as const };
     }
 
-    // An IN-only reader never checks a student out — a repeat tap is a no-op.
-    if (input.direction === 'IN') {
-      return { ...existing, action: 'noop' as const };
-    }
-
-    // Existing row. If not yet checked out and this scan is clearly later (or
-    // this is an OUT-only reader), it's a check-out. Otherwise it's a duplicate
-    // entry scan — no-op.
-    const laterThanCheckIn =
-      input.direction === 'OUT' ||
-      !existing.checkInAt ||
-      input.at.getTime() - existing.checkInAt.getTime() > 60_000;
-
-    if (!existing.checkOutAt && laterThanCheckIn) {
-      const updated = await this.prisma.schoolEntry.update({
-        where: { id: existing.id },
-        data: {
-          checkOutAt: input.at,
-          checkOutMethod: input.method,
-          checkOutLocation: input.location ?? null,
-        },
-      });
-      await this.invalidateCaches(input.tenantId);
-      return { ...updated, action: 'check-out' as const };
-    }
-
+    // Check-out is disabled for now — a student's first tap of the day is
+    // the whole entry, every later tap is a silent no-op regardless of
+    // direction. Previous check-in/check-out state machine is in git
+    // history if this needs to come back.
     return { ...existing, action: 'noop' as const };
   }
 

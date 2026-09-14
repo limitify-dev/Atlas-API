@@ -65,7 +65,7 @@ describe('SchoolEntryService.recordScan', () => {
     expect(r.status).toBe('LATE');
   });
 
-  it('a later scan the same day → check-out, check-in untouched', async () => {
+  it('a later scan the same day → silently ignored, no check-out recorded (disabled for now)', async () => {
     await service.recordScan({
       tenantId: 't1',
       studentId: 'stu1',
@@ -78,8 +78,8 @@ describe('SchoolEntryService.recordScan', () => {
       at: new Date('2026-09-03T15:00:00.000Z'),
       method: 'CARD',
     });
-    expect(out.action).toBe('check-out');
-    expect(out.checkOutAt).toEqual(new Date('2026-09-03T15:00:00.000Z'));
+    expect(out.action).toBe('noop');
+    expect(out.checkOutAt).toBeUndefined();
     expect(out.checkInAt).toEqual(new Date('2026-09-03T07:30:00.000Z'));
   });
 
