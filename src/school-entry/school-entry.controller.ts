@@ -51,14 +51,22 @@ export class SchoolEntryController {
   @UseGuards(DeviceApiKeyGuard)
   @ApiSecurity('device-api-key')
   @ApiOperation({ summary: 'Record a gate scan (check-in, then check-out)' })
-  async scan(@Request() req: { tenantId: string }, @Body() dto: ScanDto) {
+  async scan(
+    @Request() req: { tenantId: string; device: { id: string } },
+    @Body() dto: ScanDto,
+  ) {
     return this.service.recordScanByCard({
       tenantId: req.tenantId,
       cardNumber: dto.cardNumber,
       at: new Date(dto.at),
       method: 'CARD',
       location: dto.location,
-      deviceId: dto.deviceId,
+      // The authenticated device, not dto.deviceId — that's whatever
+      // string the client puts in its own JSON body (Atlas-Edge sends its
+      // configured device *name*, e.g. "edge-dev-laptop") and SchoolEntry
+      // .deviceId is a real foreign key to Device.id (a UUID), so trusting
+      // it threw a foreign-key violation (500) on every single scan.
+      deviceId: req.device.id,
     });
   }
 
@@ -67,7 +75,10 @@ export class SchoolEntryController {
   @UseGuards(DeviceApiKeyGuard)
   @ApiSecurity('device-api-key')
   @ApiOperation({ summary: 'Sync a batch of gate scans from an edge device' })
-  async batch(@Request() req: { tenantId: string }, @Body() dto: BatchScanDto) {
+  async batch(
+    @Request() req: { tenantId: string; device: { id: string } },
+    @Body() dto: BatchScanDto,
+  ) {
     const results = { processed: 0, failed: 0, errors: [] as string[] };
     for (const r of dto.records) {
       try {
@@ -77,6 +88,7 @@ export class SchoolEntryController {
           at: new Date(r.at),
           method: 'DEVICE',
           location: r.location,
+          deviceId: req.device.id,
         });
         results.processed += 1;
       } catch (e) {
@@ -106,6 +118,7 @@ export class SchoolEntryController {
       checkOutAt: dto.checkOutAt,
       remarks: dto.remarks,
       recordedBy: user.id,
+      requestedByRole: user.role as Role,
     });
   }
 
@@ -122,6 +135,7 @@ export class SchoolEntryController {
       tenantId: user.tenantId,
       date: dto.date,
       recordedBy: user.id,
+      requestedByRole: user.role as Role,
       records: dto.records,
     });
   }

@@ -1,4 +1,9 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CacheService } from '../common/cache/cache.service';
 import { DomainEventsService } from '../domain-events/domain-events.service';
@@ -6,6 +11,7 @@ import { AttendanceMarkedEvent } from '../domain-events/events';
 import {
   AttendanceMethod,
   AttendanceStatus,
+  Role,
 } from '../../prisma/generated/client';
 import {
   AttendanceSettings,
@@ -38,6 +44,11 @@ interface ManualEntryInput {
   checkOutAt?: string;
   remarks?: string;
   recordedBy?: string;
+  /** A TEACHER may only record a student with no entry yet for that day —
+   * never override one, including the gate's own. ADMIN/STAFF are exempt
+   * (they're the ones who correct mistakes). Omit for non-interactive
+   * callers (e.g. bulk imports) that don't carry a requesting role. */
+  requestedByRole?: Role;
 }
 
 @Injectable()
@@ -276,6 +287,12 @@ export class SchoolEntryService {
       },
     });
 
+    if (existing && input.requestedByRole === Role.TEACHER) {
+      throw new ForbiddenException(
+        'This student already has an entry for today — ask an admin or staff member to correct it.',
+      );
+    }
+
     const data = {
       status: input.status,
       checkInAt: input.checkInAt ? new Date(input.checkInAt) : undefined,
@@ -319,6 +336,7 @@ export class SchoolEntryService {
     tenantId: string;
     date: string;
     recordedBy?: string;
+    requestedByRole?: Role;
     records: Array<{
       studentId: string;
       status: AttendanceStatus;
@@ -338,6 +356,7 @@ export class SchoolEntryService {
           status: r.status,
           remarks: r.remarks,
           recordedBy: input.recordedBy,
+          requestedByRole: input.requestedByRole,
         });
         results.success += 1;
       } catch {

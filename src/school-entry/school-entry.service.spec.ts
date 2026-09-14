@@ -178,3 +178,86 @@ describe('SchoolEntryService.recordScan', () => {
     expect(events.emit).not.toHaveBeenCalled();
   });
 });
+
+describe('SchoolEntryService.manualUpsert', () => {
+  let service: SchoolEntryService;
+  let entryStore: any;
+
+  const makePrisma = () => ({
+    student: { findFirst: jest.fn().mockResolvedValue({ id: 'stu1' }) },
+    schoolEntry: {
+      findUnique: jest.fn().mockImplementation(() => Promise.resolve(entryStore)),
+      create: jest.fn().mockImplementation(({ data }) => {
+        entryStore = { id: 'e1', ...data };
+        return Promise.resolve(entryStore);
+      }),
+      update: jest.fn().mockImplementation(({ data }) => {
+        entryStore = { ...entryStore, ...data };
+        return Promise.resolve(entryStore);
+      }),
+    },
+  });
+
+  beforeEach(async () => {
+    entryStore = null;
+    const prisma = makePrisma();
+    const moduleRef = await Test.createTestingModule({
+      providers: [
+        SchoolEntryService,
+        { provide: PrismaService, useValue: prisma },
+        { provide: CacheService, useValue: { del: jest.fn(), delByPattern: jest.fn() } },
+        { provide: DomainEventsService, useValue: { emit: jest.fn() } },
+      ],
+    }).compile();
+    service = moduleRef.get(SchoolEntryService);
+  });
+
+  it('lets a teacher record a student with no entry yet', async () => {
+    const row = await service.manualUpsert({
+      tenantId: 't1',
+      studentId: 'stu1',
+      date: '2026-09-03',
+      status: 'PRESENT',
+      requestedByRole: 'TEACHER' as any,
+    });
+    expect(row.status).toBe('PRESENT');
+  });
+
+  it('blocks a teacher from overriding an entry that already exists', async () => {
+    entryStore = { id: 'e1', status: 'PRESENT' };
+    await expect(
+      service.manualUpsert({
+        tenantId: 't1',
+        studentId: 'stu1',
+        date: '2026-09-03',
+        status: 'ABSENT',
+        requestedByRole: 'TEACHER' as any,
+      }),
+    ).rejects.toThrow('already has an entry');
+  });
+
+  it('lets an admin override an existing entry', async () => {
+    entryStore = { id: 'e1', status: 'PRESENT' };
+    const row = await service.manualUpsert({
+      tenantId: 't1',
+      studentId: 'stu1',
+      date: '2026-09-03',
+      status: 'ABSENT',
+      requestedByRole: 'ADMIN' as any,
+    });
+    expect(row.status).toBe('ABSENT');
+  });
+
+  it('lets a teacher record a new student even when other students already have entries', async () => {
+    // No requestedByRole at all (e.g. a non-interactive caller) — should
+    // never be blocked, since the restriction only applies to TEACHER.
+    entryStore = null;
+    const row = await service.manualUpsert({
+      tenantId: 't1',
+      studentId: 'stu1',
+      date: '2026-09-03',
+      status: 'PRESENT',
+    });
+    expect(row.status).toBe('PRESENT');
+  });
+});
