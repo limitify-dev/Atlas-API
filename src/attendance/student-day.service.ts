@@ -346,6 +346,35 @@ export class StudentDayService {
       });
     }
 
+    // A real tap outside the configured school days (e.g. a weekend) still
+    // means the student was genuinely on campus that day — count it toward
+    // presentDays/lateDays and show it in the trace, but don't add it to
+    // schoolDayCount (the rate's denominator stays Mon-Fri only) and don't
+    // touch the by-day-of-week/weekly-trend/streak breakdowns, which assume
+    // a clean Mon-Fri structure.
+    const keySet = new Set(keys);
+    for (const d of days) {
+      const key = d.date.toISOString().slice(0, 10);
+      if (keySet.has(key)) continue; // already handled above
+      if (d.campusStatus !== 'PRESENT' && d.campusStatus !== 'LATE') continue;
+      presentDays += 1;
+      if (d.campusStatus === 'LATE') lateDays += 1;
+      if (!d.cycleComplete) incompleteDays += 1;
+      if (d.lastOutAt) checkoutCount += 1;
+      if (d.firstInAt && startMinutes !== null) {
+        const local = getLocalDateParts(d.firstInAt, timezone);
+        arrivalSum += local.hour * 60 + local.minute - startMinutes;
+        arrivalCount += 1;
+      }
+      daily.push({
+        date: key,
+        campus: d.campusStatus,
+        firstInAt: d.firstInAt?.toISOString() ?? null,
+        lastOutAt: d.lastOutAt?.toISOString() ?? null,
+      });
+    }
+    daily.sort((a, b) => a.date.localeCompare(b.date));
+
     const schoolDayCount = keys.length || 1;
     const campusRate = Math.round((presentDays / schoolDayCount) * 100);
     const punctualityRate =
