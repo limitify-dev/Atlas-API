@@ -11,6 +11,7 @@ import {
   resolveAttendanceEndTime,
   resolveAttendanceStartTime,
   resolveSchoolDays,
+  schoolDayKeys as sharedSchoolDayKeys,
 } from './attendance-day';
 
 export type DayState =
@@ -57,16 +58,7 @@ export class StudentDayService {
     to: string,
     schoolDays: number[],
   ): string[] {
-    const keys: string[] = [];
-    const cur = this.dayUtc(from);
-    const end = this.dayUtc(to);
-    while (cur <= end) {
-      if (schoolDays.includes(cur.getUTCDay())) {
-        keys.push(cur.toISOString().slice(0, 10));
-      }
-      cur.setUTCDate(cur.getUTCDate() + 1);
-    }
-    return keys;
+    return sharedSchoolDayKeys(from, to, schoolDays);
   }
 
   /** Compose the raw facts of one student-day from the SchoolEntry. */

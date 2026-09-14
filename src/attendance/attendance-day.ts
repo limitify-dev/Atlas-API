@@ -189,3 +189,26 @@ export function resolveSchoolDays(settings: AttendanceSettings) {
   );
   return days.length > 0 ? days : [1, 2, 3, 4, 5];
 }
+
+/** Ordered YYYY-MM-DD keys for school days in [from, to] inclusive (UTC-day
+ * arithmetic — matches how `SchoolEntry.date`/`StudentAttendanceDay.date`
+ * are stored, both `@db.Date` truncated to UTC midnight). Shared by every
+ * attendance rate/count calculation so "which days count" never drifts
+ * between them — a weekend row must never be silently included by one and
+ * excluded by another. */
+export function schoolDayKeys(
+  from: string,
+  to: string,
+  schoolDays: number[],
+): string[] {
+  const keys: string[] = [];
+  const cur = new Date(`${from.slice(0, 10)}T00:00:00.000Z`);
+  const end = new Date(`${to.slice(0, 10)}T00:00:00.000Z`);
+  while (cur <= end) {
+    if (schoolDays.includes(cur.getUTCDay())) {
+      keys.push(cur.toISOString().slice(0, 10));
+    }
+    cur.setUTCDate(cur.getUTCDate() + 1);
+  }
+  return keys;
+}

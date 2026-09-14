@@ -9,6 +9,11 @@ import {
   Prisma,
 } from '../../prisma/generated/client';
 import { UpdateParentContactDto } from './dto';
+import {
+  AttendanceSettings,
+  getLocalDateParts,
+  resolveSchoolDays,
+} from '../attendance/attendance-day';
 
 @Injectable()
 export class ParentsService {
@@ -760,19 +765,45 @@ export class ParentsService {
       where.date = new Date(`${params.date}T00:00:00.000Z`);
     }
 
-    const entries = await this.prisma.schoolEntry.findMany({
-      where,
-      orderBy: { date: 'desc' },
-      take: limit,
-    });
+    const [entries, tenant] = await Promise.all([
+      this.prisma.schoolEntry.findMany({
+        where,
+        orderBy: { date: 'desc' },
+        take: limit * 2, // headroom — weekend rows get filtered out below
+      }),
+      this.prisma.tenant.findUnique({
+        where: { id: tenantId },
+        select: { settings: true, timezone: true },
+      }),
+    ]);
 
-    const data = entries.map((e) => ({
+    // Weekend rows (e.g. an early gate/card-setup tap) aren't school
+    // attendance — never surface them to a parent, same Mon-Fri rule used
+    // everywhere else in the attendance system.
+    const schoolDays = resolveSchoolDays(
+      (tenant?.settings as AttendanceSettings) ?? {},
+    );
+    const timezone = tenant?.timezone || 'UTC';
+    const filtered = entries
+      .filter((e) => schoolDays.includes(e.date.getUTCDay()))
+      .slice(0, limit);
+
+    // "HH:MM" in the tenant's own local timezone — pre-formatted here so
+    // the app can just display it, rather than every client needing to
+    // know the tenant's timezone to convert a raw UTC instant correctly.
+    const formatLocalTime = (at: Date | null) => {
+      if (!at) return null;
+      const local = getLocalDateParts(at, timezone);
+      return `${String(local.hour).padStart(2, '0')}:${String(local.minute).padStart(2, '0')}`;
+    };
+
+    const data = filtered.map((e) => ({
       id: e.id,
       studentId: e.studentId,
       date: e.date.toISOString().slice(0, 10),
       status: e.status,
-      checkInTime: e.checkInAt?.toISOString() ?? null,
-      checkOutTime: e.checkOutAt?.toISOString() ?? null,
+      checkInTime: formatLocalTime(e.checkInAt),
+      checkOutTime: formatLocalTime(e.checkOutAt),
       remarks: e.remarks ?? undefined,
       recordedBy: e.recordedBy ?? e.deviceId ?? 'gate',
       createdAt: e.createdAt.toISOString(),

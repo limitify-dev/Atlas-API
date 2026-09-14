@@ -1,5 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import {
+  AttendanceSettings,
+  getLocalDateParts,
+  resolveSchoolDays,
+  schoolDayKeys,
+} from './attendance-day';
 
 export interface DateRange {
   startDate: Date;
@@ -624,23 +630,47 @@ export class AttendanceAnalyticsService {
       customEnd,
     );
 
-    const student = await this.prisma.student.findFirst({
-      where: { tenantId, id: studentId },
-      include: {
-        section: { include: { grade: true } },
-        schoolEntries: {
-          where: {
-            date: { gte: startDate, lte: endDate },
+    const [student, tenant] = await Promise.all([
+      this.prisma.student.findFirst({
+        where: { tenantId, id: studentId },
+        include: {
+          section: { include: { grade: true } },
+          schoolEntries: {
+            where: {
+              date: { gte: startDate, lte: endDate },
+            },
+            orderBy: { date: "desc" },
           },
-          orderBy: { date: "desc" },
         },
-      },
-    });
+      }),
+      this.prisma.tenant.findUnique({
+        where: { id: tenantId },
+        select: { settings: true, timezone: true },
+      }),
+    ]);
 
     if (!student) return null;
 
-    const attendances = student.schoolEntries;
-    const totalDays = attendances.length;
+    // Weekend rows (e.g. an early gate/card-setup tap) don't count toward
+    // a student's attendance — same Mon-Fri rule used everywhere else.
+    const schoolDays = resolveSchoolDays(
+      (tenant?.settings as AttendanceSettings) ?? {},
+    );
+    const validKeys = new Set(
+      schoolDayKeys(
+        startDate.toISOString().slice(0, 10),
+        endDate.toISOString().slice(0, 10),
+        schoolDays,
+      ),
+    );
+    const attendances = student.schoolEntries.filter((a) =>
+      validKeys.has(a.date.toISOString().slice(0, 10)),
+    );
+    // The denominator is the real number of school days in range — a day
+    // that passed with no SchoolEntry row at all (a genuine absence, not
+    // just "no data yet") must still count against the rate, not be
+    // silently skipped the way "however many rows exist" would skip it.
+    const totalDays = validKeys.size;
     const presentDays = attendances.filter(
       (a) => a.status === 'PRESENT',
     ).length;
@@ -713,12 +743,15 @@ export class AttendanceAnalyticsService {
       ? lastAbsence.date.toISOString().split('T')[0]
       : null;
 
-    // Average check-in time
+    // Average check-in time — in the tenant's own local timezone, not UTC
+    // (a school on UTC+2 seeing "11:02" for an actual 13:02 arrival is
+    // just wrong, not merely imprecise).
+    const timezone = tenant?.timezone || 'UTC';
     const checkInTimes = attendances
       .filter((a) => a.checkInAt)
       .map((a) => {
-        const time = a.checkInAt!;
-        return time.getUTCHours() * 60 + time.getUTCMinutes();
+        const local = getLocalDateParts(a.checkInAt!, timezone);
+        return local.hour * 60 + local.minute;
       });
 
     let averageCheckInTime: string | null = null;
@@ -732,13 +765,18 @@ export class AttendanceAnalyticsService {
     }
 
     // Attendance history
-    const attendanceHistory = attendances.map((a) => ({
-      date: a.date.toISOString().split('T')[0],
-      status: a.status,
-      checkInTime: a.checkInAt
-        ? `${String(a.checkInAt.getUTCHours()).padStart(2, '0')}:${String(a.checkInAt.getUTCMinutes()).padStart(2, '0')}`
-        : null,
-    }));
+    const attendanceHistory = attendances.map((a) => {
+      let checkInTime: string | null = null;
+      if (a.checkInAt) {
+        const local = getLocalDateParts(a.checkInAt, timezone);
+        checkInTime = `${String(local.hour).padStart(2, '0')}:${String(local.minute).padStart(2, '0')}`;
+      }
+      return {
+        date: a.date.toISOString().split('T')[0],
+        status: a.status,
+        checkInTime,
+      };
+    });
 
     return {
       studentId: student.studentId,
