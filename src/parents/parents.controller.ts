@@ -85,6 +85,23 @@ export class ParentsController {
     });
   }
 
+  @Get('my-attendance')
+  @Roles(Role.STAFF, Role.PARENT)
+  async getMyAttendance(
+    @CurrentUser() user: AuthUser,
+    @Query('studentId') studentId?: string,
+    @Query('sectionId') sectionId?: string,
+    @Query('date') date?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.parentsService.getMyAttendance(user.id, user.tenantId, {
+      studentId,
+      sectionId,
+      date,
+      limit: limit ? Number(limit) : undefined,
+    });
+  }
+
   @Get('performance')
   @Roles(Role.STAFF, Role.PARENT)
   async getMyPerformance(

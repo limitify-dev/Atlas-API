@@ -723,6 +723,66 @@ export class ParentsService {
   }
 
   /**
+   * Gate-based campus attendance for the caller's own children, sourced
+   * from SchoolEntry — NOT the in-class `Attendance` table (a separate
+   * teacher-marking signal). This is what a parent means by "check-in
+   * time": when the gate/device actually saw the child, not a teacher's
+   * roll call.
+   */
+  async getMyAttendance(
+    userId: string,
+    tenantId: string,
+    params?: {
+      studentId?: string;
+      sectionId?: string;
+      date?: string;
+      limit?: number;
+    },
+  ) {
+    const limit = params?.limit ?? 100;
+    const children = await this.getParentChildrenLite(userId, tenantId);
+    let selected = children;
+    if (params?.studentId) {
+      selected = selected.filter((c) => c.id === params.studentId);
+    }
+    if (params?.sectionId) {
+      selected = selected.filter((c) => c.sectionId === params.sectionId);
+    }
+    if (!selected.length) {
+      return { data: [], total: 0, page: 1, limit };
+    }
+
+    const where: Prisma.SchoolEntryWhereInput = {
+      tenantId,
+      studentId: { in: selected.map((c) => c.id) },
+    };
+    if (params?.date) {
+      where.date = new Date(`${params.date}T00:00:00.000Z`);
+    }
+
+    const entries = await this.prisma.schoolEntry.findMany({
+      where,
+      orderBy: { date: 'desc' },
+      take: limit,
+    });
+
+    const data = entries.map((e) => ({
+      id: e.id,
+      studentId: e.studentId,
+      date: e.date.toISOString().slice(0, 10),
+      status: e.status,
+      checkInTime: e.checkInAt?.toISOString() ?? null,
+      checkOutTime: e.checkOutAt?.toISOString() ?? null,
+      remarks: e.remarks ?? undefined,
+      recordedBy: e.recordedBy ?? e.deviceId ?? 'gate',
+      createdAt: e.createdAt.toISOString(),
+      updatedAt: e.updatedAt.toISOString(),
+    }));
+
+    return { data, total: data.length, page: 1, limit };
+  }
+
+  /**
    * Child's academic performance summary: graded subject percentages (from
    * report cards / StudentGrade), an overall average, and assignment stats.
    */
