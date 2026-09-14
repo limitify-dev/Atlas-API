@@ -444,7 +444,9 @@ export class StudentDayService {
     } = {},
   ) {
     const { schoolDays, chronicPct } = await this.tenantConfig(tenantId);
-    const schoolDayCount = this.schoolDayKeys(from, to, schoolDays).length || 1;
+    const schoolDayKeys = this.schoolDayKeys(from, to, schoolDays);
+    const schoolDayCount = schoolDayKeys.length || 1;
+    const schoolDaySet = new Set(schoolDayKeys);
     const fromDay = this.dayUtc(from);
     const toDay = this.dayUtc(to);
 
@@ -465,7 +467,7 @@ export class StudentDayService {
         grade: { select: { name: true } },
         attendanceDays: {
           where: { date: { gte: fromDay, lte: toDay } },
-          select: { campusStatus: true },
+          select: { date: true, campusStatus: true },
         },
       },
       orderBy: [{ firstName: 'asc' }, { lastName: 'asc' }],
@@ -474,8 +476,14 @@ export class StudentDayService {
     return {
       range: { from, to, schoolDays: schoolDayCount },
       students: students.map((s) => {
-        const present = s.attendanceDays.filter((d) =>
-          ON_CAMPUS.includes(d.campusStatus),
+        // Same Mon-Fri-only rule as getStudentProfile — a weekend row
+        // (e.g. a boarding student's gate tap) doesn't count toward the
+        // rate here either, so the list and the per-student detail page
+        // never disagree on the same student.
+        const present = s.attendanceDays.filter(
+          (d) =>
+            schoolDaySet.has(d.date.toISOString().slice(0, 10)) &&
+            ON_CAMPUS.includes(d.campusStatus),
         ).length;
         const campusRate = Math.round((present / schoolDayCount) * 100);
         return {

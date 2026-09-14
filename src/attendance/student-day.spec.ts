@@ -145,8 +145,8 @@ describe('StudentDayService.getCohort', () => {
         section: { name: 'A' },
         grade: { name: 'P1' },
         attendanceDays: [
-          { campusStatus: 'PRESENT' },
-          { campusStatus: 'PRESENT' },
+          { date: new Date('2026-09-07T00:00:00.000Z'), campusStatus: 'PRESENT' }, // Mon
+          { date: new Date('2026-09-08T00:00:00.000Z'), campusStatus: 'PRESENT' }, // Tue
         ],
       },
     ]);
@@ -155,5 +155,25 @@ describe('StudentDayService.getCohort', () => {
     expect(row.campusRate).toBe(40); // 2 of 5 school days
     expect(row.atRisk).toBe(true);
     expect((row as Record<string, unknown>).inClassRate).toBeUndefined();
+  });
+
+  it('excludes a weekend attendance row from the campus rate', async () => {
+    const svc = await build([
+      {
+        id: 's1',
+        firstName: 'Ada',
+        lastName: 'x',
+        studentId: 'ST1',
+        section: { name: 'A' },
+        grade: { name: 'P1' },
+        attendanceDays: [
+          { date: new Date('2026-09-06T00:00:00.000Z'), campusStatus: 'LATE' }, // Sun — not a school day
+          { date: new Date('2026-09-07T00:00:00.000Z'), campusStatus: 'PRESENT' }, // Mon
+        ],
+      },
+    ]);
+    const res = await svc.getCohort('t1', '2026-09-06', '2026-09-11');
+    const row = res.students[0];
+    expect(row.campusRate).toBe(20); // 1 of 5 school days — Sunday doesn't count
   });
 });
