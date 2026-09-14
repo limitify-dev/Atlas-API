@@ -47,12 +47,39 @@ export class DomainEventHandler {
 
   @OnEvent(AttendanceMarkedEvent.EVENT)
   async handleAttendanceMarked(event: AttendanceMarkedEvent) {
+    if (!event.parentUserIds.length) return;
+
+    // A live gate check-in — "your child is on campus" notification, sent
+    // regardless of status (PRESENT or LATE both mean they arrived). Never
+    // fires for check-out — that's disabled entirely, no "left campus"
+    // notification exists.
+    if (event.checkInTimeLabel) {
+      const title = 'Checked in at school';
+      const body =
+        event.status === AttendanceStatus.LATE
+          ? `${event.studentName} checked in (late) at ${event.checkInTimeLabel}.`
+          : `${event.studentName} checked in at ${event.checkInTimeLabel}.`;
+      await this.enqueueAndNotify(
+        event.tenantId,
+        event.parentUserIds,
+        title,
+        body,
+        {
+          type: 'attendance',
+          subtype: 'check_in',
+          studentId: event.studentId,
+          status: event.status,
+        },
+      );
+      return;
+    }
+
+    // Staff manual entry — only worth alerting on ABSENT/LATE.
     if (
       event.status !== AttendanceStatus.ABSENT &&
       event.status !== AttendanceStatus.LATE
     )
       return;
-    if (!event.parentUserIds.length) return;
 
     const title = 'Attendance Alert';
     const body =

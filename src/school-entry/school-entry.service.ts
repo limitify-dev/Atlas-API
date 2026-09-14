@@ -70,13 +70,7 @@ export class SchoolEntryService {
     ]);
   }
 
-  private async emitLateOrAbsent(
-    tenantId: string,
-    studentId: string,
-    status: AttendanceStatus,
-    date: Date,
-  ) {
-    if (status !== 'ABSENT' && status !== 'LATE') return;
+  private async parentContactFor(tenantId: string, studentId: string) {
     const student = await this.prisma.student.findFirst({
       where: { id: studentId, tenantId },
       select: {
@@ -87,19 +81,61 @@ export class SchoolEntryService {
         },
       },
     });
-    if (!student) return;
+    if (!student) return null;
     const parentUserIds = (student.parents ?? [])
       .map((p) => p.parent?.userId)
       .filter((id): id is string => !!id);
-    if (parentUserIds.length === 0) return;
+    if (parentUserIds.length === 0) return null;
+    return {
+      name: `${student.firstName} ${student.lastName}`.trim(),
+      parentUserIds,
+    };
+  }
+
+  /** Manual/staff attendance entry — only worth alerting a parent about an
+   * ABSENT or LATE mark, never a plain PRESENT (that's not news). */
+  private async emitLateOrAbsent(
+    tenantId: string,
+    studentId: string,
+    status: AttendanceStatus,
+    date: Date,
+  ) {
+    if (status !== 'ABSENT' && status !== 'LATE') return;
+    const contact = await this.parentContactFor(tenantId, studentId);
+    if (!contact) return;
     this.events.emit(
       new AttendanceMarkedEvent(
         tenantId,
         studentId,
-        `${student.firstName} ${student.lastName}`.trim(),
+        contact.name,
         status,
         date,
-        parentUserIds,
+        contact.parentUserIds,
+      ),
+    );
+  }
+
+  /** A live gate/device check-in — notify the parent their child has
+   * entered school, regardless of status (PRESENT or LATE both mean "is on
+   * campus now"). Never fires for check-out — that's disabled entirely. */
+  private async emitCheckIn(
+    tenantId: string,
+    studentId: string,
+    status: AttendanceStatus,
+    date: Date,
+    checkInTimeLabel: string,
+  ) {
+    const contact = await this.parentContactFor(tenantId, studentId);
+    if (!contact) return;
+    this.events.emit(
+      new AttendanceMarkedEvent(
+        tenantId,
+        studentId,
+        contact.name,
+        status,
+        date,
+        contact.parentUserIds,
+        checkInTimeLabel,
       ),
     );
   }
@@ -158,7 +194,16 @@ export class SchoolEntryService {
           }`,
         },
       });
-      await this.emitLateOrAbsent(input.tenantId, input.studentId, status, day);
+      const hour12 = ((local.hour + 11) % 12) + 1;
+      const ampm = local.hour < 12 ? 'AM' : 'PM';
+      const checkInTimeLabel = `${hour12}:${String(local.minute).padStart(2, '0')} ${ampm}`;
+      await this.emitCheckIn(
+        input.tenantId,
+        input.studentId,
+        status,
+        day,
+        checkInTimeLabel,
+      );
       await this.invalidateCaches(input.tenantId);
       return { ...created, action: 'check-in' as const };
     }

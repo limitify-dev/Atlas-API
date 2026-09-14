@@ -11,6 +11,13 @@ export class AttendanceMarkedEvent {
     public readonly date: Date,
     /** Pre-resolved parent userIds — attendance service looks these up before emitting */
     public readonly parentUserIds: string[],
+    /**
+     * Set only for a live gate/device check-in (recordScan) — a pre-formatted,
+     * tenant-timezone-local "h:mm AM/PM" string. Distinguishes "child just
+     * arrived" (send regardless of status) from a staff manual entry (only
+     * alert on ABSENT/LATE) — see DomainEventHandler.handleAttendanceMarked.
+     */
+    public readonly checkInTimeLabel?: string,
   ) {}
 }
 
