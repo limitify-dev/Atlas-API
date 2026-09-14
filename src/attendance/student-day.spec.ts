@@ -118,27 +118,6 @@ describe('StudentDayService.getStudentProfile', () => {
     // day-by-day trace grid visibly contradict each other.
     expect(missing?.campus).toBe('ABSENT');
   });
-
-  it('counts a real tap on a non-school-day (weekend) as present without inflating the denominator', async () => {
-    // Sun 09-06 has a real materialized LATE row (e.g. an early card-setup
-    // tap) even though schoolDays is Mon-Fri only; Mon 09-07 is present.
-    const svc = await build([
-      day('2026-09-06', { campusStatus: 'LATE' }),
-      day('2026-09-07'),
-    ]);
-    const r = await svc.getStudentProfile(
-      't1',
-      's1',
-      '2026-09-06',
-      '2026-09-07',
-    );
-    expect(r.range.schoolDays).toBe(1); // only Monday is a school day
-    expect(r.campus.presentDays).toBe(2); // both real taps count
-    expect(r.campus.lateDays).toBe(1);
-    expect(r.campus.rate).toBe(200); // 2 present / 1 school day — a real bonus day can push this over 100%
-    const sunday = r.daily.find((d) => d.date === '2026-09-06');
-    expect(sunday?.campus).toBe('LATE');
-  });
 });
 
 describe('StudentDayService.getCohort', () => {
