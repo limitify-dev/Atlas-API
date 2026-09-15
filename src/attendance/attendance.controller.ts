@@ -308,12 +308,14 @@ export class AttendanceController {
   @ApiQuery({ name: 'to', required: false })
   @ApiQuery({ name: 'sectionId', required: false })
   @ApiQuery({ name: 'gradeId', required: false })
+  @ApiQuery({ name: 'program', required: false, enum: ['BOARDING', 'DAY'] })
   async studentCohort(
     @Request() req: AuthUser,
     @Query('from') from?: string,
     @Query('to') to?: string,
     @Query('sectionId') sectionId?: string,
     @Query('gradeId') gradeId?: string,
+    @Query('program') program?: 'BOARDING' | 'DAY',
   ) {
     const now = new Date();
     const monthAgo = new Date(now.getTime() - 30 * 86_400_000);
@@ -321,7 +323,7 @@ export class AttendanceController {
       req.user.tenantId,
       from || monthAgo.toISOString().slice(0, 10),
       to || now.toISOString().slice(0, 10),
-      { sectionId, gradeId },
+      { sectionId, gradeId, program },
     );
   }
 
@@ -441,30 +443,25 @@ export class AttendanceController {
   @ApiOperation({
     summary: 'District-level attendance return for this school (Excel)',
     description:
-      'One sheet per education-level category (Nursery / Primary / Secondary) ' +
-      'carrying this school’s figures, plus a district-summary sheet.',
+      'One sheet per education-level category (Nursery / Primary / ' +
+      'Secondary - Day / Secondary - Boarding, each student\'s own program ' +
+      'deciding which secondary sheet they land on) carrying this school\'s ' +
+      'figures, plus a district-summary sheet.',
   })
   @ApiQuery({ name: 'date', required: false })
-  @ApiQuery({ name: 'secondary', required: false, enum: ['day', 'boarding'] })
   @ApiQuery({ name: 'format', required: false, enum: ['xlsx', 'json'] })
   async districtReport(
     @Request() req: AuthUser,
     @Res() res: Response,
     @Query('date') date?: string,
-    @Query('secondary') secondary?: 'day' | 'boarding',
     @Query('format') format?: string,
   ) {
     const dateKey = date || new Date().toISOString().slice(0, 10);
-    const opts = {
-      secondary:
-        secondary === 'boarding' ? ('boarding' as const) : ('day' as const),
-    };
     if (format === 'json') {
       res.json(
         await this.reportService.getDistrictReportModel(
           req.user.tenantId,
           dateKey,
-          opts,
         ),
       );
       return;
@@ -472,7 +469,6 @@ export class AttendanceController {
     const buffer = await this.reportService.buildDistrictReport(
       req.user.tenantId,
       dateKey,
-      opts,
     );
     res.setHeader(
       'Content-Type',

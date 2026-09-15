@@ -157,6 +157,84 @@ function ddmmyyyy(dateKey: string): string {
 export class AttendanceReportService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * Per-category totals for the district return, split by each student's
+   * *own* `program` (BOARDING/DAY) rather than a caller-chosen toggle — a
+   * section/classroom is academic, not program-based, so it can (and
+   * usually does) hold both day and boarding students together. A student
+   * with no `program` set counts as DAY (the common case; boarding is the
+   * exception schools explicitly enroll a student into).
+   */
+  private async gatherDistrictCategoryTotals(
+    tenantId: string,
+    dateKey: string,
+  ): Promise<{
+    tenant: {
+      name: string;
+      city: string | null;
+      state: string | null;
+      country: string | null;
+    };
+    byCat: Map<string, Totals>;
+  }> {
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { name: true, city: true, state: true, country: true },
+    });
+    if (!tenant) throw new NotFoundException('Tenant not found');
+
+    const day = new Date(`${dateKey.slice(0, 10)}T00:00:00.000Z`);
+
+    const sections = await this.prisma.section.findMany({
+      where: { tenantId, isActive: true },
+      select: {
+        grade: { select: { educationLevel: true } },
+        students: { select: { id: true, gender: true, program: true } },
+      },
+    });
+
+    const studentIds = sections.flatMap((s) => s.students.map((st) => st.id));
+    const campus = studentIds.length
+      ? await this.prisma.schoolEntry.findMany({
+          where: {
+            tenantId,
+            date: day,
+            studentId: { in: studentIds },
+            status: { in: PRESENT },
+          },
+          select: { studentId: true },
+        })
+      : [];
+    const presentSet = new Set(campus.map((p) => p.studentId));
+
+    const byCat = new Map<string, Totals>();
+    for (const s of sections) {
+      const level = s.grade.educationLevel;
+      for (const st of s.students) {
+        const category =
+          level === 'NURSERY'
+            ? 'NURSERY'
+            : level === 'PRIMARY'
+              ? 'PRIMARY'
+              : st.program === 'BOARDING'
+                ? 'SECONDARY - BOARDING'
+                : 'SECONDARY - DAY';
+        const t = byCat.get(category) ?? emptyTotals();
+        const boy = st.gender === 'MALE';
+        const girl = st.gender === 'FEMALE';
+        if (boy) t.regBoys += 1;
+        else if (girl) t.regGirls += 1;
+        if (presentSet.has(st.id)) {
+          if (boy) t.repBoys += 1;
+          else if (girl) t.repGirls += 1;
+        }
+        byCat.set(category, t);
+      }
+    }
+
+    return { tenant, byCat };
+  }
+
   private async gather(tenantId: string, dateKey: string) {
     const tenant = await this.prisma.tenant.findUnique({
       where: { id: tenantId },
@@ -346,30 +424,10 @@ export class AttendanceReportService {
       state: string | null;
       country: string | null;
     },
-    rows: SectionAgg[],
+    byCat: Map<string, Totals>,
     dateKey: string,
-    opts: { secondary?: 'day' | 'boarding' },
   ): SheetSpec[] {
     const sector = tenant.city || tenant.state || '';
-    const secondaryLabel =
-      opts.secondary === 'boarding'
-        ? 'SECONDARY - BOARDING'
-        : 'SECONDARY - DAY';
-
-    const categoryOf = (e: EducationLevel): string => {
-      if (e === 'NURSERY') return 'NURSERY';
-      if (e === 'PRIMARY') return 'PRIMARY';
-      return secondaryLabel;
-    };
-
-    const byCat = new Map<string, Totals>();
-    for (const r of rows) {
-      const key = categoryOf(r.educationLevel);
-      const t = byCat.get(key) ?? emptyTotals();
-      addInto(t, r);
-      byCat.set(key, t);
-    }
-
     const prettyDate = ddmmyyyy(dateKey);
     const specs: SheetSpec[] = [];
 
@@ -549,14 +607,13 @@ export class AttendanceReportService {
 
   // ── District-level return ───────────────────────────────────────────────
 
-  async buildDistrictReport(
-    tenantId: string,
-    dateKey: string,
-    opts: { secondary?: 'day' | 'boarding' } = {},
-  ): Promise<Buffer> {
-    const { tenant, rows } = await this.gather(tenantId, dateKey);
+  async buildDistrictReport(tenantId: string, dateKey: string): Promise<Buffer> {
+    const { tenant, byCat } = await this.gatherDistrictCategoryTotals(
+      tenantId,
+      dateKey,
+    );
     const wb = XLSX.utils.book_new();
-    for (const spec of this.districtSpecs(tenant, rows, dateKey, opts)) {
+    for (const spec of this.districtSpecs(tenant, byCat, dateKey)) {
       XLSX.utils.book_append_sheet(wb, this.specToSheet(spec), spec.name);
     }
     return XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' }) as Buffer;
@@ -565,11 +622,13 @@ export class AttendanceReportService {
   async getDistrictReportModel(
     tenantId: string,
     dateKey: string,
-    opts: { secondary?: 'day' | 'boarding' } = {},
   ): Promise<PreviewModel> {
-    const { tenant, rows } = await this.gather(tenantId, dateKey);
+    const { tenant, byCat } = await this.gatherDistrictCategoryTotals(
+      tenantId,
+      dateKey,
+    );
     return {
-      sheets: this.districtSpecs(tenant, rows, dateKey, opts).map((s) =>
+      sheets: this.districtSpecs(tenant, byCat, dateKey).map((s) =>
         this.specToModel(s),
       ),
     };

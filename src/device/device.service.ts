@@ -295,7 +295,7 @@ export class DeviceService {
   /**
    * Authenticate device using API key
    */
-  async authenticateDevice(apiKey: string) {
+  async authenticateDevice(apiKey: string, options?: { allowInactive?: boolean }) {
     const apiKeyHash = this.hashApiKey(apiKey);
 
     const device = await this.prisma.device.findUnique({
@@ -316,7 +316,20 @@ export class DeviceService {
       throw new UnauthorizedException('Invalid API key');
     }
 
-    if (device.status !== 'ACTIVE') {
+    // A freshly (re)generated device starts INACTIVE and only ever becomes
+    // ACTIVE by calling /device-api/register with that same key — so that one
+    // route has to accept a matching INACTIVE key, or a device could never
+    // activate itself. SUSPENDED is a deliberate admin action and always
+    // rejects, register included, so a suspended device can't reactivate
+    // itself. OFFLINE is the opposite of deliberate — DeviceHealthService's
+    // sweep sets it automatically after a silent stretch and is meant to
+    // clear itself the moment the device is heard from again (see that
+    // service's docstring) — so it's allowed through everywhere, not just
+    // register, otherwise a device that ever goes quiet for one sweep cycle
+    // can never make another successful call to prove it's back.
+    const activatable = device.status === 'INACTIVE' && options?.allowInactive;
+    const recoverable = device.status === 'OFFLINE';
+    if (device.status !== 'ACTIVE' && !activatable && !recoverable) {
       throw new UnauthorizedException(
         `Device is ${device.status.toLowerCase()}`,
       );
@@ -326,10 +339,15 @@ export class DeviceService {
       throw new UnauthorizedException('Tenant account is not active');
     }
 
-    // Update last seen
+    // Update last seen — and if it was OFFLINE, this very call is the
+    // "checked back in" signal DeviceHealthService's sweep would otherwise
+    // wait up to a minute to notice, so recover it immediately.
     await this.prisma.device.update({
       where: { id: device.id },
-      data: { lastSeenAt: new Date() },
+      data: {
+        lastSeenAt: new Date(),
+        ...(recoverable ? { status: 'ACTIVE' as const } : {}),
+      },
     });
 
     return device;

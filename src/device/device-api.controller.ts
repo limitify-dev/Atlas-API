@@ -19,12 +19,15 @@ import {
 } from '../../prisma/generated/client';
 import { DeviceService } from './device.service';
 import { DeviceApiKeyGuard } from './guards/device-api-key.guard';
+import { Public } from '../auth/decorators/public.decorator';
+import { AllowInactiveDevice } from './decorators/allow-inactive-device.decorator';
 
 /**
  * Device API Controller
  * Endpoints for Atlas-Edge devices using API key authentication
  */
 @ApiTags('Device API')
+@Public()
 @Controller('device-api')
 @UseGuards(DeviceApiKeyGuard)
 @ApiSecurity('device-api-key')
@@ -202,6 +205,7 @@ export class DeviceApiController {
    * Used by Edge devices to confirm their registration and update info
    */
   @Post('register')
+  @AllowInactiveDevice()
   @ApiOperation({
     summary: 'Device self-registration',
     description:

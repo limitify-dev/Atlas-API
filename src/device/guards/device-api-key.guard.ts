@@ -4,11 +4,16 @@ import {
   ExecutionContext,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { DeviceService } from '../device.service';
+import { ALLOW_INACTIVE_DEVICE_KEY } from '../decorators/allow-inactive-device.decorator';
 
 @Injectable()
 export class DeviceApiKeyGuard implements CanActivate {
-  constructor(private deviceService: DeviceService) {}
+  constructor(
+    private deviceService: DeviceService,
+    private reflector: Reflector,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -18,9 +23,16 @@ export class DeviceApiKeyGuard implements CanActivate {
       throw new UnauthorizedException('API key is missing');
     }
 
+    const allowInactive = this.reflector.getAllAndOverride<boolean>(
+      ALLOW_INACTIVE_DEVICE_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+
     try {
       // Authenticate device
-      const device = await this.deviceService.authenticateDevice(apiKey);
+      const device = await this.deviceService.authenticateDevice(apiKey, {
+        allowInactive,
+      });
 
       // Attach device info to request
       request.device = device;
