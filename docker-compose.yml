@@ -57,14 +57,9 @@ services:
   # Atlas API Service
   # ============================================
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: production
+    image: limitify/atlas-api:latest
     container_name: atlas-api
     restart: unless-stopped
-    ports:
-      - '${PORT:-4000}:4000'
     environment:
       # Application
       PORT: ${PORT:-4000}
@@ -128,10 +123,7 @@ services:
   # Same image as `api`; only the `api` role runs migrations.
   # ============================================
   worker:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: production
+    image: limitify/atlas-api:latest
     container_name: atlas-worker
     restart: unless-stopped
     command: ['./docker-entrypoint.sh', 'worker']
@@ -161,10 +153,34 @@ services:
     networks:
       - atlas-network
 
+  # ============================================
+  # Caddy — reverse proxy / TLS termination in front of the API.
+  # See ./Caddyfile — currently plain HTTP on :80 (no domain yet, so no
+  # automatic Let's Encrypt cert); switch it to a real domain once atlas.ui
+  # has one and Caddy will provision HTTPS automatically.
+  # ============================================
+  caddy:
+    image: caddy:2-alpine
+    container_name: atlas-caddy
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - api
+    networks:
+      - atlas-network
+
 volumes:
   postgres-data:
   redis-data:
   cloudbeaver-data:
+  caddy-data:
+  caddy-config:
 
 # ============================================
 # Networks

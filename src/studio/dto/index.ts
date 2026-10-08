@@ -13,6 +13,7 @@ import {
   Length,
   Min,
   Max,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -29,6 +30,7 @@ import {
   SubscriptionCurrency,
   TenantSubscriptionStatus,
   SubscriptionAuditAction,
+  CardType,
 } from '../../../prisma/generated/client';
 
 export class CreateStudioTenantDto {
@@ -166,6 +168,11 @@ export class UpdateTenantDto {
   @IsOptional()
   @IsString()
   name?: string;
+
+  @ApiPropertyOptional({ example: 'saint-ignatius' })
+  @IsOptional()
+  @IsString()
+  slug?: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -457,6 +464,76 @@ export class SystemSettingDto {
 
   @ApiProperty({ description: 'Arbitrary JSON value' })
   value: unknown;
+}
+
+export class CreateCardTemplateDto {
+  @ApiProperty({ example: 'Standard Student ID' })
+  @IsString()
+  name: string;
+
+  @ApiPropertyOptional({
+    description: 'Tenant this template belongs to. Omit for a platform-wide default template.',
+  })
+  @IsOptional()
+  @IsString()
+  tenantId?: string;
+
+  @ApiPropertyOptional({ enum: CardType, default: CardType.STUDENT })
+  @IsOptional()
+  @IsEnum(CardType)
+  cardType?: CardType;
+
+  @ApiPropertyOptional({ default: 85.6 })
+  @IsOptional()
+  @IsNumber()
+  widthMm?: number;
+
+  @ApiPropertyOptional({ default: 54 })
+  @IsOptional()
+  @IsNumber()
+  heightMm?: number;
+
+  @ApiPropertyOptional({
+    description: 'Canvas design tree (Fabric.js JSON). Defaults to a blank canvas.',
+  })
+  @IsOptional()
+  design?: unknown;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
+  isDefault?: boolean;
+}
+
+export class UpdateCardTemplateDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @ApiPropertyOptional({ enum: CardType })
+  @IsOptional()
+  @IsEnum(CardType)
+  cardType?: CardType;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumber()
+  widthMm?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumber()
+  heightMm?: number;
+
+  @ApiPropertyOptional({ description: 'Canvas design tree (Fabric.js JSON).' })
+  @IsOptional()
+  design?: unknown;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsBoolean()
+  isDefault?: boolean;
 }
 
 export { TenantSubscriptionStatus, SubscriptionAuditAction };

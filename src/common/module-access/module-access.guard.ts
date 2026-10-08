@@ -33,7 +33,7 @@ export class ModuleAccessGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const required = this.reflector.getAllAndOverride<GatedModuleKey>(
+    const required = this.reflector.getAllAndOverride<GatedModuleKey | null>(
       REQUIRED_MODULE_KEY,
       [context.getHandler(), context.getClass()],
     );

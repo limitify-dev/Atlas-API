@@ -90,6 +90,7 @@ export const ModelName = {
   Card: 'Card',
   CardLog: 'CardLog',
   CardPermission: 'CardPermission',
+  CardTemplate: 'CardTemplate',
   Event: 'Event',
   Moment: 'Moment',
   MomentLike: 'MomentLike',
@@ -820,6 +821,23 @@ export const CardPermissionScalarFieldEnum = {
 } as const
 
 export type CardPermissionScalarFieldEnum = (typeof CardPermissionScalarFieldEnum)[keyof typeof CardPermissionScalarFieldEnum]
+
+
+export const CardTemplateScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  cardType: 'cardType',
+  widthMm: 'widthMm',
+  heightMm: 'heightMm',
+  design: 'design',
+  isDefault: 'isDefault',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CardTemplateScalarFieldEnum = (typeof CardTemplateScalarFieldEnum)[keyof typeof CardTemplateScalarFieldEnum]
 
 
 export const EventScalarFieldEnum = {

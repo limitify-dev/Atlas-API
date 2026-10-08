@@ -20,6 +20,67 @@ import {
 export class AcademicTimelinesService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // ─── TERMS (shared school setup) ────────────────────────────────────────────
+
+  createTerm(
+    tenantId: string,
+    dto: CreateAcademicTimelineDto,
+    createdBy: string,
+  ) {
+    return this.create(
+      tenantId,
+      { ...dto, type: AcademicWindowType.TERM },
+      createdBy,
+    );
+  }
+
+  findTerms(tenantId: string, filters: AcademicTimelineFiltersDto) {
+    return this.findAll(tenantId, {
+      ...filters,
+      type: AcademicWindowType.TERM,
+    });
+  }
+
+  async findTerm(tenantId: string, id: string) {
+    const timeline = await this.findOne(tenantId, id);
+    if (timeline.type !== AcademicWindowType.TERM) {
+      throw new NotFoundException('Academic term not found.');
+    }
+    return timeline;
+  }
+
+  async updateTerm(
+    tenantId: string,
+    id: string,
+    dto: UpdateAcademicTimelineDto,
+  ) {
+    await this.findTerm(tenantId, id);
+    return this.update(tenantId, id, {
+      ...dto,
+      type: AcademicWindowType.TERM,
+    });
+  }
+
+  async activateTerm(tenantId: string, id: string) {
+    await this.findTerm(tenantId, id);
+    return this.activate(tenantId, id);
+  }
+
+  async closeTerm(tenantId: string, id: string) {
+    await this.findTerm(tenantId, id);
+    return this.close(tenantId, id);
+  }
+
+  async cancelTerm(tenantId: string, id: string) {
+    await this.findTerm(tenantId, id);
+    return this.cancel(tenantId, id);
+  }
+
+  async removeTerm(tenantId: string, id: string) {
+    await this.findTerm(tenantId, id);
+    return this.remove(tenantId, id);
+  }
+
   // ─── WRITE ───────────────────────────────────────────────────────────────────
 
   async create(

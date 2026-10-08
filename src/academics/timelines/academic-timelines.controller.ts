@@ -27,7 +27,10 @@ import {
   AcademicWindowType,
   Role,
 } from '../../../prisma/generated/client';
-import { RequireModule } from '../../common/module-access/require-module.decorator';
+import {
+  RequireModule,
+  SkipModuleAccess,
+} from '../../common/module-access/require-module.decorator';
 import { AcademicTimelinesService } from './academic-timelines.service';
 import {
   AcademicTimelineFiltersDto,
@@ -87,6 +90,86 @@ export class AcademicTimelinesController {
     @Query() filters: AcademicTimelineFiltersDto,
   ) {
     return this.timelinesService.findAll(user.tenantId, filters);
+  }
+
+  @Post('terms')
+  @SkipModuleAccess()
+  @Roles(...MANAGE_ROLES)
+  @ApiOperation({
+    summary: 'Create a school term without requiring the Academics module',
+  })
+  createTerm(
+    @CurrentUser() user: AuthUser,
+    @Body() dto: CreateAcademicTimelineDto,
+  ) {
+    return this.timelinesService.createTerm(user.tenantId, dto, user.id);
+  }
+
+  @Get('terms')
+  @SkipModuleAccess()
+  @Roles(...READ_ROLES)
+  @ApiOperation({
+    summary: 'List school terms without requiring the Academics module',
+    description:
+      'Terms are shared school-setup data. This endpoint is read-only and always restricts results to TERM windows.',
+  })
+  getTerms(
+    @CurrentUser() user: AuthUser,
+    @Query() filters: AcademicTimelineFiltersDto,
+  ) {
+    return this.timelinesService.findTerms(user.tenantId, filters);
+  }
+
+  @Get('terms/:id')
+  @SkipModuleAccess()
+  @Roles(...READ_ROLES)
+  @ApiOperation({ summary: 'Get a school term by ID' })
+  getTerm(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.timelinesService.findTerm(user.tenantId, id);
+  }
+
+  @Patch('terms/:id')
+  @SkipModuleAccess()
+  @Roles(...MANAGE_ROLES)
+  @ApiOperation({ summary: 'Update a school term' })
+  updateTerm(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+    @Body() dto: UpdateAcademicTimelineDto,
+  ) {
+    return this.timelinesService.updateTerm(user.tenantId, id, dto);
+  }
+
+  @Patch('terms/:id/activate')
+  @SkipModuleAccess()
+  @Roles(...MANAGE_ROLES)
+  @ApiOperation({ summary: 'Activate a draft school term' })
+  activateTerm(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.timelinesService.activateTerm(user.tenantId, id);
+  }
+
+  @Patch('terms/:id/close')
+  @SkipModuleAccess()
+  @Roles(...MANAGE_ROLES)
+  @ApiOperation({ summary: 'Close an active school term' })
+  closeTerm(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.timelinesService.closeTerm(user.tenantId, id);
+  }
+
+  @Patch('terms/:id/cancel')
+  @SkipModuleAccess()
+  @Roles(...MANAGE_ROLES)
+  @ApiOperation({ summary: 'Cancel a school term' })
+  cancelTerm(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.timelinesService.cancelTerm(user.tenantId, id);
+  }
+
+  @Delete('terms/:id')
+  @SkipModuleAccess()
+  @Roles(...MANAGE_ROLES)
+  @ApiOperation({ summary: 'Delete a draft or cancelled school term' })
+  removeTerm(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.timelinesService.removeTerm(user.tenantId, id);
   }
 
   @Get('academic-years')

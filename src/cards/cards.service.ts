@@ -37,6 +37,24 @@ export class CardsService {
     });
   }
 
+  /**
+   * Read-only lookup used by the e-Registration virtual-card preview.
+   * Tenant staff can't reach Studio's `/studio/card-templates` (super-admin
+   * only), so this exposes just the active design: the tenant's own
+   * isDefault template for this cardType, falling back to the platform-wide
+   * default (tenantId: null) if the tenant hasn't set one.
+   */
+  async findActiveTemplate(tenantId: string, cardType: CardType) {
+    const tenantTemplate = await this.prisma.cardTemplate.findFirst({
+      where: { tenantId, cardType, isDefault: true },
+    });
+    if (tenantTemplate) return tenantTemplate;
+
+    return this.prisma.cardTemplate.findFirst({
+      where: { tenantId: null, cardType, isDefault: true },
+    });
+  }
+
   async findAll(
     tenantId: string,
     query?: { search?: string; unassigned?: boolean },

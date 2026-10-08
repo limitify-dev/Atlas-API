@@ -428,6 +428,7 @@ export type TenantWhereInput = {
   books?: Prisma.BookListRelationFilter
   cardLogs?: Prisma.CardLogListRelationFilter
   cardPermissions?: Prisma.CardPermissionListRelationFilter
+  cardTemplates?: Prisma.CardTemplateListRelationFilter
   cards?: Prisma.CardListRelationFilter
   combinations?: Prisma.CombinationListRelationFilter
   conductPointTransactions?: Prisma.ConductPointTransactionListRelationFilter
@@ -511,6 +512,7 @@ export type TenantOrderByWithRelationInput = {
   books?: Prisma.BookOrderByRelationAggregateInput
   cardLogs?: Prisma.CardLogOrderByRelationAggregateInput
   cardPermissions?: Prisma.CardPermissionOrderByRelationAggregateInput
+  cardTemplates?: Prisma.CardTemplateOrderByRelationAggregateInput
   cards?: Prisma.CardOrderByRelationAggregateInput
   combinations?: Prisma.CombinationOrderByRelationAggregateInput
   conductPointTransactions?: Prisma.ConductPointTransactionOrderByRelationAggregateInput
@@ -597,6 +599,7 @@ export type TenantWhereUniqueInput = Prisma.AtLeast<{
   books?: Prisma.BookListRelationFilter
   cardLogs?: Prisma.CardLogListRelationFilter
   cardPermissions?: Prisma.CardPermissionListRelationFilter
+  cardTemplates?: Prisma.CardTemplateListRelationFilter
   cards?: Prisma.CardListRelationFilter
   combinations?: Prisma.CombinationListRelationFilter
   conductPointTransactions?: Prisma.ConductPointTransactionListRelationFilter
@@ -754,6 +757,7 @@ export type TenantCreateInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -837,6 +841,7 @@ export type TenantUncheckedCreateInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -920,6 +925,7 @@ export type TenantUpdateInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -1003,6 +1009,7 @@ export type TenantUncheckedUpdateInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -1713,6 +1720,22 @@ export type TenantUpdateOneRequiredWithoutCardPermissionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutCardPermissionsInput, Prisma.TenantUpdateWithoutCardPermissionsInput>, Prisma.TenantUncheckedUpdateWithoutCardPermissionsInput>
 }
 
+export type TenantCreateNestedOneWithoutCardTemplatesInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutCardTemplatesInput, Prisma.TenantUncheckedCreateWithoutCardTemplatesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutCardTemplatesInput
+  connect?: Prisma.TenantWhereUniqueInput
+}
+
+export type TenantUpdateOneWithoutCardTemplatesNestedInput = {
+  create?: Prisma.XOR<Prisma.TenantCreateWithoutCardTemplatesInput, Prisma.TenantUncheckedCreateWithoutCardTemplatesInput>
+  connectOrCreate?: Prisma.TenantCreateOrConnectWithoutCardTemplatesInput
+  upsert?: Prisma.TenantUpsertWithoutCardTemplatesInput
+  disconnect?: Prisma.TenantWhereInput | boolean
+  delete?: Prisma.TenantWhereInput | boolean
+  connect?: Prisma.TenantWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TenantUpdateToOneWithWhereWithoutCardTemplatesInput, Prisma.TenantUpdateWithoutCardTemplatesInput>, Prisma.TenantUncheckedUpdateWithoutCardTemplatesInput>
+}
+
 export type TenantCreateNestedOneWithoutEventsInput = {
   create?: Prisma.XOR<Prisma.TenantCreateWithoutEventsInput, Prisma.TenantUncheckedCreateWithoutEventsInput>
   connectOrCreate?: Prisma.TenantCreateOrConnectWithoutEventsInput
@@ -2046,6 +2069,7 @@ export type TenantCreateWithoutUsersInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -2128,6 +2152,7 @@ export type TenantUncheckedCreateWithoutUsersInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -2226,6 +2251,7 @@ export type TenantUpdateWithoutUsersInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -2308,6 +2334,7 @@ export type TenantUncheckedUpdateWithoutUsersInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -2390,6 +2417,7 @@ export type TenantCreateWithoutStudentsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -2472,6 +2500,7 @@ export type TenantUncheckedCreateWithoutStudentsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -2570,6 +2599,7 @@ export type TenantUpdateWithoutStudentsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -2652,6 +2682,7 @@ export type TenantUncheckedUpdateWithoutStudentsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -2734,6 +2765,7 @@ export type TenantCreateWithoutParentsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -2816,6 +2848,7 @@ export type TenantUncheckedCreateWithoutParentsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -2914,6 +2947,7 @@ export type TenantUpdateWithoutParentsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -2996,6 +3030,7 @@ export type TenantUncheckedUpdateWithoutParentsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -3078,6 +3113,7 @@ export type TenantCreateWithoutTeachersInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -3160,6 +3196,7 @@ export type TenantUncheckedCreateWithoutTeachersInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -3258,6 +3295,7 @@ export type TenantUpdateWithoutTeachersInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -3340,6 +3378,7 @@ export type TenantUncheckedUpdateWithoutTeachersInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -3422,6 +3461,7 @@ export type TenantCreateWithoutGradesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -3504,6 +3544,7 @@ export type TenantUncheckedCreateWithoutGradesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -3602,6 +3643,7 @@ export type TenantUpdateWithoutGradesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -3684,6 +3726,7 @@ export type TenantUncheckedUpdateWithoutGradesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -3766,6 +3809,7 @@ export type TenantCreateWithoutCombinationsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
@@ -3848,6 +3892,7 @@ export type TenantUncheckedCreateWithoutCombinationsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
@@ -3946,6 +3991,7 @@ export type TenantUpdateWithoutCombinationsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
@@ -4028,6 +4074,7 @@ export type TenantUncheckedUpdateWithoutCombinationsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
@@ -4110,6 +4157,7 @@ export type TenantCreateWithoutSectionsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -4192,6 +4240,7 @@ export type TenantUncheckedCreateWithoutSectionsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -4290,6 +4339,7 @@ export type TenantUpdateWithoutSectionsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -4372,6 +4422,7 @@ export type TenantUncheckedUpdateWithoutSectionsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -4454,6 +4505,7 @@ export type TenantCreateWithoutSubjectsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -4536,6 +4588,7 @@ export type TenantUncheckedCreateWithoutSubjectsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -4634,6 +4687,7 @@ export type TenantUpdateWithoutSubjectsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -4716,6 +4770,7 @@ export type TenantUncheckedUpdateWithoutSubjectsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -4798,6 +4853,7 @@ export type TenantCreateWithoutTimetablePeriodsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -4880,6 +4936,7 @@ export type TenantUncheckedCreateWithoutTimetablePeriodsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -4978,6 +5035,7 @@ export type TenantUpdateWithoutTimetablePeriodsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -5060,6 +5118,7 @@ export type TenantUncheckedUpdateWithoutTimetablePeriodsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -5142,6 +5201,7 @@ export type TenantCreateWithoutTimetableEntriesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -5224,6 +5284,7 @@ export type TenantUncheckedCreateWithoutTimetableEntriesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -5322,6 +5383,7 @@ export type TenantUpdateWithoutTimetableEntriesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -5404,6 +5466,7 @@ export type TenantUncheckedUpdateWithoutTimetableEntriesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -5485,6 +5548,7 @@ export type TenantCreateWithoutAttendancesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -5567,6 +5631,7 @@ export type TenantUncheckedCreateWithoutAttendancesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -5665,6 +5730,7 @@ export type TenantUpdateWithoutAttendancesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -5747,6 +5813,7 @@ export type TenantUncheckedUpdateWithoutAttendancesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -5829,6 +5896,7 @@ export type TenantCreateWithoutSchoolEntriesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -5911,6 +5979,7 @@ export type TenantUncheckedCreateWithoutSchoolEntriesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -6009,6 +6078,7 @@ export type TenantUpdateWithoutSchoolEntriesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -6091,6 +6161,7 @@ export type TenantUncheckedUpdateWithoutSchoolEntriesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -6174,6 +6245,7 @@ export type TenantCreateWithoutStudentAttendanceDaysInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -6256,6 +6328,7 @@ export type TenantUncheckedCreateWithoutStudentAttendanceDaysInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -6354,6 +6427,7 @@ export type TenantUpdateWithoutStudentAttendanceDaysInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -6436,6 +6510,7 @@ export type TenantUncheckedUpdateWithoutStudentAttendanceDaysInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -6518,6 +6593,7 @@ export type TenantCreateWithoutTeacherAttendancesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -6600,6 +6676,7 @@ export type TenantUncheckedCreateWithoutTeacherAttendancesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -6698,6 +6775,7 @@ export type TenantUpdateWithoutTeacherAttendancesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -6780,6 +6858,7 @@ export type TenantUncheckedUpdateWithoutTeacherAttendancesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -6861,6 +6940,7 @@ export type TenantCreateWithoutBooksInput = {
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -6943,6 +7023,7 @@ export type TenantUncheckedCreateWithoutBooksInput = {
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -7041,6 +7122,7 @@ export type TenantUpdateWithoutBooksInput = {
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -7123,6 +7205,7 @@ export type TenantUncheckedUpdateWithoutBooksInput = {
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -7205,6 +7288,7 @@ export type TenantCreateWithoutBookCopiesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -7287,6 +7371,7 @@ export type TenantUncheckedCreateWithoutBookCopiesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -7385,6 +7470,7 @@ export type TenantUpdateWithoutBookCopiesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -7467,6 +7553,7 @@ export type TenantUncheckedUpdateWithoutBookCopiesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -7549,6 +7636,7 @@ export type TenantCreateWithoutBookTransactionsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -7631,6 +7719,7 @@ export type TenantUncheckedCreateWithoutBookTransactionsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -7729,6 +7818,7 @@ export type TenantUpdateWithoutBookTransactionsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -7811,6 +7901,7 @@ export type TenantUncheckedUpdateWithoutBookTransactionsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -7894,6 +7985,7 @@ export type TenantCreateWithoutPermissionsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -7976,6 +8068,7 @@ export type TenantUncheckedCreateWithoutPermissionsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -8074,6 +8167,7 @@ export type TenantUpdateWithoutPermissionsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -8156,6 +8250,7 @@ export type TenantUncheckedUpdateWithoutPermissionsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -8238,6 +8333,7 @@ export type TenantCreateWithoutPermissionUsagesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -8320,6 +8416,7 @@ export type TenantUncheckedCreateWithoutPermissionUsagesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -8418,6 +8515,7 @@ export type TenantUpdateWithoutPermissionUsagesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -8500,6 +8598,7 @@ export type TenantUncheckedUpdateWithoutPermissionUsagesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -8582,6 +8681,7 @@ export type TenantCreateWithoutConductRecordsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -8664,6 +8764,7 @@ export type TenantUncheckedCreateWithoutConductRecordsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -8762,6 +8863,7 @@ export type TenantUpdateWithoutConductRecordsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -8844,6 +8946,7 @@ export type TenantUncheckedUpdateWithoutConductRecordsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -8926,6 +9029,7 @@ export type TenantCreateWithoutStudentConductPointsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -9008,6 +9112,7 @@ export type TenantUncheckedCreateWithoutStudentConductPointsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -9106,6 +9211,7 @@ export type TenantUpdateWithoutStudentConductPointsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -9188,6 +9294,7 @@ export type TenantUncheckedUpdateWithoutStudentConductPointsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -9270,6 +9377,7 @@ export type TenantCreateWithoutConductPointTransactionsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
@@ -9352,6 +9460,7 @@ export type TenantUncheckedCreateWithoutConductPointTransactionsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
@@ -9450,6 +9559,7 @@ export type TenantUpdateWithoutConductPointTransactionsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
@@ -9532,6 +9642,7 @@ export type TenantUncheckedUpdateWithoutConductPointTransactionsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
@@ -9614,6 +9725,7 @@ export type TenantCreateWithoutConversationsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -9696,6 +9808,7 @@ export type TenantUncheckedCreateWithoutConversationsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -9794,6 +9907,7 @@ export type TenantUpdateWithoutConversationsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -9876,6 +9990,7 @@ export type TenantUncheckedUpdateWithoutConversationsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -9958,6 +10073,7 @@ export type TenantCreateWithoutMessagesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -10040,6 +10156,7 @@ export type TenantUncheckedCreateWithoutMessagesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -10138,6 +10255,7 @@ export type TenantUpdateWithoutMessagesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -10220,6 +10338,7 @@ export type TenantUncheckedUpdateWithoutMessagesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -10301,6 +10420,7 @@ export type TenantCreateWithoutAnnouncementsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -10383,6 +10503,7 @@ export type TenantUncheckedCreateWithoutAnnouncementsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -10481,6 +10602,7 @@ export type TenantUpdateWithoutAnnouncementsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -10563,6 +10685,7 @@ export type TenantUncheckedUpdateWithoutAnnouncementsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -10646,6 +10769,7 @@ export type TenantCreateWithoutNotificationsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -10728,6 +10852,7 @@ export type TenantUncheckedCreateWithoutNotificationsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -10826,6 +10951,7 @@ export type TenantUpdateWithoutNotificationsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -10908,6 +11034,7 @@ export type TenantUncheckedUpdateWithoutNotificationsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -10990,6 +11117,7 @@ export type TenantCreateWithoutCardsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
   conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
@@ -11072,6 +11200,7 @@ export type TenantUncheckedCreateWithoutCardsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
   conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
@@ -11170,6 +11299,7 @@ export type TenantUpdateWithoutCardsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
   conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
@@ -11252,6 +11382,7 @@ export type TenantUncheckedUpdateWithoutCardsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
   conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
@@ -11333,6 +11464,7 @@ export type TenantCreateWithoutCardLogsInput = {
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -11415,6 +11547,7 @@ export type TenantUncheckedCreateWithoutCardLogsInput = {
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -11513,6 +11646,7 @@ export type TenantUpdateWithoutCardLogsInput = {
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -11595,6 +11729,7 @@ export type TenantUncheckedUpdateWithoutCardLogsInput = {
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -11677,6 +11812,7 @@ export type TenantCreateWithoutCardPermissionsInput = {
   bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -11759,6 +11895,7 @@ export type TenantUncheckedCreateWithoutCardPermissionsInput = {
   bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -11857,6 +11994,7 @@ export type TenantUpdateWithoutCardPermissionsInput = {
   bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -11939,6 +12077,355 @@ export type TenantUncheckedUpdateWithoutCardPermissionsInput = {
   bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUncheckedUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUncheckedUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUncheckedUpdateManyWithoutTenantNestedInput
+  deviceScans?: Prisma.DeviceScanUncheckedUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUncheckedUpdateManyWithoutTenantNestedInput
+  studentAttendanceDays?: Prisma.StudentAttendanceDayUncheckedUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUncheckedUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUncheckedUpdateManyWithoutTenantNestedInput
+  academicTimelines?: Prisma.AcademicTimelineUncheckedUpdateManyWithoutTenantNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutTenantNestedInput
+  promotions?: Prisma.PromotionUncheckedUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUncheckedUpdateManyWithoutTenantNestedInput
+  invites?: Prisma.InviteUncheckedUpdateManyWithoutTenantNestedInput
+  paymentPromises?: Prisma.PaymentPromiseUncheckedUpdateManyWithoutTenantNestedInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUncheckedUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUncheckedUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutTenantNestedInput
+  staff?: Prisma.StaffUncheckedUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedUpdateManyWithoutTenantNestedInput
+  studentGrades?: Prisma.StudentGradeUncheckedUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUncheckedUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUncheckedUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutTenantNestedInput
+  timetablePeriods?: Prisma.TimetablePeriodUncheckedUpdateManyWithoutTenantNestedInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedUpdateManyWithoutTenantNestedInput
+  tenantModules?: Prisma.TenantModuleUncheckedUpdateManyWithoutTenantNestedInput
+  studioSubscription?: Prisma.StudioSubscriptionUncheckedUpdateOneWithoutTenantNestedInput
+  adminInvites?: Prisma.AdminInviteUncheckedUpdateManyWithoutTenantNestedInput
+  tenantBillings?: Prisma.TenantBillingUncheckedUpdateManyWithoutTenantNestedInput
+  adminApprovals?: Prisma.AdminApprovalUncheckedUpdateManyWithoutTenantNestedInput
+  feedback?: Prisma.FeedbackUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantCreateWithoutCardTemplatesInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutTenantInput
+  schoolEntries?: Prisma.SchoolEntryCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogCreateNestedManyWithoutTenantInput
+  deviceScans?: Prisma.DeviceScanCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceCreateNestedManyWithoutTenantInput
+  studentAttendanceDays?: Prisma.StudentAttendanceDayCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeCreateNestedManyWithoutTenantInput
+  academicTimelines?: Prisma.AcademicTimelineCreateNestedManyWithoutTenantInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageCreateNestedManyWithoutTenantInput
+  promotions?: Prisma.PromotionCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentCreateNestedManyWithoutTenantInput
+  invites?: Prisma.InviteCreateNestedManyWithoutTenantInput
+  paymentPromises?: Prisma.PaymentPromiseCreateNestedManyWithoutTenantInput
+  paymentSubmissions?: Prisma.PaymentSubmissionCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionCreateNestedManyWithoutTenantInput
+  staff?: Prisma.StaffCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsCreateNestedManyWithoutTenantInput
+  studentGrades?: Prisma.StudentGradeCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserCreateNestedManyWithoutTenantInput
+  timetablePeriods?: Prisma.TimetablePeriodCreateNestedManyWithoutTenantInput
+  timetableEntries?: Prisma.TimetableEntryCreateNestedManyWithoutTenantInput
+  tenantModules?: Prisma.TenantModuleCreateNestedManyWithoutTenantInput
+  studioSubscription?: Prisma.StudioSubscriptionCreateNestedOneWithoutTenantInput
+  adminInvites?: Prisma.AdminInviteCreateNestedManyWithoutTenantInput
+  tenantBillings?: Prisma.TenantBillingCreateNestedManyWithoutTenantInput
+  adminApprovals?: Prisma.AdminApprovalCreateNestedManyWithoutTenantInput
+  feedback?: Prisma.FeedbackCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogCreateNestedManyWithoutTenantInput
+}
+
+export type TenantUncheckedCreateWithoutCardTemplatesInput = {
+  id?: string
+  name: string
+  slug: string
+  domain?: string | null
+  logo?: string | null
+  address?: string | null
+  city?: string | null
+  state?: string | null
+  country?: string | null
+  zipCode?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  status?: $Enums.TenantStatus
+  subscriptionPlan?: $Enums.SubscriptionPlan
+  subscriptionStartDate?: Date | string | null
+  subscriptionEndDate?: Date | string | null
+  subscriptionStatus?: $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Date | string | null
+  currentPeriodEnd?: Date | string | null
+  gracePeriodDays?: number
+  suspendedManually?: boolean
+  suspensionReason?: string | null
+  maxStudents?: number
+  maxTeachers?: number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  timezone?: string
+  brandColor?: string | null
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutTenantInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutTenantInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedCreateNestedManyWithoutTenantInput
+  bookCopies?: Prisma.BookCopyUncheckedCreateNestedManyWithoutTenantInput
+  bookTransactions?: Prisma.BookTransactionUncheckedCreateNestedManyWithoutTenantInput
+  books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
+  cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
+  cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
+  combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
+  conductRecords?: Prisma.ConductRecordUncheckedCreateNestedManyWithoutTenantInput
+  conversations?: Prisma.ConversationUncheckedCreateNestedManyWithoutTenantInput
+  deviceLogs?: Prisma.DeviceLogUncheckedCreateNestedManyWithoutTenantInput
+  deviceScans?: Prisma.DeviceScanUncheckedCreateNestedManyWithoutTenantInput
+  devices?: Prisma.DeviceUncheckedCreateNestedManyWithoutTenantInput
+  studentAttendanceDays?: Prisma.StudentAttendanceDayUncheckedCreateNestedManyWithoutTenantInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutTenantInput
+  moments?: Prisma.MomentUncheckedCreateNestedManyWithoutTenantInput
+  grades?: Prisma.GradeUncheckedCreateNestedManyWithoutTenantInput
+  academicTimelines?: Prisma.AcademicTimelineUncheckedCreateNestedManyWithoutTenantInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutTenantInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutTenantInput
+  promotions?: Prisma.PromotionUncheckedCreateNestedManyWithoutTenantInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutTenantInput
+  parents?: Prisma.ParentUncheckedCreateNestedManyWithoutTenantInput
+  invites?: Prisma.InviteUncheckedCreateNestedManyWithoutTenantInput
+  paymentPromises?: Prisma.PaymentPromiseUncheckedCreateNestedManyWithoutTenantInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUncheckedCreateNestedManyWithoutTenantInput
+  permissionUsages?: Prisma.PermissionUsageUncheckedCreateNestedManyWithoutTenantInput
+  permissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutTenantInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutTenantInput
+  staff?: Prisma.StaffUncheckedCreateNestedManyWithoutTenantInput
+  studentConductPoints?: Prisma.StudentConductPointsUncheckedCreateNestedManyWithoutTenantInput
+  studentGrades?: Prisma.StudentGradeUncheckedCreateNestedManyWithoutTenantInput
+  students?: Prisma.StudentUncheckedCreateNestedManyWithoutTenantInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTenantInput
+  teacherAttendances?: Prisma.TeacherAttendanceUncheckedCreateNestedManyWithoutTenantInput
+  teachers?: Prisma.TeacherUncheckedCreateNestedManyWithoutTenantInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutTenantInput
+  timetablePeriods?: Prisma.TimetablePeriodUncheckedCreateNestedManyWithoutTenantInput
+  timetableEntries?: Prisma.TimetableEntryUncheckedCreateNestedManyWithoutTenantInput
+  tenantModules?: Prisma.TenantModuleUncheckedCreateNestedManyWithoutTenantInput
+  studioSubscription?: Prisma.StudioSubscriptionUncheckedCreateNestedOneWithoutTenantInput
+  adminInvites?: Prisma.AdminInviteUncheckedCreateNestedManyWithoutTenantInput
+  tenantBillings?: Prisma.TenantBillingUncheckedCreateNestedManyWithoutTenantInput
+  adminApprovals?: Prisma.AdminApprovalUncheckedCreateNestedManyWithoutTenantInput
+  feedback?: Prisma.FeedbackUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUncheckedCreateNestedManyWithoutTenantInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUncheckedCreateNestedManyWithoutTenantInput
+}
+
+export type TenantCreateOrConnectWithoutCardTemplatesInput = {
+  where: Prisma.TenantWhereUniqueInput
+  create: Prisma.XOR<Prisma.TenantCreateWithoutCardTemplatesInput, Prisma.TenantUncheckedCreateWithoutCardTemplatesInput>
+}
+
+export type TenantUpsertWithoutCardTemplatesInput = {
+  update: Prisma.XOR<Prisma.TenantUpdateWithoutCardTemplatesInput, Prisma.TenantUncheckedUpdateWithoutCardTemplatesInput>
+  create: Prisma.XOR<Prisma.TenantCreateWithoutCardTemplatesInput, Prisma.TenantUncheckedCreateWithoutCardTemplatesInput>
+  where?: Prisma.TenantWhereInput
+}
+
+export type TenantUpdateToOneWithWhereWithoutCardTemplatesInput = {
+  where?: Prisma.TenantWhereInput
+  data: Prisma.XOR<Prisma.TenantUpdateWithoutCardTemplatesInput, Prisma.TenantUncheckedUpdateWithoutCardTemplatesInput>
+}
+
+export type TenantUpdateWithoutCardTemplatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutTenantNestedInput
+  schoolEntries?: Prisma.SchoolEntryUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
+  combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
+  conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
+  conductRecords?: Prisma.ConductRecordUpdateManyWithoutTenantNestedInput
+  conversations?: Prisma.ConversationUpdateManyWithoutTenantNestedInput
+  deviceLogs?: Prisma.DeviceLogUpdateManyWithoutTenantNestedInput
+  deviceScans?: Prisma.DeviceScanUpdateManyWithoutTenantNestedInput
+  devices?: Prisma.DeviceUpdateManyWithoutTenantNestedInput
+  studentAttendanceDays?: Prisma.StudentAttendanceDayUpdateManyWithoutTenantNestedInput
+  events?: Prisma.EventUpdateManyWithoutTenantNestedInput
+  moments?: Prisma.MomentUpdateManyWithoutTenantNestedInput
+  grades?: Prisma.GradeUpdateManyWithoutTenantNestedInput
+  academicTimelines?: Prisma.AcademicTimelineUpdateManyWithoutTenantNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutTenantNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutTenantNestedInput
+  promotions?: Prisma.PromotionUpdateManyWithoutTenantNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutTenantNestedInput
+  parents?: Prisma.ParentUpdateManyWithoutTenantNestedInput
+  invites?: Prisma.InviteUpdateManyWithoutTenantNestedInput
+  paymentPromises?: Prisma.PaymentPromiseUpdateManyWithoutTenantNestedInput
+  paymentSubmissions?: Prisma.PaymentSubmissionUpdateManyWithoutTenantNestedInput
+  permissionUsages?: Prisma.PermissionUsageUpdateManyWithoutTenantNestedInput
+  permissions?: Prisma.PermissionUpdateManyWithoutTenantNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutTenantNestedInput
+  staff?: Prisma.StaffUpdateManyWithoutTenantNestedInput
+  studentConductPoints?: Prisma.StudentConductPointsUpdateManyWithoutTenantNestedInput
+  studentGrades?: Prisma.StudentGradeUpdateManyWithoutTenantNestedInput
+  students?: Prisma.StudentUpdateManyWithoutTenantNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutTenantNestedInput
+  teacherAttendances?: Prisma.TeacherAttendanceUpdateManyWithoutTenantNestedInput
+  teachers?: Prisma.TeacherUpdateManyWithoutTenantNestedInput
+  users?: Prisma.UserUpdateManyWithoutTenantNestedInput
+  timetablePeriods?: Prisma.TimetablePeriodUpdateManyWithoutTenantNestedInput
+  timetableEntries?: Prisma.TimetableEntryUpdateManyWithoutTenantNestedInput
+  tenantModules?: Prisma.TenantModuleUpdateManyWithoutTenantNestedInput
+  studioSubscription?: Prisma.StudioSubscriptionUpdateOneWithoutTenantNestedInput
+  adminInvites?: Prisma.AdminInviteUpdateManyWithoutTenantNestedInput
+  tenantBillings?: Prisma.TenantBillingUpdateManyWithoutTenantNestedInput
+  adminApprovals?: Prisma.AdminApprovalUpdateManyWithoutTenantNestedInput
+  feedback?: Prisma.FeedbackUpdateManyWithoutTenantNestedInput
+  subscriptionPayments?: Prisma.SubscriptionPaymentUpdateManyWithoutTenantNestedInput
+  subscriptionAuditLogs?: Prisma.SubscriptionAuditLogUpdateManyWithoutTenantNestedInput
+}
+
+export type TenantUncheckedUpdateWithoutCardTemplatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  domain?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zipCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumTenantStatusFieldUpdateOperationsInput | $Enums.TenantStatus
+  subscriptionPlan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  subscriptionStartDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionEndDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  subscriptionStatus?: Prisma.NullableEnumTenantSubscriptionStatusFieldUpdateOperationsInput | $Enums.TenantSubscriptionStatus | null
+  currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gracePeriodDays?: Prisma.IntFieldUpdateOperationsInput | number
+  suspendedManually?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  suspensionReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  maxStudents?: Prisma.IntFieldUpdateOperationsInput | number
+  maxTeachers?: Prisma.IntFieldUpdateOperationsInput | number
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  brandColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutTenantNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutTenantNestedInput
+  schoolEntries?: Prisma.SchoolEntryUncheckedUpdateManyWithoutTenantNestedInput
+  bookCopies?: Prisma.BookCopyUncheckedUpdateManyWithoutTenantNestedInput
+  bookTransactions?: Prisma.BookTransactionUncheckedUpdateManyWithoutTenantNestedInput
+  books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
+  cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
+  cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -12022,6 +12509,7 @@ export type TenantCreateWithoutEventsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -12104,6 +12592,7 @@ export type TenantUncheckedCreateWithoutEventsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -12202,6 +12691,7 @@ export type TenantUpdateWithoutEventsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -12284,6 +12774,7 @@ export type TenantUncheckedUpdateWithoutEventsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -12366,6 +12857,7 @@ export type TenantCreateWithoutMomentsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -12448,6 +12940,7 @@ export type TenantUncheckedCreateWithoutMomentsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -12546,6 +13039,7 @@ export type TenantUpdateWithoutMomentsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -12628,6 +13122,7 @@ export type TenantUncheckedUpdateWithoutMomentsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -12710,6 +13205,7 @@ export type TenantCreateWithoutDevicesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -12792,6 +13288,7 @@ export type TenantUncheckedCreateWithoutDevicesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -12890,6 +13387,7 @@ export type TenantUpdateWithoutDevicesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -12972,6 +13470,7 @@ export type TenantUncheckedUpdateWithoutDevicesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -13054,6 +13553,7 @@ export type TenantCreateWithoutDeviceScansInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -13136,6 +13636,7 @@ export type TenantUncheckedCreateWithoutDeviceScansInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -13234,6 +13735,7 @@ export type TenantUpdateWithoutDeviceScansInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -13316,6 +13818,7 @@ export type TenantUncheckedUpdateWithoutDeviceScansInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -13398,6 +13901,7 @@ export type TenantCreateWithoutDeviceLogsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -13480,6 +13984,7 @@ export type TenantUncheckedCreateWithoutDeviceLogsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -13578,6 +14083,7 @@ export type TenantUpdateWithoutDeviceLogsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -13660,6 +14166,7 @@ export type TenantUncheckedUpdateWithoutDeviceLogsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -13742,6 +14249,7 @@ export type TenantCreateWithoutAcademicTimelinesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -13824,6 +14332,7 @@ export type TenantUncheckedCreateWithoutAcademicTimelinesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -13922,6 +14431,7 @@ export type TenantUpdateWithoutAcademicTimelinesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -14004,6 +14514,7 @@ export type TenantUncheckedUpdateWithoutAcademicTimelinesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -14086,6 +14597,7 @@ export type TenantCreateWithoutPromotionsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -14168,6 +14680,7 @@ export type TenantUncheckedCreateWithoutPromotionsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -14266,6 +14779,7 @@ export type TenantUpdateWithoutPromotionsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -14348,6 +14862,7 @@ export type TenantUncheckedUpdateWithoutPromotionsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -14430,6 +14945,7 @@ export type TenantCreateWithoutStaffInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -14512,6 +15028,7 @@ export type TenantUncheckedCreateWithoutStaffInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -14610,6 +15127,7 @@ export type TenantUpdateWithoutStaffInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -14692,6 +15210,7 @@ export type TenantUncheckedUpdateWithoutStaffInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -14774,6 +15293,7 @@ export type TenantCreateWithoutStudentGradesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -14856,6 +15376,7 @@ export type TenantUncheckedCreateWithoutStudentGradesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -14954,6 +15475,7 @@ export type TenantUpdateWithoutStudentGradesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -15036,6 +15558,7 @@ export type TenantUncheckedUpdateWithoutStudentGradesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -15118,6 +15641,7 @@ export type TenantCreateWithoutInvoicesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -15200,6 +15724,7 @@ export type TenantUncheckedCreateWithoutInvoicesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -15298,6 +15823,7 @@ export type TenantUpdateWithoutInvoicesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -15380,6 +15906,7 @@ export type TenantUncheckedUpdateWithoutInvoicesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -15462,6 +15989,7 @@ export type TenantCreateWithoutPaymentSubmissionsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -15544,6 +16072,7 @@ export type TenantUncheckedCreateWithoutPaymentSubmissionsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -15642,6 +16171,7 @@ export type TenantUpdateWithoutPaymentSubmissionsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -15724,6 +16254,7 @@ export type TenantUncheckedUpdateWithoutPaymentSubmissionsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -15806,6 +16337,7 @@ export type TenantCreateWithoutPaymentPromisesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -15888,6 +16420,7 @@ export type TenantUncheckedCreateWithoutPaymentPromisesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -15986,6 +16519,7 @@ export type TenantUpdateWithoutPaymentPromisesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -16068,6 +16602,7 @@ export type TenantUncheckedUpdateWithoutPaymentPromisesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -16150,6 +16685,7 @@ export type TenantCreateWithoutInvitesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -16232,6 +16768,7 @@ export type TenantUncheckedCreateWithoutInvitesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -16330,6 +16867,7 @@ export type TenantUpdateWithoutInvitesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -16412,6 +16950,7 @@ export type TenantUncheckedUpdateWithoutInvitesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -16494,6 +17033,7 @@ export type TenantCreateWithoutTenantModulesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -16576,6 +17116,7 @@ export type TenantUncheckedCreateWithoutTenantModulesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -16674,6 +17215,7 @@ export type TenantUpdateWithoutTenantModulesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -16756,6 +17298,7 @@ export type TenantUncheckedUpdateWithoutTenantModulesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -16838,6 +17381,7 @@ export type TenantCreateWithoutStudioSubscriptionInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -16920,6 +17464,7 @@ export type TenantUncheckedCreateWithoutStudioSubscriptionInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -17018,6 +17563,7 @@ export type TenantUpdateWithoutStudioSubscriptionInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -17100,6 +17646,7 @@ export type TenantUncheckedUpdateWithoutStudioSubscriptionInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -17182,6 +17729,7 @@ export type TenantCreateWithoutAdminInvitesInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -17264,6 +17812,7 @@ export type TenantUncheckedCreateWithoutAdminInvitesInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -17362,6 +17911,7 @@ export type TenantUpdateWithoutAdminInvitesInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -17444,6 +17994,7 @@ export type TenantUncheckedUpdateWithoutAdminInvitesInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -17526,6 +18077,7 @@ export type TenantCreateWithoutTenantBillingsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -17608,6 +18160,7 @@ export type TenantUncheckedCreateWithoutTenantBillingsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -17706,6 +18259,7 @@ export type TenantUpdateWithoutTenantBillingsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -17788,6 +18342,7 @@ export type TenantUncheckedUpdateWithoutTenantBillingsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -17870,6 +18425,7 @@ export type TenantCreateWithoutAdminApprovalsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -17952,6 +18508,7 @@ export type TenantUncheckedCreateWithoutAdminApprovalsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -18050,6 +18607,7 @@ export type TenantUpdateWithoutAdminApprovalsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -18132,6 +18690,7 @@ export type TenantUncheckedUpdateWithoutAdminApprovalsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -18214,6 +18773,7 @@ export type TenantCreateWithoutFeedbackInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -18296,6 +18856,7 @@ export type TenantUncheckedCreateWithoutFeedbackInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -18394,6 +18955,7 @@ export type TenantUpdateWithoutFeedbackInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -18476,6 +19038,7 @@ export type TenantUncheckedUpdateWithoutFeedbackInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -18558,6 +19121,7 @@ export type TenantCreateWithoutSubscriptionPaymentsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -18640,6 +19204,7 @@ export type TenantUncheckedCreateWithoutSubscriptionPaymentsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -18738,6 +19303,7 @@ export type TenantUpdateWithoutSubscriptionPaymentsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -18820,6 +19386,7 @@ export type TenantUncheckedUpdateWithoutSubscriptionPaymentsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -18902,6 +19469,7 @@ export type TenantCreateWithoutSubscriptionAuditLogsInput = {
   books?: Prisma.BookCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionCreateNestedManyWithoutTenantInput
@@ -18984,6 +19552,7 @@ export type TenantUncheckedCreateWithoutSubscriptionAuditLogsInput = {
   books?: Prisma.BookUncheckedCreateNestedManyWithoutTenantInput
   cardLogs?: Prisma.CardLogUncheckedCreateNestedManyWithoutTenantInput
   cardPermissions?: Prisma.CardPermissionUncheckedCreateNestedManyWithoutTenantInput
+  cardTemplates?: Prisma.CardTemplateUncheckedCreateNestedManyWithoutTenantInput
   cards?: Prisma.CardUncheckedCreateNestedManyWithoutTenantInput
   combinations?: Prisma.CombinationUncheckedCreateNestedManyWithoutTenantInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedCreateNestedManyWithoutTenantInput
@@ -19082,6 +19651,7 @@ export type TenantUpdateWithoutSubscriptionAuditLogsInput = {
   books?: Prisma.BookUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUpdateManyWithoutTenantNestedInput
@@ -19164,6 +19734,7 @@ export type TenantUncheckedUpdateWithoutSubscriptionAuditLogsInput = {
   books?: Prisma.BookUncheckedUpdateManyWithoutTenantNestedInput
   cardLogs?: Prisma.CardLogUncheckedUpdateManyWithoutTenantNestedInput
   cardPermissions?: Prisma.CardPermissionUncheckedUpdateManyWithoutTenantNestedInput
+  cardTemplates?: Prisma.CardTemplateUncheckedUpdateManyWithoutTenantNestedInput
   cards?: Prisma.CardUncheckedUpdateManyWithoutTenantNestedInput
   combinations?: Prisma.CombinationUncheckedUpdateManyWithoutTenantNestedInput
   conductPointTransactions?: Prisma.ConductPointTransactionUncheckedUpdateManyWithoutTenantNestedInput
@@ -19221,6 +19792,7 @@ export type TenantCountOutputType = {
   books: number
   cardLogs: number
   cardPermissions: number
+  cardTemplates: number
   cards: number
   combinations: number
   conductPointTransactions: number
@@ -19273,6 +19845,7 @@ export type TenantCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   books?: boolean | TenantCountOutputTypeCountBooksArgs
   cardLogs?: boolean | TenantCountOutputTypeCountCardLogsArgs
   cardPermissions?: boolean | TenantCountOutputTypeCountCardPermissionsArgs
+  cardTemplates?: boolean | TenantCountOutputTypeCountCardTemplatesArgs
   cards?: boolean | TenantCountOutputTypeCountCardsArgs
   combinations?: boolean | TenantCountOutputTypeCountCombinationsArgs
   conductPointTransactions?: boolean | TenantCountOutputTypeCountConductPointTransactionsArgs
@@ -19380,6 +19953,13 @@ export type TenantCountOutputTypeCountCardLogsArgs<ExtArgs extends runtime.Types
  */
 export type TenantCountOutputTypeCountCardPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CardPermissionWhereInput
+}
+
+/**
+ * TenantCountOutputType without action
+ */
+export type TenantCountOutputTypeCountCardTemplatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CardTemplateWhereInput
 }
 
 /**
@@ -19709,6 +20289,7 @@ export type TenantSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   books?: boolean | Prisma.Tenant$booksArgs<ExtArgs>
   cardLogs?: boolean | Prisma.Tenant$cardLogsArgs<ExtArgs>
   cardPermissions?: boolean | Prisma.Tenant$cardPermissionsArgs<ExtArgs>
+  cardTemplates?: boolean | Prisma.Tenant$cardTemplatesArgs<ExtArgs>
   cards?: boolean | Prisma.Tenant$cardsArgs<ExtArgs>
   combinations?: boolean | Prisma.Tenant$combinationsArgs<ExtArgs>
   conductPointTransactions?: boolean | Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>
@@ -19863,6 +20444,7 @@ export type TenantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   books?: boolean | Prisma.Tenant$booksArgs<ExtArgs>
   cardLogs?: boolean | Prisma.Tenant$cardLogsArgs<ExtArgs>
   cardPermissions?: boolean | Prisma.Tenant$cardPermissionsArgs<ExtArgs>
+  cardTemplates?: boolean | Prisma.Tenant$cardTemplatesArgs<ExtArgs>
   cards?: boolean | Prisma.Tenant$cardsArgs<ExtArgs>
   combinations?: boolean | Prisma.Tenant$combinationsArgs<ExtArgs>
   conductPointTransactions?: boolean | Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>
@@ -19921,6 +20503,7 @@ export type $TenantPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     books: Prisma.$BookPayload<ExtArgs>[]
     cardLogs: Prisma.$CardLogPayload<ExtArgs>[]
     cardPermissions: Prisma.$CardPermissionPayload<ExtArgs>[]
+    cardTemplates: Prisma.$CardTemplatePayload<ExtArgs>[]
     cards: Prisma.$CardPayload<ExtArgs>[]
     combinations: Prisma.$CombinationPayload<ExtArgs>[]
     conductPointTransactions: Prisma.$ConductPointTransactionPayload<ExtArgs>[]
@@ -20397,6 +20980,7 @@ export interface Prisma__TenantClient<T, Null = never, ExtArgs extends runtime.T
   books<T extends Prisma.Tenant$booksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$booksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cardLogs<T extends Prisma.Tenant$cardLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$cardLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cardPermissions<T extends Prisma.Tenant$cardPermissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$cardPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cardTemplates<T extends Prisma.Tenant$cardTemplatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$cardTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cards<T extends Prisma.Tenant$cardsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$cardsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   combinations<T extends Prisma.Tenant$combinationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$combinationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CombinationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   conductPointTransactions<T extends Prisma.Tenant$conductPointTransactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Tenant$conductPointTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ConductPointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -21075,6 +21659,30 @@ export type Tenant$cardPermissionsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.CardPermissionScalarFieldEnum | Prisma.CardPermissionScalarFieldEnum[]
+}
+
+/**
+ * Tenant.cardTemplates
+ */
+export type Tenant$cardTemplatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CardTemplate
+   */
+  select?: Prisma.CardTemplateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CardTemplate
+   */
+  omit?: Prisma.CardTemplateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CardTemplateInclude<ExtArgs> | null
+  where?: Prisma.CardTemplateWhereInput
+  orderBy?: Prisma.CardTemplateOrderByWithRelationInput | Prisma.CardTemplateOrderByWithRelationInput[]
+  cursor?: Prisma.CardTemplateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CardTemplateScalarFieldEnum | Prisma.CardTemplateScalarFieldEnum[]
 }
 
 /**

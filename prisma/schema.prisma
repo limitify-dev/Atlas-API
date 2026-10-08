@@ -47,6 +47,7 @@ model Tenant {
   books                    Book[]
   cardLogs                 CardLog[]
   cardPermissions          CardPermission[]
+  cardTemplates            CardTemplate[]
   cards                    Card[]
   combinations             Combination[]
   conductPointTransactions ConductPointTransaction[]
@@ -1030,6 +1031,25 @@ model CardPermission {
   @@index([permission])
   @@index([isGranted])
   @@map("card_permissions")
+}
+
+model CardTemplate {
+  id        String   @id @default(uuid())
+  tenantId  String?
+  name      String
+  cardType  CardType @default(STUDENT)
+  widthMm   Float    @default(85.6)
+  heightMm  Float    @default(54)
+  design    Json
+  isDefault Boolean  @default(false)
+  createdBy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([cardType])
+  @@map("card_templates")
 }
 
 model Event {

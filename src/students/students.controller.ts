@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Put,
+  Patch,
   Delete,
   Body,
   Param,
@@ -287,6 +288,38 @@ export class StudentsController {
       user.tenantId,
       photo,
     );
+  }
+
+  @Patch(':id/photo')
+  @UseInterceptors(FileInterceptor('photo'))
+  @Roles(Role.SUPER_ADMIN)
+  @ApiOperation({
+    summary:
+      'Update only a student\'s photo (e-Registration capture, now Studio-only) — lighter-weight than the full update() route',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'Student UUID',
+    example: 'uuid-string',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Photo updated successfully',
+    type: StudentResponseDto,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Student not found',
+  })
+  async updatePhoto(
+    @Param('id') id: string,
+    @CurrentUser() user: AuthUser,
+    @UploadedFile() photo: Express.Multer.File,
+  ): Promise<StudentResponseDto> {
+    if (!photo) {
+      throw new BadRequestException('A photo file is required');
+    }
+    return this.studentsService.updatePhotoOnly(id, user.tenantId, photo);
   }
 
   @Delete(':id')

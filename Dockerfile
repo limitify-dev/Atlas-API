@@ -52,6 +52,11 @@ RUN addgroup -g 1001 -S nodejs && \
 # Copy package files
 COPY package*.json ./
 COPY prisma ./prisma/
+# Prisma 7 reads datasource.url from this config file (see prisma.config.ts:
+# `datasource: { url: env('DATABASE_URL') }`), not from schema.prisma —
+# without it, `prisma migrate deploy` fails at container startup with
+# "The datasource.url property is required in your Prisma config file".
+COPY prisma.config.ts ./
 
 # Install only production dependencies
 RUN npm ci --only=production && \

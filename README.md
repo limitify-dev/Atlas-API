@@ -45,14 +45,17 @@
    # Edit .env with your actual configuration (Supabase required)
    ```
 
-3. **Build and run with Docker Compose**
-   
-   **Production mode:**
+3. **Run with Docker Compose**
+
+   **Production mode** — `docker-compose.yml`'s `api`/`worker` services pull a
+   prebuilt image from Docker Hub rather than building on the server (see
+   "Publishing a new image" below):
    ```bash
-   docker compose up -d --build
+   docker compose pull
+   docker compose up -d
    ```
-   
-   **Development mode (with hot-reload):**
+
+   **Development mode (with hot-reload)** — still builds locally from source:
    ```bash
    docker compose -f docker-compose.dev.yml up --build
    ```
@@ -64,11 +67,9 @@
 ### Docker Commands
 
 ```bash
-# Build the Docker image
-docker build -t atlas-api:latest .
-
-# Run container (production)
-docker compose up -d --build
+# Pull the latest published image and (re)start (production)
+docker compose pull
+docker compose up -d
 
 # View logs
 docker compose logs -f api
@@ -76,14 +77,31 @@ docker compose logs -f api
 # Stop containers
 docker compose down
 
-# Rebuild and restart
-docker compose up -d --build
-
 # Run Prisma migrations manually
 docker compose exec api npx prisma migrate deploy
 
 # Access container shell
 docker compose exec api sh
+```
+
+### Publishing a new image
+
+`docker-compose.yml`'s `api`/`worker` services run `image: limitify/atlas-api:latest`
+instead of building on the server. To ship a change, build and push from a dev
+machine, then pull on the server. The server (an Oracle Ampere A1 instance) is
+ARM64, so always target that platform explicitly with `buildx` regardless of
+what architecture you're building on — a plain `docker build` on an Intel/AMD
+machine produces an x86 image that won't run there:
+
+```bash
+# One-time: docker login
+docker buildx build --platform linux/arm64 -t limitify/atlas-api:latest --push .
+```
+
+Then on the server:
+```bash
+docker compose pull
+docker compose up -d
 ```
 
 ### Environment Variables

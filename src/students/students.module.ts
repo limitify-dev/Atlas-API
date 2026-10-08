@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { StudentsController } from './students.controller';
+import { StudioStudentsController } from './studio-students.controller';
 import { StudentsService } from './students.service';
 import { jwtConstants } from '../auth/constant';
 
@@ -11,7 +12,7 @@ import { jwtConstants } from '../auth/constant';
       // No expiry for student card tokens - they are permanent
     }),
   ],
-  controllers: [StudentsController],
+  controllers: [StudentsController, StudioStudentsController],
   providers: [StudentsService],
   exports: [StudentsService],
 })

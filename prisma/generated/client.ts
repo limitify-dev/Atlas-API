@@ -242,6 +242,11 @@ export type CardLog = Prisma.CardLogModel
  */
 export type CardPermission = Prisma.CardPermissionModel
 /**
+ * Model CardTemplate
+ * 
+ */
+export type CardTemplate = Prisma.CardTemplateModel
+/**
  * Model Event
  * 
  */

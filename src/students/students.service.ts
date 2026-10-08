@@ -699,6 +699,8 @@ export class StudentsService {
       promotionId,
       combination,
       gender,
+      hasPhoto,
+      hasCard,
       page = 1,
       limit = 10,
     } = queryDto;
@@ -709,6 +711,12 @@ export class StudentsService {
       ...(sectionId && { sectionId }),
       ...(promotionId && { promotionId }),
       ...(gender && { gender }),
+      ...(hasPhoto !== undefined && {
+        photoUrl: hasPhoto ? { not: null } : null,
+      }),
+      ...(hasCard !== undefined && {
+        card: hasCard ? { isNot: null } : { is: null },
+      }),
       ...(combination && {
         section: {
           is: {
@@ -997,59 +1005,11 @@ export class StudentsService {
       });
 
       // 4. Handle photo update (if provided)
-      if (photo) {
-        try {
-          if (
-            photo.size <= 5 * 1024 * 1024 &&
-            ['image/jpeg', 'image/png', 'image/webp'].includes(photo.mimetype)
-          ) {
-            const fileExt = photo.originalname.split('.').pop() || 'jpg';
-            const fileName = `profile.${fileExt}`;
-            const filePath = `${tenantId}/students/${id}/${fileName}`;
-
-            const { error: uploadError } = await this.supabase.client.storage
-              .from('atlas-profiles')
-              .upload(filePath, photo.buffer, {
-                contentType: photo.mimetype,
-                upsert: true,
-                cacheControl: '3600',
-              });
-
-            if (!uploadError) {
-              const { data: urlData } = this.supabase.client.storage
-                .from('atlas-profiles')
-                .getPublicUrl(filePath);
-
-              await this.prisma.student.update({
-                where: { id },
-                data: { photoUrl: urlData.publicUrl },
-              });
-            }
-          }
-        } catch (uploadErr) {
-          console.error(`Unexpected error processing photo:`, uploadErr);
-        }
-      } else if (
-        updateStudentDto.removePhoto === 'true' ||
-        updateStudentDto.photoUrl === ''
-      ) {
-        // Explicit photo removal — null the column, best-effort delete the object.
-        try {
-          await this.supabase.client.storage
-            .from('atlas-profiles')
-            .remove([
-              `${tenantId}/students/${id}/profile.jpg`,
-              `${tenantId}/students/${id}/profile.png`,
-              `${tenantId}/students/${id}/profile.webp`,
-            ]);
-        } catch {
-          // ignore storage errors — the DB is the source of truth
-        }
-        await this.prisma.student.update({
-          where: { id },
-          data: { photoUrl: null },
-        });
-      }
+      await this.applyPhotoChange(tenantId, id, photo, {
+        removePhoto:
+          updateStudentDto.removePhoto === 'true' ||
+          updateStudentDto.photoUrl === '',
+      });
 
       return this.findOne(id, tenantId);
     } catch (error) {
@@ -1079,6 +1039,99 @@ export class StudentsService {
       }
       throw error;
     }
+  }
+
+  /**
+   * Shared by update() and updatePhotoOnly() — uploads/removes the student's
+   * profile photo in Supabase and syncs Student.photoUrl. Swallows storage
+   * errors so a flaky upload never blocks the rest of a student update.
+   */
+  private async applyPhotoChange(
+    tenantId: string,
+    id: string,
+    photo: Express.Multer.File | undefined,
+    options: { removePhoto: boolean },
+  ): Promise<void> {
+    if (photo) {
+      if (
+        photo.size > 5 * 1024 * 1024 ||
+        !['image/jpeg', 'image/png', 'image/webp'].includes(photo.mimetype)
+      ) {
+        throw new BadRequestException(
+          'Photo must be JPEG, PNG, or WebP and 5MB or smaller',
+        );
+      }
+      try {
+        const fileExt = photo.originalname.split('.').pop() || 'jpg';
+        const filePath = `${tenantId}/students/${id}/profile.${fileExt}`;
+
+        const { error: uploadError } = await this.supabase.client.storage
+          .from('atlas-profiles')
+          .upload(filePath, photo.buffer, {
+            contentType: photo.mimetype,
+            upsert: true,
+            cacheControl: '3600',
+          });
+
+        if (!uploadError) {
+          const { data: urlData } = this.supabase.client.storage
+            .from('atlas-profiles')
+            .getPublicUrl(filePath);
+
+          // The file path is stable (upsert), so the public URL never changes
+          // on its own — a retake would otherwise keep serving the old,
+          // browser-cached image at the same URL. A version token makes every
+          // upload a fresh URL that busts caches.
+          const photoUrl = `${urlData.publicUrl}?v=${Date.now()}`;
+
+          await this.prisma.student.update({
+            where: { id },
+            data: { photoUrl },
+          });
+        }
+      } catch (uploadErr) {
+        console.error(`Unexpected error processing photo:`, uploadErr);
+      }
+    } else if (options.removePhoto) {
+      try {
+        await this.supabase.client.storage
+          .from('atlas-profiles')
+          .remove([
+            `${tenantId}/students/${id}/profile.jpg`,
+            `${tenantId}/students/${id}/profile.png`,
+            `${tenantId}/students/${id}/profile.webp`,
+          ]);
+      } catch {
+        // ignore storage errors — the DB is the source of truth
+      }
+      await this.prisma.student.update({
+        where: { id },
+        data: { photoUrl: null },
+      });
+    }
+  }
+
+  /**
+   * Dedicated photo-only endpoint for e-Registration capture — lets STAFF
+   * update a student's photo without the broader student-edit rights that
+   * the full update() route requires.
+   */
+  async updatePhotoOnly(
+    id: string,
+    tenantId: string,
+    photo: Express.Multer.File,
+  ): Promise<StudentResponseDto> {
+    const existingStudent = await this.prisma.student.findFirst({
+      where: { id, tenantId },
+    });
+    if (!existingStudent) {
+      throw new NotFoundException('Student not found');
+    }
+    if (!photo) {
+      throw new BadRequestException('A photo file is required');
+    }
+    await this.applyPhotoChange(tenantId, id, photo, { removePhoto: false });
+    return this.findOne(id, tenantId);
   }
 
   async remove(id: string, tenantId: string): Promise<{ message: string }> {

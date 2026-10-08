@@ -24,19 +24,21 @@ import { RegisterDeviceDto, UpdateDeviceDto } from './dto';
 
 /**
  * Tenant-facing device management. Part of the standalone Attendance module —
- * gated by `@RequireModule('attendance')` and limited to tenant admins. The
- * tenant is always taken from the caller's token, never a query param.
+ * gated by `@RequireModule('attendance')`. The tenant is always taken from
+ * the caller's token, never a query param. Device CUD (register/update/
+ * delete/regenerate-key) is Studio-only now — see StudioDevicesController;
+ * tenant admins keep read-only access (list/stats/health/logs) below.
  */
 @ApiTags('Devices')
 @ApiBearerAuth()
 @Controller('devices')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(Role.SUPER_ADMIN, Role.ADMIN)
 @RequireModule('attendance')
 export class DeviceController {
   constructor(private readonly deviceService: DeviceService) {}
 
   @Post('register')
+  @Roles(Role.SUPER_ADMIN)
   @ApiOperation({
     summary: 'Register a device and issue its API key (shown once)',
   })
@@ -52,18 +54,21 @@ export class DeviceController {
   }
 
   @Get()
+  @Roles(Role.SUPER_ADMIN, Role.ADMIN)
   @ApiOperation({ summary: 'List the tenant devices' })
   async getDevices(@CurrentUser() user: AuthUser) {
     return this.deviceService.getDevicesByTenant(user.tenantId);
   }
 
   @Get('stats')
+  @Roles(Role.SUPER_ADMIN, Role.ADMIN)
   @ApiOperation({ summary: 'Device counts by status / type' })
   async getDeviceStats(@CurrentUser() user: AuthUser) {
     return this.deviceService.getDeviceStats(user.tenantId);
   }
 
   @Get('health')
+  @Roles(Role.SUPER_ADMIN, Role.ADMIN)
   @ApiOperation({
     summary: 'Live network availability + scan throughput per device',
   })
@@ -72,6 +77,7 @@ export class DeviceController {
   }
 
   @Get(':deviceId')
+  @Roles(Role.SUPER_ADMIN, Role.ADMIN)
   @ApiOperation({ summary: 'One device with its recent logs' })
   async getDevice(
     @CurrentUser() user: AuthUser,
@@ -81,6 +87,7 @@ export class DeviceController {
   }
 
   @Post(':deviceId/regenerate-key')
+  @Roles(Role.SUPER_ADMIN)
   @ApiOperation({
     summary:
       'Rotate the device API key (device goes INACTIVE until it reconnects)',
@@ -97,6 +104,7 @@ export class DeviceController {
   }
 
   @Put(':deviceId')
+  @Roles(Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Update device details / status / config' })
   async updateDevice(
     @CurrentUser() user: AuthUser,
@@ -107,6 +115,7 @@ export class DeviceController {
   }
 
   @Delete(':deviceId')
+  @Roles(Role.SUPER_ADMIN)
   @ApiOperation({ summary: 'Delete a device' })
   async deleteDevice(
     @CurrentUser() user: AuthUser,
@@ -116,6 +125,7 @@ export class DeviceController {
   }
 
   @Get(':deviceId/logs')
+  @Roles(Role.SUPER_ADMIN, Role.ADMIN)
   @ApiOperation({ summary: 'Device activity log' })
   async getDeviceLogs(
     @CurrentUser() user: AuthUser,

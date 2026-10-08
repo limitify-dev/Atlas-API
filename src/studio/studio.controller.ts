@@ -26,6 +26,7 @@ import {
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { StudioGuard } from './guards/studio.guard';
 import { StudioTenantsService } from './services/studio-tenants.service';
+import { StudioCardTemplatesService } from './services/studio-card-templates.service';
 import { StudioModulesService } from './services/studio-modules.service';
 import { StudioSubscriptionService } from './services/studio-subscription.service';
 import { AdminProvisionService } from './services/admin-provision.service';
@@ -34,6 +35,12 @@ import { AdminApprovalService } from './services/admin-approval.service';
 import { FeedbackService } from './services/feedback.service';
 import { SubscriptionBillingService } from '../subscription/services/subscription-billing.service';
 import { SystemSettingsService } from '../subscription/services/system-settings.service';
+import { GradesService } from '../grades/grades.service';
+import { SectionsService } from '../sections/sections.service';
+import { PromotionsService } from '../promotions/promotions.service';
+import { PromotionFiltersDto } from '../promotions/dto';
+import { TeachersService } from '../teachers/teachers.service';
+import { QueryTeachersDto } from '../teachers/dto/query-teachers.dto';
 import {
   CreateStudioTenantDto,
   UpdateTenantAttendanceScheduleDto,
@@ -42,6 +49,8 @@ import {
   UpdateSubscriptionDto,
   UpdateTenantStatusDto,
   CreateAdminInviteDto,
+  CreateCardTemplateDto,
+  UpdateCardTemplateDto,
   CreateBillingDto,
   UpdateBillingDto,
   ReviewApprovalDto,
@@ -67,6 +76,7 @@ import {
 export class StudioController {
   constructor(
     private readonly tenantsService: StudioTenantsService,
+    private readonly cardTemplatesService: StudioCardTemplatesService,
     private readonly modulesService: StudioModulesService,
     private readonly subscriptionService: StudioSubscriptionService,
     private readonly adminProvisionService: AdminProvisionService,
@@ -75,6 +85,10 @@ export class StudioController {
     private readonly feedbackService: FeedbackService,
     private readonly subscriptionBilling: SubscriptionBillingService,
     private readonly systemSettings: SystemSettingsService,
+    private readonly gradesService: GradesService,
+    private readonly sectionsService: SectionsService,
+    private readonly promotionsService: PromotionsService,
+    private readonly teachersService: TeachersService,
   ) {}
 
   // ── Platform modules ──────────────────────────────────────────
@@ -472,5 +486,81 @@ export class StudioController {
   @ApiOperation({ summary: 'Update feedback status (reviewed / resolved)' })
   updateFeedback(@Param('id') id: string, @Body() dto: UpdateFeedbackDto) {
     return this.feedbackService.updateStatus(id, dto);
+  }
+
+  // ── Card templates ───────────────────────────────────────────
+
+  @Get('card-templates')
+  @ApiOperation({ summary: 'List card templates (optionally filtered by tenant)' })
+  listCardTemplates(@Query('tenantId') tenantId?: string) {
+    return this.cardTemplatesService.findAll(tenantId);
+  }
+
+  @Get('card-templates/:id')
+  @ApiOperation({ summary: 'Get a single card template' })
+  getCardTemplate(@Param('id') id: string) {
+    return this.cardTemplatesService.findOne(id);
+  }
+
+  @Post('card-templates')
+  @ApiOperation({ summary: 'Create a card template' })
+  createCardTemplate(@Body() dto: CreateCardTemplateDto, @Request() req: any) {
+    return this.cardTemplatesService.create(dto, req.user?.id);
+  }
+
+  @Patch('card-templates/:id')
+  @ApiOperation({ summary: 'Update a card template (name, dimensions, design, default flag)' })
+  updateCardTemplate(@Param('id') id: string, @Body() dto: UpdateCardTemplateDto) {
+    return this.cardTemplatesService.update(id, dto);
+  }
+
+  @Delete('card-templates/:id')
+  @ApiOperation({ summary: 'Delete a card template' })
+  deleteCardTemplate(@Param('id') id: string) {
+    return this.cardTemplatesService.remove(id);
+  }
+
+  // ── Read-only academic-structure passthroughs ───────────────────
+  // Used by the relocated Card Management / e-Registration UI (grade+class
+  // filter pills, teacher search for card assignment, academic year via
+  // promotions) — Studio only reads this data, it doesn't manage it.
+
+  @Get('tenants/:id/grades')
+  @ApiOperation({ summary: "[Studio] List a tenant's grades" })
+  listTenantGrades(@Param('id') id: string) {
+    return this.gradesService.findAll(id);
+  }
+
+  @Get('tenants/:id/sections')
+  @ApiOperation({ summary: "[Studio] List a tenant's sections" })
+  listTenantSections(
+    @Param('id') id: string,
+    @Query('gradeId') gradeId?: string,
+    @Query('promotionId') promotionId?: string,
+    @Query('isActive') isActive?: string,
+  ) {
+    return this.sectionsService.findAll(id, {
+      gradeId,
+      promotionId,
+      isActive: isActive !== undefined ? isActive === 'true' : undefined,
+    });
+  }
+
+  @Get('tenants/:id/promotions')
+  @ApiOperation({ summary: "[Studio] List a tenant's promotions" })
+  listTenantPromotions(
+    @Param('id') id: string,
+    @Query() filters: PromotionFiltersDto,
+  ) {
+    return this.promotionsService.findAll(id, filters);
+  }
+
+  @Get('tenants/:id/teachers')
+  @ApiOperation({ summary: "[Studio] List a tenant's teachers" })
+  listTenantTeachers(
+    @Param('id') id: string,
+    @Query() queryDto: QueryTeachersDto,
+  ) {
+    return this.teachersService.findAll(queryDto, id);
   }
 }

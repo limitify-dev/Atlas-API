@@ -423,6 +423,7 @@ export const ModelName = {
   Card: 'Card',
   CardLog: 'CardLog',
   CardPermission: 'CardPermission',
+  CardTemplate: 'CardTemplate',
   Event: 'Event',
   Moment: 'Moment',
   MomentLike: 'MomentLike',
@@ -476,7 +477,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "timetablePeriod" | "timetableEntry" | "attendance" | "schoolEntry" | "studentAttendanceDay" | "teacherAttendance" | "book" | "bookCopy" | "bookTransaction" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "conversation" | "conversationParticipant" | "chatMessage" | "pushToken" | "message" | "announcement" | "notification" | "notificationRecipient" | "card" | "cardLog" | "cardPermission" | "event" | "moment" | "momentLike" | "academicExam" | "academicAssignment" | "academicCourse" | "academicAssignmentResult" | "academicReportCard" | "consultationBooking" | "consultationConfig" | "consultationTeacherOverride" | "device" | "deviceScan" | "deviceLog" | "systemLog" | "academicTimeline" | "promotion" | "staff" | "studentGrade" | "invoice" | "paymentSubmission" | "paymentPromise" | "invite" | "otpCode" | "poll" | "pollOption" | "pollVote" | "studioModule" | "tenantModule" | "studioSubscription" | "adminInvite" | "tenantBilling" | "adminApproval" | "onboardingRequest" | "feedback" | "subscriptionPayment" | "subscriptionAuditLog" | "systemSetting"
+    modelProps: "tenant" | "user" | "session" | "refreshToken" | "student" | "parent" | "studentParent" | "teacher" | "grade" | "combination" | "section" | "subject" | "classTeacher" | "subjectTeacher" | "timetablePeriod" | "timetableEntry" | "attendance" | "schoolEntry" | "studentAttendanceDay" | "teacherAttendance" | "book" | "bookCopy" | "bookTransaction" | "permission" | "permissionUsage" | "conductRecord" | "studentConductPoints" | "conductPointTransaction" | "conversation" | "conversationParticipant" | "chatMessage" | "pushToken" | "message" | "announcement" | "notification" | "notificationRecipient" | "card" | "cardLog" | "cardPermission" | "cardTemplate" | "event" | "moment" | "momentLike" | "academicExam" | "academicAssignment" | "academicCourse" | "academicAssignmentResult" | "academicReportCard" | "consultationBooking" | "consultationConfig" | "consultationTeacherOverride" | "device" | "deviceScan" | "deviceLog" | "systemLog" | "academicTimeline" | "promotion" | "staff" | "studentGrade" | "invoice" | "paymentSubmission" | "paymentPromise" | "invite" | "otpCode" | "poll" | "pollOption" | "pollVote" | "studioModule" | "tenantModule" | "studioSubscription" | "adminInvite" | "tenantBilling" | "adminApproval" | "onboardingRequest" | "feedback" | "subscriptionPayment" | "subscriptionAuditLog" | "systemSetting"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3363,6 +3364,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CardPermissionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CardPermissionCountAggregateOutputType> | number
+        }
+      }
+    }
+    CardTemplate: {
+      payload: Prisma.$CardTemplatePayload<ExtArgs>
+      fields: Prisma.CardTemplateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CardTemplateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CardTemplateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>
+        }
+        findFirst: {
+          args: Prisma.CardTemplateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CardTemplateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>
+        }
+        findMany: {
+          args: Prisma.CardTemplateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>[]
+        }
+        create: {
+          args: Prisma.CardTemplateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>
+        }
+        createMany: {
+          args: Prisma.CardTemplateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CardTemplateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>[]
+        }
+        delete: {
+          args: Prisma.CardTemplateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>
+        }
+        update: {
+          args: Prisma.CardTemplateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>
+        }
+        deleteMany: {
+          args: Prisma.CardTemplateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CardTemplateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CardTemplateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>[]
+        }
+        upsert: {
+          args: Prisma.CardTemplateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CardTemplatePayload>
+        }
+        aggregate: {
+          args: Prisma.CardTemplateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCardTemplate>
+        }
+        groupBy: {
+          args: Prisma.CardTemplateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardTemplateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CardTemplateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CardTemplateCountAggregateOutputType> | number
         }
       }
     }
@@ -6893,6 +6968,23 @@ export const CardPermissionScalarFieldEnum = {
 export type CardPermissionScalarFieldEnum = (typeof CardPermissionScalarFieldEnum)[keyof typeof CardPermissionScalarFieldEnum]
 
 
+export const CardTemplateScalarFieldEnum = {
+  id: 'id',
+  tenantId: 'tenantId',
+  name: 'name',
+  cardType: 'cardType',
+  widthMm: 'widthMm',
+  heightMm: 'heightMm',
+  design: 'design',
+  isDefault: 'isDefault',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CardTemplateScalarFieldEnum = (typeof CardTemplateScalarFieldEnum)[keyof typeof CardTemplateScalarFieldEnum]
+
+
 export const EventScalarFieldEnum = {
   id: 'id',
   tenantId: 'tenantId',
@@ -8636,6 +8728,7 @@ export type GlobalOmitConfig = {
   card?: Prisma.CardOmit
   cardLog?: Prisma.CardLogOmit
   cardPermission?: Prisma.CardPermissionOmit
+  cardTemplate?: Prisma.CardTemplateOmit
   event?: Prisma.EventOmit
   moment?: Prisma.MomentOmit
   momentLike?: Prisma.MomentLikeOmit

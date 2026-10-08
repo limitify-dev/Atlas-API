@@ -1,7 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Gender } from '../../../prisma/generated/client';
-import { IsOptional, IsString, IsEnum, IsInt, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import {
+  IsOptional,
+  IsString,
+  IsEnum,
+  IsInt,
+  IsBoolean,
+  Min,
+} from 'class-validator';
+import { Type, Transform } from 'class-transformer';
 
 export class QueryStudentsDto {
   @ApiProperty({
@@ -59,6 +66,32 @@ export class QueryStudentsDto {
   @IsEnum(Gender)
   @IsOptional()
   gender?: Gender;
+
+  @ApiPropertyOptional({
+    description:
+      'Filter by whether the student has a profile photo (for e-Registration triage). Omit to leave unfiltered.',
+  })
+  @IsOptional()
+  // Preserve `undefined` when the param is absent — unlike a single
+  // false-defaults-fine toggle, omitting this must mean "don't filter",
+  // not "filter to hasPhoto=false", or every other GET /students caller
+  // that doesn't pass this param would silently start being filtered.
+  @Transform(({ obj, key }) =>
+    obj[key] === undefined ? undefined : obj[key] === true || obj[key] === 'true',
+  )
+  @IsBoolean()
+  hasPhoto?: boolean;
+
+  @ApiPropertyOptional({
+    description:
+      'Filter by whether the student already has an RFID card linked. Omit to leave unfiltered.',
+  })
+  @IsOptional()
+  @Transform(({ obj, key }) =>
+    obj[key] === undefined ? undefined : obj[key] === true || obj[key] === 'true',
+  )
+  @IsBoolean()
+  hasCard?: boolean;
 
   @ApiProperty({
     description: 'Page number for pagination',

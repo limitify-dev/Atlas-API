@@ -167,6 +167,15 @@ export class StudioTenantsService {
   ) {
     await this.findOne(id);
 
+    if (dto.slug !== undefined) {
+      const existing = await this.prisma.tenant.findFirst({
+        where: { slug: dto.slug, id: { not: id } },
+      });
+      if (existing) {
+        throw new ConflictException('A tenant with this slug already exists.');
+      }
+    }
+
     let logoUrl: string | undefined;
     if (logoFile) {
       try {
@@ -197,6 +206,7 @@ export class StudioTenantsService {
       where: { id },
       data: {
         ...(dto.name !== undefined && { name: dto.name }),
+        ...(dto.slug !== undefined && { slug: dto.slug }),
         ...(dto.email !== undefined && { email: dto.email }),
         ...(dto.phone !== undefined && { phone: dto.phone }),
         ...(dto.timezone !== undefined && { timezone: dto.timezone }),
